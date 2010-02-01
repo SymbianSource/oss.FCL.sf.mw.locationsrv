@@ -1,0 +1,36 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: IBY file for Location Position Settings Application
+*
+*/
+#ifndef __LOCPOSSETTINGSAPP_IBY__
+#define __LOCPOSSETTINGSAPP_IBY__
+
+#ifdef __LOCATIONSYSUI
+
+// Postioning Settings Application EXE
+file=ABI_DIR\BUILD_DIR\locpossettingsapp.exe                PROGRAMS_DIR\locpossettingsapp.exe
+
+// Positioning Settings Application Icon
+S60_APP_AIF_ICONS(locpossettingsapp)
+
+// Positioning Settings Application Registration Info
+S60_UPGRADABLE_APP_REG_RSC(locpossettingsapp)
+
+// Location Centre Registration file
+data=ZPRIVATE\10283138\import\locpossettingsapp_reg.xml     \private\10283138\import\locpossettingsapp_reg.xml
+
+#endif // ( __LOCPOSSETTINGSAPP_IBY__ )
+
+#endif

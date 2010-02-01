@@ -1,0 +1,81 @@
+/*
+* Copyright (c) 2005 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Resource definition for Location Settings UI Server
+*
+*/
+
+
+NAME LSRV
+
+#include <eikon.rh>
+#include <avkon.hrh>
+#include <avkon.rh>
+#include <appinfo.rh>
+#include <data_caging_paths_strings.hrh>
+
+#include <location.loc>
+
+RESOURCE RSS_SIGNATURE {}
+RESOURCE TBUF { buf=""; }
+
+// ---------------------------------------------------------------------------
+// R_LOCSETTINGSUISRV_APP_INFO
+// the Application Info resource structure
+// ---------------------------------------------------------------------------
+//
+RESOURCE EIK_APP_INFO
+    {
+    status_pane = r_locsettingsuisrv_status_pane;
+    }
+
+RESOURCE STATUS_PANE_APP_MODEL r_locsettingsuisrv_status_pane
+    {
+    panes =
+        {
+        SPANE_PANE
+            {
+            id = EEikStatusPaneUidTitle;
+            type = EAknCtTitlePane;
+            resource = r_locsettingsuisrv_title_pane;
+            }
+        };
+    
+}
+
+RESOURCE TITLE_PANE r_locsettingsuisrv_title_pane
+    {
+    txt = qtn_location_list;
+    }
+
+RESOURCE LOCALISABLE_APP_INFO r_locsettingsuisrv_app_info
+    {
+    short_caption = qtn_location_grid;
+    caption_and_icon =
+        {
+        CAPTION_AND_ICON_INFO
+            {
+            caption = qtn_location_list;
+#ifdef __SCALABLE_ICONS
+            number_of_icons = 1;
+            icon_file = APP_BITMAP_DIR"\\locsettingsuiserver_aif.mif";
+#else
+            number_of_icons = 2;
+            icon_file = APP_BITMAP_DIR"\\locsettingsuiserver_aif.mbm";
+#endif
+            }
+        };			
+    }
+
+
+//End of file

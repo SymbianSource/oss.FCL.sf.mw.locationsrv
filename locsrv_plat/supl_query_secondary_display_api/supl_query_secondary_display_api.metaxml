@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<api id="ef7a78321606fc5782faaed358c1ac72" dataversion="2.0">
+  <name>SUPL Query Secondary Display API</name>
+  <description>Provides the definition for the Cover UI commands for SUPL queries</description>
+  <type>c++</type>
+  <collection>supl</collection>
+  <libs>
+  </libs>
+  <release category="platform"/>
+  <attributes>
+     <!-- This indicates wether the api provedes separate html documentation -->
+     <!-- or is the additional documentation generated from headers. -->
+     <!-- If you are unsuere then the value is "no" -->
+     <htmldocprovided>no</htmldocprovided>
+     <adaptation>no</adaptation>
+  </attributes>
+</api>

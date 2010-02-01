@@ -1,0 +1,58 @@
+;
+; Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+; All rights reserved.
+; This component and the accompanying materials are made available
+; under the terms of "Eclipse Public License v1.0"
+; which accompanies this distribution, and is available
+; at the URL "http://www.eclipse.org/legal/epl-v10.html".
+;
+; Initial Contributors:
+; Nokia Corporation - initial contribution.
+;
+; Contributors:
+;
+; Description: Package file for test code of Map and Navigation Provider Discovery API
+;
+;
+; Installation file for map_and_navigation_provider_discovery_api_test application
+;
+;Languages
+&EN
+;
+; UID is the app's UID
+;
+#{"map_and_navigation_provider_discovery_api_test"},(0x101FB3E3),2,0,0,TYPE=SA
+;
+; Localised Vendor name
+%{"Nokia-EN"}
+
+; Unique Vendor name
+:"Nokia"
+
+;Supports Series 60 v 3.0
+;This line indicates that this installation is for the Series 60 platform v0.9
+;This line must appear _exactly_ as shown below in the sis file
+;If this line is missing or incorrect, the sis file will not be able
+;to be installed on Series 60 v3.0 platforms
+;(0x101F7961), 0, 0, 0, {"Series60ProductID"}
+;
+;
+; Files to install
+"\epoc32\release\armv5\urel\testmnproviderdiscovery.dll"-"C:\sys\bin\testmnproviderdiscovery.dll"
+
+;refapp dlls
+"..\data\armv5\urel\mnrefprovider.exe"-"C:\sys\bin\mnrefprovider.exe"
+"..\data\armv5\urel\mnrefprovider.rsc"-"C:\resource\apps\mnrefprovider.rsc"
+"..\data\armv5\urel\mnrefprovider.mbm"-"C:\resource\apps\mnrefprovider.mbm"
+"..\data\armv5\urel\mnrefprovider.mif"-"C:\resource\apps\mnrefprovider.mif"
+"..\data\armv5\urel\mnrefprovider_reg.rsc"-"C:\private\10003a3f\import\apps\mnrefprovider_reg.rsc"
+
+"..\data\armv5\urel\mnrefproviderback.exe"-"C:\sys\bin\mnrefproviderback.exe"
+"..\data\armv5\urel\mnrefproviderback.rsc"-"C:\resource\apps\mnrefproviderback.rsc"
+"..\data\armv5\urel\mnrefproviderback_reg.rsc"-"C:\private\10003a3f\import\apps\mnrefproviderback_reg.rsc"
+
+"..\data\armv5\urel\mnrefproviderengine.dll"-"C:\sys\bin\mnrefproviderengine.dll"
+"..\data\armv5\urel\mnrefproviderengine.rsc"-"C:\resource\mnrefproviderengine.rsc"
+
+"..\conf\testmnproviderdiscovery.cfg"-"C:\testframework\testmnproviderdiscovery.cfg"
+"..\init\testframework.ini"-"C:\testframework\testframework.ini"

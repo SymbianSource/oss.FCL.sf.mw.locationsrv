@@ -1,0 +1,209 @@
+/*
+* Copyright (c) 2005 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Logical Strings definition for BLID Satellite Info
+*
+*/
+
+
+#include <bldvariant.hrh>
+
+/**
+ *  Default (implementation English) Resource localisation file.
+ */
+
+// LOCALISATION STRINGS
+
+//d:Heading pane for satellite 
+//d:data pop-up window
+//l:heading_pane_t1
+//
+#define qtn_blid_note_sat_heading		"Satellite signals:"
+
+//d:Text to be displayed in satellite info list box
+//d:when satellite data is unavailable
+//l:main_list_empty_pane/opt1
+//w:
+//r:3.0
+//
+#define qtn_blid_note_no_satellite_data		"No satellite data available"
+
+//d:Text when GPS is not connected
+//l:popup_note_window
+//w:
+//r:3.0
+//
+#define qtn_blid_note_no_gps		"Connect GPS"
+
+//d:Text for satellite id for both
+//d:signal strength and graphical views
+//l:compass_pane_t4/opt2
+//w:
+//r:3.2
+//
+#define qtn_blid_satellite_id		"%N"
+
+//d:Command text to change view in the satellite dialog
+//l:control_pane_t1/opt7
+//w:
+//r:3.2
+//
+#define qtn_blid_sat_change_view	"Change"
+
+//d:Point of the Navigation
+//d:character(North)
+//l:compass_pane_t4/opt2
+//r: 3.2
+//
+#define qtn_blid_sat_symbol_north				"N"
+
+//d:Point of the Navigation
+//d:character(South)
+//l:compass_pane_t4/opt2
+//r: 3.2
+//
+#define qtn_blid_sat_symbol_south				"S"
+
+//d:Point of the Navigation
+//d:character(West)
+//l:compass_pane_t4/opt2
+//r: 3.2
+//
+#define qtn_blid_sat_symbol_west				"W"
+
+//d:Point of the Navigation
+//d:character(East)
+//l:compass_pane_t4/opt2
+//r: 3.2
+//
+#define qtn_blid_sat_symbol_east				"E"
+
+
+//d:Heading pane for satellite signal strength view
+//d:data pop-up window
+//l:heading_pane_t1
+//r: 3.2
+//
+#define qtn_blid_sat_heading_signals		"Signal strengths:"
+
+//d:Heading pane for satellite graphical view
+//d:data pop-up window
+//l:heading_pane_t1
+//r: 3.2
+//
+#define qtn_blid_sat_heading_graphic		"Satellite display:"
+
+//d:Heading pane for compass view
+//d:data pop-up window
+//l:heading_pane_t1
+//r: 3.2
+//
+#define qtn_blid_sat_heading_compass		"Compass view:"
+
+//d:Point of the Compass
+//d:character(West)
+//l:blid_firmament_pane_t1/opt1
+//r: 3.2
+//
+#define qtn_blid_sat_compass_west				"W"
+
+//d:Point of the Compass
+//d:character(East)
+//l:blid_firmament_pane_t2/opt1
+//r: 3.2
+//
+#define qtn_blid_sat_compass_east				"E"
+
+//d:Point of the Compass
+//d:character(North)
+//l:blid_firmament_pane_t3/opt1
+//r: 3.2
+//
+#define qtn_blid_sat_compass_north			"N"
+
+//d:Point of the Compass
+//d:character(South)
+//l:blid_firmament_pane_t4/opt1
+//r: 3.2
+//
+#define qtn_blid_sat_compass_south			"S"
+
+//d:Altitude String in Compass View
+//d:data pop-up window
+//l:popup_blid_sat_info2_window_t5
+//r: 3.2
+//
+#define qtn_blid_sat_compass_altitude		"Altitude:"
+
+//d:Speed String in Compass View
+//d:data pop-up window
+//l:popup_blid_sat_info2_window_t7
+//r: 3.2
+//
+#define qtn_blid_sat_compass_speed			"Speed:"
+
+//d:Direction String in Compass View
+//d:data pop-up window
+//l:popup_blid_sat_info2_window_t9
+//r: 3.2
+//
+#define qtn_blid_sat_compass_direction	"Direction:"
+
+//d:Metric Format for Speed in Compass View
+//d:Format(Metric)
+//l:popup_blid_sat_info2_window_t8
+//r: 3.2
+//
+#define qtn_blid_sat_compass_speed_kmph				"%0U km/h"
+
+//d:Imperial Format for Speed in Compass View
+//d:Format(Imperial)
+//l:popup_blid_sat_info2_window_t8
+//r: 3.2
+//
+#define qtn_blid_sat_compass_speed_mph			"%0U mph"
+
+//d:Metric Format for length in Compass View
+//d:Format(Metric)
+//popup_blid_sat_info2_window_t6
+//r: 3.2
+//
+#define qtn_blid_sat_compass_altitude_meter				"%0N m"
+
+//d:Imperial Format for length in Compass View
+//d:Format(Imperial)
+//l:popup_blid_sat_info2_window_t6
+//r: 3.2
+//
+#define qtn_blid_sat_compass_altitude_feet			"%0N ft"
+
+//d:Degree Format in Compass View
+//d:Format(Degree)
+//l:popup_blid_sat_info2_window_t10
+//r: 3.2
+//
+#define qtn_blid_sat_degree							"%0N°"
+
+//d:Type of Fix in Compass View
+//d:2D String
+//l:popup_blid_sat_info2_window_t11
+//r: 3.2
+//
+#define qtn_blid_sat_compass_2d							"2D"
+
+//d:Type of Fix in Compass View
+//d:3D String
+//l:popup_blid_sat_info2_window_t11
+//r: 3.2
+//
+#define qtn_blid_sat_compass_3d							"3D"

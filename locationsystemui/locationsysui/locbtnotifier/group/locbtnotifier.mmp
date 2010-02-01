@@ -1,0 +1,75 @@
+/*
+* Copyright (c) 2008 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Project definition file for project locbtnotifier
+*
+*/
+
+
+
+#include <platform_paths.hrh>
+#include <data_caging_paths.hrh>
+#include "../inc/locbtnotifierpluginconstants.hrh"
+#include "../inc/locbtnotifierdebugconfig.hrh"
+
+TARGET                  locbtnotifier.dll
+TARGETTYPE              PLUGIN
+UID                     0x10009D8D KLocBtNotifierPlugInDllUid
+
+CAPABILITY              CAP_ECOM_PLUGIN
+VENDORID                VID_DEFAULT
+
+SOURCEPATH              ../src
+SOURCE                  locbtnotifier.cpp
+SOURCE                  locbtnotifierplugin.cpp
+SOURCE                  locbtnotifierconstantsmanager.cpp
+
+#ifdef LOG_ENABLED_LOCBTNOTIFIER
+SOURCE                  locbtnotifierdebug.cpp
+#endif
+
+
+
+USERINCLUDE             .
+USERINCLUDE             ../inc
+
+
+MW_LAYER_SYSTEMINCLUDE
+
+SOURCEPATH      ../data
+START RESOURCE	locbtnotifier.rss
+TARGET 			locbtnotifier.rsc
+TARGETPATH 		ECOM_RESOURCE_DIR
+END
+
+SOURCEPATH      ../data
+START RESOURCE	locbtnotifierresources.rss
+HEADER
+TARGETPATH      APP_RESOURCE_DIR
+LANGUAGE_IDS
+END
+
+LIBRARY         euser.lib
+LIBRARY         bafl.lib
+LIBRARY		    cfservices.lib
+LIBRARY         cfactivatorengine.lib
+LIBRARY		    centralrepository.lib
+LIBRARY         eiksrv.lib
+LIBRARY         aknnotify.lib
+LIBRARY         efsrv.lib
+
+#ifdef LOG_ENABLED_LOCBTNOTIFIER
+LIBRARY         flogger.lib
+#endif
+
+

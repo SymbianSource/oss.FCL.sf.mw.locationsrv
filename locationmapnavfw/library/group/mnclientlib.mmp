@@ -1,0 +1,73 @@
+/*
+* Copyright (c) 2005-2006 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Project definition file for client side of Library
+*
+*/
+
+
+#include <platform_paths.hrh>
+#include <data_caging_paths.hrh>
+
+TARGET          mnclientlib.dll
+TARGETTYPE      dll
+UID             0x1000008D 0x10206902
+
+VENDORID        VID_DEFAULT
+CAPABILITY      CAP_GENERAL_DLL
+
+SOURCEPATH      ../src
+
+SOURCE          mnmapview.cpp
+SOURCE          mnnavigator.cpp
+SOURCE          mngeocoder.cpp
+SOURCE          mnprovider.cpp
+SOURCE          mnproviderfinder.cpp
+SOURCE          mnproviderimpl.cpp
+
+SOURCE          mnserviceclientbase.cpp
+SOURCE          mnmapviewserviceclient.cpp
+SOURCE          mnnavigationserviceclient.cpp
+SOURCE          mngeocodingserviceclient.cpp
+
+SOURCE          mnmapimage.cpp
+SOURCE          mnmapimageparams.cpp
+SOURCE          mncoordinateconverterbase.cpp
+SOURCE          mnmapimageserviceclient.cpp
+
+SOURCE          mnactivecallback.cpp
+SOURCE          mnutils.cpp
+
+START RESOURCE  ../data/mnclientlib.rss
+TARGETPATH      RESOURCE_FILES_DIR
+HEADER
+LANGUAGE_IDS
+END
+
+USERINCLUDE     .
+USERINCLUDE     ../inc
+USERINCLUDE     ../../loc
+
+MW_LAYER_SYSTEMINCLUDE
+
+LIBRARY         lbs.lib eposlandmarks.lib
+LIBRARY         euser.lib apgrfx.lib avkon.lib apparc.lib eikcore.lib cone.lib
+LIBRARY         efsrv.lib estor.lib bafl.lib fbscli.lib ecom.lib
+LIBRARY         sisregistryclient.lib siscontroller.lib
+
+DEBUGLIBRARY    flogger.lib
+
+SMPSAFE
+
+// END OF FILE
+

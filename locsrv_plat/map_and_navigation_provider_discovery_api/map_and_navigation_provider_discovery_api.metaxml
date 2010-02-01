@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<api id="f893073def01944f00e035d8d00670fe" dataversion="2.0">
+  <name>Map and Navigation Provider Discovery API</name>
+  <description>This API provides access to information about available Provider Applications.</description>
+  <type>c++</type>
+  <collection>locationmapnavfw</collection>
+  <libs>
+    <lib name="mnclientlib.lib" />
+  </libs>
+  <release category="platform" sinceversion="0"/>
+  <attributes>
+     <!-- This indicates wether the api provedes separate html documentation -->
+     <!-- or is the additional documentation generated from headers. -->
+     <!-- If you are unsuere then the value is "no" -->
+     <htmldocprovided>no</htmldocprovided>
+     <adaptation>no</adaptation>
+  </attributes>
+</api>

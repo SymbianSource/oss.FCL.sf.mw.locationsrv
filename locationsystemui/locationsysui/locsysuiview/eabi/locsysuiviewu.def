@@ -1,0 +1,18 @@
+EXPORTS
+	_Z24ImplementationGroupProxyRi @ 1 NONAME
+	_ZN15CLocPosSettings4NewLEv @ 2 NONAME
+	_ZN15CLocPosSettings5NewLCEv @ 3 NONAME
+	_ZN20CLocSettingsUiEngine17CreateSettingsUiLE4TUid @ 4 NONAME
+	_ZN20CLocSettingsUiEngine4NewLER13CAknViewAppUi @ 5 NONAME
+	_ZN20CLocSettingsUiEngine5NewLCER13CAknViewAppUi @ 6 NONAME
+	_ZTI13CLocSysUiView @ 7 NONAME ; #<TI>#
+	_ZTI15CLocPosSettings @ 8 NONAME ; #<TI>#
+	_ZTI17CLocationSettings @ 9 NONAME ; #<TI>#
+	_ZTI20CLocSettingsUiEngine @ 10 NONAME ; #<TI>#
+	_ZTV13CLocSysUiView @ 11 NONAME ; #<VT>#
+	_ZTV15CLocPosSettings @ 12 NONAME ; #<VT>#
+	_ZTV17CLocationSettings @ 13 NONAME ; #<VT>#
+	_ZTV20CLocSettingsUiEngine @ 14 NONAME ; #<VT>#
+	_ZN13CLocSysUiView4NewLEv @ 15 NONAME
+	_ZN13CLocSysUiView26LaunchedfromPosSettingsAppEv @ 16 NONAME
+

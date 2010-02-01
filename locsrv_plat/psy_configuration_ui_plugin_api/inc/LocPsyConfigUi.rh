@@ -1,0 +1,49 @@
+/*
+* Copyright (c) 2002-2006 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  PSY Configuration UI Plug-in resource structure definition.
+*
+*/
+
+#ifndef __LOCPSYCONFIGUI_RH__
+#define __LOCPSYCONFIGUI_RH__
+
+/**
+ * @file LocPsyConfigUi.rh
+ * 
+ * This file provides the resource structure definition for PSY Configuration
+ * UI plug-in API. The client application which intends to provide a PSY 
+ * configuration UI should use this resource structure to define the UID of the
+ * PSY module for which its providing the Configuration UI.
+ *
+ */
+ 
+/** 
+ * Resource Structure for PSY Configuration UI Plug-in API.
+ * 
+ * This structure is to be used as the opaque 
+ * data field of the SERVICE_INFO structure of the APP_REGISTRATION_INFO 
+ * defined in the application's registration resource file.
+ *
+ * @publishedPartner
+ */
+STRUCT PSYCONFIG_REGISTRATION
+	{
+	/**
+	 * The ECom Implementation UID of the PSY module for which the application
+	 * serves as the Configuration UI.
+	 */
+	LONG psy_uid;
+	}
+
+#endif //__LOCPSYCONFIGUI_RH__

@@ -1,0 +1,47 @@
+/*
+* Copyright (c) 2004-2006 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  This is project specification file for the Location Notifier
+*									Ecom Plugins.
+*
+*/
+
+
+#include <platform_paths.hrh> // For the MW_LAYER_SYSTEMINCLUDE
+
+TARGET        	locnotifierwrapper.dll
+CAPABILITY 		All -TCB
+TARGETTYPE 		PLUGIN 
+
+VENDORID		VID_DEFAULT
+
+UID				0x10009D8D 0x10207242
+
+// System Include
+MW_LAYER_SYSTEMINCLUDE
+
+USERINCLUDE		. 
+USERINCLUDE		../inc
+USERINCLUDE             ../../loc
+
+SOURCEPATH		../ecom
+SOURCE  		locnotifierwrapper.cpp 
+
+SOURCEPATH      ../rss
+START RESOURCE  10207242.rss 
+TARGET          locnotifierwrapper.rsc
+END
+
+LIBRARY 		ecom.lib
+LIBRARY			aknnotifierwrapper.lib
+LIBRARY 		euser.lib

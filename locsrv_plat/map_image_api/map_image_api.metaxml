@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<api id="16b4650ac7f0578cfbb4796e8337338b" dataversion="2.0">
+  <name>Map Image API</name>
+  <description>This API provides map image rendering features.</description>
+  <type>c++</type>
+  <collection>locationmapnavfw</collection>
+  <libs>
+    <lib name="mnclientlib.lib" />
+  </libs>
+  <release category="platform" sinceversion="0"/>
+  <attributes>
+     <!-- This indicates wether the api provedes separate html documentation -->
+     <!-- or is the additional documentation generated from headers. -->
+     <!-- If you are unsuere then the value is "no" -->
+     <htmldocprovided>no</htmldocprovided>
+     <adaptation>no</adaptation>
+  </attributes>
+</api>

@@ -1,0 +1,8 @@
+EXPORTS
+	_ZN15CLocSysUiEngine28CreateLocationSubSettingsUILE4TUid @ 1 NONAME
+	_ZN15CLocSysUiEngine28CreatePositioningSettingsUILEv @ 2 NONAME
+	_ZN15CLocSysUiEngine4NewLER13CAknViewAppUi @ 3 NONAME
+	_ZN15CLocSysUiEngine5NewLCER13CAknViewAppUi @ 4 NONAME
+	_ZTI15CLocSysUiEngine @ 5 NONAME ; #<TI>#
+	_ZTV15CLocSysUiEngine @ 6 NONAME ; #<VT>#
+

@@ -1,0 +1,924 @@
+/*
+* Copyright (c) 2005 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Contains all the resource definitions for SUPL Settings UI.
+*
+*/
+
+
+//  RESOURCE IDENTIFIER
+
+NAME    SEST // 4 Letter Identifier
+
+//  INCLUDES
+
+#include <data_caging_paths_strings.hrh>
+#include <bldvariant.hrh>
+#include <eikcore.rsg>
+#include <eikon.rh>
+#include <eikon.rsg>
+#include <avkon.rh>
+#include <avkon.rsg>
+#include <avkon.mbg>
+#include <avkon.loc>
+#include <avkon.hrh>
+
+#include "locsuplsettings.hrh"
+#include <locsuplsettings.loc>
+
+
+//  RESOURCE DEFINITIONS 
+	
+RESOURCE RSS_SIGNATURE 
+	{
+	}
+
+//----------------------------------------------------
+// r_loc_supl_iap_query
+// Confirmation Query prompt text for SUPL Settings
+//----------------------------------------------------
+//
+RESOURCE TBUF r_loc_supl_iap_query
+    {
+    buf = qtn_loc_supl_iap_query;
+    }
+    
+//----------------------------------------------------
+// r_suplsettings_caption
+// Caption for SUPL Settings UI
+//----------------------------------------------------
+//
+RESOURCE TBUF r_suplsettings_caption
+    {
+    buf = qtn_loc_settings_supl;
+    }
+    
+//------------------------------------------------------------------------------
+// r_suplsettings_view
+// SUPL Settings Configuration view
+//------------------------------------------------------------------------------
+//
+RESOURCE AVKON_VIEW r_suplsettings_view
+    {    
+    menubar = r_suplsettings_menubar_view;  
+    cba 	= r_suplsettings_options_change_back;  
+    }
+    
+//----------------------------------------------------  
+// r_suplsettings_options_change_back
+// CBA for SUPL Settings UI view.
+//----------------------------------------------------
+//   
+RESOURCE CBA r_suplsettings_options_change_back
+    {
+    flags 	= 0;
+    buttons = 
+        {
+        CBA_BUTTON 
+            {
+            id 	= EAknSoftkeyOptions; 
+            txt = text_softkey_option;
+            },
+        CBA_BUTTON 
+            {
+            id 	= EAknSoftkeyBack; 
+            txt = text_softkey_back;
+            },
+        CBA_BUTTON
+            {
+            id 	= ELocSuplMSKChange; 
+            txt = qtn_msk_change;
+            }
+        };
+    }
+
+//----------------------------------------------------  
+// r_suplsettings_options_open_back
+// CBA for SUPL Settings UI view.
+//----------------------------------------------------
+//   
+RESOURCE CBA r_suplsettings_options_open_back
+    {
+    flags 	= 0;
+    buttons = 
+        {
+        CBA_BUTTON 
+            {
+            id 	= EAknSoftkeyOptions; 
+            txt = text_softkey_option;
+            },
+        CBA_BUTTON 
+            {
+            id 	= EAknSoftkeyBack; 
+            txt = text_softkey_back;
+            },
+        CBA_BUTTON
+            {
+            id 	= ELocSuplMSKOpen; 
+            txt = qtn_msk_open;
+            }
+        };
+    }
+
+//----------------------------------------------------  
+// r_suplsettings_options_nomsk_back
+// CBA for SUPL Settings UI view.
+//----------------------------------------------------
+//   
+RESOURCE CBA r_suplsettings_options_nomsk_back
+    {
+    flags 	= 0;
+    buttons = 
+        {
+        CBA_BUTTON 
+            {
+            id 	= EAknSoftkeyOptions; 
+            txt = text_softkey_option;
+            },
+        CBA_BUTTON 
+            {
+            id 	= EAknSoftkeyBack; 
+            txt = text_softkey_back;
+            },
+        CBA_BUTTON
+            {
+            id 	= ELocSuplMSKNo; 
+            txt = "";
+            }
+        };
+    }
+
+//------------------------------------------------------------------------------  
+// r_suplsettings_menubar_view
+// Menu bar for SUPL Settings Configuration view
+//------------------------------------------------------------------------------
+//
+RESOURCE MENU_BAR r_suplsettings_menubar_view
+    {
+    titles	=
+        {
+        MENU_TITLE 
+            { 
+            menu_pane = r_suplsettings_menu; txt=""; 
+            }
+        };
+    }
+
+//------------------------------------------------------------------------------   
+// r_suplsettings_menu
+// Menu Items for SUPL Settings Configuration view
+//------------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_suplsettings_menu
+    {
+    items		=
+        {
+        MENU_ITEM 
+            { 
+            command = ELocSuplChange; 
+            txt 	= qtn_loc_server_options_change; 
+            flags = EEikMenuItemAction;
+            },
+        MENU_ITEM
+            {
+            command = ELocSuplClearSession;
+            txt     = qtn_loc_supl_options_terminate; 
+            flags = EEikMenuItemSpecific;
+            },
+        MENU_ITEM
+            {
+            command = ELocSuplClearSessions;
+            txt     = qtn_loc_supl_options_terminate_multiple; 
+            flags = EEikMenuItemSpecific;
+            },
+        MENU_ITEM 
+            { 
+            command = EAknCmdHelp; 
+            txt 	= qtn_options_help; 
+            },
+        MENU_ITEM 
+            {
+            // Exit option should use 'EEikCmdExit' instead of 'EEAknCmdExit'
+            // This is to ensure that the Exit command is not handled by the 
+            // ProcessCommandL of CAknView and is transferred to 
+            // CAknViewAppUi::HandleCommandL. This behaviour is necessary 
+            // for proper handling of the Exit command from an App Server's 
+            // perspective.
+            command = EEikCmdExit;  
+            txt 	= qtn_options_exit; 
+            }
+        };
+    }
+
+//------------------------------------------------------------------------------
+// r_suplview_title
+// Title for SUPL Settings Configuration view
+//------------------------------------------------------------------------------
+//
+RESOURCE TBUF r_suplview_title
+    {
+    buf = qtn_loc_supl_title;
+    }
+    
+//------------------------------------------------------------------------------  
+// r_loc_supl_use
+// List settings item description for SUPL settings usage.
+//------------------------------------------------------------------------------
+//
+RESOURCE TBUF r_loc_supl_use
+    {
+    buf = qtn_loc_supl_server_use;
+    }
+    
+//------------------------------------------------------------------------------   
+// r_loc_supl_server_detail
+// List settings item caption for multiple SUPL servers
+//------------------------------------------------------------------------------
+//
+RESOURCE TBUF r_loc_supl_server_detail
+    {
+    buf = qtn_loc_supl_server_detail;
+    }   
+    
+//------------------------------------------------------------------------------   
+// r_loc_supl_no_service
+// List settings item caption for SUPL active sessions count, if count is 0
+//------------------------------------------------------------------------------
+//
+RESOURCE TBUF r_loc_supl_no_service
+    {
+    buf = qtn_loc_supl_no_service;
+    } 
+    
+//------------------------------------------------------------------------------   
+// r_loc_supl_single_service
+// List settings item caption for SUPL active sessions count, if count is 1
+//------------------------------------------------------------------------------
+//
+RESOURCE TBUF r_loc_supl_single_service
+    {
+    buf = qtn_loc_supl_single_service;
+    } 
+    
+//------------------------------------------------------------------------------   
+// r_loc_supl_multiple_services
+// List settings item caption for SUPL active sessions count
+//------------------------------------------------------------------------------
+//
+RESOURCE TBUF r_loc_supl_multiple_services
+    {
+    buf = qtn_loc_supl_multiple_services;
+    } 
+
+//------------------------------------------------------------------------------
+// r_loc_supl_usage_settings
+// Settings page for manipulating SUPL settings usage.
+//------------------------------------------------------------------------------
+//
+RESOURCE AVKON_SETTING_PAGE r_loc_suplusage_settings
+    { 
+    label 				= 	qtn_loc_supl_lbl_server_use;
+    softkey_resource 	= 	R_AVKON_SOFTKEYS_OK_CANCEL__OK;
+    type 				= 	EAknSetListBox;
+    editor_resource_id 	= 	r_loc_suplusage_settings_listbox;
+    }
+
+//------------------------------------------------------------------------------
+// r_loc_suplusage_settings_listbox 
+// Set Settings text
+//------------------------------------------------------------------------------
+//
+RESOURCE LISTBOX r_loc_suplusage_settings_listbox 
+    {
+    flags	= EEikListBoxMultipleSelection;
+    }
+    
+//------------------------------------------------------------------------------ 
+// r_loc_supl_automatic
+// Settings Item for SUPL usage
+// This value denotes that SUPL would be used automatically when the user is in his
+// home network. When the user is roaming he would be prompted with a query for
+// using SUPL.
+//------------------------------------------------------------------------------
+//
+RESOURCE TBUF r_loc_supl_automatic
+    {
+    buf = qtn_loc_supl_automatic;
+    }
+
+//------------------------------------------------------------------------------ 
+// r_loc_supl_automatic
+// Settings Item for SUPL usage
+// This value denotes that SUPL would be used automatically when the user is in his
+// home network. When the user is roaming he would be prompted with a query for
+// using SUPL.
+//------------------------------------------------------------------------------
+//
+RESOURCE TBUF r_loc_supl_home_automatic
+    {
+    buf = qtn_loc_supl_home_automatic;
+    }
+    
+//------------------------------------------------------------------------------
+// r_loc_supl_ask
+// Settings Item for SUPL usage
+// This value denotes that the user would always be prompted before using SUPL.
+//------------------------------------------------------------------------------
+//
+RESOURCE TBUF r_loc_supl_ask
+    {
+    buf = qtn_loc_supl_ask;
+    }  
+
+//------------------------------------------------------------------------------  
+// r_loc_supl_disabled
+// Settings Item for SUPL usage
+// This value denotes that SUPL would not be used at all.
+//------------------------------------------------------------------------------
+//
+RESOURCE TBUF r_loc_supl_disabled
+    {
+    buf = qtn_loc_supl_disabled;
+    }
+
+//------------------------------------------------------------------------------   
+// r_loc_supl_server_detail_title
+// Title text for multiple SUPL servers view
+//------------------------------------------------------------------------------
+//
+RESOURCE TBUF r_loc_supl_server_detail_title
+    {
+    buf = qtn_loc_server_detail_title;
+    }   
+
+//------------------------------------------------------------------------------   
+// r_loc_supl_services_title
+// Title text for SUPL active sessions view
+//------------------------------------------------------------------------------
+//
+RESOURCE TBUF r_loc_supl_services_title
+    {
+    buf = qtn_loc_supl_services_title;
+    }   
+
+//------------------------------------------------------------------------------   
+// r_loc_supl_unknown_service
+// Text to display for the service with no name
+//------------------------------------------------------------------------------
+//
+RESOURCE TBUF r_loc_supl_unknown_service
+    {
+    buf = qtn_loc_supl_unknown_service;
+    }  
+    
+//------------------------------------------------------------------------------  
+// r_loc_server_address_name
+// Heading for server address Supl server editor form field
+//------------------------------------------------------------------------------
+//
+RESOURCE TBUF r_loc_server_address_name
+    {
+    buf = qtn_loc_server_address_name;
+    } 
+      
+//------------------------------------------------------------------------------   
+// r_loc_server_iap
+// Heading for access point Supl server editor form field 
+//------------------------------------------------------------------------------
+//
+RESOURCE TBUF r_loc_server_iap
+    {
+    buf = qtn_loc_server_iap;
+    }   
+
+//------------------------------------------------------------------------------  
+// r_loc_no_ap_defined
+// No IAP defined text
+//------------------------------------------------------------------------------
+//
+RESOURCE TBUF r_loc_no_ap_defined
+    {
+    buf		= qtn_netw_info_no_iap_defined;
+    }  
+
+//------------------------------------------------------------------------------  
+// r_general_note
+// Note to be displayed when no IAPs are defined
+//------------------------------------------------------------------------------
+//    
+RESOURCE DIALOG r_general_note
+    {
+    flags	=	EEikDialogFlagNoDrag | EEikDialogFlagNoTitleBar |
+          		EEikDialogFlagCbaButtons | EEikDialogFlagWait;
+    buttons	=	R_AVKON_SOFTKEYS_EMPTY;
+    items	=
+        {
+        DLG_LINE
+            {
+            type	=	EAknCtNote;
+            id 		= EGeneralNote;
+            control	= AVKON_NOTE
+                {
+                layout 			= EGeneralLayout;
+                singular_label 	= "";
+                plural_label 	= "";
+                animation 		= R_QGN_NOTE_INFO_ANIM;
+                };
+            }
+        };
+    }
+                     
+//------------------------------------------------------------------------------
+// r_suplsettings_server_view
+// SUPL Settings Server view
+//------------------------------------------------------------------------------
+//
+RESOURCE AVKON_VIEW r_suplsettings_server_view
+    {    
+    menubar = r_suplsettings_server_menubar_view;  
+    cba 	= r_suplsettings_options_contextoptions_back;  
+    }
+
+//------------------------------------------------------------------------------
+// r_suplsettings_session_view
+// SUPL Settings Session view
+//------------------------------------------------------------------------------
+//
+RESOURCE AVKON_VIEW r_suplsettings_session_view
+    {    
+    menubar = r_suplsettings_session_menubar_view;  
+    cba 	= r_suplsettings_options_contextoptions_back;  
+    }
+    
+//----------------------------------------------------  
+// r_suplsettings_options_contextoptions_back
+// CBA for SUPL Settings Server List view.
+//----------------------------------------------------
+//   
+RESOURCE CBA r_suplsettings_options_contextoptions_back
+    {
+    flags 	= 0;
+    buttons = 
+        {
+        CBA_BUTTON 
+            {
+            id 	= 	EAknSoftkeyOptions; 
+            txt = 	text_softkey_option;
+            },
+        CBA_BUTTON 
+            {
+            id 	= 	EAknSoftkeyBack; 
+            txt = 	text_softkey_back;
+            },
+        CBA_BUTTON 
+            {
+            id	=	EAknSoftkeyContextOptions; 
+            txt = 	text_softkey_option;
+            }
+        };
+    }
+
+//----------------------------------------------------  
+// r_suplsettings_session_options_back_open
+// CBA for SUPL Session List view.
+//----------------------------------------------------
+//   
+RESOURCE CBA r_suplsettings_session_options_back_open
+    {
+    flags 	= 0;
+    buttons = 
+        {
+        CBA_BUTTON 
+            {
+            id 	= 	EAknSoftkeyOptions; 
+            txt = 	text_softkey_option;
+            },
+        CBA_BUTTON 
+            {
+            id 	= 	EAknSoftkeyBack; 
+            txt = 	text_softkey_back;
+            },
+        CBA_BUTTON 
+            {
+            id	=	EAknSoftkeyOpen; 
+            txt = 	text_softkey_open;
+            }
+        };
+    }
+
+//----------------------------------------------------  
+// r_suplsettings_server_options_back
+// CBA for SUPL Settings Server List view.
+//----------------------------------------------------
+//   
+RESOURCE CBA r_suplsettings_server_options_back
+    {
+    flags 	= 0;
+    buttons = 
+        {
+        CBA_BUTTON 
+            {
+            id 	= 	EAknSoftkeyOptions; 
+            txt = 	text_softkey_option;
+            },
+        CBA_BUTTON 
+            {
+            id 	= 	EAknSoftkeyBack; 
+            txt = 	text_softkey_back;
+            },
+        CBA_BUTTON
+            {
+            id 	= 	ELocSuplServerMSKNoCmd; 
+            txt = 	"";
+            }
+        };
+    }
+    
+//----------------------------------------------------  
+// r_suplsettings_session_options_back
+// CBA for SUPL Session view.
+//----------------------------------------------------
+//   
+RESOURCE CBA r_suplsettings_session_options_back
+    {
+    flags 	= 0;
+    buttons = 
+        {
+        CBA_BUTTON 
+            {
+            id 	= 	EAknSoftkeyOptions; 
+            txt = 	text_softkey_option;
+            },
+        CBA_BUTTON 
+            {
+            id 	= 	EAknSoftkeyBack; 
+            txt = 	text_softkey_back;
+            },
+        CBA_BUTTON
+            {
+            id 	= 	ELocSuplSessionMSKNoCmd; 
+            txt = 	"";
+            }
+        };
+    }
+    
+//----------------------------------------------------  
+// r_suplsettings_server_ok_cancel
+// CBA for SUPL Settings Server List view.
+//----------------------------------------------------
+//   
+RESOURCE CBA r_suplsettings_server_ok_cancel
+    {
+    flags 	= 0;
+    buttons = 
+        {
+        CBA_BUTTON 
+            {
+            id 	= 	EAknSoftkeyOk; 
+            txt = 	text_softkey_ok;
+            },
+        CBA_BUTTON 
+            {
+            id 	= 	EAknSoftkeyCancel; 
+            txt = 	text_softkey_cancel;
+            },
+        CBA_BUTTON
+            {
+            id 	= 	ELocSuplServerMSKNoCmd; 
+            txt = 	"";
+            }
+        };
+    }
+    
+//------------------------------------------------------------------------------  
+// r_suplsettings_server_menubar_view
+// Menu bar for SUPL Settings Server List view
+//------------------------------------------------------------------------------
+//
+RESOURCE MENU_BAR r_suplsettings_server_menubar_view
+    {
+    titles	=
+        {
+        MENU_TITLE 
+            { 
+            menu_pane = r_suplsettings_server_main_menu; txt=""; 
+            },
+        MENU_TITLE 
+            { 
+            menu_pane = R_AVKON_MENUPANE_MARKABLE_LIST; 
+            },
+        MENU_TITLE 
+            { 
+            menu_pane = r_suplsettings_server_menu; txt=""; 
+            }
+        };
+    }
+ 
+ //------------------------------------------------------------------------------  
+// r_suplsettings_session_menubar_view
+// Menu bar for SUPL Settings Server List view
+//------------------------------------------------------------------------------
+//
+RESOURCE MENU_BAR r_suplsettings_session_menubar_view
+    {
+    titles	=
+        {
+        MENU_TITLE 
+            { 
+            menu_pane = r_suplsettings_server_main_menu; txt=""; 
+            },
+        MENU_TITLE 
+            { 
+            menu_pane = R_AVKON_MENUPANE_MARKABLE_LIST; 
+            },
+        MENU_TITLE 
+            { 
+            menu_pane = r_suplsettings_session_menu; txt=""; 
+            }
+        };
+    }   
+
+//------------------------------------------------------------------------------   
+// r_suplsettings_server_menu1
+// Menu Items for SUPL Settings Server List View
+//------------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_suplsettings_server_menu
+    {
+    items	=
+        {
+        MENU_ITEM 
+            { 
+            command = ELocSuplServerEnable; 
+            txt 	= qtn_loc_detail_options_enable;
+            flags = EEikMenuItemSpecific;
+            },
+        MENU_ITEM 
+            { 
+            command = ELocSuplServerDisable; 
+            txt 	= qtn_loc_detail_options_disable;
+            flags = EEikMenuItemSpecific;
+            },
+        MENU_ITEM 
+            { 
+            command = ELocSuplServerOpen; 
+            txt 	= qtn_loc_supl_options_open;
+            flags = EEikMenuItemAction;
+            },
+        MENU_ITEM 
+            { 
+            command = ELocSuplServerNew; 
+            txt 	= qtn_loc_detail_options_newserver; 
+            },
+        MENU_ITEM 
+            { 
+            command = ELocSuplServerDelete; 
+            txt 	= qtn_loc_detail_options_delete; 
+            flags = EEikMenuItemSpecific;
+            },
+        MENU_ITEM 
+            { 
+            command = ELocSuplServerPrioritize; 
+            txt 	= qtn_loc_detail_options_prioritize;
+            flags = EEikMenuItemSpecific;
+            }
+        };
+    }
+    
+ //------------------------------------------------------------------------------   
+// r_suplsettings_session_menu1
+// Menu Items for SUPL Session List View
+//------------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_suplsettings_session_menu
+    {
+    items	=
+        {
+
+        MENU_ITEM 
+            { 
+            command = ELocSuplSessionTerminate; 
+            txt 	= qtn_loc_supl_options_terminate; 
+            flags = EEikMenuItemSpecific;
+            },
+        MENU_ITEM 
+            { 
+            command = ELocSuplSessionsTerminate; 
+            txt 	= qtn_loc_supl_options_terminate_multiple; 
+            flags = EEikMenuItemSpecific;
+            }
+        };
+    }
+            
+//------------------------------------------------------------------------------   
+// r_suplsettings_server_menu2
+// Menu Items for SUPL Settings Server List View
+//------------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_suplsettings_server_main_menu
+    {
+    items	=
+        {
+        MENU_ITEM 
+            { 
+            command = EAknCmdHelp; 
+            txt 	= qtn_options_help; 
+            },
+        MENU_ITEM 
+            {
+            // Exit option should use 'EEikCmdExit' instead of 'EEAknCmdExit'
+            // This is to ensure that the Exit command is not handled by the 
+            // ProcessCommandL of CAknView and is transferred to 
+            // CAknViewAppUi::HandleCommandL. This behaviour is necessary 
+            // for proper handling of the Exit command from an App Server's 
+            // perspective.
+            command = EEikCmdExit;  
+            txt 	= qtn_options_exit; 
+            }
+        };
+    }
+
+//----------------------------------------------------
+//   
+// r_suplsettings_server_contextmenubar
+// Context Menu Bar for SUPL Settings Server List View
+//
+//----------------------------------------------------
+//
+RESOURCE MENU_BAR r_suplsettings_server_contextmenubar
+    {
+    titles	=
+        {
+        MENU_TITLE { menu_pane=R_AVKON_MENUPANE_MARKABLE_LIST; txt=""; },
+		MENU_TITLE { menu_pane = r_suplsettings_server_contextmenu; txt=" "; }
+        };
+    }
+    
+//----------------------------------------------------
+//   
+// r_suplsettings_server_contextmenu
+// Context Menu Items for SUPL Settings Server List View
+//
+//----------------------------------------------------
+//
+RESOURCE MENU_PANE r_suplsettings_server_contextmenu
+    {
+    items	=
+        {
+		MENU_ITEM 	
+			{ 	
+			command = 	ELocSuplServerMSKEnable; 
+			txt		=	qtn_loc_detail_options_enable;
+			},
+		MENU_ITEM 	
+			{ 	
+			command = 	ELocSuplServerMSKDisable; 
+			txt		=	qtn_loc_detail_options_disable;
+			},
+			
+		MENU_ITEM
+		    {
+			command = ELocSuplServerDelete;
+			txt = qtn_loc_detail_options_delete;
+		    },
+			
+     MENU_ITEM
+            {
+            command = ELocSuplServerNew;
+            txt = qtn_loc_detail_options_newserver;
+            }
+        };
+    }
+
+//----------------------------------------------------
+//   
+// r_suplsettings_session_contextmenubar
+// Context Menu Bar for SUPL Settings Session List View
+//
+//----------------------------------------------------
+//
+RESOURCE MENU_BAR r_suplsettings_session_contextmenubar
+    {
+    titles	=
+        {
+		MENU_TITLE { menu_pane = r_suplsettings_session_contextmenu; txt=" "; },
+        MENU_TITLE { menu_pane = R_AVKON_MENUPANE_MARKABLE_LIST; txt=" "; }
+        };
+    }
+    
+//----------------------------------------------------
+//   
+// r_suplsettings_session_contextmenu
+// Context Menu Items for SUPL Settings Session List View
+//
+//----------------------------------------------------
+//
+RESOURCE MENU_PANE r_suplsettings_session_contextmenu
+    {
+    items	=
+        {
+        MENU_ITEM 
+            { 
+            command = ELocSuplSessionMSKTerminate; 
+            txt 	= qtn_loc_supl_options_terminate; 
+            flags = EEikMenuItemSpecific;
+            },
+        MENU_ITEM 
+            { 
+            command = ELocSuplSessionsMSKTerminate; 
+            txt 	= qtn_loc_supl_options_terminate_multiple; 
+            flags = EEikMenuItemSpecific;
+            }
+        };
+    }
+
+//------------------------------------------------------------------------------  
+// r_loc_detail_conf_delete_servers
+// Confirmation for delete text
+//------------------------------------------------------------------------------
+//
+RESOURCE TBUF r_loc_detail_conf_delete_server
+    {
+    buf		= qtn_loc_detail_conf_delete_server;
+    }  
+
+//------------------------------------------------------------------------------  
+// r_loc_detail_conf_delete_servers
+// Confirmation for delete text
+//------------------------------------------------------------------------------
+//
+RESOURCE TBUF r_loc_detail_conf_delete_servers
+    {
+    buf		= qtn_loc_detail_conf_delete_servers;
+    }  
+
+
+//----------------------------------------------------
+//  r_loc_supl_delete_query
+//  Confirmation Query for delete
+//----------------------------------------------------
+//
+RESOURCE DIALOG r_loc_supl_delete_query
+	{
+	flags 	= EGeneralQueryFlags;
+	buttons = R_AVKON_SOFTKEYS_YES_NO;
+	items 	= 
+		{
+		DLG_LINE
+			{
+			type 	= EAknCtQuery;
+			id 		= EGeneralQuery;
+			control = AVKON_CONFIRMATION_QUERY
+				{
+				layout = EConfirmationQueryLayout;
+				};
+			}
+		};
+	}
+
+//------------------------------------------------------------------------------  
+// r_loc_supl_query_terminate_all
+// Confirmation for deleting all the sessions(Clear sessions)
+//------------------------------------------------------------------------------
+//
+RESOURCE TBUF r_loc_supl_query_terminate_all
+    {
+    buf		= qtn_loc_supl_query_terminate_all;
+    }  
+
+//------------------------------------------------------------------------------  
+// r_loc_supl_query_terminate
+// Confirmation for deletint a session
+//------------------------------------------------------------------------------
+//
+RESOURCE TBUF r_loc_supl_query_terminate
+    {
+    buf		= qtn_loc_supl_query_terminate;
+    }   
+
+//------------------------------------------------------------------------------  
+// r_loc_supl_query_terminate_multiple
+// Confirmation for deleting multiple sessions in view
+//------------------------------------------------------------------------------
+//
+RESOURCE TBUF r_loc_supl_query_terminate_multiple
+    {
+    buf		= qtn_loc_supl_query_terminate_multiple;
+    }   
+
+// ---------------------------------------------------------
+//  Additional resource files
+// ---------------------------------------------------------
+//
+#include "locsuplservereditor.rss"  
+#include "locsuplsessioneditor.rss"  

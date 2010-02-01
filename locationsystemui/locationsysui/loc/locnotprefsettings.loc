@@ -1,0 +1,96 @@
+/*
+* Copyright (c) 2006 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Localization file Location Notation Preferences Plugin
+*
+*/
+
+
+/**
+ *  Default (implementation English) Resource localisation file.
+ */
+
+//  LOCALISATION STRINGS  
+
+//d: Caption text for Location Notation preferences settings
+//d: List box text in Location System UI plugin view.
+//l: list_setting_pane_t1
+//r: 3.2
+//
+#define qtn_loc_settings_notations "Notation preferences"
+
+//d: Title pane text for Location Notation preferences settings
+//l: title_pane_t2/opt9
+//r: 3.2
+//
+#define qtn_loc_title_notations "Notation preferences"
+
+//d: List box text for System of Measurements
+//d: Title text for Radio button settings page
+//l: list_setting_pane_t1
+//r: 3.2
+//
+#define qtn_loc_notation_measures "System of measures"
+
+//d: List box text for Co-ordinate display format
+//d: Title text for Radio button settings page
+//l: list_setting_pane_t1
+//r: 3.2
+//
+#define qtn_loc_notation_coordinate_format "Coordinate format"
+
+//d: Settings value for System of measures
+//d: Indicates usage of Metric system of measurement for all location applications
+//l: list_set_graphic_pane_t1
+//r: 3.2
+//
+#define qtn_loc_metric_system "Metric"
+
+//d: Settings value for System of measures
+//d: Indicates usage of Imperial system of measurement for all location applications
+//l: list_set_graphic_pane_t1
+//r: 3.2
+//
+#define qtn_loc_imperial_system "Imperial"
+
+//d: Settings value for Co-ordinate display format
+//d: Indicates usage of Degrees, minutes, seconds and decimal seconds
+//d: Please note that the degree symbol °, minutes symbol' and 
+//d: seconds symbol " must NOT be localised. The dot can be localised.
+//d: Please note that the order of the characters must NOT be changed.
+//l: list_set_graphic_pane_t1
+//r: 3.2
+//
+#define qtn_loc_format_decimal_seconds "DDD° MM' SS.SS\""
+
+//d: Settings value for Co-ordinate display format
+//d: Indicates usage of Degrees, minutes and decimal minutes
+//d: Please note that the degree symbol ° and minutes symbol'must NOT be localised. 
+//d: The dot can be localised.
+//d: Please note that the order of the characters must NOT be changed.
+//l: list_set_graphic_pane_t1
+//r: 3.2
+//
+#define qtn_loc_format_decimal_minutes "DDD° MM.MMMM'"
+
+//d: Settings value for Co-ordinate display format
+//d: Indicates usage of Degrees and decimal degrees
+//d: Please note that the degree symbol ° must NOT be localised. 
+//d: The dot can be localised.
+//d: Please note that the order of the characters must NOT be changed.
+//l: list_set_graphic_pane_t1
+//r: 3.2
+//
+#define qtn_loc_format_decimal_degrees "DDD.DDDDD°"
+
+// End of file

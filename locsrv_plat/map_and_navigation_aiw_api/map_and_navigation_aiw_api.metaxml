@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<api id="aea0bbba2cae7c315b2ca257c245b861" dataversion="2.0">
+  <name>Map and Navigation AIW API</name>
+  <description>This API defines how clients may utilize Map and Navigation FW via AIW mechanisms: services, input and output parameters and so on. This is no call-based API.</description>
+  <type>c++</type>
+  <collection>locationmapnavfw</collection>
+  <libs>
+  </libs>
+  <release category="platform" sinceversion="0"/>
+  <attributes>
+     <!-- This indicates wether the api provedes separate html documentation -->
+     <!-- or is the additional documentation generated from headers. -->
+     <!-- If you are unsuere then the value is "no" -->
+     <htmldocprovided>no</htmldocprovided>
+     <adaptation>no</adaptation>
+  </attributes>
+</api>

@@ -1,0 +1,89 @@
+/*
+* Copyright (c) 2002 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: Project definition file for Location Verification Dialog
+*
+*/
+
+
+// INCLUDES
+#include "../inc/locverifieruid.h"
+#include <data_caging_paths.hrh>
+#include <platform_paths.hrh> // For the APP_LAYER_SYSTEMINCLUDE
+
+TARGET          locverifierdlg.dll
+TARGETTYPE      DLL
+UID             KNotifierUID2  KLocVerifierDlgUID3
+
+CAPABILITY 		CAP_ECOM_PLUGIN
+
+VENDORID		VID_DEFAULT
+
+SOURCEPATH      ../src
+SOURCE          lpdsuplsettingsadapter.cpp
+SOURCE			lpdverifierplugin.cpp
+SOURCE			lpdrequestao.cpp
+SOURCE			lpdrequestorprocessor.cpp
+SOURCE          lpdperiodicprocessor.cpp
+SOURCE			lpdverifiersettinglauncher.cpp
+SOURCE			lpdverifierquerylauncher.cpp
+SOURCE			lpdnotifierquerylauncher.cpp
+SOURCE			lpdbasemodel.cpp
+SOURCE			lpdverifnotiflbmodel.cpp
+SOURCE			lpdglobalplugindialog.cpp
+SOURCE			lpdmessageplugindialog.cpp
+SOURCE			lpdbkupevtlistenerao.cpp
+SOURCE			lpdquerylauncherbase.cpp
+SOURCE			lpddllmain.cpp
+SOURCE			lpdnotifreqinfo.cpp
+
+SOURCEPATH      ../rss
+START RESOURCE  locverifierdlg.rss
+HEADER
+TARGETPATH      RESOURCE_FILES_DIR
+LANGUAGE_IDS
+END
+
+// System Include
+APP_LAYER_SYSTEMINCLUDE
+
+USERINCLUDE     .
+USERINCLUDE		../inc
+USERINCLUDE		../../inc
+USERINCLUDE		../../../inc
+USERINCLUDE   ../../loc
+
+// EPos:
+LIBRARY			eposprvqnif.lib
+// Location:
+LIBRARY			locutils.lib
+// Symbian & Avkon:
+LIBRARY         euser.lib
+LIBRARY 		avkon.lib
+LIBRARY			eiksrvui.lib 
+LIBRARY			eikdlg.lib
+LIBRARY 		eikcoctl.lib
+LIBRARY			cone.lib 
+LIBRARY			eikcore.lib 
+LIBRARY			aknskins.lib
+LIBRARY 		egul.lib
+LIBRARY         commonengine.lib 		// StringLoader
+LIBRARY         apgrfx.lib 				// RApaLsSession
+LIBRARY         apparc.lib 				// TApaAppInfo
+LIBRARY         aknicon.lib 			// AvkonIconFileName
+LIBRARY         eposprvtyp.lib
+LIBRARY 		aknnotifierwrapper.lib
+LIBRARY         estor.lib bafl.lib
+LIBRARY		    epos_suplsettings.lib	// SUPL Settings API
+LIBRARY		    locsettingsuiclient.lib // Location Settings Launch API
+LIBRARY         flogger.lib

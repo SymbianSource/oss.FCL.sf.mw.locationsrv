@@ -1,0 +1,50 @@
+/*
+* Copyright (c) 2005-2006 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Map and Navigation application service UIDs
+*
+*/
+
+
+#ifndef MN_APP_SERVICE_UIDS_HRH
+#define MN_APP_SERVICE_UIDS_HRH
+
+/** @file 
+ *  @brief Map and Navigation application service UIDs 
+ */
+
+/** MapView service UID.
+ *  This value shall be specified as @p uid field of SERVICE_INFO struct
+ *  if application implements @ref CMnMapViewServiceBase.
+ */
+#define KMnAppMapViewService 0x10206909
+
+/** Navigation service UID.
+ *  This value shall be specified as @p uid field of SERVICE_INFO struct
+ *  if application implements @ref CMnNavigationServiceBase.
+ */
+#define KMnAppNavigationService 0x1020690A
+
+/** Geocoding service UID.
+ *  This value shall be specified as @p uid field of SERVICE_INFO struct
+ *  if application implements @ref CMnGeocodingServiceBase.
+ */
+#define KMnAppGeocodingService 0x1020690B
+
+/** MapImage service UID.
+ *  This value shall be specified as @p uid field of SERVICE_INFO struct
+ *  if application implements @ref CMnMapImageServiceBase.
+ */
+#define KMnAppMapImageService  0x101FDF7F
+
+#endif // MN_APP_SERVICE_UIDS_HRH
