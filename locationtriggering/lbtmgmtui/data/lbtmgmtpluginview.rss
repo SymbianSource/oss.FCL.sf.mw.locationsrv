@@ -141,6 +141,47 @@ RESOURCE CBA r_lbtmgmtplugin_cba_noactivetriggers
             }
         };
     }
+    
+//----------------------------------------------------
+//   
+// r_lbtmgmtplugin_contextmenubar
+// Context Menu Bar Location Trigger Management plug-in view.
+//
+//----------------------------------------------------
+//
+RESOURCE MENU_BAR r_lbtmgmtplugin_contextmenubar
+    {
+    titles	=
+        {
+				MENU_TITLE { menu_pane = r_lbtmgmtplugin_contextmenu; txt=""; }
+        };
+    } 
+    
+//------------------------------------------------------------------------------
+//   
+// r_lbtmgmtplugin_contextmenu
+//
+// Context Menu Items for Location Trigger Management plug-in view.
+//
+//------------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_lbtmgmtplugin_contextmenu
+    {
+    items=
+        {
+        MENU_ITEM 
+            { 
+            command = ELbtMgmtInfo; 
+            txt = qtn_options_loctr_info; 
+            },
+        MENU_ITEM 
+            { 
+            command = ELbtMgmtClearAll; 
+            txt = qtn_options_loctr_clear_triggers; 
+            }
+        };
+    }
+	
 
 
 //------------------------------------------------------------------------------
@@ -174,21 +215,6 @@ RESOURCE MENU_PANE r_lbtmgmtplugin_menu
     {
     items=
         {
-        MENU_ITEM 
-            { 
-            command = ELbtMgmtChange; 
-            txt = qtn_options_change; 
-            },
-        MENU_ITEM 
-            { 
-            command = ELbtMgmtInfo; 
-            txt = qtn_options_loctr_info; 
-            },
-        MENU_ITEM 
-            { 
-            command = ELbtMgmtClearAll; 
-            txt = qtn_options_loctr_clear_triggers; 
-            },
         MENU_ITEM 
             { 
             command = EAknCmdHelp; 

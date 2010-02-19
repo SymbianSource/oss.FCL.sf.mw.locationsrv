@@ -5554,6 +5554,7 @@ void COMASuplSession::InsertActiveSessionL()
 // -----------------------------------------------------------------------------
 void COMASuplSession::RemoveActiveSession()
     {
+    			if (iTrace)
     			iTrace->Trace(_L("Removing Trigger Session from DB..."), KTraceFileName, __LINE__); 
     			//may need to reset the iActiveSessionId to 0 so that self deletion event will not come to same session...
     			TInt err = iSuplStorageSettings->DeleteSessionRecord(iSETSessionUniqueId);

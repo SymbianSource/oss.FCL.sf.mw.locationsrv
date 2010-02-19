@@ -27,6 +27,7 @@
 class MDesCArray;
 class MLbtMgmtPluginCmdHdlr;
 class CAknSettingStyleListBox;
+class CLbtMgmtPluginView;
 
 // Class Definition
 
@@ -48,7 +49,8 @@ class CLbtMgmtPluginContainer : public CCoeControl,
         static CLbtMgmtPluginContainer* NewL( 
                                 const TRect&                    aRect,
                                       MDesCArray&               aListBoxModel,
-                                      MLbtMgmtPluginCmdHdlr& aCmdHandler );
+                                      MLbtMgmtPluginCmdHdlr& aCmdHandler,
+                                      CLbtMgmtPluginView* aView );
 
         /**
          * Static Two phase contructor that instantiates the CLbtMgmtPluginContainer
@@ -62,7 +64,8 @@ class CLbtMgmtPluginContainer : public CCoeControl,
         static CLbtMgmtPluginContainer* NewLC(
                                 const TRect&                    aRect,
                                       MDesCArray&               aListBoxModel,
-                                      MLbtMgmtPluginCmdHdlr& aCmdHandler );
+                                      MLbtMgmtPluginCmdHdlr& aCmdHandler,
+                                      CLbtMgmtPluginView* aView );
         /**
          * Destructor
          */
@@ -118,6 +121,10 @@ class CLbtMgmtPluginContainer : public CCoeControl,
          * Updates listbox model          
          */
        void Update();
+       /*
+        * Shows context specific menu items
+        */
+       void ShowContextMenuL();
              
     protected:
         /**
@@ -135,7 +142,8 @@ class CLbtMgmtPluginContainer : public CCoeControl,
          * Overloaded Constructor
          */
         CLbtMgmtPluginContainer( MDesCArray&               aListBoxModel,
-                                    MLbtMgmtPluginCmdHdlr& aCmdHandler );
+                                    MLbtMgmtPluginCmdHdlr& aCmdHandler,
+                                    CLbtMgmtPluginView* aView );
 
         /**
          * Second phase of the two phase Construction process
@@ -182,6 +190,10 @@ class CLbtMgmtPluginContainer : public CCoeControl,
          * Help context
          */
         TCoeContextName                 iContextName;
+        /*
+         * reference to the lbtmgmtplugin view
+         */
+        CLbtMgmtPluginView* iView;
         
   };
 

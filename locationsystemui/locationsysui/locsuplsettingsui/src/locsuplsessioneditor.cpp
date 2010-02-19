@@ -39,6 +39,7 @@
 #include <data_caging_path_literals.hrh>
 #include <gulicon.h>            // Gul Icon
 #include <StringLoader.h>
+#include <hlplch.h>
 
 #include <epos_csuplsettingsconstants.h>
 #include <epos_csuplsettingparams.h>
@@ -229,6 +230,8 @@ void CLocSUPLSessionEditor::ProcessCommandL( TInt aCommandId )
        		}
        	case EAknCmdHelp:
        		{
+          HlpLauncher::LaunchHelpApplicationL( iCoeEnv->WsSession(),
+                                              iAvkonAppUi->AppHelpContextL() );			
        		break;
        		}
        	case EEikCmdExit:

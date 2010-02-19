@@ -154,13 +154,13 @@ void CLbtMgmtPluginView::DoActivateL( const TVwsViewId&  /* PrevViewId*/,
     iEngine = CLbtMgmtPluginEngine::NewL( *this );
     
     // Create new Container 
-    iContainer = CLbtMgmtPluginContainer::NewL( ClientRect(),
-                                                   *iEngine,
-                                                   *this );
-    iContainer->SetMopParent( this );
-    AppUi()->AddToViewStackL( *this, iContainer );
-    
-    SetCba( R_LBTMGMTPLUGIN_CBA_CHANGE );
+    iContainer = CLbtMgmtPluginContainer::NewL(ClientRect(), *iEngine, *this,
+            this);
+    iContainer->SetMopParent(this);
+    AppUi()->AddToViewStackL(*this, iContainer);
+    MenuBar()->SetContextMenuTitleResourceId(R_LBTMGMTPLUGIN_CONTEXTMENUBAR);
+
+    SetCba(R_LBTMGMTPLUGIN_CBA_CHANGE);
     }
 
 // ---------------------------------------------------------------------------
@@ -203,15 +203,23 @@ void CLbtMgmtPluginView::HandleCommandL(TInt aCommand)
     {
     switch( aCommand )
         {
+        case ELbtMgmtShowCSMenu:
+            if (CLbtMgmtPluginEngine::EActiveTriggers
+                    == iContainer->GetFocussedItem())
+                {
+                iContainer->ShowContextMenuL();
+                }
+            break;
         case ELbtMgmtChange:
         case ELbtMgmtMSKChange:
     		{
     		SettingsChangeL(aCommand);   		
           	break;
-          	}
+      	}
+  	  case ELbtMgmtMSKInfo:
+  	  	break;
         case ELbtMgmtInfo:
-        case ELbtMgmtMSKInfo:
-        	{
+              	{
 			iEngine->ShowInfoDialogL();
         	break;
         	}
@@ -240,45 +248,9 @@ void CLbtMgmtPluginView::HandleCommandL(TInt aCommand)
             {
             // Un-handled commands are to be passed to the 
             // App UI
-            AppUi()->HandleCommandL( aCommand );
-            break;  
+            AppUi()->HandleCommandL(aCommand);
+            break;
             }
-        }
-    }
-    
-// -----------------------------------------------------------------------------
-// CLbtMgmtPluginView::DynInitMenuPaneL
-// -----------------------------------------------------------------------------
-//
-void CLbtMgmtPluginView::DynInitMenuPaneL( TInt          aResourceId, 
-                                              CEikMenuPane* aMenuPane )
-    {
-    if ( aResourceId == R_LBTMGMTPLUGIN_MENU )
-        {
-        User::LeaveIfNull( aMenuPane );
-        //Handle Help Feature
-
-        //Context sensitive menu items
-        if( CLbtMgmtPluginEngine::EActiveTriggers == iContainer->GetFocussedItem() )
-        	{
-        	aMenuPane->SetItemDimmed( ELbtMgmtChange, ETrue );
-        	if( iEngine->ActiveTriggers() )
-        	    {
-        	    aMenuPane->SetItemDimmed( ELbtMgmtClearAll, EFalse );  			            
-        	    aMenuPane->SetItemDimmed( ELbtMgmtInfo, EFalse );
-        	    }
-        	else
-        	    {
-        	    aMenuPane->SetItemDimmed( ELbtMgmtClearAll, ETrue );                          
-        	     aMenuPane->SetItemDimmed( ELbtMgmtInfo, ETrue );
-        	    }
-        	}
-        else
-        	{
-			aMenuPane->SetItemDimmed( ELbtMgmtChange, EFalse );  
-			 aMenuPane->SetItemDimmed( ELbtMgmtClearAll, ETrue ); 
-			aMenuPane->SetItemDimmed( ELbtMgmtInfo, ETrue );
-        	}
         }
     }   
 
@@ -428,8 +400,6 @@ void CLbtMgmtPluginView::SettingsChangeL( TInt aCmd )
         case CLbtMgmtPluginEngine::EActiveTriggers:
             {
 			// If condition is added for any pointer event from container
-            if( iEngine->ActiveTriggers() )
-            		iEngine->ShowInfoDialogL();
             break;
             }
         default:
@@ -498,4 +468,15 @@ void CLbtMgmtPluginView::OpenLocalizedResourceFileL(
     
     //If leave occurs before this, close is called automatically when the thread exits.
     fsSession.Close();
+    }
+
+// ---------------------------------------------------------------------------
+// CLbtMgmtPluginView :: GetLbtMgmtPluginEngine
+// 
+// 
+// ---------------------------------------------------------------------------
+//
+CLbtMgmtPluginEngine* CLbtMgmtPluginView::GetLbtMgmtPluginEngine()
+    {
+    return iEngine;
     }

@@ -448,17 +448,18 @@ void CLocSUPLSettingsAdapter::AddNewServerL(
 	{
 	DEBUG( + CLocSUPLSettingsAdapter::AddNewServerL );	
 	CServerParams* serverParam = CServerParams::NewL();
-	serverParam->Set( 
+	CleanupStack::PushL( serverParam );
+	User::LeaveIfError(serverParam->Set( 
 						aServerAddress, 
 						aIapName, 
 						ETrue, 
 						EFalse, // default value
 						aUsageInHomeNw, 
-						ETrue );
+						ETrue ));
 	
 	TInt64 slpId;	
 	User::LeaveIfError( iSUPLSettings->AddNewServer( serverParam, slpId ) );							
-	delete serverParam;
+	CleanupStack::PopAndDestroy();
 	DEBUG( - CLocSUPLSettingsAdapter::AddNewServerL );	
 	}
 	

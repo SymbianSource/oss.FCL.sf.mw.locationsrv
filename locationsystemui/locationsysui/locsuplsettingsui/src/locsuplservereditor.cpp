@@ -46,6 +46,7 @@
 #include <data_caging_path_literals.hrh>
 #include <gulicon.h>            // Gul Icon
 #include <StringLoader.h>
+#include <hlplch.h> 
 
 #include <epos_csuplsettingsconstants.h>
 #include <epos_csuplsettingparams.h>
@@ -329,6 +330,8 @@ void CLocSUPLServerEditor::ProcessCommandL( TInt aCommandId )
        		}
        	case EAknCmdHelp:
        		{
+            HlpLauncher::LaunchHelpApplicationL( iCoeEnv->WsSession(),
+                                              iAvkonAppUi->AppHelpContextL() );
        		break;
        		}
        	case EEikCmdExit:
@@ -552,6 +555,16 @@ TBool CLocSUPLServerEditor::OkToExitL( TInt aButtonId )
 			            //dont close editor            
 			            retVal = EFalse;	            		
             			}
+            		else if( err == KErrArgument )
+	            		{
+	            		ShowServerValidationInfoNoteL( R_LOC_SERVER_INFO_NOTE );
+						iIsEditMode = ETrue;
+			    		SetEditableL( iIsEditMode );					
+						SetInitialCurrentLine();								
+						SetCursorToEndL();
+	            		//dont close editor            
+	            		retVal = EFalse;	
+	            		}
             		}
             	else
             		{ // save the existing slp entry info
@@ -576,6 +589,16 @@ TBool CLocSUPLServerEditor::OkToExitL( TInt aButtonId )
 						    SetInitialCurrentLine();	            			
 							SetCursorToEndL();
             				}
+            			else if( err == KErrArgument )
+            			    {
+            			    ShowServerValidationInfoNoteL( R_LOC_SERVER_INFO_NOTE );
+            			    iIsEditMode = ETrue;
+            			    SetEditableL( iIsEditMode );                    
+            			    SetInitialCurrentLine();                                
+            			    SetCursorToEndL();
+            			    //dont close editor            
+            			    retVal = EFalse;    
+            			    }
             			}
 	            	HandleMSKCaptionL();
 		            //dont close editor            
