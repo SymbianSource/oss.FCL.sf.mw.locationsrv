@@ -406,12 +406,14 @@ void CSuplConnection::RunL()
 			}
     	// Socket Connect has completed
     	case EConnecting:
+    		iTimer->Cancel(); // Valid SUPL server, Cancel timer started for this purpose
     		if(iStatus == KErrNone)
     		{
 				if(iVariantEnabled)
 					{
 		    		iTrace->Trace(_L("CSuplConnection::RunL Making Secure Connection"), KTraceFileName, __LINE__);
 		    		iState = EMakingSecureConn;
+		    		
 		    		MakeSecureConnection();
 					}
 				else
@@ -603,7 +605,7 @@ EXPORT_C void CSuplConnection::CancelConnect(TRequestStatus &aStatus)
     {
     	// Log
     	iTrace->Trace(_L("CSuplConnection::CancelConnect"), KTraceFileName, __LINE__);
-
+		iTimer->Cancel();  // Cancel all timers
         if (iConnArray.Count() > 1)
             {                
             CompleteConnectCancel(aStatus);
@@ -774,7 +776,17 @@ void CSuplConnection::TimerExpired()
                 {
                 iResolver.Cancel();                        
 				break;	
-                }                
+                }     
+                case EConnecting:
+                	{
+                		iState = EFailure;
+    					iSocket.Close();
+						#ifndef __WINS__  // Bug Fix for close connection
+						// Close the RConnection
+						iConnection.Close();
+						#endif
+        				break;     
+      				}      
 			default:
 				{
 				if(iVariantEnabled)
@@ -1143,6 +1155,7 @@ void CSuplConnection::Connect()
     	iTrace->Trace(_L("CSuplConnection::Connect(void)"), KTraceFileName, __LINE__);
     	
     	iState = EConnecting;
+    	iTimer->Start(4000000); // For DNS pass case , but not a valid SUPL server
     	iSocket.Connect(iAddress, iStatus);
 	   	SetActive();
 	}

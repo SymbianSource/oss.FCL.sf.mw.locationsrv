@@ -288,7 +288,7 @@ RESOURCE TBUF r_loc_supl_multiple_services
 RESOURCE AVKON_SETTING_PAGE r_loc_suplusage_settings
     { 
     label 				= 	qtn_loc_supl_lbl_server_use;
-    softkey_resource 	= 	R_AVKON_SOFTKEYS_OK_CANCEL__OK;
+    softkey_resource 	= 	R_AVKON_SOFTKEYS_CANCEL;
     type 				= 	EAknSetListBox;
     editor_resource_id 	= 	r_loc_suplusage_settings_listbox;
     }

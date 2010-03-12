@@ -3286,8 +3286,9 @@ void COMASuplSession::HandleSuplInitErrorL(TInt aErr)
 		iSuplMsgType = ESUPL_END;
 		SetPOSMsgPluginState(COMASuplPosSessionBase::EOMASuplCreating);	
 		//SMP Changes
-		iSuplSessionState = ESUPL_GENERATE;
+		
 		iSuplState->GenerateMessageL();
+		iSuplSessionState = ESUPL_GENERATE;//Has to be here because initialisation has to be done for NI case in reject scenario.
 	
 	}
 

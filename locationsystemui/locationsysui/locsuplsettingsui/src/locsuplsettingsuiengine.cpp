@@ -68,7 +68,8 @@ CLocSUPLSettingsUiEngine::CLocSUPLSettingsUiEngine(
 	iConversionBufferPtr( NULL, 0 ),
 	iSettingsBufferPtr( NULL, 0),
 	iCurrentSlpId( -1 ),
-	iEditorObserver( NULL )
+	iEditorObserver( NULL ),
+	iTempAP(-1)
 	{
 	// No implementation
 	}
@@ -235,22 +236,31 @@ void CLocSUPLSettingsUiEngine::LaunchApConfiguratorL( TInt64 aSlpId,
     // left over value from the previous access
     iSettingsBufferPtr.Zero();
     
-    // Obtain the Server address value from the SUPL settings
-    // API. If the value is set then it has to be shown to the user
-    // as the existing value when he tries to configure the UI
-    TRAP_IGNORE( iSUPLSettingsAdapter->GetIapNameL( iCurrentSlpId, iSettingsBufferPtr ) );
-    	
     // Obtain the UID for the selected Access point so that the configurator
     // can be highlighted
     TUint32 highlightUid( 0 );
- 
-    TRAPD( error, highlightUid = ConvertIAPNameToIdL( iSettingsBufferPtr ) ); 
     
-    if( error == KErrNotFound )
-    	{
-    	highlightUid = 0;
-    	}
-   
+    // if AP value is NULL, or zero, no temp AP, all previous changes have been frozen.
+    TInt32 tempAP = GetTempAPValue();
+    if ( tempAP == -1)
+        {
+        // Obtain the Server address value from the SUPL settings
+        // API. If the value is set then it has to be shown to the user
+        // as the existing value when he tries to configure the UI
+        TRAP_IGNORE( iSUPLSettingsAdapter->GetIapNameL( iCurrentSlpId, iSettingsBufferPtr ) );
+     
+        TRAPD( error, highlightUid = ConvertIAPNameToIdL( iSettingsBufferPtr ) ); 
+        
+        if( error == KErrNotFound )
+            {
+            highlightUid = 0;
+            }
+        }
+    else
+        {
+        highlightUid = tempAP;
+        }
+
  	CCmApplicationSettingsUi* apHandler =  CCmApplicationSettingsUi::NewLC();
  	
  	iDialogActive = ETrue;
@@ -267,7 +277,7 @@ void CLocSUPLSettingsUiEngine::LaunchApConfiguratorL( TInt64 aSlpId,
 
 	// Run CCmApplicationSettingsUi dialog only for Access points (Connection methods)
 	// selectionUid contains UID to be highlighted, on return it will contain UID of selected CM
-    TRAP( error, ret = 
+    TRAPD( error, ret = 
     	apHandler->RunApplicationSettingsL( 
     			selectionUid , CMManager::EShowConnectionMethods, filter 
     ) ); // | CMManager::EShowAlwaysAsk
@@ -283,7 +293,8 @@ void CLocSUPLSettingsUiEngine::LaunchApConfiguratorL( TInt64 aSlpId,
     CleanupStack::PopAndDestroy( apHandler );   
     
     if( ret )
-        {            
+        {
+        SetTempAPValue(selectionUid.iId);
         RCmManager cmManager;
 		cmManager.OpenLC();
 	
@@ -986,5 +997,23 @@ void CLocSUPLSettingsUiEngine::RemoveSessionObserver( ) const
 	{
 	iSUPLSettingsAdapter->RemoveSessionObserver( );
 	}
-	
+
+// ---------------------------------------------------------------------------
+// void CLocSUPLSettingsUiEngine::GetTempAPValue
+// ---------------------------------------------------------------------------
+// 
+TUint32 CLocSUPLSettingsUiEngine::GetTempAPValue()
+    {
+    return iTempAP;
+    }
+
+// ---------------------------------------------------------------------------
+// void CLocSUPLSettingsUiEngine::SetTempAPValue
+// ---------------------------------------------------------------------------
+// 
+void CLocSUPLSettingsUiEngine::SetTempAPValue( TUint32 aAccessPoint)
+    {
+    iTempAP = aAccessPoint;
+    }
+
 // End of File

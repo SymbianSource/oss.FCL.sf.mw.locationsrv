@@ -311,6 +311,11 @@ class CLocSUPLSettingsUiEngine : public CActive,
 	     */  
 	    void RemoveSessionObserver( ) const;
 	    
+        /**
+         * Sets value of highlighted AP
+         */
+        void SetTempAPValue( TUint32 aAccessPoint);
+        
 	public:     		
 		/**
 		 * Inherited from MLocSUPLSettingsAdapterObserver
@@ -361,6 +366,11 @@ class CLocSUPLSettingsUiEngine : public CActive,
          * @param None
          */
         TInt ShowNoteL();                               
+        
+        /**
+         * Returns value of last highlighted AP
+         */
+        TUint32 GetTempAPValue();
         
     private:
         /**
@@ -450,6 +460,13 @@ class CLocSUPLSettingsUiEngine : public CActive,
          * Owns
          */
         MSuplServerEditorObserver*		iEditorObserver;
+        
+        /*
+         * Current highlighted AP
+         * Set to -1 if no changes made in edit dialog box, Set to Uid of access 
+         * point if changes made 
+         */
+        TUint32 iTempAP;
         
     };
     

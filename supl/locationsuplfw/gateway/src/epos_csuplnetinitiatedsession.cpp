@@ -61,14 +61,18 @@ void CSuplNetInitiatedSession::ConstructL(CSuplSessionManager& aSessnMgr, CSUPLP
     TInt majorVersion = KErrNotFound;
     TInt err = aSessnMgr.GetSUPLMessageVersionL(majorVersion,aClientBuf->Des());
     
-    if(majorVersion == 1)
-    	suplService = RSuplTerminalSubSession::ESUPL_1_0;
-    else 
+    if(majorVersion == 2)
     	suplService = RSuplTerminalSubSession::ESUPL_2_0;
+    else 
+    	suplService = RSuplTerminalSubSession::ESUPL_1_0;
     
     iSuplSession = aSessnMgr.CreateNewSessionL(aReqType, 0, suplService );
+    
+    if (iSuplSession)
+    {
     iSuplSession->SetSUPLVersion(majorVersion);
     iSuplSessnReq = CSuplSessionRequest::NewL(aSessnMgr, iSuplSession, aServer);
+    }
   
 
     }
