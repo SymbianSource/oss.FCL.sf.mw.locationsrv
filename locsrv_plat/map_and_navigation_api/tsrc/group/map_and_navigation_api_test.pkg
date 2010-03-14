@@ -54,5 +54,9 @@
 "..\data\armv5\urel\mnrefproviderengine.dll"-"C:\sys\bin\mnrefproviderengine.dll"
 "..\data\armv5\urel\mnrefproviderengine.rsc"-"C:\resource\mnrefproviderengine.rsc"
 
+"\epoc32\release\armv5\urel\mnrefproviderplugin.dll"-"!:\sys\bin\mnrefproviderplugin.dll"
+"\epoc32\data\z\resource\plugins\mnrefproviderplugin.rsc"-"!:\resource\plugins\mnrefproviderplugin.rsc"
+
+
 "..\conf\testmapandnavapi.cfg"-"C:\testframework\testmapandnavapi.cfg"
 "..\init\testframework.ini"-"C:\testframework\testframework.ini"

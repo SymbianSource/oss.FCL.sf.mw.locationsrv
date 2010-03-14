@@ -27,7 +27,7 @@ PRJ_EXPORTS
 ../data/suplpsystub.sis 	          /epoc32/data/z/system/install/suplpsystub.sis
 // Conf Files...
 ../conf/suplpsy.confml                    MW_LAYER_CONFML(suplpsy.confml) 
-../conf/suplpsy_10206913.crml	            MW_LAYER_CONFML(suplpsy_10206913.crml)
+../conf/suplpsy_10206913.crml	            MW_LAYER_CRML(suplpsy_10206913.crml)
 PRJ_MMPFILES
 nla_suplpsy.mmp
 

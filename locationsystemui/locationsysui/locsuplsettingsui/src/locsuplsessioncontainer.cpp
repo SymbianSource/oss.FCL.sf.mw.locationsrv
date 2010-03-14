@@ -269,7 +269,7 @@ void CLocSUPLSessionContainer::GetHelpContext( TCoeHelpContext& aContext ) const
     {
 	DEBUG( + CLocSUPLSessionContainer::GetHelpContext );	
     aContext.iContext = iContextName;
-    aContext.iMajor = TUid::Uid( KLOCSUPLSERVERUIUID3 );
+    aContext.iMajor = TUid::Uid( KLOCSUPLSETTINGSUIUID3 );
 	DEBUG( - CLocSUPLSessionContainer::GetHelpContext );	
     }
     

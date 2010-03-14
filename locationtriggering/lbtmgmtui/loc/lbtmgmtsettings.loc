@@ -93,7 +93,7 @@
 //l: popup_info_list_pane_t1
 //r: 9.1tb
 //
-#define qtn_loctr_info_popup_text "There are active location triggers. Individual triggers can be managed in applications where created. All active triggers can be cleared from options menu."
+#define qtn_loctr_info_popup_text "There are active location triggers. Individual triggers can be managed in applications where created. All active triggers can be cleared using the menu item \" Clear triggers \" "
 
 //d: Confirmation String to Clear all Triggers
 //l: popup_note_window/opt1

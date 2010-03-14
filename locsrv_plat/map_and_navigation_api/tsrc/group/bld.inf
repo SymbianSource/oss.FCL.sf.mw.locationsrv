@@ -40,6 +40,11 @@ PRJ_TESTMMPFILES
 // NOTE: If using ARS requirements .mmp file operation should be done under this.
 // 'abld test build'
 testmapandnavapi.mmp
+../mapnavproviderrefapp/group/mapnavrefengine.mmp
+../mapnavproviderrefapp/group/mapnavrefprovider.mmp
+../mapnavproviderrefapp/group/mapnavrefproviderback.mmp
+../mapnavproviderrefapp/group/mapnavrefproviderplugin.mmp
+
 
 PRJ_MMPFILES
 // Specify the .mmp files required for building the important component

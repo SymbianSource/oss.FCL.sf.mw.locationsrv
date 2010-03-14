@@ -840,6 +840,8 @@ EXPORT_C TInt RSuplTerminalSubSession::GetSlpList(
 
 	if (!serverAddress || !iapName)
 		{
+		delete serverAddress;
+		delete iapName;
 		return KErrNoMemory;
 		}
 	delete iSuplStorageSettings;

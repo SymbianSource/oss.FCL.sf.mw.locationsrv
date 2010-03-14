@@ -406,6 +406,10 @@ EXPORT_C void COMASuplReport::Clone(const COMASuplAsnMessageBase* aReport,TInt& 
         
     iOptionalMask |= KSessionListShift;
     
+    sessionList.Close();
+    reportDataList.Close();
+    
+    
     }
 
 /*

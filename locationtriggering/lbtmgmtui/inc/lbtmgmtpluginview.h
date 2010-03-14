@@ -100,15 +100,15 @@ class CLbtMgmtPluginView : public CAknView,
          */
         void HandleCommandL(TInt aCommand);
         
-       /**
-        * From MEikMenuObserver
-        */
-        void DynInitMenuPaneL( TInt aResourceId, CEikMenuPane* aMenuPane );        
 
        /**
         * For CBA Change
         */
 				void SetCba( TInt aResourceId );
+    /*
+     * returns CLbtMgmtPluginEngine
+     */
+    CLbtMgmtPluginEngine* GetLbtMgmtPluginEngine();
 
     public:
         /**

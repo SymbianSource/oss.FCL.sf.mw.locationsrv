@@ -30,6 +30,7 @@ enum TLbtMgmtCommandIds
     ELbtMgmtInfo,
     ELbtMgmtMSKInfo,
     ELbtMgmtClearAll,
+    ELbtMgmtShowCSMenu,
     ECmdNone
     };
 

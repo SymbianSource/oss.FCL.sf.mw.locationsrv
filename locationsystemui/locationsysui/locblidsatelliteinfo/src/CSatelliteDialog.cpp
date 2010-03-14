@@ -210,6 +210,7 @@ TTypeUid::Ptr CSatelliteDialog::MopSupplyObject(TTypeUid aId)
 //
 void CSatelliteDialog::UpdateL()
     {    
+/*
     CEikButtonGroupContainer& buttonContainer = ButtonGroupContainer();
     
     // Dim the "ChangeView" command when satellite data is not 
@@ -224,6 +225,7 @@ void CSatelliteDialog::UpdateL()
     	buttonContainer.SetCommandSetL(R_SATELLITE_DIALOG_CBA);
     	buttonContainer.DrawNow();
     	}
+*/
     DrawNow();
     }
 

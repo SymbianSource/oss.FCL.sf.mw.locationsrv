@@ -516,9 +516,19 @@ void CSettingsDatabaseHandler::InsertSLPRecordL(const CServerParams* aServParamV
         OtherProperties |= KEditable;
         }
     
-    TBuf<KGenericStringLen> tempBuf;
+    TBuf<KMaxHSLPAddrLen> tempBuf;
+    TBuf<KMaxIAPLen> tempIapBuf;
     tempBuf.Copy(*SLPAddress);
-    tempBuf.Trim();
+    tempIapBuf.Copy(*IAPName);
+    tempBuf.TrimAll();
+    tempIapBuf.TrimAll();
+    
+    if( tempBuf.Length() == 0 )
+	    {
+	    CleanupStack::PopAndDestroy(3); //SLPAddress,IAPName,manuName
+        User::Leave(KErrArgument);        
+	    }
+    
     
     iSQLString.Copy(KInsertIntoTable);
     iSQLString.Append(KCreateTableName);
@@ -594,7 +604,7 @@ void CSettingsDatabaseHandler::InsertSLPRecordL(const CServerParams* aServParamV
     iSQLString.Append(KCommaSeparator);
 
     iSQLString.Append(KQuotes);
-    iSQLString.Append(*IAPName);
+    iSQLString.Append(tempIapBuf);
     iSQLString.Append(KQuotes);
     iSQLString.Append(KCommaSeparator);
 
