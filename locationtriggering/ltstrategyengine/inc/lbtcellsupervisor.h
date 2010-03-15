@@ -93,7 +93,7 @@ public:
     void Resume();
      
     /**
-     * TODO: Check if this needed.
+     * Resets cell supervision
      */
     void Reset();
 

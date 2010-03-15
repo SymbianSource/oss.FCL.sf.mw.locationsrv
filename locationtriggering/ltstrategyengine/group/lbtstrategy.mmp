@@ -21,7 +21,7 @@
 #include <platform_paths.hrh>
 #include <data_caging_paths.hrh>
 
-
+    
 TARGET          lbtstrategy.dll
 TARGETTYPE      PLUGIN
 UID             0x10009d8d 0x10283132
@@ -45,7 +45,7 @@ SOURCE          lbtcellsupervisortimer.cpp
 SOURCE          lbtpsychangelistner.cpp
 SOURCE          lbtcelliddatabase.cpp
 
-/* TODO: Need to add location monitor */
+
 
 USERINCLUDE     ../inc
 USERINCLUDE		../../inc

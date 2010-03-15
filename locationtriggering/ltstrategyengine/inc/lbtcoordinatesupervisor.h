@@ -45,9 +45,7 @@ class CLbtPsyChangeListner;
 class CLbtCoOrdinateSupervisor : public CActive,
                                  public MCellChangeObserver,
                                  public MLbtPsyChangeObserver
-    
     {
-    
     struct TTriggerArea;
     /**
      * Enum that specifies whether we need proper fix using any of the psy

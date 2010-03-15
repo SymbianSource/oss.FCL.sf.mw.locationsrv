@@ -47,7 +47,9 @@ inline void Prefix( TDes& aMessage )
 
 inline void Log( TRefByValue<const TDesC> aFmt, ... )
     {
+    // coverity[var_decl : FALSE]
     VA_LIST list;
+    // coverity[ uninit_use_in_call : FALSE]
     VA_START( list, aFmt );
 
     HBufC* buf = HBufC::New(512);
@@ -55,6 +57,7 @@ inline void Log( TRefByValue<const TDesC> aFmt, ... )
     	{
     	TPtr ptr( buf->Des() );
 	    Prefix( ptr );
+	    // coverity[ uninit_use_in_call : FALSE]
 	    ptr.AppendFormatList( aFmt, list );
 	
 	    RDebug::RawPrint( ptr );

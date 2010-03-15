@@ -79,7 +79,7 @@ void RMnMapViewServiceClient::AddLandmarksToShowL(
     args.Set( EMnIpcMapLmIdsParamIndex, &idsDes );
 
     TInt err = SendReceive( EMnIpcAddLmIdsToShow, args );
-    delete ids;
+    delete[] ids;
     User::LeaveIfError( err );
     }
 

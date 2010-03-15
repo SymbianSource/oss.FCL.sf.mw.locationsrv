@@ -56,7 +56,7 @@ NONSHARABLE_CLASS( CSatelliteControl ) : public CCoeControl
 		TAknWindowLineLayout WindowLayout() const;
 		TRect CalculateDialogRect() const;
 		void Layout();
-		void ChangeView();
+		void ChangeViewL();
 		void SetLaunchView(TSatDialogView aView);	
 		
 

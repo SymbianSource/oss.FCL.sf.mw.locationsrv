@@ -841,6 +841,7 @@ void CLocSUPLServerEditor::LoadFormValuesFromDataL()
      else
      	{     	
 	   	CServerParams *params = CServerParams::NewL();
+	   	CleanupStack::PushL( params );
 	    TRAP_IGNORE( iEngine.GetSlpInfoFromIdL( iSlpId, params ) );
 	    
 	    HBufC* hslpAddr = HBufC::NewL( KMaxHSLPAddrLen );    
@@ -907,7 +908,7 @@ void CLocSUPLServerEditor::LoadFormValuesFromDataL()
             
 	    delete iapName;
 	    delete hslpAddr;	    
-	    delete params;
+	    CleanupStack::PopAndDestroy( params );
 
         // update the title pane caption
         ChangeTitlePaneTextL( *iServerAddress ); 

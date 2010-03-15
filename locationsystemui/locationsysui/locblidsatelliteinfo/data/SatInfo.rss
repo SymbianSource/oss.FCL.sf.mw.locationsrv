@@ -122,7 +122,7 @@ RESOURCE DIALOG r_satellite_dialog
   flags = EEikDialogFlagNoDrag | EEikDialogFlagButtonsRight | EEikDialogFlagNoTitleBar |
 		   EEikDialogFlagCbaButtons | EEikDialogFlagWait | 
 		   EEikDialogFlagFillScreen;
-  buttons = R_AVKON_SOFTKEYS_CLOSE;
+  buttons = r_satellite_dialog_cba;
   items =
       {
 	  DLG_LINE

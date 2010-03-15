@@ -279,7 +279,7 @@ void CSatelliteControl::Layout()
 // CBlidManualWayPointCtrl::ChangeView
 // ---------------------------------------------------------
 //
-void CSatelliteControl::ChangeView()
+void CSatelliteControl::ChangeViewL()
 	{
     // Change the view variable and update the rects
 	switch ( iCurrentSatelliteView )
@@ -701,8 +701,6 @@ void CSatelliteControl::ConstructL( )
 //
 void CSatelliteControl::ConstructFromResourceL(TResourceReader& /*aReader*/)
     {
-    MAknsSkinInstance* skin = AknsUtils::SkinInstance();
-    MAknsControlContext* cc = AknsDrawUtils::ControlContext( this );
 	iEditorContext = CAknsFrameBackgroundControlContext::NewL(
         KAknsIIDQsnFrInput, TRect(0,0,1,1), TRect(0,0,1,1), EFalse );
     ActivateL();
@@ -812,7 +810,6 @@ void CSatelliteControl::DrawHeadingL() const
 	CWindowGc& gc=SystemGc();
 		
 	MAknsSkinInstance* skin = AknsUtils::SkinInstance();
-	MAknsControlContext* cc = AknsDrawUtils::ControlContext( this ); // get parent's cc
 
     TRgb rgb;
     AknsUtils::GetCachedColor( skin,
@@ -1436,7 +1433,7 @@ void CSatelliteControl::HandlePointerEventL(const TPointerEvent& aPointerEvent)
 #endif //RD_TACTILE_FEEDBACK
     		// Change view soft key pressed.Notify the control to change 
     		// the view and draw.
-    		ChangeView();		
+    		ChangeViewL();		
     		DrawNow();
     		}	
         }

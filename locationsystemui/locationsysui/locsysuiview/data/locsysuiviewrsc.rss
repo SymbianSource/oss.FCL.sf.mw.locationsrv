@@ -27,7 +27,7 @@ NAME    LSVW // 4 letter ID
 #include    <avkon.rh>
 #include    <avkon.rsg>
 #include    <avkon.mbg>
-#include    <eikcore.rsg>
+#include    <EIKCORE.rsg>
 #include    <eikon.rh>
 #include    <eikon.rsg>
 #include    <avkon.loc>

@@ -291,6 +291,10 @@ void CLocPsySettingsView::DynInitMenuPaneL( TInt          aResourceId,
 void CLocPsySettingsView::NotifyL()
     {
     MLocPsySettings* psySettings = iLocationEngine->SettingsModel();
+    
+    if(!psySettings)
+    	return;
+    	
     // Disable the Middle soft Key if there are no PSYs
     if( psySettings && !psySettings->PSYCount())
         {
@@ -368,6 +372,10 @@ TBool CLocPsySettingsView::ProcessKeyEventL( const TKeyEvent& aKeyEvent,
 									  TEventCode aType )
 	{
     MLocPsySettings* psySettings = iLocationEngine->SettingsModel();
+    
+    if(!psySettings)
+    	return EKeyWasNotConsumed;
+    	
 	if( psySettings && !psySettings->PSYCount())
 		{
 		return EKeyWasNotConsumed;

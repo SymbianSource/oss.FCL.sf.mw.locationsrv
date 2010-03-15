@@ -1367,7 +1367,13 @@ void CLbtDbTriggersManager::ListTriggersL( CLbtContainerListOptions* aFilter,
     	CompleteClientRequest( KErrServerBusy );
     	return;
     	}
-    
+
+    if( aFilter == NULL )
+        {
+        CompleteClientRequest( KErrArgument );
+        return;
+        }
+
     // Check if this filter is application for the type of triggers supported by DB
     CLbtListTriggerOptions* options = aFilter->ListOptions();    
     if(options)
@@ -1379,12 +1385,6 @@ void CLbtDbTriggersManager::ListTriggersL( CLbtContainerListOptions* aFilter,
 	    	}
     	}
     
-    if( aFilter == NULL )
-        {
-        CompleteClientRequest( KErrArgument );
-        return;
-        }
-      
     // Store the parameters first for later references
     iFilter = aFilter;
     iTriggers = &aTriggers;
@@ -2478,7 +2478,6 @@ void CLbtDbTriggersManager::ProcessListTriggers( CLbtContainerTriggerEntry* aEnt
                             	
     if( !(aAttrMask & CLbtTriggerEntry::EAttributeCondition) )
     	{
-    	CLbtTriggerConditionBase* condBase = clientEntry->GetCondition();
     	clientEntry->SetCondition(NULL);
     	}
                             	
@@ -2938,7 +2937,6 @@ void CLbtDbTriggersManager::CreateTriggerInViewL()
     CLbtExtendedTriggerInfo* extdInfo = iEntry->ExtendedTriggerInfo();
     CLbtTriggerConditionArea* cond = static_cast<CLbtTriggerConditionArea* >(trigger->GetCondition());
     CLbtGeoAreaBase * areaBase = cond->TriggerArea();
-    CLbtGeoCircle* area = static_cast<CLbtGeoCircle* >(cond->TriggerArea());
     
     // Insert a Row in the View
     iView.InsertL();  // Insert a row. Column order matches sql select statement

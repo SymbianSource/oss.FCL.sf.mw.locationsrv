@@ -24,7 +24,7 @@ NAME    SEST // 4 Letter Identifier
 
 #include <data_caging_paths_strings.hrh>
 #include <bldvariant.hrh>
-#include <eikcore.rsg>
+#include <EIKCORE.rsg>
 #include <eikon.rh>
 #include <eikon.rsg>
 #include <avkon.rh>

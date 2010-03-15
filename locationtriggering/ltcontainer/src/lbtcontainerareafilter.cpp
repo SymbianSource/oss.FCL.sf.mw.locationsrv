@@ -306,8 +306,7 @@ void CLbtContainerAreaFilter::ProcessRectFilter(CLbtContainerTriggerEntry* aEntr
 	// Add rectangular filtering here.
 	if(aEntry != NULL)
 		{
-		CLbtTriggerEntry* trigEntry=aEntry->TriggerEntry();
-    	CLbtGeoRect* rectArea=static_cast<CLbtGeoRect*>(iArea);
+		CLbtGeoRect* rectArea=static_cast<CLbtGeoRect*>(iArea);
     	TReal northLat,southLat,eastLong,westLong;
     	rectArea->GetBorder(southLat,northLat,westLong,eastLong);
     	CLbtExtendedTriggerInfo* contExtInfo = aEntry->ExtendedTriggerInfo();

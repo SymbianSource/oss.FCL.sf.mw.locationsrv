@@ -407,7 +407,7 @@ CLbtTriggerView::~CLbtTriggerView()
             } );
         if( KErrNone != err )
             {
-            // TODO: Log warning message that entries could not be deleted
+            LOG("Entries could not be deleted");
             }
         }
 
@@ -1100,7 +1100,7 @@ void CLbtTriggerView::HandleTriggerDeletionEvent(
                 }
             else
                 {
-                // TODO: Log error message mentioning the trigger ID
+                LOG1("Invalid trigger ID:%d",( *aIDs )[index]);
                 InvalidateTrigger( ( *aIDs )[index] );
                 }
             }
@@ -1353,7 +1353,7 @@ void CLbtTriggerView::RunL()
     FUNC_ENTER("CLbtTriggerView::RunL");
     if( KErrNone != iStatus.Int() )
         {
-        // TODO: Log error here
+        LOG1("iStatus.Int = %d",iStatus.Int() );
         // TODO: Check if error needs to be reported through the 
         //       observer interface
         }

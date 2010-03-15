@@ -121,7 +121,7 @@ TBool CSatelliteDialog::OkToExitL(TInt aButtonId)
 		{
 		// Change view soft key pressed.Notify the control to change 
 		// the view and draw.
-		iSatelliteControl->ChangeView();		
+		iSatelliteControl->ChangeViewL();		
 		DrawNow();
 		return EFalse;
 		}
@@ -210,7 +210,6 @@ TTypeUid::Ptr CSatelliteDialog::MopSupplyObject(TTypeUid aId)
 //
 void CSatelliteDialog::UpdateL()
     {    
-/*
     CEikButtonGroupContainer& buttonContainer = ButtonGroupContainer();
     
     // Dim the "ChangeView" command when satellite data is not 
@@ -225,7 +224,6 @@ void CSatelliteDialog::UpdateL()
     	buttonContainer.SetCommandSetL(R_SATELLITE_DIALOG_CBA);
     	buttonContainer.DrawNow();
     	}
-*/
     DrawNow();
     }
 
@@ -239,7 +237,7 @@ TKeyResponse CSatelliteDialog::OfferKeyEventL( const TKeyEvent& aKeyEvent,
     if ( aType == EEventKey && aKeyEvent.iCode == EKeyEnter ||
          aType == EEventKey && aKeyEvent.iScanCode == EStdKeyEnter  )
 		{
-        iSatelliteControl->ChangeView();
+        iSatelliteControl->ChangeViewL();
         DrawNow();
 		return EKeyWasConsumed;
 		}

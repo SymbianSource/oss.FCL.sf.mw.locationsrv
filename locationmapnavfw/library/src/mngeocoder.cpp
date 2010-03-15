@@ -74,15 +74,22 @@ void CopyAddressL( CPosLandmark& aSrc, CPosLandmark& aTrg )
 void CopyCoordinatesL( CPosLandmark& aSrc, CPosLandmark& aTrg )
     {
     TLocality loc;
-    aSrc.GetPosition( loc );
-    aTrg.SetPositionL( loc );
+    TInt posErr = aSrc.GetPosition( loc );
+    if( !posErr )
+    	{
+    	aTrg.SetPositionL( loc );	
+    	}
     
     TRealX nan;
     nan.SetNaN();
     TReal32 coverage( nan );
     
-    aSrc.GetCoverageRadius( coverage );
-    aTrg.SetCoverageRadius( coverage );
+    TInt radiusErr = aSrc.GetCoverageRadius( coverage );
+    if( !radiusErr )
+    	{
+    	aTrg.SetCoverageRadius( coverage );
+    	}
+    
     }
 
 // ======== MEMBER FUNCTIONS ========

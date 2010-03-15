@@ -48,10 +48,12 @@ const TInt KLogLineLength = 256;
 //
  void DebugLocBtNotifier( TRefByValue<const TDesC> aText, ... )
     {    
+    // coverity[var_decl : FALSE]
     VA_LIST args;
     VA_START( args, aText );
     
     TBuf<KLogLineLength> buf;
+    // coverity[uninit_use_in_call : FALSE]
     buf.FormatList( aText, args );
 
     #ifdef _DEBUG
