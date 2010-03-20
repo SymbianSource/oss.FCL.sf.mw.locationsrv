@@ -37,7 +37,7 @@ EXPORT_C CMnCoordinateConverterBase::CMnCoordinateConverterBase()
 //
 CMnCoordinateConverterBase* CMnCoordinateConverterBase::NewL( TUid aProviderUid )
     {
-    TInt32 offset = static_cast<TInt32> _FOFF( CMnCoordinateConverterBase, iDtorIdKey );
+       TInt32 offset = static_cast<TInt32> (_FOFF( CMnCoordinateConverterBase, iDtorIdKey ));
 
     const TInt KNumUidHexDigits = 8;
     TBuf8<KNumUidHexDigits> uidText8;
