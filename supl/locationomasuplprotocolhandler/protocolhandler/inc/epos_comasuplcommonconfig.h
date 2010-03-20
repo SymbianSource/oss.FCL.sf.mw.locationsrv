@@ -42,7 +42,7 @@ public:
 	* @param None.
 	* @return Instance of COMASuplCommonConfig
 	*/
-	IMPORT_C static COMASuplCommonConfig* COMASuplCommonConfig::NewL();
+	IMPORT_C static COMASuplCommonConfig* NewL();
 	
 	/**
 	* ~COMASuplCommonConfig Method, Destructor

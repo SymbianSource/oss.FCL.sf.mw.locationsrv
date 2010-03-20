@@ -74,7 +74,7 @@ class CLpdRequestorProcessor : public CBase
        /**
         * Sets Type of Request
         */
-        void CLpdRequestorProcessor::SetRequestType( TInt aReqType );
+        void SetRequestType( TInt aReqType );
 
         /**
         * Resets requestor arrays and destroys requestor objects.

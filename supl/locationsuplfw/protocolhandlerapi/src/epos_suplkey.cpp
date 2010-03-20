@@ -37,11 +37,6 @@
 #include <libc/string.h>     /* for memcpy() etc.        */
 #include <libc/stdlib.h>     /* for _lrotl with VC++     */
 
-#if defined(__GNUC__) || defined(__GNU_LIBRARY__)
-#include <byteswap.h>
-#include <endian.h>
-#endif
-
 #include "sha1.h"
 #include "hmac.h"
 

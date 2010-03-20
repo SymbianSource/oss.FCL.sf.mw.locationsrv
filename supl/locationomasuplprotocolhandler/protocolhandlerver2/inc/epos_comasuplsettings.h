@@ -40,7 +40,7 @@ public:
 	* @param None.
 	* @return Instance of COMASuplSettings
 	*/
-	static COMASuplSettings* COMASuplSettings::NewL();
+	static COMASuplSettings* NewL();
 	
 	/**
 	* ~COMASuplSettings Method, Destructor
