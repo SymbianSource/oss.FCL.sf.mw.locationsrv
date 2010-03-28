@@ -355,7 +355,7 @@ private:
     /**
      * Symbian 2nd phase constructor
      */    
-    void CLbtStartupTrigger::ConstructL( const TDesC& aName,
+    void ConstructL( const TDesC& aName,
         CLbtTriggerEntry::TLbtTriggerState aState,
         const RRequestorStack& aRequestors,
         TUid aManagerUi,
