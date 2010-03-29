@@ -20,7 +20,7 @@
 #define MN_MAPVIEW_H
 
 #include <e32base.h>
-#include <epos_landmarks.h>
+#include <EPos_Landmarks.h>
 #include <lbsposition.h>
 
 class RFs;

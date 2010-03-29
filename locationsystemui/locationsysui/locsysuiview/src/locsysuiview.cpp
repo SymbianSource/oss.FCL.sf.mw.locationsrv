@@ -119,10 +119,7 @@ void CLocSysUiView::ConstructL()
     
     if ( FeatureManager::FeatureSupported( KFeatureIdFfLocationsysuiHidePositioningMenu ) )
         {
-        // To Do : changes for ou1cimx1#228781	Location: Positioning view does not open
-        // Commenting the leaving part as the hide positioning feature flag is get enabled for all configuration by default
-        // so till the flag issue resolved, the leaving part will be commented as this issue affected the BAT. 	
-        // User::Leave( KErrNotSupported );
+        User::Leave( KErrNotSupported );
         }
 
     // Open the Resource File

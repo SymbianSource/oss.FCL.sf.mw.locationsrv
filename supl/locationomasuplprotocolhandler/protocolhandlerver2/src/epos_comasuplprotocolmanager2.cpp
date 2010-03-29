@@ -226,7 +226,7 @@ CSuplSessionBase* COMASUPLProtocolManager2::CreateNewSessionL(
                                     *this, 
                                     aIpcSessionId,
                                     iOMASuplAsnHandlerBaseImpl);
-                                    
+  SuplSession->SetSUPLVersion(2);                                    
 	User::LeaveIfError(iSuplSessions.Append(SuplSession));
   	return SuplSession;
 	}
@@ -256,7 +256,10 @@ EXPORT_C  void COMASUPLProtocolManager2::InitializeL(
 	    iTrace->Trace(_L("NotifyOnPlugInUnInstallation starting"), KTraceFileName, __LINE__);	
 		iSuplEcomEventWatcher->NotifyOnPlugInUnInstallation();	
 		}
-    iNotifier = COMASuplETelNotifier::NewL(*this,iMobilePhone);
+		if(!iNotifier)
+			{
+    		iNotifier = COMASuplETelNotifier::NewL(*this,iMobilePhone);
+    	}
 	
 	iTrace->Trace(_L("ETEL Notifier created"), KTraceFileName, __LINE__);	
 	iTrace->Trace(_L("COMASUPLProtocolManager2::InitializeL completed"), KTraceFileName, __LINE__);

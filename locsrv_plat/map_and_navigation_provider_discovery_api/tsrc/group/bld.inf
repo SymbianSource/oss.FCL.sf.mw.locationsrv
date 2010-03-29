@@ -44,6 +44,11 @@ PRJ_TESTMMPFILES
 #endif
 
 testmnproviderdiscovery.mmp
+../mapnavproviderrefapp/group/mnprovdiscrefengine.mmp
+../mapnavproviderrefapp/group/mnprovdiscrefprovider.mmp
+../mapnavproviderrefapp/group/mnprovdiscrefproviderback.mmp
+../mapnavproviderrefapp/group/mnprovdiscrefproviderplugin.mmp
+
 
 PRJ_MMPFILES
 // Specify the .mmp files required for building the important component

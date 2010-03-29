@@ -29,6 +29,8 @@
 #include "lbtmgmtplugincmdhdlr.h"
 #include "lbtmgmtplugin.hrh"
 #include "lbtmgmtpluginuid.hrh"
+#include "lbtmgmtpluginview.h"
+#include "lbtmgmtpluginengine.h"
 
 // Constant defintions
 const TInt KNoofComponentControls = 1;
@@ -42,11 +44,9 @@ const TInt KNoofComponentControls = 1;
 //
 // ---------------------------------------------------------------------------
 //  
-CLbtMgmtPluginContainer::CLbtMgmtPluginContainer( 
-                                    MDesCArray&               aListBoxModel,
-                                    MLbtMgmtPluginCmdHdlr& aCmdHandler )
-    :iListBoxModel( aListBoxModel ),
-    iCmdHandler( aCmdHandler )
+CLbtMgmtPluginContainer::CLbtMgmtPluginContainer(MDesCArray& aListBoxModel,
+        MLbtMgmtPluginCmdHdlr& aCmdHandler, CLbtMgmtPluginView* aView) :
+    iListBoxModel(aListBoxModel), iCmdHandler(aCmdHandler), iView(aView)
     {
     }
     
@@ -72,14 +72,13 @@ CLbtMgmtPluginContainer::~CLbtMgmtPluginContainer()
 // @return CLbtMgmtPluginContainer*  Reference to the object created
 // --------------------------------------------------------------------------- 
 //   
-CLbtMgmtPluginContainer* CLbtMgmtPluginContainer::NewL( 
-                    const TRect&                    aRect,
-                          MDesCArray&               aListBoxModel,
-                          MLbtMgmtPluginCmdHdlr& aCmdHandler )
-    {   
-    CLbtMgmtPluginContainer* self = 
-                    NewLC( aRect, aListBoxModel, aCmdHandler );
-    CleanupStack::Pop( self );
+CLbtMgmtPluginContainer* CLbtMgmtPluginContainer::NewL(const TRect& aRect,
+        MDesCArray& aListBoxModel, MLbtMgmtPluginCmdHdlr& aCmdHandler,
+        CLbtMgmtPluginView* aView)
+    {
+    CLbtMgmtPluginContainer* self = NewLC(aRect, aListBoxModel, aCmdHandler,
+            aView);
+    CleanupStack::Pop(self);
     return self;
     }
 
@@ -93,15 +92,14 @@ CLbtMgmtPluginContainer* CLbtMgmtPluginContainer::NewL(
 // @return CLbtMgmtPluginContainer*  Reference to the object created
 // --------------------------------------------------------------------------- 
 //  
-CLbtMgmtPluginContainer* CLbtMgmtPluginContainer::NewLC(
-                    const TRect&                    aRect,
-                          MDesCArray&               aListBoxModel,
-                          MLbtMgmtPluginCmdHdlr& aCmdHandler  )
-    {   
-    CLbtMgmtPluginContainer* self = 
-            new(ELeave) CLbtMgmtPluginContainer( aListBoxModel, aCmdHandler );
-    CleanupStack::PushL( self );
-    self->ConstructL( aRect );
+CLbtMgmtPluginContainer* CLbtMgmtPluginContainer::NewLC(const TRect& aRect,
+        MDesCArray& aListBoxModel, MLbtMgmtPluginCmdHdlr& aCmdHandler,
+        CLbtMgmtPluginView* aView)
+    {
+    CLbtMgmtPluginContainer* self = new (ELeave) CLbtMgmtPluginContainer(
+            aListBoxModel, aCmdHandler, aView);
+    CleanupStack::PushL(self);
+    self->ConstructL(aRect);
     return self;
     }
 
@@ -226,19 +224,24 @@ TKeyResponse CLbtMgmtPluginContainer::OfferKeyEventL( const TKeyEvent& aKeyEvent
 //
 // ---------------------------------------------------------------------------
 //
-void CLbtMgmtPluginContainer::HandleListBoxEventL( 
-                                        CEikListBox*                      /* aListBox */, 
-                                        MEikListBoxObserver::TListBoxEvent aEventType )
+void CLbtMgmtPluginContainer::HandleListBoxEventL(
+        CEikListBox* /* aListBox */,
+        MEikListBoxObserver::TListBoxEvent aEventType)
     {
-    switch ( aEventType )
+    switch (aEventType)
         {
         // List box Item Selection
         case EEventEnterKeyPressed:
         case EEventItemSingleClicked:
             {
+            if (iView->GetLbtMgmtPluginEngine()->ActiveTriggers())
+                {
+                iView->HandleCommandL(ELbtMgmtShowCSMenu);
+                }
             // Settings element has been selected. Command has to be issued to
             // change the settings configuration
-            iCmdHandler.HandleCmdL( MLbtMgmtPluginCmdHdlr::EListBoxItemSelected );
+            iCmdHandler.HandleCmdL(
+                    MLbtMgmtPluginCmdHdlr::EListBoxItemSelected);
             break;
             }  
         default:
@@ -364,4 +367,21 @@ void CLbtMgmtPluginContainer::Update()
         iListBox->DrawDeferred(); 
         }
 	}
+
+// ---------------------------------------------------------------------------
+// void CLbtMgmtPluginContainer::ShowContextMenuL
+// Shows context specific menu items
+// ---------------------------------------------------------------------------
+//
+void CLbtMgmtPluginContainer::ShowContextMenuL()
+    {
+    // Switch to Context specific options menu,
+    // Show it and switch back to main options menu.
+    CEikMenuBar* menuBar = iView->MenuBar();
+    // TRAP displaying of menu bar.
+    // If it fails, the correct resource is set back before leave.
+    TRAPD( err, menuBar->TryDisplayContextMenuBarL() );
+    User::LeaveIfError(err);
+
+    }
 

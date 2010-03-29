@@ -19,7 +19,7 @@
 #ifndef MN_SERVICEBASE_H
 #define MN_SERVICEBASE_H
 
-#include <aknserverapp.h>
+#include <AknServerApp.h>
 
 class CPosLandmark;
 

@@ -284,9 +284,12 @@ EXPORT_C TInt CSuplSettings::AddNewServer( const CServerParams* aParamValues, TI
 //--------------------------------------------------------------------------------------
 EXPORT_C TInt CSuplSettings::SetServerAddress( const TInt64 aSlpId, const TDesC& aServerAddress)
     {
-    if(aServerAddress.Length() <= 0)
+    TBuf<KMaxHSLPAddrLen> serveraddr;
+    serveraddr.Copy(aServerAddress);
+    serveraddr.TrimAll();
+    if(serveraddr.Length() <= 0)
         return KErrArgument;
-    return iSettingsEngine->SetServerAddress(aSlpId,aServerAddress);          
+    return iSettingsEngine->SetServerAddress(aSlpId,serveraddr);          
     }            
 //-------------------------------------------------------------------------------------
 //CSuplSettings::GetServerAddress()
@@ -304,10 +307,12 @@ EXPORT_C TInt CSuplSettings::GetServerAddress(const TInt64 aSlpId, TDes& aServer
 //--------------------------------------------------------------------------------------
 EXPORT_C TInt CSuplSettings::SetIapName( const TInt64 aSlpId, const TDesC& aIapName)
     {
-
-    if(aIapName.Length() <= 0)
+    TBuf<KMaxIAPLen> iapname;
+    iapname.Copy(aIapName);
+    iapname.TrimAll();
+    if(iapname.Length() <= 0)
             return KErrArgument;
-    return iSettingsEngine->SetIapName(aSlpId,aIapName);             
+    return iSettingsEngine->SetIapName(aSlpId,iapname);             
     }            
 //-------------------------------------------------------------------------------------
 //CSuplSettings::GetIapName()
