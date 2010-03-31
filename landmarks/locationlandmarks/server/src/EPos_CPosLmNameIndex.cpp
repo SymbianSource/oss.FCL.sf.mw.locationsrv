@@ -344,7 +344,8 @@ void CPosLmNameIndex::DoEvaluateL( TReal32& aProgress )
             item->SetValid();
             CleanupStack::PopAndDestroy( name );
             }
-
+				    //coverity[check_return :FALSE]
+    //coverity[unchecked_value :FALSE]
         iTable.NextL();
         iTablePosition++;
         }
@@ -448,7 +449,9 @@ void CPosLmNameIndex::InsertL( TPosLmItemId aLmid, const TDesC& aName )
 //
 void CPosLmNameIndex::InsertL( TPosLmItemId aLmid, HBufC* aName )
     {
-    DoInsertL( aLmid, aName );
+	//coverity[ alloc_fn : FALSE ]
+   DoInsertL( aLmid, aName );
+
     }
 
 //--------------------------------------------------------------------
@@ -539,7 +542,9 @@ void CPosLmNameIndex::DoRemove( TInt aIndex )
 void CPosLmNameIndex::UpdateL( TPosLmItemId aId, const TDesC& aName )
     {
     HBufC* name = aName.AllocLC();
+//coverity[freed_arg : FALSE]
     UpdateL( aId, name );
+//coverity[pass_freed_arg : FALSE]
     CleanupStack::Pop( name );
     }
 

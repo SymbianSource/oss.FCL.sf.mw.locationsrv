@@ -141,6 +141,7 @@ EXPORT_C CPosLandmarkDatabase::~CPosLandmarkDatabase()
 //
 TUid CPosLandmarkDatabase::ImplementationId() const
     {
+//coverity[naming_error :FALSE]
     return REComSession::GetImplementationUidL (iDtorIdKey);//iDtorIdKey;
     //return iDtorIdKey;
     }

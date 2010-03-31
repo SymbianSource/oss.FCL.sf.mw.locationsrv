@@ -613,6 +613,7 @@ void CLocSUPLSessionEditor::GetTimeStringL(HBufC*& aTimeString, TUint aSeconds)
 	if( !aSeconds )
 		{
         tempString.Num(aSeconds);
+		AknTextUtils::LanguageSpecificNumberConversion(tempString);
         aTimeString = StringLoader::LoadL( R_LOC_SUPL_TRIGGER_TIME_MINUTES, tempString ); 
         return;
 		}
@@ -625,6 +626,7 @@ void CLocSUPLSessionEditor::GetTimeStringL(HBufC*& aTimeString, TUint aSeconds)
 	    TReal mins = TReal(aSeconds)/KMinToSecs;
 		Math::Round( approxValue, mins, 2 );
         tempString.Num(approxValue, fmt);
+		AknTextUtils::LanguageSpecificNumberConversion(tempString);
         aTimeString = StringLoader::LoadL( R_LOC_SUPL_TRIGGER_TIME_MINUTES, tempString ); 
 		}
 	else if( hrs == 1 )
@@ -638,6 +640,7 @@ void CLocSUPLSessionEditor::GetTimeStringL(HBufC*& aTimeString, TUint aSeconds)
     		{
     		Math::Round( approxValue, hrs, 2 );
         	tempString.Num(approxValue, fmt);
+			AknTextUtils::LanguageSpecificNumberConversion(tempString);
             aTimeString = StringLoader::LoadL( R_LOC_SUPL_TRIGGER_TIME_HOURS, tempString ); 
     		}
     	else if( days == 1 )
@@ -648,7 +651,8 @@ void CLocSUPLSessionEditor::GetTimeStringL(HBufC*& aTimeString, TUint aSeconds)
     		{
     		Math::Round( approxValue, days, 2 );
         	tempString.Num(approxValue, fmt);
-            aTimeString = StringLoader::LoadL( R_LOC_SUPL_TRIGGER_TIME_DAYS, tempString ); 
+            AknTextUtils::LanguageSpecificNumberConversion(tempString);
+			aTimeString = StringLoader::LoadL( R_LOC_SUPL_TRIGGER_TIME_DAYS, tempString ); 
     		}
 		}
 	}

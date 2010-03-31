@@ -46,8 +46,10 @@ RPosLmLocalNameIndex::CIndexItem* RPosLmLocalNameIndex::CIndexItem::NewL(
     TPosLmItemId aId, const TDesC& aName )
     {
     CIndexItem* self = new (ELeave) CIndexItem;
+    CleanupStack::PushL( self );
     self->iId = aId;
     self->iName = aName.AllocL();
+    CleanupStack::Pop( self );
     return self;
     }
 
@@ -275,7 +277,7 @@ void RPosLmLocalNameIndex::RemoveL( RArray<TPosLmItemId>& aLmids )
 
     TInt err = iSession.SendReceive( EPosLmServerUpdateNameIndex, 
         TIpcArgs( EPosLmServerRemoveLandmarks, &idsDes ) );
-    delete ids;
+        delete[] ids;
     User::LeaveIfError( err );
     }
 

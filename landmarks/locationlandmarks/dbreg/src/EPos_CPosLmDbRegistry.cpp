@@ -108,12 +108,10 @@ EXPORT_C void CPosLmDbRegistry::CreateL(
     User::LeaveIfError(iDb.Create(aFileSession, aFileName));
 
     TDeleteFile* del = new (ELeave) TDeleteFile;
-    CleanupStack::PushL(del);
     del->iFs = &aFileSession;
     del->iFilename.Set(aFileName);
 
     CleanupStack::PushL(TCleanupItem(DeleteFileCleanupItem, del));
-    CleanupClosePushL(iDb);
 
     //Create the database table
     CDbColSet* columns = CDbColSet::NewLC();
@@ -134,9 +132,7 @@ EXPORT_C void CPosLmDbRegistry::CreateL(
     User::LeaveIfError(iDb.Execute(*sql));
     CleanupStack::PopAndDestroy(sql);
 
-    CleanupStack::Pop(&iDb);
-    CleanupStack::Pop(); //DeleteFileCleanupItem
-    CleanupStack::PopAndDestroy(del);
+    CleanupStack::PopAndDestroy(&del); //DeleteFileCleanupItem
     }
 
 // -----------------------------------------------------------------------------

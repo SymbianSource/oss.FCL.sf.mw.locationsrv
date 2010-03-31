@@ -20,8 +20,7 @@
 #define CLPDPERIODICPROCESSOR_H
 
 //  INCLUDES
-#include <lbs/epos_cposprivacynotifier.h>
-#include <lbs/epos_cposprivacynotifier.h>
+#include <EPos_CPosPrivacyNotifier.h>
 #include <lbs/epos_cposrequestor.h>
 #include "lpdsuplsettingsadapterobserver.h"
 

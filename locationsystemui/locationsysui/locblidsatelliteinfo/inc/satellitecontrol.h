@@ -22,7 +22,7 @@
 #define __SATELLITE_CONTROL_H__
 
 // INCLUDE FILES
-#include <AknLayoutDef.h>
+#include <aknlayoutdef.h>
 #include <AknUtils.h>
 #include "SatInfoConsts.h"
 #include "MSatelliteEng.h"

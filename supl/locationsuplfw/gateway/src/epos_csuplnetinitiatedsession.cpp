@@ -67,13 +67,22 @@ void CSuplNetInitiatedSession::ConstructL(CSuplSessionManager& aSessnMgr, CSUPLP
     	suplService = RSuplTerminalSubSession::ESUPL_1_0;
     
     iSuplSession = aSessnMgr.CreateNewSessionL(aReqType, 0, suplService );
-    
     if (iSuplSession)
-    {
+    {	
     iSuplSession->SetSUPLVersion(majorVersion);
     iSuplSessnReq = CSuplSessionRequest::NewL(aSessnMgr, iSuplSession, aServer);
-    }
-  
+    }  
+    else
+    	if (!iSuplSession && suplService == RSuplTerminalSubSession::ESUPL_2_0)
+    		{
+    			 suplService = RSuplTerminalSubSession::ESUPL_1_0;
+    			 iSuplSession = aSessnMgr.CreateNewSessionL(aReqType, 0, suplService );
+    					if (iSuplSession)
+   						 {	
+   						 iSuplSession->SetSUPLVersion(majorVersion);
+    					 iSuplSessnReq = CSuplSessionRequest::NewL(aSessnMgr, iSuplSession, aServer);
+    					 }
+    		}
 
     }
 

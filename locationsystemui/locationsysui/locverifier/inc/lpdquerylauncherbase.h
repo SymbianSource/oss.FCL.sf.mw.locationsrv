@@ -25,7 +25,7 @@
 #include <coemain.h>
 #include <AknsItemID.h>
 #include <AknQueryDialog.h>
-#include <lbs/epos_cposprivacynotifier.h>
+#include <EPos_CPosPrivacyNotifier.h>
 
 
 // SYSTEM INCLUDE

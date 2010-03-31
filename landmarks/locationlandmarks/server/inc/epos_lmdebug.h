@@ -49,6 +49,7 @@ inline void Prefix( TDes& aMessage )
 
 inline void Log( TRefByValue<const TDesC> aFmt, ... )
     {
+    //coverity[var_decl : FALSE]
     VA_LIST list;
     VA_START( list, aFmt );
 

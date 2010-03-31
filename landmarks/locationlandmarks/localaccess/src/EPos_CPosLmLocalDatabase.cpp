@@ -321,6 +321,7 @@ EXPORT_C void CPosLmLocalDatabase::CommitServerTransactionL()
 //
 EXPORT_C void CPosLmLocalDatabase::CommitServerTransactionLX()
     {
+    //coverity[naming_error : FALSE]
     CommitServerTransactionL();
     CleanupStack::Pop(); // rollback
     }

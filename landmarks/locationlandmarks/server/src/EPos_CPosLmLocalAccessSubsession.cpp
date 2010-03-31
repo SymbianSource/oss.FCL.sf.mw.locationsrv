@@ -754,12 +754,14 @@ void CPosLmLocalAccessSubsession::HandleLandmarksAddedOrUpdatedL( const RMessage
         
         if ( aMessage.Int0() == EPosLmServerUpdateLandmarks ) 
             {
+//coverity[freed_arg : FALSE]
             index.UpdateL( id, lmBuf );
             }
         else
             {
             index.InsertL( id, lmBuf );
             }
+//coverity[pass_freed_arg : FALSE]
         CleanupStack::Pop( lmBuf );
         }
     

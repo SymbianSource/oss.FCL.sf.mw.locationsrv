@@ -83,6 +83,7 @@
 #include "epos_omasuplconfigurationkeys.h"
 #include "epos_csuplsettingparams.h"
 #include "epos_comasuplasnbase.h"
+#include "epos_csuplsettingsconstants.h"
 
 
 _LIT(KTraceFileName,"SUPL_OMA_SESSION::EPos_COMASuplSession.cpp");
@@ -1512,7 +1513,8 @@ EXPORT_C TInt COMASuplSession::GetPosition(TPositionInfo& aSuplPosInfo)
 			TOMASuplUtcTime UtcTime;
 			TOMASuplPositionEstimate PosEstimate;
 			TDateTime TimeStamp;
-			TInt ZoneCode,Zone,altitude,AltitudeUncertainty, HorizontalAccuracy;
+			TInt ZoneCode,Zone,altitude, HorizontalAccuracy;
+			TInt AltitudeUncertainty = 0;
 			TOMASuplAltitudeInfo AltitudeInfo;
 			TInt latitude,longitude;
 			TOMASuplPositionEstimate::TOMASuplLatitudeSign LatSign;
@@ -1696,7 +1698,8 @@ EXPORT_C TInt COMASuplSession::GetPosition(HPositionGenericInfo& aSuplPosInfo )
 			TOMASuplUtcTime UtcTime;
 			TOMASuplPositionEstimate PosEstimate;
 			TDateTime TimeStamp;
-			TInt ZoneCode,Zone,altitude,AltitudeUncertainty, HorizontalAccuracy;
+			TInt ZoneCode,Zone,altitude, HorizontalAccuracy;
+			TInt AltitudeUncertainty = 0;
 			TOMASuplAltitudeInfo AltitudeInfo;
 			TInt latitude,longitude;
 			TOMASuplPositionEstimate::TOMASuplLatitudeSign LatSign;
@@ -1947,101 +1950,128 @@ EXPORT_C TInt COMASuplSession::GetPosition(HPositionGenericInfo& aSuplPosInfo )
 //
 void COMASuplSession::HandleOMASuplMessageL(COMASuplAsnMessageBase* aDecodedAsnMessage,TRequestStatus& aStatus,TInt aSessionIdSeed,TInt aErrorCode)
 	{
-		delete iSuplState;
-		iSuplState = NULL;
+	delete iSuplState;
+	iSuplState = NULL;
 		
-		iSETSessionUniqueId = aSessionIdSeed;
-		iRunRequestStatus = & aStatus;
-	    *iRunRequestStatus = KRequestPending;
+	iSETSessionUniqueId = aSessionIdSeed;
+	iRunRequestStatus = & aStatus;
+	*iRunRequestStatus = KRequestPending;
 	    
-		TInt networkMode = 1;
-		networkMode = GetNetworkModeL();
+	TInt networkMode = 1;
+	networkMode = GetNetworkModeL();
 		
-		TBuf<64> msg;
-		if ( networkMode == ECoreAppUIsNetworkConnectionNotAllowed )
-			{
-				msg.Copy(_L("The device is in OFFLINE mode."));
-				iTrace->Trace(msg,KTraceFileName, __LINE__); 
-				iSessionObserver.TerminateSession(this, KErrGeneral);
-				return;
-			}
-		else
-			{
-				msg.Copy(_L("The device is in ON LINE mode."));
-				iTrace->Trace(msg,KTraceFileName, __LINE__); 
-			}
+	TBuf<64> msg;
+	if ( networkMode == ECoreAppUIsNetworkConnectionNotAllowed )
+		{
+		msg.Copy(_L("The device is in OFFLINE mode."));
+		iTrace->Trace(msg,KTraceFileName, __LINE__); 
+		iSessionObserver.TerminateSession(this, KErrGeneral);
+		return;
+		}
+	else
+		{
+		msg.Copy(_L("The device is in ON LINE mode."));
+		iTrace->Trace(msg,KTraceFileName, __LINE__); 
+		}
 
-        CSuplSettings::TSuplSettingsUsage usage = iSuplSettings->SUPLUsage();
+    CSuplSettings::TSuplSettingsUsage usage = iSuplSettings->SUPLUsage();
 
-        if (usage == CSuplSettings::ESuplUsageDisabled)
-            {                
-			msg.Copy(_L("SUPL Usage is disabled"));
-			iTrace->Trace(msg,KTraceFileName, __LINE__); 
-	        iSessionObserver.TerminateSession(this, KErrGeneral);	
-			return;
-            }
+    if (usage == CSuplSettings::ESuplUsageDisabled)
+        {                
+		msg.Copy(_L("SUPL Usage is disabled"));
+		iTrace->Trace(msg,KTraceFileName, __LINE__); 
+	    iSessionObserver.TerminateSession(this, KErrGeneral);	
+		return;
+        }
 	    
-	    COMASuplAsnMessageBase::TSuplMessageType messageType = aDecodedAsnMessage->MessageType();
+	COMASuplAsnMessageBase::TSuplMessageType messageType = aDecodedAsnMessage->MessageType();
 	    
-	    if(messageType == COMASuplAsnMessageBase::ESUPL_INIT && aErrorCode == KErrNone)
+	if(messageType == COMASuplAsnMessageBase::ESUPL_INIT && aErrorCode == KErrNone)
+		{
+	    HandleOMASuplMessageL(aDecodedAsnMessage);
+	    }
+	else //Other messages than SUPL_INIT.... Send End
+	    {
+	    CreateCloneMessageL(aDecodedAsnMessage);		
+	    UpdateSuplSessionIDL();
+
+	    if (iRequestType == ESUPL_NETWORK && messageType == COMASuplAsnMessageBase::ESUPL_INIT)
 	    	{
-	    		HandleOMASuplMessageL(aDecodedAsnMessage);
+			ServerAddressCheckForSuplInitL();
 	    	}
-	    else //Other messages than SUPL_INIT.... Send End
-	    	{
-	    		CreateCloneMessageL(aDecodedAsnMessage);		
-	    		UpdateSuplSessionIDL();
  
-				iSuplSessionState = ESUPL_INITIALIZED;
-				iSuplMsgType = ESUPL_END;
+		iSuplSessionState = ESUPL_INITIALIZED;
+		iSuplMsgType = ESUPL_END;
 
-	    		if((aErrorCode == KErrCompletion && messageType == COMASuplAsnMessageBase::ESUPL_INIT) ||
-	    			(aErrorCode == KErrOMASuplOutOfRangeParameter && messageType == COMASuplAsnMessageBase::ESUPL_INIT) ||
-	    			(aErrorCode == KErrOMASuplMessageLengthMismatch && messageType == COMASuplAsnMessageBase::ESUPL_INIT) ||
-						(aErrorCode == KErrOMASuplShortFrame && messageType == COMASuplAsnMessageBase::ESUPL_INIT))	    			
-	    			{
-	    				iErrorStatusCode = COMASuplEnd::EUnexpectedDataValue;
-	    				if(aErrorCode == KErrOMASuplMessageLengthMismatch)
-	    					{
-	    						iErrorStatusCode = COMASuplEnd::EProtocolError;
-	    					}
-      				if(aErrorCode == KErrOMASuplShortFrame)
-	    					{
-	    						iErrorStatusCode = COMASuplEnd::EDataMissing;
-	    					}
-						TInt len = iHSLPAddress.Length();
-						HBufC8 *hslpAdress = NULL;
-						if(len > 0)
-						{
-							hslpAdress = HBufC8::NewL(iHSLPAddress.Length());
-							hslpAdress->Des().Copy(iHSLPAddress);
-						}
+	    if((aErrorCode == KErrCompletion && messageType == COMASuplAsnMessageBase::ESUPL_INIT) ||
+	    	(aErrorCode == KErrOMASuplOutOfRangeParameter && messageType == COMASuplAsnMessageBase::ESUPL_INIT) ||
+	    	(aErrorCode == KErrOMASuplMessageLengthMismatch && messageType == COMASuplAsnMessageBase::ESUPL_INIT) ||
+			(aErrorCode == KErrOMASuplShortFrame && messageType == COMASuplAsnMessageBase::ESUPL_INIT))	    			
+	   		{
+	    	iErrorStatusCode = COMASuplEnd::EUnexpectedDataValue;
+	    	if(aErrorCode == KErrOMASuplMessageLengthMismatch)
+	    		{
+	    		iErrorStatusCode = COMASuplEnd::EProtocolError;
+	    		}
+      		if(aErrorCode == KErrOMASuplShortFrame)
+	    		{
+	    		iErrorStatusCode = COMASuplEnd::EDataMissing;
+	    		}
+			TInt len = iHSLPAddress.Length();
+			HBufC8 *hslpAdress = NULL;
+			if(len > 0)
+				{
+				hslpAdress = HBufC8::NewL(iHSLPAddress.Length());
+				hslpAdress->Des().Copy(iHSLPAddress);
+				}						
+			else if(len ==0)
+				{
+				CServerParams* serverParams = CServerParams::NewL();
+				CleanupStack::PushL(serverParams);
+					
+				if (iSuplStorageSettings->GetDefaultServer(serverParams) == KErrNotFound )
+					{
+					iTrace->Trace(_L("HSLP generated frm IMSI"), KTraceFileName, __LINE__);
+					hslpAdress = HBufC8::NewL(iSuplSettings->SLPAddressfromImsi().Length());
+					hslpAdress->Des().Copy(iSuplSettings->SLPAddressfromImsi());
+					}		
+				else
+					{
+					iTrace->Trace(_L("Sending End with ver for Default HSLP"), KTraceFileName, __LINE__);
+					TInt64 slpId;
+            		TBool aServerEnabled, aSimChangeRemove, aUsageInHomeNw, aEditable;
+					HBufC* serverAddr = HBufC::NewL(KMaxHSLPAddrLen);
+					HBufC* iapName = HBufC::NewL(KMaxIAPLen);
+					CleanupStack::PushL(serverAddr);
+					CleanupStack::PushL(iapName);
+					serverParams->Get(slpId,serverAddr->Des(),iapName->Des(),aServerEnabled, aSimChangeRemove, aUsageInHomeNw, aEditable);
+					hslpAdress = HBufC8::NewL(serverAddr->Length());
+					hslpAdress->Des().Copy(*serverAddr);
 						
-						else if(len ==0)
-						{
-						iTrace->Trace(_L("Length of HSLP Address is = 0, passing the HSLP generated frm IMSI"), KTraceFileName, __LINE__);
-						hslpAdress = HBufC8::NewL(iSuplSettings->SLPAddressfromImsi().Length());
-						CleanupStack::PushL(hslpAdress);
-						hslpAdress->Des().Copy(iSuplSettings->SLPAddressfromImsi());	
-						CleanupStack::Pop(hslpAdress);						
-						}
-						CleanupStack::PushL(hslpAdress);
-						iSuplState = COMASuplEndState::NewL(iErrorStatusCode,iOMASuplAsnHandlerBaseImpl,iEncodedSuplInit,hslpAdress);		
-						CleanupStack::PopAndDestroy(hslpAdress);
-	    			}
-	    		else
-	    			{
-	    				iErrorStatusCode = COMASuplEnd::EUnexpectedMessage;
-	    				iSuplState = COMASuplEndState::NewL(iErrorStatusCode,iOMASuplAsnHandlerBaseImpl);
-	    			}	
-	    			
-	    		SetPOSMsgPluginState(COMASuplPosSessionBase::EOMASuplCreating);	
-				iSuplState->SetMsgStateObserver(this);
-				//SMP Changes
-				iSuplSessionState = ESUPL_GENERATE;
-				iSuplState->GenerateMessageL();
-				 
+					CleanupStack::PopAndDestroy(iapName);
+					CleanupStack::PopAndDestroy(serverAddr);
+							
+					}
+				CleanupStack::PopAndDestroy(serverParams);
+				}
+			delete iSuplState;
+			iSuplState = NULL;
+			CleanupStack::PushL(hslpAdress);
+			iSuplState = COMASuplEndState::NewL(iErrorStatusCode,iOMASuplAsnHandlerBaseImpl,iEncodedSuplInit,hslpAdress);
+			CleanupStack::PopAndDestroy(hslpAdress);
+	    	}
+	    else
+	    	{
+	    		iErrorStatusCode = COMASuplEnd::EUnexpectedMessage;
+	    		iSuplState = COMASuplEndState::NewL(iErrorStatusCode,iOMASuplAsnHandlerBaseImpl);
 	    	}	
+	    			
+	    SetPOSMsgPluginState(COMASuplPosSessionBase::EOMASuplCreating);	
+		iSuplState->SetMsgStateObserver(this);
+		//SMP Changes
+		iSuplState->GenerateMessageL(); //Has to be here because initialisation has to be done for NI case in decode failed scenario.
+		iSuplSessionState = ESUPL_GENERATE;				 
+		}	
 	}
 
 // -----------------------------------------------------------------------------
@@ -2052,10 +2082,11 @@ void COMASuplSession::HandleOMASuplMessageL(COMASuplAsnMessageBase* aDecodedAsnM
 //
 void COMASuplSession::HandleOMASuplMessageL(COMASuplAsnMessageBase* aDecodedAsnMessage)
 	{
+    CreateCloneMessageL(aDecodedAsnMessage);
 		if(CheckProtocolVersionL(aDecodedAsnMessage)) //Checks version with supported version
 		{
 			COMASuplAsnMessageBase::TSuplMessageType messageType = aDecodedAsnMessage->MessageType();
-			CreateCloneMessageL(aDecodedAsnMessage);		
+
 			if(messageType != COMASuplAsnMessageBase::ESUPL_POS)
 				{
 					iCompleteSelfRequestor->CompleteSelf(); //This will result in call of RequestCompleted()
@@ -3255,26 +3286,48 @@ void COMASuplSession::HandleSuplInitErrorL(TInt aErr)
 		
 			else if(len ==0)
 				{
-					iTrace->Trace(_L("HSLP generated frm IMSI"), KTraceFileName, __LINE__);
-					hslpAdress = HBufC8::NewL(iSuplSettings->SLPAddressfromImsi().Length());
-					CleanupStack::PushL(hslpAdress);
-					hslpAdress->Des().Copy(iSuplSettings->SLPAddressfromImsi());
-					CleanupStack::Pop(hslpAdress);	
+					CServerParams* serverParams = CServerParams::NewL();
+					CleanupStack::PushL(serverParams);
+					
+						if (iSuplStorageSettings->GetDefaultServer(serverParams) == KErrNotFound )
+						{
+						iTrace->Trace(_L("HSLP generated frm IMSI"), KTraceFileName, __LINE__);
+						hslpAdress = HBufC8::NewL(iSuplSettings->SLPAddressfromImsi().Length());
+						CleanupStack::PushL(hslpAdress);
+						hslpAdress->Des().Copy(iSuplSettings->SLPAddressfromImsi());
+						CleanupStack::Pop(hslpAdress);	
+						}
+						else
+						{
+							iTrace->Trace(_L("Default HSLP"), KTraceFileName, __LINE__);
+							TInt64 slpId;
+							TBool aServerEnabled, aSimChangeRemove, aUsageInHomeNw, aEditable;
+							HBufC* serverAddr = HBufC::NewL(KMaxHSLPAddrLen);
+							HBufC* iapName = HBufC::NewL(KMaxIAPLen);
+							CleanupStack::PushL(serverAddr);
+							CleanupStack::PushL(iapName);
+							serverParams->Get(slpId,serverAddr->Des(),iapName->Des(),aServerEnabled, aSimChangeRemove, aUsageInHomeNw, aEditable);
+							hslpAdress = HBufC8::NewL(serverAddr->Length());
+							hslpAdress->Des().Copy(*serverAddr);
+						
+							CleanupStack::PopAndDestroy(iapName);
+							CleanupStack::PopAndDestroy(serverAddr);
+							
+						}
+					CleanupStack::PopAndDestroy(serverParams);	
 					
 				}
-		CleanupStack::PushL(hslpAdress);
-		
-		delete iSuplState;
-		iSuplState = NULL;
-		
- 		if(setStatusCode)
- 			{
-	 			iSuplState = COMASuplEndState::NewL(iErrorStatusCode,iOMASuplAsnHandlerBaseImpl,iEncodedSuplInit,hslpAdress);		
- 			}
- 		else
- 			{
- 				iSuplState = COMASuplEndState::NewL(iOMASuplAsnHandlerBaseImpl,iEncodedSuplInit,hslpAdress );
- 			} 		
+            delete iSuplState;
+            iSuplState = NULL;
+            CleanupStack::PushL(hslpAdress);
+            if(setStatusCode)
+                {
+                iSuplState = COMASuplEndState::NewL(iErrorStatusCode,iOMASuplAsnHandlerBaseImpl,iEncodedSuplInit,hslpAdress);		
+                }
+            else
+                {
+                iSuplState = COMASuplEndState::NewL(iOMASuplAsnHandlerBaseImpl,iEncodedSuplInit,hslpAdress );
+                } 		
  			
  		CleanupStack::PopAndDestroy(hslpAdress);
  		
@@ -3728,81 +3781,114 @@ void COMASuplSession::HandleInvalidMessageLengthL()
 // -----------------------------------------------------------------------------
 TBool COMASuplSession::CheckProtocolVersionL(COMASuplAsnMessageBase* aDecodedAsn)
 	{
-		TOMASuplVersion version;
-		COMASuplSessionID* SessionID = NULL;
-		aDecodedAsn->MessageBase(version,SessionID);
-		
-		TInt recMajor,recMinor,recServInd;
-		version.SuplVersion(recMajor,recMinor,recServInd);		
-		
-		if(recMajor == KSuplMajorVersion )
-			{
-				return  ETrue;
-			} 
-		else
-			{
-			COMASuplAsnMessageBase::TSuplMessageType messageType = aDecodedAsn->MessageType();
-			if(messageType == COMASuplAsnMessageBase::ESUPL_END) 
-				{
-					iTrace->Trace(_L("Received message is SUPL_END...with wrong Version.Terminating session"), KTraceFileName, __LINE__); 
-					iSessionObserver.TerminateSession(this, KErrCompletion);	
-				}
-			else
-				{
-					iTrace->Trace(_L("Received message with wrong version."), KTraceFileName, __LINE__); 
+    TOMASuplVersion version;
+    COMASuplSessionID* SessionID = NULL;
+    aDecodedAsn->MessageBase(version,SessionID);
+    
+    TInt recMajor,recMinor,recServInd;
+    version.SuplVersion(recMajor,recMinor,recServInd);		
+    
+    if(recMajor == KSuplMajorVersion )
+        {
+        return  ETrue;
+        } 
+    else
+        {
+        COMASuplAsnMessageBase::TSuplMessageType messageType = aDecodedAsn->MessageType();
+        if(messageType == COMASuplAsnMessageBase::ESUPL_END) 
+            {
+            iTrace->Trace(_L("Received message is SUPL_END...with wrong Version.Terminating session"), KTraceFileName, __LINE__); 
+            iSessionObserver.TerminateSession(this, KErrCompletion);	
+            }
+        else
+            {
+            iTrace->Trace(_L("Received message with wrong version."), KTraceFileName, __LINE__); 
 
-					delete iSuplState;
-					iSuplMsgType = ESUPL_END;
-					iErrorStatusCode = COMASuplEnd::EVersionNotSupported;	
-					SetPOSMsgPluginState(COMASuplPosSessionBase::EOMASuplCreating);	
+            delete iSuplState;
+            iSuplMsgType = ESUPL_END;
+            iErrorStatusCode = COMASuplEnd::EVersionNotSupported;	
+            SetPOSMsgPluginState(COMASuplPosSessionBase::EOMASuplCreating);	
 
-					if(iRequestType == ESUPL_NETWORK )
-					{
-						
-						iSuplSessionState = ESUPL_INITIALIZED;
-					    TInt len = iHSLPAddress.Length();
-					    HBufC8 *hslpAdress = NULL;
-					    if(len > 0)
-					    {
-					        hslpAdress = HBufC8::NewL(iHSLPAddress.Length());
-					        hslpAdress->Des().Copy(iHSLPAddress);
-					    }
-				   	else if(len ==0)
-					{
-					iTrace->Trace(_L("Length of HSLP Address is = 0, passing the HSLP generated frm IMSI"), KTraceFileName, __LINE__);
-					hslpAdress = HBufC8::NewL(iSuplSettings->SLPAddressfromImsi().Length());
-					CleanupStack::PushL(hslpAdress);
-					hslpAdress->Des().Copy(iSuplSettings->SLPAddressfromImsi());	
-					CleanupStack::Pop(hslpAdress);
-					    }
-						
-					    CleanupStack::PushL(hslpAdress);
-					    iSuplState = COMASuplEndState::NewL(iErrorStatusCode,iOMASuplAsnHandlerBaseImpl,iEncodedSuplInit,hslpAdress);		
-					    CleanupStack::PopAndDestroy(hslpAdress);
+            if(iRequestType == ESUPL_NETWORK )
+                {
+                if (messageType == COMASuplAsnMessageBase::ESUPL_INIT)    
+                    {                                
+                    iSuplSessionState = ESUPL_INITIALIZED;
+                    TInt len = iHSLPAddress.Length();
+                    HBufC8 *hslpAdress = NULL;
+                    if(len > 0)
+                        {
+                        hslpAdress = HBufC8::NewL(iHSLPAddress.Length());
+                        hslpAdress->Des().Copy(iHSLPAddress);
+                        }
+                    else if(len ==0)
+                        {
+                        CServerParams* serverParams = CServerParams::NewL();
+                        CleanupStack::PushL(serverParams);
+        
+                        if (iSuplStorageSettings->GetDefaultServer(serverParams) == KErrNotFound )
+                            {
+                            iTrace->Trace(_L("Length of HSLP Address is = 0, passing the HSLP generated frm IMSI"), KTraceFileName, __LINE__);
+                            hslpAdress = HBufC8::NewL(iSuplSettings->SLPAddressfromImsi().Length());
+                            hslpAdress->Des().Copy(iSuplSettings->SLPAddressfromImsi());	
+                            }		
+                        else
+                            {
+                            iTrace->Trace(_L("Sending End with ver for Default HSLP"), KTraceFileName, __LINE__);
+                            TInt64 slpId;
+                            TBool aServerEnabled, aSimChangeRemove, aUsageInHomeNw, aEditable;
+                            HBufC* serverAddr = HBufC::NewL(KMaxHSLPAddrLen);
+                            HBufC* iapName = HBufC::NewL(KMaxIAPLen);
+                            CleanupStack::PushL(serverAddr);
+                            CleanupStack::PushL(iapName);
+                            serverParams->Get(slpId,serverAddr->Des(),iapName->Des(),aServerEnabled, aSimChangeRemove, aUsageInHomeNw, aEditable);
+                            hslpAdress = HBufC8::NewL(serverAddr->Length());
+                            hslpAdress->Des().Copy(*serverAddr);
+            
+                            CleanupStack::PopAndDestroy(iapName);
+                            CleanupStack::PopAndDestroy(serverAddr);
+                            }
+                        CleanupStack::PopAndDestroy(serverParams);
+                        }
+                    
+                    delete iSuplState;
+                    iSuplState = NULL;
+                    CleanupStack::PushL(hslpAdress);
+                    ServerAddressCheckForSuplInitL();
+                    iSuplState = COMASuplEndState::NewL(iErrorStatusCode,iOMASuplAsnHandlerBaseImpl,iEncodedSuplInit,hslpAdress);		
+                    CleanupStack::PopAndDestroy(hslpAdress);
 
-			            // Set the SessionId.
-				        iTrace->Trace(_L("COMASuplSession::CheckProtocolVersionL Update SLP Session ID"), KTraceFileName, __LINE__);
-			            UpdateSLPSessionIDL(SessionID);
+                    // Set the SessionId.
+                    iTrace->Trace(_L("COMASuplSession::CheckProtocolVersionL Update SLP Session ID"), KTraceFileName, __LINE__);
+                    UpdateSLPSessionIDL(SessionID);
 
-				        iTrace->Trace(_L("COMASuplSession::CheckProtocolVersionL Update SET Session ID"), KTraceFileName, __LINE__);
-			            UpdateSETSessionIDL(SessionID);
-						iSuplState->SetMsgStateObserver(this);
-						iSuplState->GenerateMessageL();
-						iSuplSessionState = ESUPL_GENERATE;
-
-					} 
-					else 							
-					{
-					    iSuplState = COMASuplEndState::NewL(iErrorStatusCode,iOMASuplAsnHandlerBaseImpl);
-						iSuplSessionState = ESUPL_ENCODE;
-						iSuplState->SetMsgStateObserver(this);
-						iSuplState->GenerateMessageL();
-					}
-				}	
-				
-			return EFalse;
-			}	
-
+                    iTrace->Trace(_L("COMASuplSession::CheckProtocolVersionL Update SET Session ID"), KTraceFileName, __LINE__);
+                    UpdateSETSessionIDL(SessionID);
+                    iSuplState->SetMsgStateObserver(this);
+                    iSuplState->GenerateMessageL();
+                    iSuplSessionState = ESUPL_GENERATE;
+                    }
+                else
+                    {                                
+                    iSuplState = COMASuplEndState::NewL(iErrorStatusCode,iOMASuplAsnHandlerBaseImpl);		
+                    UpdateSLPSessionIDL(SessionID);
+                    UpdateSETSessionIDL(SessionID);
+                    iSuplState->SetMsgStateObserver(this);
+                    iRequestType = ESUPL_INVALID_SESSION;
+                    iSuplSessionState = ESUPL_GENERATE;
+                    iSuplState->GenerateMessageL();
+                    }
+                } 
+            else 							
+                {
+                iSuplState = COMASuplEndState::NewL(iErrorStatusCode,iOMASuplAsnHandlerBaseImpl);
+                iSuplSessionState = ESUPL_ENCODE;
+                iSuplState->SetMsgStateObserver(this);
+                iSuplState->GenerateMessageL();
+                }
+            }	
+        return EFalse;
+        }	
 	}
 
 // -----------------------------------------------------------------------------

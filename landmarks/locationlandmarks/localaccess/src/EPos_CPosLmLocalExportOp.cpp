@@ -155,12 +155,15 @@ TInt CPosLmLocalExportOp::NextStepL(
             i < iNrOfSubOperations &&
                 iCurrentCategory < iCategoryIdArray.Count(); i++)
             {
+            	//coverity[alloc_fn : FALSE]
+            	//coverity[assign :FALSE]
             CPosLandmarkCategory* category =
                 ReadCategoryFromDbLC(iCategoryIdArray[iCurrentCategory++]);
 
             if (iTransferOptions &
                 CPosLandmarkDatabase::EIncludeGlobalCategoryNames)
                 {
+                	//coverity[leave_without_push : FALSE]
                 SetPredefinedGlobalNameL(category);
                 }
 

@@ -234,9 +234,11 @@ void CPosLmLmxParser::SetContentL(
             PosLmConverterUtils::AssertL( iWorkingCategory != NULL );
             iWorkingCategory->SetCategoryNameL( aContent.Left( KPosLmMaxCategoryNameLength ) );
             break;
+            //coverity[unterminated_case :FALSE]
         case EPosXmlAddrPlaceId: //addition for Place id
             PosLmConverterUtils::AssertL( iWorkingLandmark != NULL );
             iWorkingLandmark->SetPlaceIdL( aContent.Left( KPosLmMaxTextFieldLength ) );
+            //coverity[fallthrough : FALSE]
         default:
             // We need to check if it is a addressInfo tag.
             // AddressInfo Tag

@@ -383,6 +383,11 @@ EXPORT_C void COMASUPLProtocolManager::HandlePacket(const TDesC8& aPacket, TUint
             {
             iOMASuplProtocolHandler2->HandlePacket(aPacket,aPortNum);
             }	
+    else
+    	if (iOMASuplProtocolHandler1)
+    		{
+    		iOMASuplProtocolHandler1->HandlePacket(aPacket,aPortNum);
+    		}
 		}			
 	}
 
@@ -515,6 +520,11 @@ EXPORT_C void COMASUPLProtocolManager::HandleSuplMessageL(
 		    {
 		    iOMASuplProtocolHandler2->HandleSuplMessageL(aSuplSession,aStatus,aMessage);
 		    }
+		else
+    	if (iOMASuplProtocolHandler1)
+    		{
+    		iOMASuplProtocolHandler1->HandleSuplMessageL(aSuplSession,aStatus,aMessage);
+    		}
 		}			
 	}
 

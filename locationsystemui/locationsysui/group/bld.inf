@@ -114,5 +114,7 @@ PRJ_MMPFILES
 //Satellite Info
 #include "../locblidsatelliteinfo/group/bld.inf"
 
+// Query and Notification
+#include "../queryandnotification/group/bld.inf"
 PRJ_TESTMMPFILES
 //  End of File  

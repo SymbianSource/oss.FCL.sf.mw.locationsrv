@@ -20,7 +20,7 @@
 #define CLPDPERIODICREQINFO_H
 
 #include <e32base.h>
-#include <lbs/epos_cposprivacynotifier.h>
+#include <EPos_CPosPrivacyNotifier.h>
 
 /**
 *  Periodic info structure to Que.
