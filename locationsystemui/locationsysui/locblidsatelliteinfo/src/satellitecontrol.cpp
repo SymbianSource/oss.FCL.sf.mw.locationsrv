@@ -33,7 +33,7 @@
 #include <lbssatellite.h>
 #include <satellite.mbg>
 #include <eikapp.h>
-#include <aknlayout2def.h>
+#include <AknLayout2Def.h>
 #include <layoutmetadata.cdl.h>
 //===HEADER FILE INCLUDED FOR HACK=======
 #include <AknLayoutFont.h>

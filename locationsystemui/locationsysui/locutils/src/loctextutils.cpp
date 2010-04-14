@@ -18,7 +18,7 @@
 
 // INCLUDE FILES
 #include "loctextutils.h"
-#include <aknlayoutdef.h>
+#include <AknLayoutDef.h>
 #include <AknLayout.lag>
 #include <eikfrlbd.h>
 

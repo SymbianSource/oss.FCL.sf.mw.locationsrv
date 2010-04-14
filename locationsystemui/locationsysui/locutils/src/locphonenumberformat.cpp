@@ -19,7 +19,7 @@
 
 // INCLUDE FILES
 #include <AknUtils.h>
-#include <aknlayoutdef.h>
+#include <AknLayoutDef.h>
 #include <AknLayout.lag>
 #include <eikfrlbd.h>
 #include <AknPhoneNumberGrouping.h>
