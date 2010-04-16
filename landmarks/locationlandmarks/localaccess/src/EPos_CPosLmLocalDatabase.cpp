@@ -321,6 +321,7 @@ EXPORT_C void CPosLmLocalDatabase::CommitServerTransactionL()
 //
 EXPORT_C void CPosLmLocalDatabase::CommitServerTransactionLX()
     {
+    //coverity[naming_error : FALSE]
     CommitServerTransactionL();
     CleanupStack::Pop(); // rollback
     }
@@ -716,17 +717,28 @@ void CPosLmLocalDatabase::OpenDatabaseL( TBool aIsDefaultDb )
         TInt err = iDbAccess->OpenDatabaseL(*iDbUri);
         if (err != KErrNone)
             {
-            // Re-create database if below error codes
-            if (err == KErrCorrupt || err == KErrNotSupported)
+            // As this is a default landmarks db, all errors other than OutOfMemory 
+            // should be handled by replacing a corrupt db or creating a new db if one is missing. 
+            if (err == KErrNoMemory)
                 {
-                iSubSession->CreateDefaultDbL(*iDbUri, ETrue);
+                User::Leave(err);
                 }
             else
                 {
-                iSubSession->CreateDefaultDbL(*iDbUri, EFalse);
+                if ((err == KErrNotFound) || (err == KErrPathNotFound)
+                        || (err == KErrArgument) || (err == KErrAlreadyExists))
+                    {
+                    // Create a new database [default landmarks db]     
+                    iSubSession->CreateDefaultDbL(*iDbUri, EFalse);
+                    }
+                else
+                    {
+                    // Try deleting the corrupted database and then create a new one                
+                    iSubSession->CreateDefaultDbL(*iDbUri, ETrue);
+                    }
+                *DatabaseAccess()->InitFlagPtr() = ECreated;
+                User::LeaveIfError(iDbAccess->OpenDatabaseL(*iDbUri));
                 }
-            *DatabaseAccess()->InitFlagPtr() = ECreated;
-            User::LeaveIfError(iDbAccess->OpenDatabaseL(*iDbUri));
             }
         }
     CleanupStack::PopAndDestroy(); // DbLock

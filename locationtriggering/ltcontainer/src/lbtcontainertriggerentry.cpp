@@ -228,7 +228,7 @@ void CLbtContainerTriggerEntry::CloneL(CLbtContainerTriggerEntry& aEntry)
 		}
 	else
 		{
-		entry=CLbtStartupTrigger::NewL();
+		// We use clone only for session triggers.
 		}
 		
     if(dynInfo!=NULL)

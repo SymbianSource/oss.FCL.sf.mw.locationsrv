@@ -335,8 +335,7 @@ void CLbtServerLogic::ServiceL(const RMessage2 &aMessage, TSubSessionType aType)
 				}
 				
         	// The request can only be through the LT management API.
-        	// ToDo : Check for capabilities.
-			if ( TLbtManagementLibrary != aType ) 
+        	if ( TLbtManagementLibrary != aType ) 
 			    {
 			    // This is not a management library. Hence return access denied.
     		    aMessage.Complete( KErrAccessDenied );
@@ -982,11 +981,7 @@ TInt CLbtServerLogic::ValidateCreateTriggerMessage(const RMessage2& aMessage)
 	FUNC_ENTER("CLbtServerLogic::ValidateCreateTriggerMessage");
 	// The server should check for the following parameters
 	// 1. capability checks for security.
-	// 2. checks for the Trigger area, ie. radius. (ToDo)
-
-	// Check if the requesting process has location and write user data capability
-	// ToDo : check the required set of capabilities from req spec.
-	if( !aMessage.HasCapability(ECapabilityLocation) ||
+		if( !aMessage.HasCapability(ECapabilityLocation) ||
 	    !aMessage.HasCapability(ECapabilityWriteUserData) )
 		{
 		return KErrPermissionDenied;
@@ -1133,6 +1128,7 @@ void CLbtServerLogic::HandleSingleNotificationOperationsL(
 	
 	// Populate the change event structure to send the information to the client based
 	// on the message for which the notification needs to be made
+	// coverity[var_decl : FALSE] 
 	TLbtTriggerChangeEvent event;
 	
 	switch(aOperation->GetFunction())
@@ -1207,6 +1203,7 @@ void CLbtServerLogic::HandleMultipleNotificationOperationsL(
 
 	RArray<RMessage2> array;
 	RMessage2 message;
+	// coverity[var_decl : FALSE] 
 	TLbtTriggerChangeEvent event;
 	
     // sort by SID the retrieved list of triggers that were modified.
@@ -1611,6 +1608,7 @@ void CLbtServerLogic::HandleTriggersChange( RArray<TLbtTriggerId>& aTriggerIds,
     FUNC_ENTER("CLbtServerLogic::HandleContainerTriggerChange");
     RMessage2 message;
     
+    // coverity[var_decl : FALSE] 
     TLbtTriggerChangeEvent event;
     // If there is change in the single trigger, set the trigger id else
     // update KLbtNullTriggerId for trigger id

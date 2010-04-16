@@ -115,10 +115,13 @@ COMASuplETelNotifier::~COMASuplETelNotifier()
 //
 void COMASuplETelNotifier::CheckForRoaming()
     {
-	iCellMode = EOMASuplCellIdHome;
-    iTrace->Trace(_L("COMASuplETelNotifier::CheckForRoaming..."),KTraceFileName, __LINE__); 							
-    iPhone.GetHomeNetwork( iStatus, iHomeNetworkInfoPkg);
-    SetActive();            
+	iTrace->Trace(_L("COMASuplETelNotifier::CheckForRoaming..."),KTraceFileName, __LINE__); 							
+     if( !IsActive() )
+    	{
+    	iCellMode = EOMASuplCellIdHome;
+    	iPhone.GetHomeNetwork( iStatus, iHomeNetworkInfoPkg);
+    	SetActive();    
+    	}          
     }  
       
 // -----------------------------------------------------------------------------
@@ -128,10 +131,13 @@ void COMASuplETelNotifier::CheckForRoaming()
 //
 void COMASuplETelNotifier::GetCurrentNetwork()
     {
-	iCellMode = EOMASuplCellIdCurrent;
-    iTrace->Trace(_L("COMASuplETelNotifier::GetCurrentNetwork..."),KTraceFileName, __LINE__); 							
-    iPhone.GetCurrentNetwork( iStatus, iNetworkInfoPkg, iLocationInfo );
-    SetActive();            
+	iTrace->Trace(_L("COMASuplETelNotifier::GetCurrentNetwork..."),KTraceFileName, __LINE__); 							
+    if( !IsActive() )
+    	{
+    	iCellMode = EOMASuplCellIdCurrent;
+    	iPhone.GetCurrentNetwork( iStatus, iNetworkInfoPkg, iLocationInfo );
+    	SetActive();  
+    	}                  
     }  
 
 // -----------------------------------------------------------------------------
@@ -141,10 +147,13 @@ void COMASuplETelNotifier::GetCurrentNetwork()
 //
 void COMASuplETelNotifier::NotifyCurrentNetworkChange()
     {
-	iCellMode = EOMASuplCellIdNotify;
-    iTrace->Trace(_L("COMASuplETelNotifier::NotifyCurrentNetworkChange..."),KTraceFileName, __LINE__);
-    iPhone.NotifyCurrentNetworkChange( iStatus, iNetworkInfoPkg, iLocationInfo );
-    SetActive();            
+	iTrace->Trace(_L("COMASuplETelNotifier::NotifyCurrentNetworkChange..."),KTraceFileName, __LINE__);
+    if( !IsActive() )
+    	{
+    	iCellMode = EOMASuplCellIdNotify;
+    	iPhone.NotifyCurrentNetworkChange( iStatus, iNetworkInfoPkg, iLocationInfo );
+    	SetActive();   
+    	}                
     }  
       
 // -----------------------------------------------------------------------------

@@ -243,17 +243,32 @@ EXPORT_C void COMASUPLProtocolManager::RunSessionL(
 	
 	aStatus = KRequestPending;
 	TRequestStatus *status = &aStatus; 
-	if( iIsInitilized && iOMASuplProtocolHandler1 )
+	
+	if( iIsInitilized )
 		{
-		iOMASuplProtocolHandler1->RunSessionL(      
-											aSuplSession,
+			if( aSuplSession->GetSUPLVersion() == 1 )
+			{
+				iOMASuplProtocolHandler1->RunSessionL(      
+																						aSuplSession,
                                             aStatus,
                                             aHslpAddress,
                                             aFallBack,
                                             aFirstReq,
                                             aAllowedCapabilities,
                                             aRequestID);
-		}    
+			}    
+		else if( aSuplSession->GetSUPLVersion() == 2 )
+			{
+				iOMASuplProtocolHandler2->RunSessionL(      
+																						aSuplSession,
+                                            aStatus,
+                                            aHslpAddress,
+                                            aFallBack,
+                                            aFirstReq,
+                                            aAllowedCapabilities,
+                                            aRequestID);
+			}
+		}
 	else
 	    {
 	    User::RequestComplete(status,KErrOMASuplUnInitilized); 
@@ -281,7 +296,9 @@ EXPORT_C void COMASUPLProtocolManager::RunSessionL(
 	aStatus = KRequestPending;
 	
 	TRequestStatus *status = &aStatus; 
-    if( iIsInitilized && iOMASuplProtocolHandler1 )
+    if( iIsInitilized )
+    	{
+    		if( aSuplSession->GetSUPLVersion() == 1 )
         {
         iOMASuplProtocolHandler1->RunSessionL(
                                             aSuplSession,
@@ -292,7 +309,20 @@ EXPORT_C void COMASUPLProtocolManager::RunSessionL(
                                             aAllowedCapabilities,
                                             aQop,
                                             aRequestID);
-        }    
+        }  
+        else if( aSuplSession->GetSUPLVersion() == 2 )  
+        {
+        	iOMASuplProtocolHandler2->RunSessionL(
+                                            aSuplSession,
+                                            aStatus,
+                                            aHslpAddress,
+                                            aFallBack,
+                                            aFirstReq,
+                                            aAllowedCapabilities,
+                                            aQop,
+                                            aRequestID);	
+        }
+      }
     else
         {
         User::RequestComplete(status,KErrOMASuplUnInitilized); 

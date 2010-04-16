@@ -50,6 +50,8 @@ EXPORT_C HBufC8* PosLmCategorySerialization::PackL( const CPosLandmarkCategory& 
     TPckg<TCategoryBufferHeader> infoPack( header );
 
     TPtrC name, icon;
+    //coverity[check_return :FALSE]
+    //coverity[unchecked_value :FALSE]
     aCategory.GetCategoryName( name );
     header.iIsIconSet = ( KErrNone == 
         aCategory.GetIcon( icon, header.iIconIndex, header.iIconMaskIndex ) );

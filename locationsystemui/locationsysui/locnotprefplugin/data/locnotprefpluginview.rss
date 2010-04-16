@@ -27,7 +27,7 @@ NAME    LNPR // 4 Letter Identifier
 #include <avkon.rh>
 #include <avkon.rsg>
 #include <avkon.mbg>
-#include <eikcore.rsg>
+#include <EIKCORE.rsg>
 #include <eikon.rh>
 #include <eikon.rsg>
 #include <avkon.loc>
@@ -269,7 +269,7 @@ RESOURCE AVKON_SETTING_PAGE r_loc_sysofmeas_settings
 RESOURCE AVKON_SETTING_PAGE r_loc_coorddisplay_settings
     { 
     label = qtn_loc_notation_coordinate_format;
-    softkey_resource = R_AVKON_SOFTKEYS_OK_CANCEL__OK;
+    softkey_resource = R_AVKON_SOFTKEYS_CANCEL;
     type = EAknSetListBox;
     editor_resource_id = r_loc_not_settings_listbox;
     } 

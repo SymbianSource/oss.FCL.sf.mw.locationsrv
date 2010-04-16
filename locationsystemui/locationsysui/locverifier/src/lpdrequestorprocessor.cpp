@@ -25,7 +25,7 @@
 #include <lbs/epos_cposrequestor.h>
 #include <lbs/epos_cposcontactrequestor.h>
 #include <lbs/epos_cposservicerequestor.h>
-#include <lbs/epos_cposprivacynotifier.h>
+#include <EPos_CPosPrivacyNotifier.h>
 
 // CONSTANTS
 _LIT( KUnknownRequestor, "Unknown" );

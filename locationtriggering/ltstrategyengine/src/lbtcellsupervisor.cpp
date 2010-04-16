@@ -150,7 +150,7 @@ void CLbtCellSupervisor::Resume()
 //
 void CLbtCellSupervisor::Reset()
     {
-    // TODO: Check if this needed.
+    iRecentlyFiredTriggerArray.Reset();
     }
 
 
@@ -326,8 +326,8 @@ void CLbtCellSupervisor::EvalCellularTrigger( CLbtContainerTriggerEntry* aTrigge
         
         if(dataMask)
         	{
+            // This is dummy position info. It has no significance.
         	TPositionInfo dummy;  
-	        // TODO : Remove dummy position info
 	        iView->UpdateTriggerInfo( CLbtGeoAreaBase::ECellular,dummy, aTrigger, dataMask );
         	}        
         }
@@ -335,7 +335,7 @@ void CLbtCellSupervisor::EvalCellularTrigger( CLbtContainerTriggerEntry* aTrigge
     // EXIT Trigger    
     else
         {
-        
+        //This is not currently supported.
         }
     aTrigger->SetStrategyData( strategyData );    
     }
@@ -427,8 +427,8 @@ void CLbtCellSupervisor::EvalHybridTrigger( CLbtContainerTriggerEntry* aTrigger 
         
         if(dataMask)
             {
+            // This is dummy position info. It has no significance.
             TPositionInfo dummy;  
-            // TODO : Remove dummy position info
             iView->UpdateTriggerInfo( CLbtGeoAreaBase::ECellular,dummy, aTrigger, dataMask );
             }        
         }

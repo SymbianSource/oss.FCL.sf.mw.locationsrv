@@ -41,5 +41,6 @@
 #include "../location_triggering_management_api/group/bld.inf"
 #include "../location_triggering_status_information_api/group/bld.inf"
 #include "../oma_supl_asn_codec_plugin_api/group/bld.inf"
+#include "../query_and_notification_api/group/bld.inf"
 #include "../location_local_variation_api/group/bld.inf"
 

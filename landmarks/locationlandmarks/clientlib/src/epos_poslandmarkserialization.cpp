@@ -59,8 +59,11 @@ EXPORT_C HBufC8* PosLandmarkSerialization::PackL( const CPosLandmark& aLandmark 
     memclr( &header, sizeof header );
     TPckg<TLandmarkBufferHeader> headerPack( header );
     TPtrC name, desc, icon;
-
+    //coverity[check_return :FALSE]
+    //coverity[unchecked_value :FALSE]
     aLandmark.GetLandmarkName( name );
+        //coverity[check_return :FALSE]
+    //coverity[unchecked_value :FALSE]
     aLandmark.GetLandmarkDescription( desc );
     header.iIsIconSet = ( KErrNone == 
         aLandmark.GetIcon( icon, header.iIconIndex, header.iIconMaskIndex ) );

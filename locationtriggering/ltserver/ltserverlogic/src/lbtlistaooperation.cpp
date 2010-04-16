@@ -436,9 +436,8 @@ void CLbtListAOOperation::CancelListOperation()
 		// HandleOperationClosureL method internally calls LoadOrUnloadStrategyPluginL 
 		// method which may leave only during the loading operation,but here the expected 
 		// behaviour is the unloading of strategy plugin which never fails .Hence we have ignored.
-	   
+        LbtGlobal::RequestComplete(iMessage,KErrCancel);   
 		TRAP_IGNORE( iObserver.HandleOperationClosureL(this,KErrCancel) );
-		LbtGlobal::RequestComplete(iMessage,KErrCancel);
 		}	
 	}
 

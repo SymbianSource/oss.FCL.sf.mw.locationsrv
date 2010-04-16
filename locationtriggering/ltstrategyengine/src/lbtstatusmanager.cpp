@@ -19,9 +19,8 @@
 
 #include <e32base.h>
 #include <lbtstatuspskeys.h>
-
 #include "lbtstatusmanager.h"
-
+#include "lbtlogger.h"
 
 // ======== MEMBER FUNCTIONS ========
 
@@ -72,7 +71,7 @@ void CLbtStatusManager::ReportLocationAcquisitionStatus(
     iLastLocAcqStatus = aStatus;        
     if( KErrNone != msg )
         {
-        // TODO: log error message here
+        LOG1("Error updating status info:%d",msg);
         }
     }
 

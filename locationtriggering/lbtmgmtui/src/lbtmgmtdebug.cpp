@@ -50,6 +50,7 @@ const TInt KLbtMgmtLogLineLength = 256;
 //
 void Debug( TRefByValue<const TDesC> aText, ... )
     {    
+    // coverity[var_decl : FALSE] 
     VA_LIST args;
     VA_START( args, aText );
     

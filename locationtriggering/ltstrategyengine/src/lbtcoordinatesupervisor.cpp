@@ -438,7 +438,6 @@ void CLbtCoOrdinateSupervisor::GetPositionInfoL()
 
 	if( iStatus.Int() == KPositionQualityLoss )
 		{
-		// TODO: Remove this. Only for Debug
 		TPosition currentPosition;
 		iPosInfo.GetPosition( currentPosition );
 		LOG("Received KPositionQualityLoss");
@@ -692,7 +691,6 @@ TBool CLbtCoOrdinateSupervisor::EvaluateModifiedTriggersL()
 	                            }
 	                        break; 
 	                        
-	                    // TODO: Cell ID triggers need to be handled
 	                    default:
 	                        break;
                         }
@@ -1169,7 +1167,6 @@ void CLbtCoOrdinateSupervisor::EstimateSleepInterval()
     {
     FUNC_ENTER("CLbtCoOrdinateSupervisor::EstimateSleepInterval");
     
-    // TODO: Need to use GPS speed for observed speed values
     TReal maxUserSpeed = iSettings.iMaximumUserSpeed;
         
     TReal actualEstimatedSpeed = KMinProjSpeed;
@@ -1365,30 +1362,6 @@ void CLbtCoOrdinateSupervisor::EstimateSleepInterval()
     	    iProcessingInterval = seconds.Int();
     	    iSleepInterval = iSleepInterval.Int() - iProcessingInterval;
         	}
-        
-       // TODO: Check with Krishna on the commented code
-        // Check to determine if GPS method used for location information. If 
-        // true, then need to use the GPS tracking mode interval here 
-        /*if( iLocationRequestor->GPSUsed() )
-            {
-            if( ( iSleepInterval.Int() < 
-                    iSettings.iMinimumLocationUpdateInterval ) || 
-                    ( iSleepInterval.Int() - iSettings.iGpsTrackingModeInterval ) < 5 )
-                {
-                iSleepInterval = iSettings.iGpsTrackingModeInterval;
-                }
-            }
-        else
-            // 
-            {
-            // If GPS not used check if sleep interval is less than minimum 
-            // update interval. If true then use minimum update interval
-            if( iSleepInterval.Int() < 
-                    iSettings.iMinimumLocationUpdateInterval )
-                {
-                iSleepInterval = iSettings.iMinimumLocationUpdateInterval;
-                }
-            }*/
         }   
     
     // If sleep interval is less than KMinSleepInterval and the UE is travelling in
@@ -1584,20 +1557,12 @@ void CLbtCoOrdinateSupervisor::ProcessInterrupt()
         }        
     else if( KErrNone == iStatus.Int() || KErrAbort == iStatus.Int() )
         {
-        // TODO: Check accuracy of movement monitor and 
-        //       if there was any detection made.
-        // For accuracy, pass the distance to nearest trigger as a reference 
-        // for movement detector plugin. If accuracy cannot be met then
-        // go ahead with acquiring current location else need to switch to
-        // movement detection mode.
         RequestTerminalPosition( iSettings.iLocationRequestTimeout );
         }
-    
-    // Error in timer operation
     else
         {
+        LOG1("Error in timer:%d",iStatus.Int());
         }
-
     }
     
 
@@ -1802,14 +1767,14 @@ TInt CLbtCoOrdinateSupervisor::ResetViewIterator()
         {
         if( KErrNotFound == err )
             {
-            
             // determine update interval
             iState = iProjectedState = EIdle;
             }
         else
             {
+            // TODO: Report error to server. This can be done only after 
+            // introducing new state to strategy dynamic info.
             Term();
-            // TODO: Server needs to be notified about termination of supervision 
             }
         return err;
         }

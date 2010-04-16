@@ -238,8 +238,6 @@ void CLbtRamTriggersManager::ListTriggersL( CLbtContainerListOptions* aFilter,
         return;
     	}
 
-   CLbtListTriggerOptions* listOptions=aFilter->ListOptions();
-
    // Store client data 
    iFilter = aFilter;   
    iClientSecurityPolicy = aSecurityPolicy;
@@ -272,7 +270,6 @@ void CLbtRamTriggersManager::HandleListTriggerEventL()
             break;
         
         CLbtListTriggerOptions* listOptions = iFilter->ListOptions();
-        CLbtContainerFilter* contFilter = iFilter->ContainerFilter();
         CLbtExtendedTriggerInfo* contExtInfo = tEntry->ExtendedTriggerInfo();   
         TLbtTriggerDynamicInfoFieldsMask dynInfoMask;
         TLbtTriggerAttributeFieldsMask attrMask;
@@ -281,7 +278,6 @@ void CLbtRamTriggersManager::HandleListTriggerEventL()
         ++count;
         if( !LbtContainerUtilities::RunSecurityPolicy( tEntry, iClientSecurityPolicy ) )
             {
-         
             continue;
             }
         
@@ -296,9 +292,10 @@ void CLbtRamTriggersManager::HandleListTriggerEventL()
         if(isFilterPresent > 0 && isEntryRequested)
             {
             entry = CLbtContainerTriggerEntry::NewL();
-            CleanupStack::PushL( entry );
+            iClientTriggerArray->Append( entry );
+
             clientEntry = CLbtSessionTrigger::NewL();
-            entry->SetTriggerEntry(clientEntry);
+            entry->SetTriggerEntry( clientEntry );
 
             if( attrMask & CLbtTriggerEntry::EAttributeId )
                 {
@@ -324,10 +321,11 @@ void CLbtRamTriggersManager::HandleListTriggerEventL()
                 {
                 CLbtTriggerConditionArea* cond = static_cast<CLbtTriggerConditionArea*>(trigEntry->GetCondition());
                 // Condition area to be sent back to client
-                CLbtTriggerConditionArea* condArea=CLbtTriggerConditionArea::NewL();
+                CLbtTriggerConditionArea* condArea=CLbtTriggerConditionArea::NewLC();
                 CLbtGeoAreaBase* area = LbtContainerUtilities::CopyGeoAreaL( cond->TriggerArea() );
                 condArea->SetTriggerArea( area );
                 condArea->SetDirection( cond->Direction() );
+                CleanupStack::Pop( condArea );
                 clientEntry->SetCondition( condArea );
                 }
 
@@ -352,6 +350,16 @@ void CLbtRamTriggersManager::HandleListTriggerEventL()
                 info->iFiredLocality=tEntry->DynInfo()->iFiredLocality;
                 }
                     
+            if(isDynInfoPresent)
+                {
+                entry->SetDynInfo(info);
+                }
+            else
+                {
+                delete info;
+                }
+            
+            
             if( dataMask & CLbtContainerTriggerEntry::EContainerAttributeHysteresisRadius )
                 {
                 if(clientExtInfo == NULL)
@@ -419,19 +427,7 @@ void CLbtRamTriggersManager::HandleListTriggerEventL()
                 {
                 entry->SetExtendedTriggerInfo(clientExtInfo);
                 }
-            
-            if(isDynInfoPresent)
-                {
-                entry->SetDynInfo(info);
-                }
-                
-            if( entry != NULL )
-                {
-                iClientTriggerArray->Append( entry );
-                CleanupStack::Pop( entry );
-                }
             }
-        
         }
     
     if( tEntry == NULL )
@@ -645,93 +641,72 @@ void CLbtRamTriggersManager::HandleUpdateTriggerEventL()
     CLbtTriggerEntry* trigEntry = iClientTriggerEntry->TriggerEntry();
     CLbtExtendedTriggerInfo* trigExtInfo = iClientTriggerEntry->ExtendedTriggerInfo();
     TLbtTriggerDynamicInfo* trigDynInfo = iClientTriggerEntry->DynInfo();
-
+    
+    // Append the modification information
+    MLbtTriggerStore::TLbtTriggerModifiedInfo info;
+    info.iTriggerId = entry->TriggerEntry()->Id();   
+    TSecureId sid = entry->ExtendedTriggerInfo()->OwnerSid();    
+    info.iOwner.iUid= (TInt)(sid.iId);
+    iIdArray.Append(info);
 
     /* contTrigEntry is the trigger entry which is a part of 
      * the container trigger entry retrieved from the tree 
      */     
-    CLbtSessionTrigger* contTrigEntry = static_cast <CLbtSessionTrigger*>(entry->TriggerEntry());
+    CLbtSessionTrigger* contTrigEntry = NULL;
+    if( entry->TriggerEntry() )
+        {
+        contTrigEntry = static_cast <CLbtSessionTrigger*>(entry->TriggerEntry());
+        
+        CLbtTriggerConditionArea* condArea = static_cast <CLbtTriggerConditionArea*>(contTrigEntry->GetCondition());
+        CLbtGeoAreaBase* geoArea = condArea->TriggerArea();    
+        info.iAreaType = geoArea->Type();
+        }
+    else
+        {
+        contTrigEntry=CLbtSessionTrigger::NewL();
+        entry->SetTriggerEntry( contTrigEntry );
+        }
     
     /* Contextinfo is the extended information present in the entry 
      * retrieved from the tree 
      */
     CLbtExtendedTriggerInfo* contExtInfo = entry->ExtendedTriggerInfo();
-    TLbtTriggerDynamicInfo* contDynInfo = NULL;
-    contDynInfo = entry->DynInfo();
-    
-    // Append the modification information
-    MLbtTriggerStore::TLbtTriggerModifiedInfo info;
-    info.iTriggerId = entry->TriggerEntry()->Id();    
-    CLbtTriggerConditionArea* condArea = static_cast <CLbtTriggerConditionArea*>(contTrigEntry->GetCondition());
-    CLbtGeoAreaBase* geoArea = condArea->TriggerArea();    
-    info.iAreaType = geoArea->Type();
-    TSecureId sid = entry->ExtendedTriggerInfo()->OwnerSid();    
-    info.iOwner.iUid= (TInt)(sid.iId);
-    iIdArray.Append(info);
+    TLbtTriggerDynamicInfo* contDynInfo =  entry->DynInfo();
     
     if(trigEntry!=NULL)
         {
         if( iAttrMask & CLbtTriggerEntry::EAttributeId )
             {
-            if(contTrigEntry==NULL)
-                {
-                contTrigEntry=CLbtSessionTrigger::NewL();
-                }
-            contTrigEntry->SetId(trigEntry->Id());
+             contTrigEntry->SetId(trigEntry->Id());
             }
                 
         if( iAttrMask & CLbtTriggerEntry::EAttributeName )
             {
-            if(contTrigEntry==NULL)
-                {
-                contTrigEntry=CLbtSessionTrigger::NewL();
-                }
             contTrigEntry->SetNameL(trigEntry->Name()); 
             }
                             
         if( iAttrMask & CLbtTriggerEntry::EAttributeState )
             {
-            if(contTrigEntry==NULL)
-                {
-                contTrigEntry=CLbtSessionTrigger::NewL();
-                }
             contTrigEntry->SetState(trigEntry->State());        
             }
         
         if( iAttrMask & CLbtTriggerEntry::EAttributeRearmTime )
             {
-            if(contTrigEntry==NULL)
-                {
-                contTrigEntry=CLbtSessionTrigger::NewL();
-                }
             contTrigEntry->SetTimeToRearm((trigEntry->TimeToRearm()));
             }
                             
         if( iAttrMask & CLbtTriggerEntry::EAttributeRequestor )
             {
-            if(contTrigEntry==NULL)
-                {
-                contTrigEntry=CLbtSessionTrigger::NewL();
-                }
             //clientEntry->SetRequestorL(trigEntry->GetRequestor());        
             }
                                 
         if( iAttrMask & CLbtTriggerEntry::EAttributeManagerUi )
             {
-            if(contTrigEntry==NULL)
-                {
-                contTrigEntry=CLbtSessionTrigger::NewL();
-                }
             contTrigEntry->SetManagerUi(trigEntry->ManagerUi());        
             }
                     
         if( iAttrMask & CLbtTriggerEntry::EAttributeCondition )
             {
-            if(contTrigEntry==NULL)
-                {
-                contTrigEntry=CLbtSessionTrigger::NewL();
-                }
-        
             CLbtTriggerConditionArea* condArea = static_cast <CLbtTriggerConditionArea*>(contTrigEntry->GetCondition());
             CLbtGeoAreaBase* geoArea = condArea->TriggerArea();
             CLbtTriggerConditionArea* cond=static_cast <CLbtTriggerConditionArea*> (trigEntry->GetCondition());
@@ -750,7 +725,6 @@ void CLbtRamTriggersManager::HandleUpdateTriggerEventL()
                 CLbtGeoCell* containerCell = static_cast<CLbtGeoCell*>(geoArea);
                 CLbtGeoCell* geoCell = static_cast <CLbtGeoCell*> (cond->TriggerArea());
                 
-                // TODO: Check if we need to retreive GSM and WCDMA info
                 containerCell->SetNetworkType(geoCell->NetworkType());
                 containerCell->SetNetworkCountryCode(geoCell->NetworkCountryCode());
                 containerCell->SetNetworkIdentityCode(geoCell->NetworkIdentityCode());
@@ -840,6 +814,7 @@ void CLbtRamTriggersManager::HandleUpdateTriggerEventL()
             if(contExtInfo==NULL)
                 {
                 contExtInfo=CLbtExtendedTriggerInfo::NewL();
+                entry->SetExtendedTriggerInfo( contExtInfo );
                 }
             contExtInfo->SetHysteresisRadius(trigExtInfo->HysteresisRadius());
             }
@@ -849,6 +824,7 @@ void CLbtRamTriggersManager::HandleUpdateTriggerEventL()
             if(contExtInfo==NULL)
                 {
                 contExtInfo=CLbtExtendedTriggerInfo::NewL();
+                entry->SetExtendedTriggerInfo( contExtInfo );
                 }   
             contExtInfo->SetTriggerFiredState(trigExtInfo->IsTriggerFired());
             }
@@ -858,6 +834,7 @@ void CLbtRamTriggersManager::HandleUpdateTriggerEventL()
             if(contExtInfo==NULL)
                 {
                 contExtInfo=CLbtExtendedTriggerInfo::NewL();
+                entry->SetExtendedTriggerInfo( contExtInfo );
                 }   
             contExtInfo->SetFiredInfo( trigExtInfo->GetFiredInfo() );
             }
@@ -867,6 +844,7 @@ void CLbtRamTriggersManager::HandleUpdateTriggerEventL()
             if(contExtInfo==NULL)
                 {
                 contExtInfo=CLbtExtendedTriggerInfo::NewL();
+                entry->SetExtendedTriggerInfo( contExtInfo );
                 }
             contExtInfo->SetOwnerSid(trigExtInfo->OwnerSid()); 
             }
@@ -876,6 +854,7 @@ void CLbtRamTriggersManager::HandleUpdateTriggerEventL()
             if(contExtInfo==NULL)
                 {
                 contExtInfo=CLbtExtendedTriggerInfo::NewL();
+                entry->SetExtendedTriggerInfo( contExtInfo );
                 }
             contExtInfo->SetTriggerRectangleArea(trigExtInfo->TriggerReactangleArea()); 
             }   
@@ -885,6 +864,7 @@ void CLbtRamTriggersManager::HandleUpdateTriggerEventL()
             if(contExtInfo==NULL)
                 {
                 contExtInfo=CLbtExtendedTriggerInfo::NewL();
+                entry->SetExtendedTriggerInfo( contExtInfo );
                 }
             contExtInfo->SetStrategyDataL(trigExtInfo->StategyData()); 
             }
@@ -894,6 +874,7 @@ void CLbtRamTriggersManager::HandleUpdateTriggerEventL()
             if(contExtInfo==NULL)
                 {
                 contExtInfo=CLbtExtendedTriggerInfo::NewL();
+                entry->SetExtendedTriggerInfo( contExtInfo );
                 }
             contExtInfo->SetTriggerFireOnCreation(trigExtInfo->IsTriggerFireOnCreation()); 
             }   
@@ -906,6 +887,7 @@ void CLbtRamTriggersManager::HandleUpdateTriggerEventL()
             if(contDynInfo == NULL)
                 {
                 contDynInfo = new TLbtTriggerDynamicInfo;
+                entry->SetDynInfo( contDynInfo );
                 }
             contDynInfo->iValidity = trigDynInfo->iValidity;    
             }
@@ -965,8 +947,7 @@ void CLbtRamTriggersManager::UpdateTriggersStateL( CLbtTriggerEntry::TLbtTrigger
 			filter->ProcessFilter(tEntry,isFilterPresent,isEntryRequested);
 			if(isFilterPresent>0 && isEntryRequested)
 				{
-				CLbtTriggerEntry* trigEntry = tEntry->TriggerEntry();
-			   	AppendTriggerInfo(tEntry);
+				AppendTriggerInfo(tEntry);
 				}
     		}		
 		tEntry=iTriggerIdTree->GetNextEntryL();		
@@ -1094,7 +1075,6 @@ void CLbtRamTriggersManager::UpdateTriggersValidityL( TLbtTriggerDynamicInfo::TL
                 info->iValidity = aValidity;
                 entry->SetDynInfo(info);                
                 }    
-            CLbtTriggerEntry* trigEntry = entry->TriggerEntry();
             AppendTriggerInfo(entry);
             }
         }
@@ -1193,7 +1173,6 @@ void CLbtRamTriggersManager::DeleteTriggersL( CLbtContainerUpdateFilter* aFilter
             iFilterBase->ProcessFilter(tEntry,isFilterPresent,isEntryRequested);
             if(isFilterPresent > 0 && isEntryRequested)
                 {
-                CLbtTriggerEntry* trigEntry = tEntry->TriggerEntry();
                 AppendTriggerInfo(tEntry);              
                 }
             }

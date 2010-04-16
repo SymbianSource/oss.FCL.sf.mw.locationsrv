@@ -43,16 +43,10 @@ SOURCE              locutilsdebugdummy.cpp
 #endif
 
 // System Include
-APP_LAYER_SYSTEMINCLUDE
+MW_LAYER_SYSTEMINCLUDE
 
 USERINCLUDE 		.
 USERINCLUDE			../inc
-
-SOURCEPATH ../data
-START RESOURCE locutils.rss
-HEADER
-TARGETPATH          RESOURCE_FILES_DIR
-END
 
 LIBRARY 			euser.lib 
 LIBRARY 			bafl.lib
@@ -62,9 +56,6 @@ LIBRARY 			cone.lib
 LIBRARY 			efsrv.lib
 LIBRARY 			sysutil.lib
 LIBRARY 			eposprvtyp.lib
-
-LIBRARY             vpbkeng.lib
-LIBRARY             pbk2presentation.lib
 
 #ifdef LOC_ENABLE_DEBUG_PRINT
 LIBRARY 			flogger.lib

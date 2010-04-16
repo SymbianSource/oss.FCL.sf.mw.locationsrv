@@ -222,15 +222,18 @@ void CLbtTriggerModifyAOOperation::CancelModifyOperation()
 	{
 	FUNC_ENTER("CLbtTriggerModifyAOOperation::CancelModifyOperation");
 	Cancel();
-	   
-   if( iStatus.Int() == KLbtErrPartial )
+	
+	// HandleOperationClosureL might leave either when it tries to unload strategy
+	// or during notification. Nothing can be done when this happens. Hence it will 
+	// be ignored.
+    if( iStatus.Int() == KLbtErrPartial )
        {
        LOG("Partial completion");  
-       iObserver.HandleOperationClosureL( this,KErrNone );
+       TRAP_IGNORE( iObserver.HandleOperationClosureL( this,KErrNone ) );
        }
-   else
+    else
        {
-       iObserver.HandleOperationClosureL( this,iStatus.Int() );
+       TRAP_IGNORE( iObserver.HandleOperationClosureL( this,iStatus.Int() ) );
        }
     }
 	
@@ -313,7 +316,6 @@ void CLbtTriggerModifyAOOperation::ListTriggersL()
 			filter->AddTriggerIdL( iTriggerId );
             options->SetFilter( filter );
 			CleanupStack::Pop(filter);
-			// ToDo : if msg from LT client API then add SID filter as well.
 			break;
 		    }
 		case ELbtDeleteTriggers:
@@ -323,8 +325,7 @@ void CLbtTriggerModifyAOOperation::ListTriggersL()
 			    InternalizeFilterFromIpcLC( iMessage, KParamFilter );
             options->SetFilter( filter );
 			CleanupStack::Pop(filter);
-			// ToDo : if msg from LT client API then add SID filter as well.
-		    break;
+			break;
 		    }
         }
 
@@ -512,6 +513,7 @@ void CLbtTriggerModifyAOOperation::HandleModifyTriggerStateOpL()
     {
     FUNC_ENTER("CLbtTriggerModifyAOOperation::HandleModifyTriggerStateOpL");
 	CLbtTriggerFilterBase* filter = NULL;
+	// coverity[var_decl : FALSE] 
 	CLbtTriggerEntry::TLbtTriggerState triggerState;
 	
 	switch ( iFunction )

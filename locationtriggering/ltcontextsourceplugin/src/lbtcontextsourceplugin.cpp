@@ -189,9 +189,7 @@ void CLBTContextSourcePlugin::ParseTriggerInformationL( const CCFContextSourceSe
     
     
     LBTCONTEXTSOURCEPLUGINDEBUG( "CLBTContextSourcePlugin::ParseTriggerInformationL : IN " );
-    const RSettingParameterArray& parameters 
-                            = aItem.Parameters();
-    
+
     // Add check for improper syntax of XML file
     if ( aItem.Name() != KTriggerLocation )     
     {
@@ -533,9 +531,6 @@ TInt CLBTContextSourcePlugin::CheckValidity( RThread& aClientThread,
         {
         const CCFContextSourceSetting& item = aSettingList.Item( i );
 
-        const RSettingParameterArray& parameters 
-                                = item.Parameters();
-        
         // Add check for improper syntax of XML file
         if ( item.Name() != KTriggerLocation )     
             {

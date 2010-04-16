@@ -219,6 +219,7 @@ CSuplSessionBase* COMASUPLProtocolManager1::CreateNewSessionL(
 	CSuplSessionBase* SuplSession = COMASuplSession::NewL(*iCommManager, iMobilePhone, iSuplSettings,
 															iSuplStorageSettings, aRequestType, *this, iPosHandler, iIMSI,
                                                             *this, aIpcSessionId,iOMASuplAsnHandlerBaseImpl);
+  SuplSession->SetSUPLVersion(1);                                                            
 	User::LeaveIfError(iSuplSessions.Append(SuplSession));
   	return SuplSession;
 	}

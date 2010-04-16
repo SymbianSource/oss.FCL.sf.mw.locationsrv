@@ -154,7 +154,7 @@ void CLbtStrategyEngine::OperationComplete(
                 }
             else
                 {
-                iCellSupervisor->Reset();   // TODO: Check if this needed
+                iCellSupervisor->Reset();   
                 }
             }
             
@@ -215,7 +215,7 @@ void CLbtStrategyEngine::TriggerStoreChanged( RArray<TLbtTriggerId>& aTriggerIds
         iCellSupervisor->StopSupervision();
         }
     
-    // Todo: Remove the dummy positionInfo
+    // This is dummy position info, this is no significance.
     TPositionInfo dummy;
     iView->Refresh( dummy, aEventMask, aTriggerIds );
     }

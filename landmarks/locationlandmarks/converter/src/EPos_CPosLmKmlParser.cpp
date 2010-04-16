@@ -306,11 +306,15 @@ void CPosLmKmlParser::SetContentL( TPosXmlTagType aTag, const TDesC& aContent )
 					
 				while (TextUtils::ColumnText(Pointer,aCount,&contentBuf,KPosXmlCommaSeparator) != KErrNotFound )
 				{
+					
 					if(addressField[column] == EPositionFieldPostalCode)
 					{
 						if(!(IsNumber(Pointer.Left( KMaxPostalCode ))))
 						 column++; // if it is not number then set it to state
 					}
+					if(column>=5)	
+						break;	
+
 					if( addressField[column] == EPositionFieldCountry)
 				 	{
 				 		if(IsNumber(Pointer.Left( KMaxPostalCode )))
@@ -324,7 +328,7 @@ void CPosLmKmlParser::SetContentL( TPosXmlTagType aTag, const TDesC& aContent )
 						column++;
 					aCount++;
 					if(aCount >= 4 || column>=5)	
-						break;		
+						break;	
 				}
 				
 				CleanupStack::PopAndDestroy();

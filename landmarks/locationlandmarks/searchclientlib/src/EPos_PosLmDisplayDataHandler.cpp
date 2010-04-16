@@ -31,7 +31,6 @@ EXPORT_C void PosLmDisplayDataHandler::InsertItemL(
     CPosLmDisplayData& aDisplayData,
     CPosLmDisplayItem* aDisplayItem )
     {
-    RPointerArray<CPosLmDisplayItem>& displayItems = aDisplayData.DisplayItems();
     InsertItemL( aDisplayData, aDisplayItem, aDisplayData.Count() ); // append to the end
     }
 

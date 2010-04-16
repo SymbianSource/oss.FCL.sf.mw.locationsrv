@@ -130,13 +130,7 @@ EXPORT_C TInt CPosLmLocalDbAccess::OpenDatabaseL(
         {
         err = VerifyDatabaseNeedInitializationL();
         }
-    else if (err != KErrNotFound && err != KErrPathNotFound &&
-        err != KErrArgument && err != KErrAlreadyExists &&
-        err != KErrCorrupt && err != KErrNotSupported)
-        { // KErrAlreadyExists if the path includes nonexisting directory.
-        User::Leave(err);
-        }
-
+        
     return err;
     }
 

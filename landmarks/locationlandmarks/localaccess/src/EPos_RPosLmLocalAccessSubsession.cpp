@@ -91,6 +91,7 @@ TInt RPosLmLocalAccessSubsession::ReportEvent(
     TPosLmEventType aEventType,
     TPosLmItemId aId)
     {
+    //coverity[var_decl : FALSE]
     TPosLmEvent event;
     event.iEventType = aEventType;
     event.iLandmarkItemId = aId;

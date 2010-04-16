@@ -23,6 +23,9 @@
 #include <AknForm.h>
 #include <ConeResLoader.h>
 
+const TInt KMaxUsageTextSize = 5;
+_LIT(KNoUsageInHomeNetork, "No");
+
 class CAknTitlePane;
 class CLocSUPLSettingsUiEngine;
 
@@ -85,7 +88,12 @@ class CLocSUPLServerEditor :
         * @param aCommandId id of the command to respond to
         */
         void ProcessCommandL(TInt aCommandId);
-
+        
+        /**
+         * 
+         * 
+         */
+        void HandleDialogPageEventL( TInt aEventID );
         /*
          * Executes the Dialog
          */
@@ -104,7 +112,6 @@ class CLocSUPLServerEditor :
      /**
        * Inherited from CCoeControl
        */				    
-        void HandlePointerEventL(const TPointerEvent &aPointerEvent);
         
 		TKeyResponse OfferKeyEventL( const TKeyEvent& aKeyEvent,
 		                                             TEventCode aType );
@@ -192,6 +199,11 @@ class CLocSUPLServerEditor :
 		 * it toggles value of popup field
 		 */        
 		void TogglePopupFieldControlL( TInt aControlId );
+		
+		/*
+		 * toggles the txt
+		 */
+		void SetUsageinHomeNetwork( TBool aOnOff );
 
 		/*
 		 * it changes the MSK caption 
