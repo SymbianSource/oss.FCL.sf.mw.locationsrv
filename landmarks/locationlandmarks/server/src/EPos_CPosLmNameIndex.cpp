@@ -329,14 +329,16 @@ void CPosLmNameIndex::DoEvaluateL( TReal32& aProgress )
                 // the original item has been changed
                 item->SetInvalid();
                 }
-            // add new item for this ID
+            
+			CleanupStack::Pop( name );//ownership of name is transferred in the call to DoInsertL
+			
+			// add new item for this ID
             // here comparison must be done using collation
             CIndexItem* newItem = DoInsertL( id, name ); // takes onwership of name
             newItem->SetValid();
             
             TLinearOrder<CIndexItem> order( CIndexItem::CompareById );
             iIdSortedArray.InsertInOrder( newItem, order );
-            CleanupStack::Pop( name );
             }
         else
             {
@@ -440,8 +442,8 @@ void CPosLmNameIndex::InsertL( const CPosLandmark& aLandmark )
 void CPosLmNameIndex::InsertL( TPosLmItemId aLmid, const TDesC& aName )
     {
     HBufC* name = aName.AllocLC();
+    CleanupStack::Pop( name );//ownership of name is transferred in the call to UpdateL/InsertL
     InsertL( aLmid, name );
-    CleanupStack::Pop( name );
     }
 
 //--------------------------------------------------------------------
@@ -459,13 +461,16 @@ void CPosLmNameIndex::InsertL( TPosLmItemId aLmid, HBufC* aName )
 //
 CPosLmNameIndex::CIndexItem* CPosLmNameIndex::DoInsertL( TPosLmItemId aLmid, HBufC* aName )
     {
-    if ( Find( aLmid ) >= 0 ) // finds valid item
+    CleanupStack::PushL( aName );//ownership of aName is transferred to this class
+	if ( Find( aLmid ) >= 0 ) // finds valid item
         {
         User::Leave( KErrAlreadyExists ); // duplicate ID found
         }
     
     CIndexItem* landmark = new (ELeave) CIndexItem( aLmid, aName ); // takes ownership of aName
-    CleanupStack::PushL( landmark );
+    
+	CleanupStack::Pop( aName );
+	CleanupStack::PushL( landmark );
     
     TLmIndexNameKey key;
     iArray->InsertIsqAllowDuplicatesL( landmark, key );
@@ -487,8 +492,12 @@ CPosLmNameIndex::CIndexItem* CPosLmNameIndex::DoInsertL( TPosLmItemId aLmid, HBu
 //
 void CPosLmNameIndex::AppendL( TPosLmItemId aLmid, HBufC* aName )
     {
+	//Ownership of aName is transferred in this call
+	CleanupStack::PushL( aName );
     CIndexItem* landmark = new (ELeave) CIndexItem( aLmid, aName );
-    CleanupStack::PushL( landmark );
+    CleanupStack::Pop( aName );
+	
+	CleanupStack::PushL( landmark );
     AppendL( landmark );
     CleanupStack::Pop( landmark );
     }
@@ -527,8 +536,8 @@ void CPosLmNameIndex::DoRemove( TInt aIndex )
         {
         iDataSize -= entry->Size();
         ASSERT( iDataSize >= 0 );
-        delete entry;
         iArray->Delete( aIndex );
+		delete entry;
         }
     else
         {
@@ -542,10 +551,10 @@ void CPosLmNameIndex::DoRemove( TInt aIndex )
 void CPosLmNameIndex::UpdateL( TPosLmItemId aId, const TDesC& aName )
     {
     HBufC* name = aName.AllocLC();
+    CleanupStack::Pop( name );//ownership of name is transferred in the call to UpdateL
 //coverity[freed_arg : FALSE]
     UpdateL( aId, name );
 //coverity[pass_freed_arg : FALSE]
-    CleanupStack::Pop( name );
     }
 
 //--------------------------------------------------------------------
@@ -640,8 +649,8 @@ void CPosLmNameIndex::InternalizeL( RReadStream& aIn )
     for ( TInt i = 0; i < count; i++ ) 
         {
         CIndexItem* item = CIndexItem::NewLC( aIn );
+		CleanupStack::Pop( item ); //Ownership of item is transferred in the AppendL call
         AppendL( item ); // array takes ownership
-        CleanupStack::Pop( item );
         }
     iStatus = KErrNone;
     }
@@ -844,8 +853,8 @@ void CPosLmNameIndex::RemoveInvalidItems()
         CIndexItem* item = iArray->At( i );
         if ( !item->IsValid() )
             {
-            delete item;
             iArray->Delete( i );
+			delete item;
             }
         }
     }
@@ -878,8 +887,8 @@ void CPosLmNameIndex::CommitTransaction()
             }
         else if ( !item->IsValid() )
             {
-            delete item;
             iArray->Delete( i );
+			delete item;
             }
         }
     iInTransaction = EFalse;
@@ -899,8 +908,8 @@ void CPosLmNameIndex::RollbackTransaction()
         CIndexItem* item = iArray->At( i );
         if ( item->IsTemp() )
             {
-            delete item;
             iArray->Delete( i );
+			delete item;
             }
         else if ( !item->IsValid() )
             {

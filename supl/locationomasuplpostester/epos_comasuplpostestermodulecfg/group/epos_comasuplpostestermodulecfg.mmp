@@ -78,7 +78,7 @@ LANG            SC
 
 START RESOURCE ../data/postester.rss
 HEADER
-TARGETPATH Resource 
+TARGETPATH resource 
 END
  
 // End of File

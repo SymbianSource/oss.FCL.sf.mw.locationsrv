@@ -240,28 +240,27 @@ TInt CSettingsApi::RunMethodL(
 				ENTRY( "GetFallBack",CSettingsApi::GetFallBack),
 				
 				ENTRY( "SetGetTriggerParams",CSettingsApi::SetGetTriggerParamsL),
-				ENTRY( "AddTriggerSession",CSettingsApi::AddTriggerSessionL),
-				ENTRY( "DeleteTriggerSession",CSettingsApi::DeleteTriggerSessionL),
+				/* ENTRY( "AddTriggerSession",CSettingsApi::AddTriggerSessionL),
+				ENTRY( "DeleteTriggerSession",CSettingsApi::DeleteTriggerSessionL), */
 				ENTRY( "GetAllSessionSetApi",CSettingsApi::GetAllSessionSetApiL),
-				ENTRY( "SetNotStatusSetApi",CSettingsApi::SetNotStatusSetApiL),
+				/*ENTRY( "SetNotStatusSetApi",CSettingsApi::SetNotStatusSetApiL), 
 				ENTRY( "AddTriggerSessionTwice",CSettingsApi::AddTriggerSessionTwiceL),
 				ENTRY( "DeleteTriggerSessionInvalid",CSettingsApi::DeleteTriggerSessionInvalidL),
-				ENTRY( "SetNotStatusSetApiInvalid",CSettingsApi::SetNotStatusSetApiInvalidL),
+				ENTRY( "SetNotStatusSetApiInvalid",CSettingsApi::SetNotStatusSetApiInvalidL), */ 
 				ENTRY( "SetSessionObserver",CSettingsApi::SetSessionObserverL),
 				ENTRY( "SetSessionObserverTwice",CSettingsApi::SetSessionObserverTwiceL),
 				ENTRY( "RemoveSessionObserver",CSettingsApi::RemoveSessionObserverL),
 				ENTRY( "RemoveSessionObserverWithoutSet",CSettingsApi::RemoveSessionObserverWithoutSetL),
 				ENTRY( "CheckSessionChangeEvents",CSettingsApi::CheckSessionChangeEventsL),
-				ENTRY( "GetASessionParam",CSettingsApi::GetASessionParamL),
+				/* ENTRY( "GetASessionParam",CSettingsApi::GetASessionParamL), */
 				ENTRY( "GetASessionParamNull",CSettingsApi::GetASessionParamNullL),
 				ENTRY( "GetASessionParamInValid",CSettingsApi::GetASessionParamInValidL),
 				ENTRY( "CancelTriggerSession",CSettingsApi::CancelTriggerSessionL),
-				ENTRY( "SetOutstandingTriggers",CSettingsApi::SetOutstandingTriggersL),
+				/* ENTRY( "SetOutstandingTriggers",CSettingsApi::SetOutstandingTriggersL),
 				ENTRY( "SetOutstandingTriggersInvalid",CSettingsApi::SetOutstandingTriggersInvalidL),
-				ENTRY( "DeleteAllSessions",CSettingsApi::DeleteAllSessionsL),
+				ENTRY( "DeleteAllSessions",CSettingsApi::DeleteAllSessionsL), */
 				ENTRY( "SetTriggerEmptySessionName",CSettingsApi::SetTriggerEmptySessionNameL),
 				ENTRY( "SetTriggerLongSessionName",CSettingsApi::SetTriggerLongSessionNameL),
-				
 
 			};
     const TInt count = sizeof( KFunctions ) / 

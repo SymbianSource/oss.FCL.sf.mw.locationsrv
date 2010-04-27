@@ -655,29 +655,32 @@ void COMASuplStartState::LocationIDRequestCompletedL(COMASuplLocationId* aLocati
 					}
 			}
 			
-		COMASuplGSMCellInfo* cellInfo;
+		COMASuplGSMCellInfo* cellInfo = COMASuplGSMCellInfo::NewL();
         COMASuplLocationId::TOMASuplStatus status;
-        aLocationId->SuplLocationId(cellInfo, status);
+        TInt err = aLocationId->SuplLocationId(cellInfo, status);
 		
-		TInt refMNC,refMCC,refCI,refLac;
-		cellInfo->SuplGSMCellInfo(refMNC,refMCC,refCI,refLac);
-		
-        COMASuplGSMCellInfo* cellInfoClone = COMASuplGSMCellInfo::NewL();
-        cellInfoClone->SetSuplGSMCellInfo(refMNC,refMCC,refCI,refLac);
-		iLocationId2->SetSuplLocationId(cellInfoClone, status);
-
-        iLocationId = aLocationId;
-
-		if(iECId)
+		if(err == KErrNone)
 			{
-				iTrace->Trace(_L("COMASuplStartState::LocationIDRequestCompletedL...Retrive E-CellId"), KTraceFileName, __LINE__); 					
-				iGenerationStatus = ETrue;
-				iLocationIDRequestor->GetECellID();
+			TInt refMNC,refMCC,refCI,refLac;
+			cellInfo->SuplGSMCellInfo(refMNC,refMCC,refCI,refLac);
+			
+			COMASuplGSMCellInfo* cellInfoClone = COMASuplGSMCellInfo::NewL();
+			cellInfoClone->SetSuplGSMCellInfo(refMNC,refMCC,refCI,refLac);
+			iLocationId2->SetSuplLocationId(cellInfoClone, status);
+
+			iLocationId = aLocationId;
+
+			if(iECId)
+				{
+					iTrace->Trace(_L("COMASuplStartState::LocationIDRequestCompletedL...Retrive E-CellId"), KTraceFileName, __LINE__); 					
+					iGenerationStatus = ETrue;
+					iLocationIDRequestor->GetECellID();
+				}
+			else
+				{	
+					GetAssistceDataFromPluginL(aErrorCode);
+				}	
 			}
-		else
-			{	
-				GetAssistceDataFromPluginL(aErrorCode);
-			}	
 	}
 
 // -----------------------------------------------------------------------------

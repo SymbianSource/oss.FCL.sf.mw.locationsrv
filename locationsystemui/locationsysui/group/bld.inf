@@ -42,7 +42,7 @@ PRJ_EXPORTS
 ../rom/locationsysui.iby               CORE_MW_LAYER_IBY_EXPORT_PATH(locationsysui.iby)
 ../rom/locgpsindicatorplugin.iby       CORE_MW_LAYER_IBY_EXPORT_PATH(locgpsindicatorplugin.iby)
 ../rom/locnotprefplugin.iby            CORE_MW_LAYER_IBY_EXPORT_PATH(locnotprefplugin.iby)
-../rom/locpossettingsapp.iby           CORE_MW_LAYER_IBY_EXPORT_PATH(locpossettingsapp.iby)
+
 ../rom/locpsysettings.iby              CORE_MW_LAYER_IBY_EXPORT_PATH(locpsysettings.iby)
 ../rom/locsettingsuiservice.iby        CORE_MW_LAYER_IBY_EXPORT_PATH(locsettingsuiservice.iby)
 ../rom/locsuplsettings.iby             CORE_MW_LAYER_IBY_EXPORT_PATH(locsuplsettings.iby)
@@ -53,7 +53,7 @@ PRJ_EXPORTS
 ../rom/locationsysui_resources.iby             LANGUAGE_MW_LAYER_IBY_EXPORT_PATH(locationsysui_resources.iby)
 ../rom/locgpsindicatorplugin_resources.iby     LANGUAGE_MW_LAYER_IBY_EXPORT_PATH(locgpsindicatorplugin_resources.iby)
 ../rom/locnotprefplugin_resources.iby          LANGUAGE_MW_LAYER_IBY_EXPORT_PATH(locnotprefplugin_resources.iby)
-../rom/locpossettingsapp_resources.iby         LANGUAGE_MW_LAYER_IBY_EXPORT_PATH(locpossettingsapp_resources.iby)
+
 ../rom/locpsysettings_resources.iby            LANGUAGE_MW_LAYER_IBY_EXPORT_PATH(locpsysettings_resources.iby)
 ../rom/locsettingsuiservice_resources.iby      LANGUAGE_MW_LAYER_IBY_EXPORT_PATH(locsettingsuiservice_resources.iby)
 ../rom/locsuplsettings_resources.iby           LANGUAGE_MW_LAYER_IBY_EXPORT_PATH(locsuplsettings_resources.iby)
@@ -104,9 +104,6 @@ PRJ_MMPFILES
 
 //GPS indicator
 #include "../locgpsindicatorplugin/group/bld.inf"
-
-// Positioning Settings Application
-#include "../locpossettingsapp/group/bld.inf"
 
 // Location BT Notifiers
 #include "../locbtnotifier/group/bld.inf"
