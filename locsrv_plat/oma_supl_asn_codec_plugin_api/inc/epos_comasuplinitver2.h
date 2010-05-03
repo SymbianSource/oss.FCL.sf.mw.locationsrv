@@ -152,7 +152,7 @@ public:
     /**
      *Constructor for TOMASuplHistoricReporting
      */
-    TOMASuplHistoricReporting();
+    IMPORT_C TOMASuplHistoricReporting();
 
     /**
      * Setter method  for allowed reporting criteria type
@@ -556,7 +556,7 @@ class COMASuplInitVer2  : public COMASuplInit
 
    	    void ConstructL();        
 
-   	    COMASuplInitVer2(); 
+   	    IMPORT_C COMASuplInitVer2(); 
 
 
    	protected:    // Data

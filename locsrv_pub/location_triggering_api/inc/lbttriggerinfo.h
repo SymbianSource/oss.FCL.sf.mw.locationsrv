@@ -132,7 +132,7 @@ protected:
     /**
      * Default constructor.
      */
-    CLbtTriggerInfo();
+    IMPORT_C CLbtTriggerInfo();
 
 private:    
     /**

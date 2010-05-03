@@ -45,7 +45,7 @@ class CLocPosSettings : public CBase,
          *
          * @return	CLocPosSettings*	Pointer to the created object.
          */
-        EXPORT_C static CLocPosSettings* NewL();
+        IMPORT_C static CLocPosSettings* NewL();
        
         /**
          * Two Phase Constructor. The funcion leaves the CLocationSettings object
@@ -53,7 +53,7 @@ class CLocPosSettings : public CBase,
          *
          * @return	CLocPosSettings*	Pointer to the created object.
          */         
-        EXPORT_C static CLocPosSettings* NewLC();
+        IMPORT_C static CLocPosSettings* NewLC();
         
         /**
          * C++ Destructor

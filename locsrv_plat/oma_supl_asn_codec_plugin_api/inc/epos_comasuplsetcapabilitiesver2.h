@@ -312,14 +312,14 @@ private:
 class TOMASuplSessionCapabilities
     {
 public:
-    TOMASuplSessionCapabilities();
-    TInt GetMaxNumberTotalSessions(TInt &aMaxNumberTotalSessions)const;
-    TInt GetMaxNumberPeriodicSessions(TInt8 &aMaxNumberPeriodicSessions)const;
-    TInt GetMaxNumberTriggeredSessions(TInt8 &aMaxNumberTriggeredSessions)const;
+		IMPORT_C TOMASuplSessionCapabilities();
+    IMPORT_C TInt GetMaxNumberTotalSessions(TInt &aMaxNumberTotalSessions)const;
+    IMPORT_C TInt GetMaxNumberPeriodicSessions(TInt8 &aMaxNumberPeriodicSessions)const;
+    IMPORT_C TInt GetMaxNumberTriggeredSessions(TInt8 &aMaxNumberTriggeredSessions)const;
 public:
-    void SetMaxNumberTotalSessions(const TInt aMaxNumberTotalSessions);
-    void SetMaxNumberPeriodicSessions(const TInt8 aMaxNumberPeriodicSessions);
-    void SetMaxNumberTriggeredSessions(const TInt8 aMaxNumberTriggeredSessions);
+    IMPORT_C void SetMaxNumberTotalSessions(const TInt aMaxNumberTotalSessions);
+    IMPORT_C void SetMaxNumberPeriodicSessions(const TInt8 aMaxNumberPeriodicSessions);
+    IMPORT_C void SetMaxNumberTriggeredSessions(const TInt8 aMaxNumberTriggeredSessions);
 
 private:
     TInt iOptionalMask;
@@ -390,16 +390,16 @@ private:
 class TOMAServiceCapabilities
     {
 public:
-    TOMAServiceCapabilities();
-    TInt GetSuplServiceSupported(TOMASuplServiceSupported& aServicesSupported)const;
-    TInt GetSuplReportingCap(TOMASuplReportingCap& aReportingCapabilities)const;
-    TInt GetEventTriggerCapabilities(TOMASuplEventTriggerCapabilities& aEventTriggerCapabilities)const;
-    TInt GetSuplSessionCapabilities(TOMASuplSessionCapabilities& aSessionCapabilities)const;
+    IMPORT_C TOMAServiceCapabilities();
+    IMPORT_C TInt GetSuplServiceSupported(TOMASuplServiceSupported& aServicesSupported)const;
+    IMPORT_C TInt GetSuplReportingCap(TOMASuplReportingCap& aReportingCapabilities)const;
+    IMPORT_C TInt GetEventTriggerCapabilities(TOMASuplEventTriggerCapabilities& aEventTriggerCapabilities)const;
+    IMPORT_C TInt GetSuplSessionCapabilities(TOMASuplSessionCapabilities& aSessionCapabilities)const;
 public:
-    void SetSuplServiceSupported(const TOMASuplServiceSupported aServicesSupported);
-    void SetSuplReportingCap(const TOMASuplReportingCap aReportingCapabilities);
-    void SetEventTriggerCapabilities(const TOMASuplEventTriggerCapabilities aEventTriggerCapabilities);
-    void SetSuplSessionCapabilities(const TOMASuplSessionCapabilities aSessionCapabilities);
+    IMPORT_C void SetSuplServiceSupported(const TOMASuplServiceSupported aServicesSupported);
+    IMPORT_C void SetSuplReportingCap(const TOMASuplReportingCap aReportingCapabilities);
+    IMPORT_C void SetEventTriggerCapabilities(const TOMASuplEventTriggerCapabilities aEventTriggerCapabilities);
+    IMPORT_C void SetSuplSessionCapabilities(const TOMASuplSessionCapabilities aSessionCapabilities);
 
 private:
 

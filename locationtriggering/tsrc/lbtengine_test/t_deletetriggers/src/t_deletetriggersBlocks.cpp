@@ -402,7 +402,7 @@ TInt Ct_deletetriggers::TC_LBT013_03_testL( CStifItemParser& /* aItem */ )
         
     TRAPD(err,lbt.DeleteTriggerL(trigId));
            
-    AssertTrueL( KErrNone==err,_L("wrong error code"));
+    AssertTrueL( KErrNotFound==err,_L("wrong error code"));
     
     CleanupStack::PopAndDestroy( &lbt );
     CleanupStack::PopAndDestroy( &lbtserver );
@@ -434,7 +434,7 @@ TInt Ct_deletetriggers::TC_LBT013_04_testL( CStifItemParser& /* aItem */ )
         
     TRAPD(err,lbt.DeleteTriggerL(trigId));
            
-    AssertTrueL( KErrNone==err,_L("wrong error code"));
+    AssertTrueL( KErrNotFound==err,_L("wrong error code"));
     
     CleanupStack::PopAndDestroy( &lbt );
     CleanupStack::PopAndDestroy( &lbtserver );

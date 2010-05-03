@@ -33,7 +33,7 @@ CAPABILITY      ALL -TCB
 //TARGETPATH      ?target_path
 //DEFFILE         CreateTest.def
 
-SOURCEPATH      ../src ../../src
+SOURCEPATH      ../src 
      
 SOURCE          CreateTest.cpp
 SOURCE 			t_triggerfireobserver.cpp

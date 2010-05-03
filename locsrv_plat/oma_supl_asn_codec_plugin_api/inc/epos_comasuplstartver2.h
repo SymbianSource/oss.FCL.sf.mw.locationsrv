@@ -602,9 +602,9 @@ class COMASuplStartVer2  : public COMASuplStart
          
    	protected: 
       
-      void ConstructL();        
+      IMPORT_C void ConstructL();        
       
-      COMASuplStartVer2(); 
+      IMPORT_C COMASuplStartVer2(); 
       
 	  
     protected:    // Data

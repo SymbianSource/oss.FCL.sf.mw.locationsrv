@@ -11,7 +11,7 @@
 *
 * Contributors:
 *
-* Description:
+* Description:   Class for privacy notifier extension helper.
 *
 */
 
@@ -23,6 +23,7 @@
 #include <lbs/epos_cposrequestor.h>
 #include "EPos_CPosPrivacyNotifierExtension.h"
 #include "EPos_CPosRequestHandler.h"
+
 
 // ================= MEMBER FUNCTIONS =======================
 
@@ -140,21 +141,9 @@ void CPosPrivacyNotifierExtension::CompleteRequest(
     TPosQNRequestId aRequestId,
     TInt aCompletionCode)
     {
-    TInt index = Find(aRequestId);
-    if (index != KErrNotFound)
+    if (RemoveRequestFromArray(aRequestId) != KErrNotFound)
         {
-        if (iRequestArray[index].iType == TPosQNInputData::EQuery)
-            {
-            // A verification request and the requestor is expecting a response
-            iMessage.Complete(aCompletionCode);
-            }
-        else
-            {
-            // Intentionally empty. The request was for displaying a notification
-            // The requestor is not expecting a response
-            }
-
-        iRequestArray.Remove(index);
+        iMessage.Complete(aCompletionCode);
         ResetData();
         }
     }
@@ -214,6 +203,7 @@ CPosPrivacyNotifierExtension::TNotifierInfo
 //
 TPtrC8 CPosPrivacyNotifierExtension::StartL(const TDesC8& /*aBuffer*/)
     {
+    User::Leave(KErrNotSupported);
     return TPtrC8();
     }
 

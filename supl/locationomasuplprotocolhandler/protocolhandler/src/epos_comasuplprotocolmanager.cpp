@@ -369,17 +369,33 @@ EXPORT_C void COMASUPLProtocolManager::HandlePacket(const TDesC8& aPacket, TUint
 		{			
 		HandlePacketError(errorCode);
 		return;
-		} 
+		}
+	
+	//Work out what SUPL Protocol Hanlder version should be used
 	if( major == 1 )
 		{
+		//SUPL v1
 		if(iOMASuplProtocolHandler1)
 		    {
 		    iOMASuplProtocolHandler1->HandlePacket(aPacket,aPortNum);
 		    }
 		}
+	else if( major == 2)
+		{
+		//SUPL v2
+		if(iOMASuplProtocolHandler2)
+            {
+            iOMASuplProtocolHandler2->HandlePacket(aPacket,aPortNum);
+            }
+		}
 	else 
 		{
-		if(iOMASuplProtocolHandler2)
+		//Use either of the Protocol Handlers to handle the packet
+		if(iOMASuplProtocolHandler1)
+		    {
+		    iOMASuplProtocolHandler1->HandlePacket(aPacket,aPortNum);
+		    }
+		else if(iOMASuplProtocolHandler2)
             {
             iOMASuplProtocolHandler2->HandlePacket(aPacket,aPortNum);
             }	
@@ -501,17 +517,32 @@ EXPORT_C void COMASUPLProtocolManager::HandleSuplMessageL(
 		return;
 		}
 
+	//Work out what SUPL Protocol Hanlder version should be used
 	TInt major = aSuplSession->GetSUPLVersion();	
 	if( major == 1 )
 		{
+		//SUPL v1
 		if(iOMASuplProtocolHandler1)
 		    {
 		    iOMASuplProtocolHandler1->HandleSuplMessageL(aSuplSession,aStatus,aMessage);
 		    }
 		}
+	else if( major == 2 )
+		{
+		//SUPL v2
+		if(iOMASuplProtocolHandler2)
+		    {
+		    iOMASuplProtocolHandler2->HandleSuplMessageL(aSuplSession,aStatus,aMessage);
+		    }
+		}
 	else 
 		{
-		if(iOMASuplProtocolHandler2)
+		//Use either of the Protocol Handlers (if they exist) to handle the packet
+		if(iOMASuplProtocolHandler1)
+		    {
+		    iOMASuplProtocolHandler1->HandleSuplMessageL(aSuplSession,aStatus,aMessage);
+		    }
+		else if(iOMASuplProtocolHandler2)
 		    {
 		    iOMASuplProtocolHandler2->HandleSuplMessageL(aSuplSession,aStatus,aMessage);
 		    }
