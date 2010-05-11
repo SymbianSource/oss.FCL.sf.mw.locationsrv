@@ -307,8 +307,12 @@ TBool COMASuplWapListener::CheckBinaryContentType(CPushMessage* aPushMsg)
 	TPtrC8 field;
 	TBool isHeaderPresent = aPushMsg->GetBinaryHeaderField(EHttpContentType, field);
 
-    iTrace->Trace( _L( "Received Binary Content Type is:" ), KTraceFileName, __LINE__ );
+#ifdef _DEBUG
+	//Log the received message
+	iTrace->Trace( _L( "Received Binary Content Type is:" ), KTraceFileName, __LINE__ );
     PrintHex(field, __LINE__);
+#endif
+
 	if( isHeaderPresent )
 	{
 		    iTrace->Trace( _L( "Binary Content type present..." ), KTraceFileName, __LINE__ );
@@ -328,7 +332,7 @@ TBool COMASuplWapListener::CheckBinaryContentType(CPushMessage* aPushMsg)
 }
 
 // -----------------------------------------------------------------------------
-// COMASuplWapListener::CheckBinaryContentType
+// COMASuplWapListener::PrintHex
 // 
 // -----------------------------------------------------------------------------
 //
@@ -338,8 +342,24 @@ void COMASuplWapListener::PrintHex(const TDesC8& aBuffer,TInt aLine)
 			TBuf<2> buff;
 			_LIT16(KFormat1,"%02x");
 			TInt len = aBuffer.Length();
+			
+			//The buffer is usually larger than what can be logged in a single line in the log file.  As such this should only attempt
+			// to log 27 hex blocks to each log line.
+			const TInt KNumberOfBlocks = 27;
+			TInt blockNumber = KNumberOfBlocks;
+			
 			for(TInt i = 0 ; i <len; i++)
 				{
+					//Check to see if the buffer should be logged and then emptied
+                    if(i == blockNumber)
+                        {
+                        //Trace the buffer as it currently is
+                        iTrace->Trace(buffer, KTraceFileName, aLine);
+                        //Reset the buffer for the next log line
+                        buffer.Zero();
+                        blockNumber += KNumberOfBlocks;
+                        }
+					
 					buff.Zero();
 					buff.Format(KFormat1,aBuffer[i]);
 					buffer.Append(buff);	

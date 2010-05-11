@@ -124,53 +124,61 @@ COMASuplConnRequestor::~COMASuplConnRequestor()
 //    
 void COMASuplConnRequestor::CreateConnectionL()
     {
-    TBuf<100> iapName;
+	if(!iIsSettingInitilized)
+        {
+		iState = EInitialState;
+        InitilizeSetting();
+        }
+    else
+        {
+		TBuf<100> iapName;
 		TBuf<128> buffer;
-    iState = EConnecting;  
+		iState = EConnecting;  
 		TBool isIapDialogShown = EFalse;
 		TInt errorCode = iFallBackHandler->GetNextSLPAddressL(iCurrentSLPId,iHostAddress,iapName,iTls,iPskTls,iLastConnectionError,isIapDialogShown);
 		
 		if(errorCode == KErrNone)
 			{
-				TBool ret = ConvertIAPNameToIdL(iapName,iIAPId);
-				if(!ret)
-					{
-						buffer.Copy(_L("No access point configured for "));
-						buffer.Append(iHostAddress);
-						iTrace->Trace(buffer,KTraceFileName, __LINE__); 				
-						if( isIapDialogShown )
-						    {
-						    TInt err = iProtocolManager.LaunchSettingsUI(this,iHostAddress);
-						    if(err != KErrNone)
-                                {
-                                buffer.Copy(_L("Error in launching UI : "));
-                                buffer.AppendNum(err);
-                                iTrace->Trace(buffer,KTraceFileName, __LINE__);                 
-                                iHostAddress.Zero();
-                                iObserver.OperationCompleteL(err);
-                                }
-						        else
-						        iIapDialogShown = ETrue;
-						    }
-						
-						
-					}
-        else
-            {
-            iIsTimeoutDialogTimerStarted = EFalse;
-            iDialogTimer->Cancel();
-            buffer.Copy(_L("Connecting to "));
-            buffer.Append(iHostAddress);
-            iTrace->Trace(buffer,KTraceFileName, __LINE__); 				
-            iConnection = iCommMgr.CreateConnectionL(iHostAddress,iTls,iPskTls,iPort,iIAPId);
-            OpenConnection();
-            }	
-        }
-    else
-        {
-        iHostAddress.Zero();
-        iObserver.OperationCompleteL(errorCode);
-        }
+			TBool ret = ConvertIAPNameToIdL(iapName,iIAPId);
+			if(!ret)
+				{
+					buffer.Copy(_L("No access point configured for "));
+					buffer.Append(iHostAddress);
+					iTrace->Trace(buffer,KTraceFileName, __LINE__); 				
+					if( isIapDialogShown )
+						{
+						TInt err = iProtocolManager.LaunchSettingsUI(this,iHostAddress);
+						if(err != KErrNone)
+							{
+							buffer.Copy(_L("Error in launching UI : "));
+							buffer.AppendNum(err);
+							iTrace->Trace(buffer,KTraceFileName, __LINE__);                 
+							iHostAddress.Zero();
+							iObserver.OperationCompleteL(err);
+							}
+							else
+							iIapDialogShown = ETrue;
+						}
+					
+					
+				}
+			else
+	            {
+	            iIsTimeoutDialogTimerStarted = EFalse;
+	            iDialogTimer->Cancel();
+	            buffer.Copy(_L("Connecting to "));
+	            buffer.Append(iHostAddress);
+	            iTrace->Trace(buffer,KTraceFileName, __LINE__); 				
+	            iConnection = iCommMgr.CreateConnectionL(iHostAddress,iTls,iPskTls,iPort,iIAPId);
+	            OpenConnection();
+	            }	
+			}
+	    else
+	        {
+	        iHostAddress.Zero();
+	        iObserver.OperationCompleteL(errorCode);
+	        }
+		}
     }
 
 // -----------------------------------------------------------------------------
@@ -231,6 +239,7 @@ void COMASuplConnRequestor::OpenConnection()
         }
     else
         {
+		iState = EInitilizeSetting;
         InitilizeSetting();
         }
     }
@@ -278,6 +287,15 @@ void COMASuplConnRequestor::RunL()
 
     switch(iState)
         {
+		
+		case EInitialState:
+            {
+            iIsSettingInitilized = ETrue;
+            iTrace->Trace(_L("Setting API Initilizing Completed..."), KTraceFileName, __LINE__);
+            CreateConnectionL();
+            
+            break;
+            }
 
         case  EConnecting:
             {
@@ -380,7 +398,6 @@ void COMASuplConnRequestor::SetIAPID(TInt aIAPID)
 void COMASuplConnRequestor::InitilizeSetting()
     {
     iTrace->Trace(_L("Intilizing Setting API..."), KTraceFileName, __LINE__); 				
-    iState = EInitilizeSetting;
     iSuplSettings->Initialize(iStatus);
     SetActive();
     }

@@ -39,10 +39,10 @@ PRJ_EXPORTS
 PRJ_TESTMMPFILES
 // NOTE: If using ARS requirements .mmp file operation should be done under this.
 // 'abld test build'
-//settingsapi_test.mmp
+settingsapi_test.mmp
 
 PRJ_MMPFILES
-settingsapi_test.mmp
+// settingsapi_test.mmp
 // Specify the .mmp files required for building the important component
 // releasables.
 //

@@ -50,7 +50,8 @@ class COMASuplConnRequestor : public CActive,
 		  EConnecting,
 		  EConnectionDone,
 	      ESending,
-	      EInitilizeSetting
+	      EInitilizeSetting,
+		  EInitialState
 		};
 
 	public :  // Constructor 
@@ -299,6 +300,8 @@ class COMASuplConnRequestor : public CActive,
             TBool iIapDlgTimerExpired;
             
             TBool iIsTimeoutDialogTimerStarted;
+			
+			TBool iTriggerSession;
 
 };
 

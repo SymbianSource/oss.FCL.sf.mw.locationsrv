@@ -50,7 +50,8 @@ COMASuplConnRequestor::COMASuplConnRequestor(CSuplCommunicationManager& aCommMgr
     				 						 iObserver( aObserver),    				 						  
     				 						 iIapDialogShown(EFalse),
     				 						 iIapDlgTimerExpired(EFalse),    				 			            
-    				 			             iIsTimeoutDialogTimerStarted(EFalse)
+    				 			             iIsTimeoutDialogTimerStarted(EFalse),
+											 iTriggerSession(EFalse)
     {
 			
     }
@@ -124,6 +125,14 @@ COMASuplConnRequestor::~COMASuplConnRequestor()
 //    
 void COMASuplConnRequestor::CreateConnectionL(TBool aTriggerSession)
 	{
+	if(!iIsSettingInitilized)
+        {
+		iTriggerSession = aTriggerSession;
+		iState = EInitialState;
+        InitilizeSetting();
+        }
+    else
+        {
 		TBuf<100> iapName;
 		TBuf<128> buffer;
 		iState = EConnecting;  
@@ -179,6 +188,7 @@ void COMASuplConnRequestor::CreateConnectionL(TBool aTriggerSession)
 				iHostAddress.Zero();
 				iObserver.OperationCompleteL(errorCode);
 			}
+		}
 	}
 
 // -----------------------------------------------------------------------------
@@ -237,9 +247,10 @@ void COMASuplConnRequestor::OpenConnection()
 				SetActive();
 			}
 		}
-		else
+	else
 		{
-			InitilizeSetting();
+		iState = EInitilizeSetting;
+		InitilizeSetting();
 		}
 	}
     
@@ -284,6 +295,15 @@ void COMASuplConnRequestor::RunL()
     	
     	switch(iState)
     		{
+			
+			case EInitialState:
+	            {
+	            iIsSettingInitilized = ETrue;
+	            iTrace->Trace(_L("Setting API Initilizing Completed..."), KTraceFileName, __LINE__);
+	            CreateConnectionL(iTriggerSession);
+	            
+	            break;
+	            }
     		
 			case  EConnecting:
 				{
@@ -386,7 +406,6 @@ void COMASuplConnRequestor::SetIAPID(TInt aIAPID)
 void COMASuplConnRequestor::InitilizeSetting()
 	{
 			iTrace->Trace(_L("Intilizing Setting API..."), KTraceFileName, __LINE__); 				
-			iState = EInitilizeSetting;
 			iSuplSettings->Initialize(iStatus);
 			SetActive();
 	}

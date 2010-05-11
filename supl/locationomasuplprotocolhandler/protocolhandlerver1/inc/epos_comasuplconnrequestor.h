@@ -50,7 +50,8 @@ class COMASuplConnRequestor : public CActive,
 		  EConnecting,
 		  EConnectionDone,
 	      ESending,
-	      EInitilizeSetting
+	      EInitilizeSetting,
+		  EInitialState
 		};
 
 	public :  // Constructor 
