@@ -131,22 +131,22 @@ TInt COMASuplSettings::IAPId() const
 // 
 // -----------------------------------------------------------------------------
 //
-void COMASuplSettings::SetSUPLUsage(CSuplSettings::TSuplSettingsUsage& aSUPLUsage ) 
+/*void COMASuplSettings::SetSUPLUsage(CSuplSettings::TSuplSettingsUsage& aSUPLUsage ) 
 {
     iSUPLUsage = aSUPLUsage;
 }
-
+*/
 // -----------------------------------------------------------------------------
 // COMASuplSettings::SUPLUsage() 
 // Gets the SUPL Usage
 // 
 // -----------------------------------------------------------------------------
 //
-CSuplSettings::TSuplSettingsUsage COMASuplSettings::SUPLUsage() const
+/*CSuplSettings::TSuplSettingsUsage COMASuplSettings::SUPLUsage() const
 	{
 		return iSUPLUsage;
 	}
-
+*/
 
 // -----------------------------------------------------------------------------
 // COMASuplSettings::SetUIActive

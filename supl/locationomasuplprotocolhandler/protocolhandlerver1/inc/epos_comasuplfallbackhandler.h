@@ -151,6 +151,8 @@ class COMASuplFallBackHandler : public CBase
   	    TTime iFallBackStartTime;
 
   	    TInt iAllowedFallBackTimerValue;
+		
+		TBool iAttemptedBackupServer;
       
 };
 

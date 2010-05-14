@@ -61,15 +61,34 @@ void CSuplNetInitiatedSession::ConstructL(CSuplSessionManager& aSessnMgr, CSUPLP
     TInt majorVersion = KErrNotFound;
     TInt err = aSessnMgr.GetSUPLMessageVersionL(majorVersion,aClientBuf->Des());
     
-    if(majorVersion == 1)
-    	suplService = RSuplTerminalSubSession::ESUPL_1_0;
+    if(majorVersion == 2)
+	{
+		if(!CheckSuplTriggerServiceStatus())
+    	{
+    			User::Leave(KErrNotSupported);
+    	}
+		suplService = RSuplTerminalSubSession::ESUPL_2_0;
+	}
     else 
-    	suplService = RSuplTerminalSubSession::ESUPL_2_0;
+    	suplService = RSuplTerminalSubSession::ESUPL_1_0;
     
     iSuplSession = aSessnMgr.CreateNewSessionL(aReqType, 0, suplService );
+    if (iSuplSession)
+    {	
     iSuplSession->SetSUPLVersion(majorVersion);
     iSuplSessnReq = CSuplSessionRequest::NewL(aSessnMgr, iSuplSession, aServer);
-  
+    }  
+    else
+    	if (!iSuplSession && suplService == RSuplTerminalSubSession::ESUPL_2_0)
+    		{
+    			 suplService = RSuplTerminalSubSession::ESUPL_1_0;
+    			 iSuplSession = aSessnMgr.CreateNewSessionL(aReqType, 0, suplService );
+    					if (iSuplSession)
+   						 {	
+   						 iSuplSession->SetSUPLVersion(majorVersion);
+    					 iSuplSessnReq = CSuplSessionRequest::NewL(aSessnMgr, iSuplSession, aServer);
+    					 }
+    		}
 
     }
 
@@ -169,6 +188,42 @@ void CSuplNetInitiatedSession::DestroySession(CSuplSessionManager* aSessionMgr)
 {
 	if(aSessionMgr)
 	aSessionMgr->DestroySession(iSuplSession);
+}
+
+// ---------------------------------------------------------
+// CSuplNetInitiatedSession::CheckSuplTriggerServiceStatus
+//
+// (other items were commented in a header).
+// ---------------------------------------------------------
+//
+TBool CSuplNetInitiatedSession::CheckSuplTriggerServiceStatus()
+{
+	
+	CSuplSettings* 	suplStorageSettings = NULL;
+	
+	CSuplSettings::TSuplTriggerStatus suplTriggerStatus;
+
+	// create local object iSuplStorageSettings
+	TRAPD(err,suplStorageSettings = CSuplSettings::NewL());
+	if(err == KErrNone)
+	{
+			suplStorageSettings->GetSuplTriggeredServiceStatus(suplTriggerStatus);
+			delete suplStorageSettings;
+			suplStorageSettings = NULL;
+
+			if(suplTriggerStatus == CSuplSettings::ESuplTriggerOn)
+			{
+					return ETrue;						
+			}
+			else
+			{
+					return EFalse;	
+			}
+	}		
+	else
+	{
+			return ETrue;
+	}
 }
 
 // End of File

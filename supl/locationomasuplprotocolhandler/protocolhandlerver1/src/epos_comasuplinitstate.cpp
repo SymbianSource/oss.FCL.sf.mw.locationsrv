@@ -988,17 +988,6 @@ iRequestIDFeatureFlag = EFalse;
 				{
 						iTrace->Trace(_L("Real: Supl 1.0..APE Flag is OFF..."), KTraceFileName, __LINE__); 
 				}
-				  
-  iRequestIDFeatureFlag = ETrue;
-	
-	if (iRequestIDFeatureFlag)
-        {
-						iTrace->Trace(_L("Supl 1.0..APE Centric Arch Feature Flag is ON..."), KTraceFileName, __LINE__); 
-        }   
-	else
-				{
-						iTrace->Trace(_L("Supl 1.0..APE Centric Arch Feature Flag is OFF..."), KTraceFileName, __LINE__); 
-				}
 	
 }
 //  End of File

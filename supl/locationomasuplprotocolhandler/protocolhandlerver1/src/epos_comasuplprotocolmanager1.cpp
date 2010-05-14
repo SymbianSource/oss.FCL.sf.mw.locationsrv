@@ -102,10 +102,10 @@ EXPORT_C COMASUPLProtocolManager1* COMASUPLProtocolManager1::NewL()
 // Destructor.
 EXPORT_C COMASUPLProtocolManager1::~COMASUPLProtocolManager1()
 	{
-	if(iSettingsLauncher)		
+	/*if(iSettingsLauncher)		
 		{
 			iSettingsLauncher->CancelLaunch();
-		}
+		}*/
 	iSuplSettings->SetUIActive( EFalse );
 
 	DeleteAllSessions();
@@ -127,7 +127,7 @@ EXPORT_C COMASUPLProtocolManager1::~COMASUPLProtocolManager1()
 	
 	delete iSuplEcomEventWatcher;
 	
-    delete iSettingsLauncher;
+    //delete iSettingsLauncher;
     delete iNotifier;
 	iMobilePhone.Close(); 
 	iTelServer.Close();
@@ -165,7 +165,7 @@ void COMASUPLProtocolManager1::ConstructL()
 	iSuplStorageSettings = CSuplSettingsInternal::NewL();
 	iSuplStorageSettings->SetObserverL(*this);
 
-   	iSettingsLauncher = COMASuplSettingsLauncher::NewL( *this );
+   	//iSettingsLauncher = COMASuplSettingsLauncher::NewL( *this );
 	
    	iIMSI.CreateL( KMaxIMSILen );
 	iIsPreviouslyDecodingFailed = EFalse;
@@ -242,7 +242,7 @@ EXPORT_C  void COMASUPLProtocolManager1::InitializeL(
 	//Connect to ETel
 	User::LeaveIfError(ConnectToETelL());
   
-    ReadSuplUsage();    
+    //ReadSuplUsage();    
 	 
 	if(iSuplEcomEventWatcher)
 		{
@@ -1179,7 +1179,7 @@ void COMASUPLProtocolManager1::HandleSuplSettingsChangeL(TSuplSettingsEventType 
     if( aEvent == MSuplSettingsObserver::ESuplSettingsEventSuplUsageChange)
         {
         iTrace->Trace(_L("Setting Changed.SUPL Usage changed.. Reeading once again..."), KTraceFileName, __LINE__);
-        ReadSuplUsage();
+        //ReadSuplUsage();
 		}
 	else if( aEvent == MSuplSettingsObserver::ESuplSettingsEventCommParameterChange)
 		{
@@ -1612,7 +1612,7 @@ void COMASUPLProtocolManager1::ResetBufferingParameters()
 // 
 // -----------------------------------------------------------------------------
 //
-TInt COMASUPLProtocolManager1::LaunchSettingsUI(MOMASuplUICompletionObserver* aObserver,const TDesC& aForHslp)
+/*TInt COMASUPLProtocolManager1::LaunchSettingsUI(MOMASuplUICompletionObserver* aObserver,const TDesC& aForHslp)
     {        
 	iTrace->Trace(_L("COMASUPLProtocolManager1::LaunchSettingsUI"), KTraceFileName, __LINE__);
 
@@ -1634,7 +1634,7 @@ TInt COMASUPLProtocolManager1::LaunchSettingsUI(MOMASuplUICompletionObserver* aO
     	}
     		
 	return KErrNone;
-    }
+    }*/
 
 // -----------------------------------------------------------------------------
 // COMASUPLProtocolManager1::SettingsUICompletedL
@@ -1642,7 +1642,7 @@ TInt COMASUPLProtocolManager1::LaunchSettingsUI(MOMASuplUICompletionObserver* aO
 // 
 // -----------------------------------------------------------------------------
 //
-void COMASUPLProtocolManager1::SettingsUICompletedL(TInt aError)
+/*void COMASUPLProtocolManager1::SettingsUICompletedL(TInt aError)
 	{
 	iTrace->Trace(_L("COMASUPLProtocolManager1::SettingsUICompletedL"), KTraceFileName, __LINE__);
     iSuplSettings->SetUIActive(EFalse);
@@ -1667,7 +1667,7 @@ void COMASUPLProtocolManager1::SettingsUICompletedL(TInt aError)
     iCurrentlyUsedHslp.Copy(_L(""));	
     iUIRequestArray.Reset();
     }
-
+*/
 
 // -----------------------------------------------------------------------------
 // COMASUPLProtocolManager1::DeInitialize
@@ -1727,7 +1727,7 @@ TInt COMASUPLProtocolManager1::GetNetworkModeL()
 // 
 // -----------------------------------------------------------------------------
 //
-TInt COMASUPLProtocolManager1::LaunchSuplUsageSettingsUI(MOMASuplUICompletionObserver* aObserver, TBool aRoaming)	
+/*TInt COMASUPLProtocolManager1::LaunchSuplUsageSettingsUI(MOMASuplUICompletionObserver* aObserver, TBool aRoaming)	
 	{
 	iTrace->Trace(_L("COMASUPLProtocolManager1::LaunchSuplUsageSettingsUI"), KTraceFileName, __LINE__);
     if (iSuplSettings->IsUIActive() && !iTimeOutDialogPresent)
@@ -1742,7 +1742,7 @@ TInt COMASUPLProtocolManager1::LaunchSuplUsageSettingsUI(MOMASuplUICompletionObs
     iSessnUIObserver = aObserver;            
     iSuplSettings->SetUIActive(ETrue);
     return iSettingsLauncher->LaunchSuplUsageSettingsUI(aRoaming);
-	}
+	}*/
 
 // -----------------------------------------------------------------------------
 // COMASUPLProtocolManager1::SettingsUsageUICompletedL
@@ -1750,7 +1750,7 @@ TInt COMASUPLProtocolManager1::LaunchSuplUsageSettingsUI(MOMASuplUICompletionObs
 // 
 // -----------------------------------------------------------------------------
 //
-void COMASUPLProtocolManager1::SettingsUsageUICompletedL(TInt aError)
+/*void COMASUPLProtocolManager1::SettingsUsageUICompletedL(TInt aError)
 	{
 	iTrace->Trace(_L("COMASUPLProtocolManager1::SettingsUsageUICompletedL"), KTraceFileName, __LINE__);
     iSuplSettings->SetUIActive(EFalse);
@@ -1768,7 +1768,7 @@ void COMASUPLProtocolManager1::SettingsUsageUICompletedL(TInt aError)
         }
 
     CheckOutstandingUsageUIRequestsL();
-	}
+	}*/
 
 // -----------------------------------------------------------------------------
 // COMASUPLProtocolManager1::ReadSuplUsage
@@ -1776,7 +1776,7 @@ void COMASUPLProtocolManager1::SettingsUsageUICompletedL(TInt aError)
 // 
 // -----------------------------------------------------------------------------
 //
-void COMASUPLProtocolManager1::ReadSuplUsage()
+/*void COMASUPLProtocolManager1::ReadSuplUsage()
 	{
 	iTrace->Trace(_L("COMASUPLProtocolManager1::ReadSuplUsage start"), KTraceFileName, __LINE__);	
 	CSuplSettings::TSuplSettingsUsage suplUsage;
@@ -1786,7 +1786,7 @@ void COMASUPLProtocolManager1::ReadSuplUsage()
 			iSuplSettings->SetSUPLUsage(suplUsage);
 		}
 	iTrace->Trace(_L("COMASUPLProtocolManager1::ReadSuplUsage end"), KTraceFileName, __LINE__);	
-	}
+	}*/
 
 void COMASUPLProtocolManager1::UpdateAllSubSessnsInSameSession(TInt aIpcSessionId)
     {
@@ -1827,7 +1827,7 @@ void COMASUPLProtocolManager1::CheckOutstandingUsageUIRequestsL()
 
             if (OMAsuplSession->GetSuplUsageFlag())
                 {                        
-                OMAsuplSession->StartUsageDialogLaunchL();
+                //OMAsuplSession->StartUsageDialogLaunchL();
                 break;
                 }
 		}
@@ -1917,7 +1917,7 @@ void COMASUPLProtocolManager1::HandleRoamingCheckCompleteL(TInt aErrorCode, TBoo
 // 
 // -----------------------------------------------------------------------------
 //
-TInt COMASUPLProtocolManager1::LaunchSuplDialogTimeoutUI(MOMASuplUICompletionObserver* aObserver )
+/*TInt COMASUPLProtocolManager1::LaunchSuplDialogTimeoutUI(MOMASuplUICompletionObserver* aObserver )
     {
     iTrace->Trace(_L("COMASUPLProtocolManager1::LaunchTimeOutUI"), KTraceFileName, __LINE__);
     
@@ -1931,7 +1931,7 @@ TInt COMASUPLProtocolManager1::LaunchSuplDialogTimeoutUI(MOMASuplUICompletionObs
     iSuplSettings->SetUIActive(ETrue);
     iTimeOutDialogPresent = ETrue;
     return iSettingsLauncher->LaunchSessionTimeOutDialog();		
-    }
+    }*/
 
 // -----------------------------------------------------------------------------
 // COMASUPLProtocolManager1::SettingsTimeOutUICompletedL
@@ -1939,7 +1939,7 @@ TInt COMASUPLProtocolManager1::LaunchSuplDialogTimeoutUI(MOMASuplUICompletionObs
 // 
 // -----------------------------------------------------------------------------
 //
-void COMASUPLProtocolManager1::SettingsTimeOutUICompletedL(TInt aError)
+/*void COMASUPLProtocolManager1::SettingsTimeOutUICompletedL(TInt aError)
 	{
 	iTrace->Trace(_L("COMASUPLProtocolManager1::SettingsTimeOutUICompletedL"), KTraceFileName, __LINE__);
     iSuplSettings->SetUIActive(EFalse);
@@ -1956,16 +1956,17 @@ void COMASUPLProtocolManager1::SettingsTimeOutUICompletedL(TInt aError)
         if (iSessnUIObserver)                
         	iSessnUIObserver->SettingsTimeOutUICompletedL(aError);
         }
-	}
+	}*/
 
 // -----------------------------------------------------------------------------
 // COMASUPLProtocolManager1::GetLastUsedAccessPoint
 // 
 // -----------------------------------------------------------------------------
 //
-TInt COMASUPLProtocolManager1::GetLastUsedAccessPoint(TDes& aLastlyUsedAccessPoint,TUint32& iIAPId)
+TInt COMASUPLProtocolManager1::GetLastUsedAccessPoint(TDes& /*aLastlyUsedAccessPoint*/,TUint32& /*iIAPId*/)
 	{
-	return iSettingsLauncher->GetIAPName(aLastlyUsedAccessPoint,iIAPId);
+	//return iSettingsLauncher->GetIAPName(aLastlyUsedAccessPoint,iIAPId);
+	return KErrNone;
 	}
 
 // -----------------------------------------------------------------------------
@@ -2064,5 +2065,9 @@ void COMASUPLProtocolManager1::SetCommonConfig(COMASuplCommonConfig*& aCommmonCo
     iSuplInitTimeOut = aCommmonConfig->iSuplInitTimeOut;
     iPersistFailTimer = aCommmonConfig->iPersistFailTimer;
     }
+void COMASUPLProtocolManager1::HandleSuplTriggerStatusChangeL(
+               CSuplSettings::TSuplTriggerStatus /*aSuplTriggerStatus*/ ) 
+    {
     
+    }
 // end of file

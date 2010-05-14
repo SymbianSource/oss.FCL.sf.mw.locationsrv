@@ -540,6 +540,8 @@ void CSuplIPCSubSession::CompleteGetServerAddress(const RMessage2& aMessage, TIn
 TInt CSuplIPCSubSession::PackPositionData(const RMessage2& aMessage)
 	{
 	DEBUG_TRACE("CSuplIPCSubSession::PackPositionData", __LINE__)
+	//coverity ignore comment below
+    //coverity[UNUSED_VALUE  :FALSE]  
     TPositionInfo& info = PositionInfo(iPositionBuffer);
  
     TPtr8 ptrToBuffer = iPositionBuffer->Des();
@@ -555,6 +557,8 @@ TInt CSuplIPCSubSession::PackPositionData(const RMessage2& aMessage)
 TInt CSuplIPCSubSession::PackServerAddressData(const RMessage2& aMessage)
     {
     DEBUG_TRACE("CSuplIPCSubSession::PackServerAddressData", __LINE__)
+	//coverity ignore comment below
+    //coverity[UNUSED_VALUE  :FALSE]  
     TDes& info = ServerAddress(iPositionBuffer);
  
     TPtr8 ptrToBuffer = iPositionBuffer->Des();
@@ -572,6 +576,8 @@ TInt CSuplIPCSubSession::PackServerAddressData(const RMessage2& aMessage)
 TInt CSuplIPCSubSession::PackTriggerData(const RMessage2& aMessage)
 	{
 	DEBUG_TRACE("CSuplIPCSubSession::PackTriggerData", __LINE__)
+	//coverity ignore comment below
+    //coverity[UNUSED_VALUE  :FALSE]   
     TSuplTriggerFireInfo& info = TriggerInfo(iPositionBuffer);
  
     TPtr8 ptrToBuffer = iPositionBuffer->Des();

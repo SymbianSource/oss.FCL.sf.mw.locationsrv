@@ -118,7 +118,11 @@ void CSuplIPCSession::ForwardMessageL(const RMessage2& aMessage)
     TInt dataSize = aMessage.GetDesLength(0);
     if(dataSize>0)
     	{
-    	iSuplServer.HandleNewNetSessionL(iSessionManager,aMessage);  
+    	TRAPD(err,iSuplServer.HandleNewNetSessionL(iSessionManager,aMessage));
+    	if(err != KErrNone)
+    	    {
+            RequestComplete(aMessage,err);
+    	    }
     	}
     else
     	{

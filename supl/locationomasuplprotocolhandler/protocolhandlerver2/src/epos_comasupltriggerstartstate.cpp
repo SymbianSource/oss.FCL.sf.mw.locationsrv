@@ -88,24 +88,25 @@ COMASuplTriggerStartState::COMASuplTriggerStartState(RMobilePhone& aMobilePhone,
 //
 COMASuplTriggerStartState::~COMASuplTriggerStartState()
     {
-    	if(iTrace)
-    		{
-    		iTrace->Trace(_L("COMASuplTriggerStartState::~COMASuplTriggerStartState..."), KTraceFileName, __LINE__); 							
-    		iTrace->Trace(_L("deleting iLocationIDRequestor..."), KTraceFileName, __LINE__); 							
-    	  }
-    	delete iLocationIDRequestor;
-    	
-    	if(iPosRequestor)
-    		iPosRequestor->DestroyList();
-		else    	    	
-            {                
-    	    iTrace->Trace(_L("deleting iSETCapabilities ..."), KTraceFileName, __LINE__); 							
-    		delete iSETCapabilities ;
-            }
+    if(iTrace)
+        {
+        iTrace->Trace(_L("COMASuplTriggerStartState::~COMASuplTriggerStartState..."), KTraceFileName, __LINE__); 							
+        iTrace->Trace(_L("deleting iLocationIDRequestor..."), KTraceFileName, __LINE__); 							
+        }
+    delete iLocationIDRequestor;
 
+    if(iPosRequestor)
+        iPosRequestor->DestroyList();
+    else    	    	
+        {   
+        if(iTrace)
+            iTrace->Trace(_L("deleting iSETCapabilities ..."), KTraceFileName, __LINE__); 							
+        delete iSETCapabilities ;
+        }
 
-    	iTrace->Trace(_L("deleting iAllowedCapabilities ..."), KTraceFileName, __LINE__); 							
-    	delete iAllowedCapabilities;
+    if(iTrace)
+        iTrace->Trace(_L("deleting iAllowedCapabilities ..."), KTraceFileName, __LINE__); 							
+    delete iAllowedCapabilities;
 
     }
 
@@ -260,7 +261,7 @@ HBufC8* COMASuplTriggerStartState::EncodeMessageL(TOMASuplVersion &aSuplVersion,
 							 posProtocolExt.SetTOMASuplVer2ProtocolExt(tempProtocolVersion,posProtocolVersion,posProtocolVersionTia);								
 							 posProtocol2.SetVer2PosProtoExtn(posProtocolExt);
 						}
-			
+			if(iSETCapabilities2)
 			      iSETCapabilities2->SetSETCapabilities(posTechnology2, prefMethod2, posProtocol2);
       
       }
@@ -308,9 +309,10 @@ HBufC8* COMASuplTriggerStartState::EncodeMessageL(TOMASuplVersion &aSuplVersion,
         // Set SET Capability extn
         TOMAVer2SetCapExtn setCapsExtn;
         setCapsExtn.SetServiceCaps(serviceCaps);
-				iTrace->Trace(_L("SetVer2SetCapExtn"), KTraceFileName, __LINE__);
+		iTrace->Trace(_L("SetVer2SetCapExtn"), KTraceFileName, __LINE__);
         // Set SET Capabilities
-        iSETCapabilities2->SetVer2SetCapExtn(setCapsExtn);
+		if(iSETCapabilities2)
+		    iSETCapabilities2->SetVer2SetCapExtn(setCapsExtn);
 
 	    iTrace->Trace(_L("SetSuplTriggeredStart"), KTraceFileName, __LINE__);
 	    

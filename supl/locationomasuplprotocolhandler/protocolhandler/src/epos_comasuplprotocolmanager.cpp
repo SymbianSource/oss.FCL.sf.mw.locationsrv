@@ -380,7 +380,7 @@ EXPORT_C void COMASUPLProtocolManager::HandlePacket(const TDesC8& aPacket, TUint
 		    iOMASuplProtocolHandler1->HandlePacket(aPacket,aPortNum);
 		    }
 		}
-	else if( major == 2)
+	else if ( major == 2 )
 		{
 		//SUPL v2
 		if(iOMASuplProtocolHandler2)
@@ -388,17 +388,17 @@ EXPORT_C void COMASUPLProtocolManager::HandlePacket(const TDesC8& aPacket, TUint
             iOMASuplProtocolHandler2->HandlePacket(aPacket,aPortNum);
             }
 		}
-	else 
+	else
 		{
-		//Use either of the Protocol Handlers to handle the packet
-		if(iOMASuplProtocolHandler1)
-		    {
-		    iOMASuplProtocolHandler1->HandlePacket(aPacket,aPortNum);
-		    }
+		//Use either of the Protocol Handlers to handle the packet 
+		if (iOMASuplProtocolHandler1)
+    		{
+    		iOMASuplProtocolHandler1->HandlePacket(aPacket,aPortNum);
+    		}
 		else if(iOMASuplProtocolHandler2)
             {
             iOMASuplProtocolHandler2->HandlePacket(aPacket,aPortNum);
-            }	
+            } 
 		}			
 	}
 
@@ -535,17 +535,17 @@ EXPORT_C void COMASUPLProtocolManager::HandleSuplMessageL(
 		    iOMASuplProtocolHandler2->HandleSuplMessageL(aSuplSession,aStatus,aMessage);
 		    }
 		}
-	else 
+	else
 		{
-		//Use either of the Protocol Handlers (if they exist) to handle the packet
-		if(iOMASuplProtocolHandler1)
-		    {
-		    iOMASuplProtocolHandler1->HandleSuplMessageL(aSuplSession,aStatus,aMessage);
-		    }
+		//Use either of the Protocol Handlers (if they exist) to handle the packet 
+		if (iOMASuplProtocolHandler1)
+    		{
+    		iOMASuplProtocolHandler1->HandleSuplMessageL(aSuplSession,aStatus,aMessage);
+    		}
 		else if(iOMASuplProtocolHandler2)
 		    {
 		    iOMASuplProtocolHandler2->HandleSuplMessageL(aSuplSession,aStatus,aMessage);
-		    }
+		    }    	
 		}			
 	}
 
@@ -569,7 +569,7 @@ void COMASUPLProtocolManager::DeInitialize(TRequestStatus& aDeInitRequestStatus)
 	else
 		{
 		iTrace->Trace(_L("COMASUPLProtocolManager::DeInitialize ph1 not present"), KTraceFileName, __LINE__);
-		DeInitilizationCompletedL( KErrNotFound ); //ph1 is not present.
+		TRAP_IGNORE(DeInitilizationCompletedL( KErrNotFound )); //ph1 is not present.
 		}
 	
     }            

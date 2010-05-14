@@ -39,7 +39,7 @@ CServerParams::CServerParams():iSlpId (-1),
                                         iSimChangeRemove  (ETrue),
                                         iUsageInHomeNw (ETrue),
                                         iEditable (ETrue),
-                                        
+                                        iProductConfigured(ETrue),
                                         iIsValueSet(EFalse)
     {
 
@@ -90,6 +90,8 @@ EXPORT_C  CServerParams::~CServerParams()
         }
 
     }
+    
+    
 // ---------------------------------------------------------------------------
 // CServerParams::Set()
 //
@@ -131,10 +133,10 @@ EXPORT_C TInt CServerParams::Set( const TDesC& aServerAddress,
     iSimChangeRemove = aSimChangeRemove;
     iUsageInHomeNw = aUsageInHomeNw;
     iEditable = aEditable;
-    
     iIsValueSet = ETrue;
     return KErrNone;            
     }
+    
 // ---------------------------------------------------------------------------
 // CServerParams::Get()
 //
@@ -144,6 +146,7 @@ EXPORT_C TInt CServerParams::Get(TInt64 &aSlpId, TPtr aServerAddress,
                 TPtr aIapName,TBool& aServerEnabled,
                 TBool& aSimChangeRemove, TBool& aUsageInHomeNw, TBool& aEditable) const
     {
+    	
     if(!iIsValueSet) //if values were not set before using the Set method, return error
         return KErrNotFound;
     
@@ -162,7 +165,25 @@ EXPORT_C TInt CServerParams::Get(TInt64 &aSlpId, TPtr aServerAddress,
     aUsageInHomeNw = iUsageInHomeNw;
     aEditable = iEditable;
     return KErrNone;            
+    
     }
+    
+
+EXPORT_C void CServerParams::SetServerConfigurationType(TBool aConfigurationType)
+	{
+		iProductConfigured = aConfigurationType;
+	}
+
+
+EXPORT_C TInt CServerParams::GetServerConfigurationType(TBool& aConfigurationType)const
+	{
+    if(!iIsValueSet) //if values were not set before using the Set method, return error
+        return KErrNotFound;
+        
+			aConfigurationType = iProductConfigured;
+			return KErrNone;            
+			
+	}
 
 // C++ default constructor can NOT contain any code, that
 // might leave.
@@ -175,6 +196,7 @@ CTriggerParams::CTriggerParams(): iSessionId (0),
                                   iRequestType(EUnSpecified),
                                   iOutstandingTrigger(0),                                            
                                   iInterval(0),
+                                  iEndTime(0),
                                   iIsValueSet(EFalse)
     {
 
@@ -261,6 +283,7 @@ EXPORT_C TInt CTriggerParams::Set( TInt64 aSessionId,
     iOutstandingTrigger = aOutstandingTrigger;
     iInterval = aInterval;
     iIsValueSet = ETrue;
+    
     return KErrNone;            
     }
 // ---------------------------------------------------------------------------
@@ -307,6 +330,32 @@ EXPORT_C TInt CTriggerParams::Get( TInt64& aSessionId,
     aInterval = iInterval;
     return KErrNone;            
     }
+
+// ---------------------------------------------------------------------------
+// CTriggerParams::GetTriggerEndTime()
+//
+// Returns server parameters.
+// ---------------------------------------------------------------------------
+EXPORT_C TInt CTriggerParams::GetTriggerEndTime(TTime& aEndTime)const                
+		{
+	    if( !iIsValueSet ) //if values were not set before using the Set method, return error
+        {
+        return KErrNotFound;
+        }
+
+			aEndTime = iEndTime.Int64();
+			return KErrNone;            
+		}
+
+// ---------------------------------------------------------------------------
+// CTriggerParams::SetTriggerEndTime()
+//
+// Returns server parameters.
+// ---------------------------------------------------------------------------		
+EXPORT_C void CTriggerParams::SetTriggerEndTime(const TTime aEndTime)
+		{
+			iEndTime = aEndTime.Int64();
+		}               
 
 //  End of File
 

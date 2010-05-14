@@ -12,7 +12,7 @@
 * Contributors:
 *
 * Description:   Implementation of COMASuplEtel Class
-*  Version     : %version: 3 % << Don't touch! Updated by Synergy at check-out.
+*  Version     : %version: 4 % << Don't touch! Updated by Synergy at check-out.
 *
 */
 
@@ -207,6 +207,8 @@ void COMASuplETel::HandleLocationIdL()
                 {
                 // For GSM Cell Information
                 COMASuplLocationId* locationId = COMASuplLocationId::NewL(); 
+				//Comment to ignore coverity cleanup stack error
+                //coverity[SYMBIAN.CLEANUP_STACK :FALSE]
                 CleanupStack::PushL(locationId);
      			COMASuplGSMCellInfo* gsmCellInfo = COMASuplGSMCellInfo::NewL();
      			CleanupStack::PushL(gsmCellInfo);
@@ -259,6 +261,8 @@ void COMASuplETel::HandleLocationIdL()
                 {
                 // For WCDMA  Cell Information
                 COMASuplLocationId* locationId = COMASuplLocationId::NewL(); 
+				//Comment to ignore coverity cleanup stack error
+                //coverity[SYMBIAN.CLEANUP_STACK :FALSE]
                 CleanupStack::PushL(locationId);
      			COMASuplCellInfo* wcdmaCellInfo = COMASuplCellInfo::NewL();
      			CleanupStack::PushL(wcdmaCellInfo);
@@ -307,6 +311,8 @@ void COMASuplETel::HandleLocationIdL()
             	#if _DEBUG 
 	            	// For GSM Cell Information
 	            	COMASuplLocationId* locationId = COMASuplLocationId::NewL(); 
+					//Comment to ignore coverity cleanup stack error
+	            	//coverity[SYMBIAN.CLEANUP_STACK :FALSE]
                 	CleanupStack::PushL(locationId);
      				COMASuplGSMCellInfo* gsmCellInfo = COMASuplGSMCellInfo::NewL();
      				CleanupStack::PushL(gsmCellInfo);
@@ -520,7 +526,7 @@ void COMASuplETel::CopyWCDMAData()
 	 				
 						for(TInt k = 0; k < KOMASUPLMaxTimeSlotIscpAmount; k++ )	 				
 							{
-								iOMASuplwcdmaCellInfo.iNwkMeasureReport[i].iCellMeasuredResult[j].iTddInfo.iTimeslotISCP[k] = iOMASuplwcdmaCellInfo.iNwkMeasureReport[i].iCellMeasuredResult[j].iTddInfo.iTimeslotISCP[k];
+								iOMASuplwcdmaCellInfo.iNwkMeasureReport[i].iCellMeasuredResult[j].iTddInfo.iTimeslotISCP[k] = iCustomWCDMACellInfo.iNwkMeasureReport[i].iCellMeasuredResult[j].iTddInfo.iTimeslotISCP[k];
 							}
 	 					
 	 			}

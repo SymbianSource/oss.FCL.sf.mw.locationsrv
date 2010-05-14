@@ -392,6 +392,8 @@ void COMASuplPosInitState::GetPosParamsL()
 	// Re-initialize the POS Requestor
 	if(iPosRequestor)
 		iPosRequestor->DestroyList();
+	//Comment to ignore coverity forward NULL stack error
+    //coverity[FORWARD_NULL   :FALSE]
 	iPosRequestor->CreateListL();
 	
 	// Create SET capabilities object
@@ -409,24 +411,27 @@ void COMASuplPosInitState::GetPosParamsL()
 	// Create Velocity
 	iVelocity = COMASuplVelocity::NewL();
 	
+    if(iPosRequestor)
+        {
+        // Append the SUPL POS INIT optional parameters to the list
+        // in POS Requestor
+        iPosRequestor->AppendInfoRequest(iCurSetCapabilities);
+        iPosRequestor->AppendInfoRequest(iReqAsstData);
+        iPosRequestor->AppendInfoRequest(iPosition);
+        iPosRequestor->AppendInfoRequest(iPosPayload);
+        iPosRequestor->AppendInfoRequest(iVelocity);
+	
 
-	// Append the SUPL POS INIT optional parameters to the list
-	// in POS Requestor
-	iPosRequestor->AppendInfoRequest(iCurSetCapabilities);
-	iPosRequestor->AppendInfoRequest(iReqAsstData);
-	iPosRequestor->AppendInfoRequest(iPosition);
-	iPosRequestor->AppendInfoRequest(iPosPayload);
-	iPosRequestor->AppendInfoRequest(iVelocity);
 	
-	// Set self as Observer to POS Requestor
-	iPosRequestor->SetObserver(this);
-	
-	TBuf<128> msg(_L("Filling iPosMethod in iPosRequestor: "));
-	iTrace->Trace(msg, KTraceFileName, __LINE__); 
-	if(iPosRequestor)
-		{
-		iAllowedCapabilitiesforPOS.SetAllowedCapabilities(EFalse, EFalse, EFalse, EFalse, EFalse, EFalse, EFalse, EFalse);
-		iPosRequestor->SetPosMethodAndAllowedCapabilities (iAllowedCapabilitiesforPOS,iPosMethod ); 
+        TBuf<128> msg(_L("Filling iPosMethod in iPosRequestor: "));
+        iTrace->Trace(msg, KTraceFileName, __LINE__); 
+
+        // Set self as Observer to POS Requestor
+		//Comment to ignore coverity reverse NULL error
+        //coverity[REVERSE_INULL :FALSE]
+        iPosRequestor->SetObserver(this);
+        iAllowedCapabilitiesforPOS.SetAllowedCapabilities(EFalse, EFalse, EFalse, EFalse, EFalse, EFalse, EFalse, EFalse);
+        iPosRequestor->SetPosMethodAndAllowedCapabilities (iAllowedCapabilitiesforPOS,iPosMethod ); 
         if(iHSLPAddress)
             {
             HBufC* slpAddress = CnvUtfConverter::ConvertToUnicodeFromUtf8L(*iHSLPAddress);
@@ -438,7 +443,7 @@ void COMASuplPosInitState::GetPosParamsL()
 		}
 	// Get the information from POS
 	if(iPosRequestor)
-	User::LeaveIfError(iPosRequestor->GetSuplInfoL());
+	    User::LeaveIfError(iPosRequestor->GetSuplInfoL());
 	
 	}
 // -----------------------------------------------------------------------------
@@ -585,8 +590,8 @@ HBufC8* COMASuplPosInitState::EncodeMessageL(TOMASuplVersion &aSuplVersion,
 
 		    iPosRequestor->SetPosMethodAndAllowedCapabilities (iAllowedCapabilitiesforPOS,iPosMethod  ); 
         }
-		
-		OMASuplPosInit->SetSuplPosInit(static_cast<COMASuplSETCapabilities*>(iOldCapabilities->CloneL()),static_cast<COMASuplLocationId*>(iLocationId->CloneL()),iECId);
+		if(iOldCapabilities)
+		    OMASuplPosInit->SetSuplPosInit(static_cast<COMASuplSETCapabilities*>(iOldCapabilities->CloneL()),static_cast<COMASuplLocationId*>(iLocationId->CloneL()),iECId);
 		if(iECId)
 			{
 				OMASuplPosInit->SetECellId(iMmCellInfo);
@@ -747,6 +752,7 @@ void COMASuplPosInitState::ComparisionLocationIDRequestCompletedL(COMASuplLocati
         iTrace->Trace(_L("COMASuplPosInitState::ComparisionLocationIDRequestCompletedL Cell Id not changed since making last request, so continuing"), KTraceFileName, __LINE__); 
         if(iLocationId)
             delete iLocationId;
+        //coverity[REVERSE_INULL  :FALSE]
         iLocationId = aLocationId;
         if(iMsgStateObserver)
         iMsgStateObserver->OperationCompleteL(aErrorCode);
@@ -778,7 +784,8 @@ void COMASuplPosInitState::ComparisionLocationIDRequestCompletedL(COMASuplLocati
                        delete iLocationId;
                     iLocationId = aLocationId;
                     iTrace->Trace(_L("COMASuplPosInitState::ComparisionLocationIDRequestCompletedL toe limit greater than KMaxCellIdChangeToeLimit. But repeated a pos fetch already so continuing"), KTraceFileName, __LINE__);
-                    iMsgStateObserver->OperationCompleteL(aErrorCode);//use the pos data as it is
+                    if(iMsgStateObserver)
+                        iMsgStateObserver->OperationCompleteL(aErrorCode);//use the pos data as it is
                     }
                 }
             else //ignore the position data
@@ -789,7 +796,8 @@ void COMASuplPosInitState::ComparisionLocationIDRequestCompletedL(COMASuplLocati
                 if(iLocationId)
                 	delete iLocationId;
                 iLocationId = aLocationId;
-                iMsgStateObserver->OperationCompleteL(aErrorCode);
+                if(iMsgStateObserver)
+                    iMsgStateObserver->OperationCompleteL(aErrorCode);
                 }
             }
         }

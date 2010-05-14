@@ -29,7 +29,7 @@
 
 //  INCLUDES
 #include <e32base.h>
-#include <lbs/EPos_TPosQNInputData.h>
+#include <lbs/epos_tposqninputdata.h>
 #include <EPos_CPosPrivacyNotifier.h>
 
 // FORWARD DECLARATIONS

@@ -1112,7 +1112,6 @@ iRequestIDFeatureFlag = EFalse;
  	
 	iRequestIDFeatureFlag = FeatureManager::FeatureSupported(KSUPLAPECentricArchSupport);
     FeatureManager::UnInitializeLib();
-    iRequestIDFeatureFlag = EFalse;
 	
 	if (iRequestIDFeatureFlag)
         {

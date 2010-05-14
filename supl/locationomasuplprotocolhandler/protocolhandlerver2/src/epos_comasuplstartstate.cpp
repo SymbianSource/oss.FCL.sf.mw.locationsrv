@@ -89,7 +89,8 @@ COMASuplStartState::~COMASuplStartState()
 		iTrace->Trace(_L("COMASuplStartState::~COMASuplStartState..."), KTraceFileName, __LINE__); 							
 
 	delete iLocationIDRequestor;
-	iTrace->Trace(_L("Deleted iLocationIDRequestor..."), KTraceFileName, __LINE__); 							
+	if(iTrace)
+	    iTrace->Trace(_L("Deleted iLocationIDRequestor..."), KTraceFileName, __LINE__); 							
 	
 	if(iPosRequestor)
         {                
@@ -98,15 +99,19 @@ COMASuplStartState::~COMASuplStartState()
 	else    	    	
         {                
 		delete iSETCapabilities ;
-	    iTrace->Trace(_L("Deleted iSETCapabilities ..."), KTraceFileName, __LINE__); 							
+		if(iTrace)
+		    iTrace->Trace(_L("Deleted iSETCapabilities ..."), KTraceFileName, __LINE__); 							
         }
 
 	delete iAllowedCapabilities;
-	iTrace->Trace(_L("Deleted iAllowedCapabilities..."), KTraceFileName, __LINE__); 							
+	
+	if(iTrace)
+	    iTrace->Trace(_L("Deleted iAllowedCapabilities..."), KTraceFileName, __LINE__); 							
  							
 	if(iLocationId)
 		{
-		iTrace->Trace(_L("Deleted iLocationId..."), KTraceFileName, __LINE__); 							
+        if(iTrace)
+            iTrace->Trace(_L("Deleted iLocationId..."), KTraceFileName, __LINE__); 							
 		delete iLocationId;	
 		iLocationId=NULL;
 		}    		
@@ -241,8 +246,8 @@ HBufC8* COMASuplStartState::EncodeMessageL(TOMASuplVersion &aSuplVersion,
             TBool tia801, rrlp, rrc;
 		    posProtocol.GetPosProtocol(tia801, rrlp, rrc);
             posProtocol2.SetPosProtocol(tia801, rrlp, rrc);
-
-            iSETCapabilities2->SetSETCapabilities(posTechnology2, prefMethod2, posProtocol2);
+            if(iSETCapabilities2)
+                iSETCapabilities2->SetSETCapabilities(posTechnology2, prefMethod2, posProtocol2);
         }
 		OMASuplStart->SetMessageBase(aSuplVersion,aSessionId); 
 	
@@ -286,9 +291,10 @@ HBufC8* COMASuplStartState::EncodeMessageL(TOMASuplVersion &aSuplVersion,
         // Set SET Capability extn
         TOMAVer2SetCapExtn setCapsExtn;
         setCapsExtn.SetServiceCaps(serviceCaps);
-				iTrace->Trace(_L("SetVer2SetCapExtn"), KTraceFileName, __LINE__);
+        iTrace->Trace(_L("SetVer2SetCapExtn"), KTraceFileName, __LINE__);
         // Set SET Capabilities
-        iSETCapabilities2->SetVer2SetCapExtn(setCapsExtn);
+		if(iSETCapabilities2)
+		    iSETCapabilities2->SetVer2SetCapExtn(setCapsExtn);
 		//iLocationId ownership will be with SUPL start class
 		OMASuplStart->SetSuplStart(iSETCapabilities2,iLocationId2,iECId);
 		if(iECId)
@@ -664,11 +670,11 @@ void COMASuplStartState::LocationIDRequestCompletedL(COMASuplLocationId* aLocati
 			TInt refMNC,refMCC,refCI,refLac;
 			cellInfo->SuplGSMCellInfo(refMNC,refMCC,refCI,refLac);
 			
-	        COMASuplGSMCellInfo* cellInfoClone = COMASuplGSMCellInfo::NewL();
-	        cellInfoClone->SetSuplGSMCellInfo(refMNC,refMCC,refCI,refLac);
+			COMASuplGSMCellInfo* cellInfoClone = COMASuplGSMCellInfo::NewL();
+			cellInfoClone->SetSuplGSMCellInfo(refMNC,refMCC,refCI,refLac);
 			iLocationId2->SetSuplLocationId(cellInfoClone, status);
 
-	        iLocationId = aLocationId;
+			iLocationId = aLocationId;
 
 			if(iECId)
 				{
@@ -679,7 +685,7 @@ void COMASuplStartState::LocationIDRequestCompletedL(COMASuplLocationId* aLocati
 			else
 				{	
 					GetAssistceDataFromPluginL(aErrorCode);
-				}
+				}	
 			}
 	}
 

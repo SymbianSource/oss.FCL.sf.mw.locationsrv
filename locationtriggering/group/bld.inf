@@ -25,6 +25,10 @@ PRJ_EXPORTS
 #ifdef CORE_MW_LAYER_IBY_EXPORT_PATH
 ../rom/locationtriggering.iby                         CORE_MW_LAYER_IBY_EXPORT_PATH(locationtriggering.iby)
 ../rom/locationtriggeringstub.iby                     CORE_MW_LAYER_IBY_EXPORT_PATH(locationtriggeringstub.iby)
+
+// Export SIS File
+../data/lbtstub.sis  					/epoc32/data/z/system/install/lbtstub.sis
+
 #endif
 
 #ifdef MW_LAYER_CONFML
@@ -44,7 +48,6 @@ PRJ_EXPORTS
 #include "../ltstrategyengine/group/bld.inf"
 #include "../ltmovementdetectionpluginapi/group/bld.inf"
 #include "../ltcellidmovementdetector/group/bld.inf"
-#include "../lbtmgmtui/group/bld.inf"
 #include "../ltcontextsourceplugin/group/bld.inf"
 
 PRJ_MMPFILES

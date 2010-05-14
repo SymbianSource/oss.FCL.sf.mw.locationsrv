@@ -142,8 +142,8 @@ void CSuplServer::ConstructL()
     // Settings
     TInt keyValue;
     TInt err = KErrNone;
-    
-    CRepository* repository = CRepository::NewL(KCRUidSuplConfiguration);
+    CRepository* repository = NULL;
+    TRAP(err, repository = CRepository::NewL(KCRUidSuplConfiguration));
     CleanupStack::PushL(repository);
     
     if (err != KErrNone)

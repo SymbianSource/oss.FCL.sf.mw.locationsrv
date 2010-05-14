@@ -273,9 +273,9 @@ public : // From base class, MOMASuplSessionObserver
 public: 
 
 	// For setting UI observer    
-	TInt LaunchSettingsUI(MOMASuplUICompletionObserver* aObserver,const TDesC& aForHslp);
-	TInt LaunchSuplUsageSettingsUI(MOMASuplUICompletionObserver* aObserver, TBool aRoaming);
-	TInt LaunchSuplDialogTimeoutUI(MOMASuplUICompletionObserver* aObserver );
+	//TInt LaunchSettingsUI(MOMASuplUICompletionObserver* aObserver,const TDesC& aForHslp);
+	//TInt LaunchSuplUsageSettingsUI(MOMASuplUICompletionObserver* aObserver, TBool aRoaming);
+	//TInt LaunchSuplDialogTimeoutUI(MOMASuplUICompletionObserver* aObserver );
 	void UpdateAllSubSessnsInSameSession(TInt aIpcSessionId);
 
 	void SettingsChanged();
@@ -287,7 +287,7 @@ public:
 	* @param aError - Error during Launch
 	* @return None
 	*/
-	void SettingsUICompletedL(TInt aError);
+	void SettingsUICompletedL(TInt /*aError*/) {};
 
 	/** 
 	* This callback method is used to notify the client about 
@@ -295,7 +295,7 @@ public:
 	* @param aError - Error during Launch
 	* @return None
 	*/
-	void SettingsUsageUICompletedL(TInt aError);
+	void SettingsUsageUICompletedL(TInt /*aError*/) {};
 
 	/** 
 	* This callback method is used to notify the client about 
@@ -303,7 +303,7 @@ public:
 	* @param aError - Error during Launch
 	* @return None
 	*/
-	void SettingsTimeOutUICompletedL(TInt aError);
+	void SettingsTimeOutUICompletedL(TInt /*aError*/) {};
 	
 public: //From base class MSuplSettingsObserver
 
@@ -462,7 +462,7 @@ private : //For internal use only
      * @param      None. 
      * @return     None.
      */
-    void ReadSuplUsage();
+   //void ReadSuplUsage();
 	
     
     /**
@@ -510,6 +510,10 @@ public:  // MOMASuplETelNotifierObserver
 public:  // COMASUPLProtocolManager
     void SetCommonConfig(COMASuplCommonConfig*& aCommmonConfig);
 
+public : // from MSuplSettingsObserver
+    virtual void HandleSuplTriggerStatusChangeL(
+                   CSuplSettings::TSuplTriggerStatus aSuplTriggerStatus );
+           
 private: // Data Members
 
 	//Holds all session objects created by CreateNewSession

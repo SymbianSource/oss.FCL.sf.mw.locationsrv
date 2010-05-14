@@ -294,6 +294,10 @@ NONSHARABLE_CLASS(CSettingsApi) : public CScriptBase, public MSuplSettingsObserv
 				TInt CSettingsApi::SlpCount();
 				TInt CSettingsApi::GetSlpInfoFromAddress(CStifItemParser& aItem);
 				TInt CSettingsApi::GetSlpInfoFromAddress_invalid(CStifItemParser& aItem);
+				TInt CSettingsApi::ProductConfiguredServer1();
+				TInt CSettingsApi::ProductConfiguredServer2();
+				TInt CSettingsApi::ProductConfiguredServer3();
+				TInt CSettingsApi::ProductConfiguredServer4();
 		
 				TInt SetGetTriggerParamsL( CStifItemParser& aItem ); 
 				
@@ -317,8 +321,22 @@ NONSHARABLE_CLASS(CSettingsApi) : public CScriptBase, public MSuplSettingsObserv
         virtual TInt SetTriggerEmptySessionNameL( CStifItemParser& aItem );
         virtual TInt SetTriggerLongSessionNameL( CStifItemParser& aItem );
 
+        TInt CSettingsApi::ChangeSuplTriggerServiceStatusON();
+            
+
+        TInt CSettingsApi::ChangeSuplTriggerServiceStatusOFF();
+           
+
+        TInt CSettingsApi::GetSuplTriggerServiceStatusON();
 
 
+        TInt CSettingsApi::GetSuplTriggerServiceStatusOFF();
+
+        TInt CSettingsApi::SetstatusOtherThanAppropriate();
+    public : // from MSuplSettingsObserver
+        virtual void HandleSuplTriggerStatusChangeL(
+                       CSuplSettings::TSuplTriggerStatus aSuplTriggerStatus );
+      
 				   
     public:     // Data
         // ?one_line_short_description_of_data

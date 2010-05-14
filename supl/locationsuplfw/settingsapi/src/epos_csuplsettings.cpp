@@ -237,33 +237,18 @@ EXPORT_C TInt CSuplSettings::IsImsiChanged(TBool& aChanged)
 //
 //This method is used to retrieve SUPL usage from settings storage. 
 //--------------------------------------------------------------------------------------
-EXPORT_C TInt CSuplSettings::GetSuplUsage(TSuplSettingsUsage& aUsage) const
+EXPORT_C TInt CSuplSettings::GetSuplUsage(TSuplSettingsUsage& /* aUsage */ ) const
     {
-    TInt usage, ret;            
-    ret = iSettingsEngine->GetSuplUsage(usage);
-    
-    if (ret == KErrNone)
-        {
-        aUsage = (TSuplSettingsUsage)usage;
-        return KErrNone;        
-        }            
-    else
-        return ret;            
+    return KErrNotSupported;            
     }            
 //-------------------------------------------------------------------------------------
 //CSuplSettings::SetSuplUsage()
 //
 //This method is used to change SUPL usage.
 //--------------------------------------------------------------------------------------
-EXPORT_C TInt CSuplSettings::SetSuplUsage(const TSuplSettingsUsage aUsage) 
+EXPORT_C TInt CSuplSettings::SetSuplUsage(const TSuplSettingsUsage /* aUsage */ ) 
     {
-    TInt usage = aUsage;            
-
-    if (usage < CSuplSettings::ESuplUsageAlwaysAsk ||
-        usage > CSuplSettings::ESuplUsageDisabled)                    
-        return KErrArgument;
-
-    return iSettingsEngine->SetSuplUsage(aUsage);
+    return KErrNotSupported;   
     }          
 //-------------------------------------------------------------------------------------
 //CSuplSettings::AddNewServer()
@@ -605,4 +590,26 @@ EXPORT_C TInt  CSuplSettings::GetDefaultIAPName(TDes& aIapName)
     {
     return iSettingsEngine->GetDefaultIAPName(aIapName);    
     }
+	
+	    
+//---------------------------------------------------------------------
+// CSuplSettings::SetSuplTriggeredServiceStatus()
+//
+// Changes status of SUPL triggering service. 
+//---------------------------------------------------------------------    
+EXPORT_C TInt CSuplSettings::SetSuplTriggeredServiceStatus( const TSuplTriggerStatus& aSuplTriggerStatus )
+	{
+			return iSettingsEngine->SetSuplTriggeredServiceStatus(aSuplTriggerStatus);    
+	}   
+	 
+//---------------------------------------------------------------------
+// CSuplSettings::GetSuplTriggeredServiceStatus()
+//
+// Gets status of SUPL triggering service.SUPL Triggering service can be either ESuplTriggerOn or ESuplTriggerOff
+//---------------------------------------------------------------------    
+EXPORT_C TInt CSuplSettings::GetSuplTriggeredServiceStatus( TSuplTriggerStatus& aSuplTriggerStatus )
+	{
+			return iSettingsEngine->GetSuplTriggeredServiceStatus(aSuplTriggerStatus);    
+	}   	 
+	
 //  End of File

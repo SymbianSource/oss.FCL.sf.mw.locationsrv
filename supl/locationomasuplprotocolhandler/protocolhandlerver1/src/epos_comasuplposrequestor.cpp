@@ -75,14 +75,16 @@ void COMASuplPOSRequestor::CreateListL()
 //
 void COMASuplPOSRequestor::DestroyList()
     {
-		iTrace->Trace(_L("COMASuplPOSRequestor::DestroyList"), KTraceFileName, __LINE__); 
-		if(iOMASuplInfoRequestList)
-			{
-				delete iOMASuplInfoRequestList;
-				iOMASuplInfoRequestList = NULL;
-			
-			}
-	}
+    if(iTrace)
+        iTrace->Trace(_L("COMASuplPOSRequestor::DestroyList"), KTraceFileName, __LINE__); 
+    
+    if(iOMASuplInfoRequestList)
+        {
+        delete iOMASuplInfoRequestList;
+        iOMASuplInfoRequestList = NULL;
+
+        }
+    }
 
 // -----------------------------------------------------------------------------
 // COMASuplPOSRequestor::NewL

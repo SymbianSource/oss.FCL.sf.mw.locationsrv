@@ -1,7 +1,0 @@
-EXPORTS
-	??1CSatelliteInfoUI@@UAE@XZ @ 1 NONAME ; CSatelliteInfoUI::~CSatelliteInfoUI(void)
-	?ExecuteLD@CSatelliteInfoUI@@QAEHABVTDesC16@@@Z @ 2 NONAME ; int CSatelliteInfoUI::ExecuteLD(class TDesC16 const &)
-	?HandleForegroundEventL@CSatelliteInfoUI@@QAEXH@Z @ 3 NONAME ; void CSatelliteInfoUI::HandleForegroundEventL(int)
-	?NewL@CSatelliteInfoUI@@SAPAV1@XZ @ 4 NONAME ; class CSatelliteInfoUI * CSatelliteInfoUI::NewL(void)
-	?SetLaunchView@CSatelliteInfoUI@@QAEXW4TSatelliteView@1@@Z @ 5 NONAME ; void CSatelliteInfoUI::SetLaunchView(enum CSatelliteInfoUI::TSatelliteView)
-

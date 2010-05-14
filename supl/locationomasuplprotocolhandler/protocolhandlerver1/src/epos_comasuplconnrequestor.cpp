@@ -47,10 +47,7 @@ COMASuplConnRequestor::COMASuplConnRequestor(CSuplCommunicationManager& aCommMgr
         iCommMgr(aCommMgr), 
         iProtocolManager(aProtoMgr),
         iPort(aPort),
-        iObserver( aObserver),    				 						  
-        iIapDialogShown(EFalse),
-        iIapDlgTimerExpired(EFalse),    				 			            
-        iIsTimeoutDialogTimerStarted(EFalse)
+        iObserver( aObserver)
         {
 
         }
@@ -77,7 +74,6 @@ void COMASuplConnRequestor::ConstructL()
 
     iCurrentSLPId = KErrNotFound;
 
-    iDialogTimer = COMASuplDialogTimer::NewL(*this);
     }
 
 // -----------------------------------------------------------------------------
@@ -107,12 +103,7 @@ COMASuplConnRequestor* COMASuplConnRequestor::NewL( CSuplCommunicationManager& a
 COMASuplConnRequestor::~COMASuplConnRequestor()
     {
     Cancel();
-    if(iDialogTimer)
-        {
-        iDialogTimer->Cancel();
-        delete iDialogTimer;
-        iDialogTimer = NULL;
-        }
+  
     delete iSuplSettings;
     delete iTrace;
     delete iFallBackHandler;
@@ -138,27 +129,14 @@ void COMASuplConnRequestor::CreateConnectionL()
 						buffer.Copy(_L("No access point configured for "));
 						buffer.Append(iHostAddress);
 						iTrace->Trace(buffer,KTraceFileName, __LINE__); 				
-						if( isIapDialogShown )
-						    {
-						    TInt err = iProtocolManager.LaunchSettingsUI(this,iHostAddress);
-						    if(err != KErrNone)
-                                {
-                                buffer.Copy(_L("Error in launching UI : "));
-                                buffer.AppendNum(err);
-                                iTrace->Trace(buffer,KTraceFileName, __LINE__);                 
-                                iHostAddress.Zero();
-                                iObserver.OperationCompleteL(err);
-                                }
-						        else
-						        iIapDialogShown = ETrue;
-						    }
-						
+						buffer.Copy(_L("Calling CreateConnection with no IAP"));
+						iTrace->Trace(buffer,KTraceFileName, __LINE__);
+						iConnection = iCommMgr.CreateConnectionL(iHostAddress,iTls,iPskTls,iPort,-1);
+						OpenConnection();
 						
 					}
         else
             {
-            iIsTimeoutDialogTimerStarted = EFalse;
-            iDialogTimer->Cancel();
             buffer.Copy(_L("Connecting to "));
             buffer.Append(iHostAddress);
             iTrace->Trace(buffer,KTraceFileName, __LINE__); 				
@@ -176,12 +154,9 @@ void COMASuplConnRequestor::CreateConnectionL()
 // -----------------------------------------------------------------------------
 // COMASuplConnRequestor::OpenConnection
 // -----------------------------------------------------------------------------
-//    
-void COMASuplConnRequestor::CreateConnectionL(TInt aDialogTimeOutDelay)
+//  TODO : Remove this method  
+void COMASuplConnRequestor::CreateConnectionL(TInt /*aDialogTimeOutDelay*/)
     {
-    iIsTimeoutDialogTimerStarted = ETrue;
-
-    iDialogTimer->StartTimer(aDialogTimeOutDelay); 
     CreateConnectionL();
     }
 // -----------------------------------------------------------------------------
@@ -405,7 +380,10 @@ TBool COMASuplConnRequestor::IsHslpAddrFromImsiUsed()
 
 TUint COMASuplConnRequestor::GetPortNumber()
 	{
-	return iConnection->GetPortNumberUsed();
+	if(iConnection)
+		return iConnection->GetPortNumberUsed();
+	else 
+		return 0;
 	}
 	
 // -----------------------------------------------------------------------------
@@ -455,57 +433,7 @@ TBool COMASuplConnRequestor::ConvertIAPNameToIdL(const TDesC& aIAPName, TUint32&
     return result;
     }
 
-// -----------------------------------------------------------------------------
-// COMASuplConnRequestor::SettingsUICompleted
-// 
-// -----------------------------------------------------------------------------
 
-void COMASuplConnRequestor::SettingsUICompletedL(TInt aError)
-    {
-		TBuf<128> buffer(_L("COMASuplConnRequestor:SettingsUICompleted Error: "));
-    buffer.AppendNum(aError);
-    iTrace->Trace(buffer,KTraceFileName, __LINE__); 
-
-    if (iIsTimeoutDialogTimerStarted)
-        {                
-        iTrace->Trace(_L("COMASuplSession::SettingsUICompleted, stopping timer "), KTraceFileName, __LINE__);
-        iIsTimeoutDialogTimerStarted = EFalse;                    
-        iDialogTimer->StopTimer();
-        }
-    if (iIapDlgTimerExpired)
-        {
-        iIapDlgTimerExpired = EFalse;
-        iIapDialogShown = EFalse;
-        iProtocolManager.LaunchSuplDialogTimeoutUI(this);
-        iObserver.OperationCompleteL(KErrNone);
-        return;
-        }
-    if(aError == KErrNone)
-        {
-        TBuf<100> IapName;
-        TInt err = iProtocolManager.GetLastUsedAccessPoint(IapName,iIAPId);
-        if(err == KErrNone)
-            {
-            buffer.Copy(_L("Connecting to "));
-            buffer.Append(iHostAddress);
-            buffer.Append(_L(" using IAP "));
-            buffer.Append(IapName);
-            iTrace->Trace(buffer,KTraceFileName, __LINE__); 				
-            iConnection = iCommMgr.CreateConnectionL(iHostAddress,iTls,iPskTls,iPort,iIAPId);
-            SaveAccessPoint(IapName);
-            OpenConnection();
-            }
-        else
-            {
-            iObserver.OperationCompleteL(err);	
-            }	
-        }
-    else
-        {
-        iObserver.OperationCompleteL(aError);	
-        }	
-
-    }
 
 // -----------------------------------------------------------------------------
 // COMASuplConnRequestor::SaveAccessPoint
@@ -571,19 +499,5 @@ void COMASuplConnRequestor::UpdateSLPListForHomeUsage(TBool aHomeNetwork)
     iFallBackHandler->UpdateSLPListForHomeUsage(aHomeNetwork);
     }
 
-// -----------------------------------------------------------------------------
-// COMASuplConnRequestor::DialogTimerExpiredL
-// Checks whether UI is displayed or not previously
-// 
-// -----------------------------------------------------------------------------
-void COMASuplConnRequestor::DialogTimerExpiredL()
-    {
-    iTrace->Trace(_L("COMASuplConnRequestor:Timer Expired for SUPL IAP Dialog"), KTraceFileName, __LINE__); 
 
-    if (!iIapDialogShown)
-        iProtocolManager.LaunchSuplDialogTimeoutUI(this);
-    else
-        iIapDlgTimerExpired = ETrue;  
-    return; 
-    }
 //  End of File

@@ -45,9 +45,10 @@ ECOM_PLUGIN(eposomasuplprotocolhandler.dll,eposomasuplprotocolhandler.rsc)
 //OMA Protocol Handler Plugin & resource file
 ECOM_PLUGIN(eposomasuplprotocolhandler1.dll,eposomasuplprotocolhandler1.rsc)
 
+#ifndef FF_DISABLE_OMA_SUPL_V2
 //OMA Protocol Handler Plugin & resource file
 ECOM_PLUGIN(eposomasuplprotocolhandler2.dll,eposomasuplprotocolhandler2.rsc)
-
+#endif // FF_DISABLE_OMA_SUPL_V2
 
 //OMA Provisioning
 ECOM_PLUGIN(epos_omasuplprovhandler.dll,1027509B.rsc)

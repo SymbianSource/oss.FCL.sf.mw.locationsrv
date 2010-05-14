@@ -397,6 +397,8 @@ void COMASuplPosInitState::GetPosParamsL()
 	// Re-initialize the POS Requestor
 	if(iPosRequestor)
 		iPosRequestor->DestroyList();
+	//Comment to ignore coverity forward NULL error
+	//coverity[FORWARD_NULL   :FALSE]
 	iPosRequestor->CreateListL();
 	
 	// Create SET capabilities object
@@ -414,24 +416,26 @@ void COMASuplPosInitState::GetPosParamsL()
 	// Create Velocity
 	iVelocity = COMASuplVelocity::NewL();
 	
-
-	// Append the SUPL POS INIT optional parameters to the list
-	// in POS Requestor
-	iPosRequestor->AppendInfoRequest(iCurSetCapabilities);
-	iPosRequestor->AppendInfoRequest(iReqAsstData);
-	iPosRequestor->AppendInfoRequest(iPosition);
-	iPosRequestor->AppendInfoRequest(iPosPayload);
-	iPosRequestor->AppendInfoRequest(iVelocity);
-	
-	// Set self as Observer to POS Requestor
-	iPosRequestor->SetObserver(this);
-	
-	TBuf<128> msg(_L("Filling iPosMethod in iPosRequestor: "));
-	iTrace->Trace(msg, KTraceFileName, __LINE__); 
 	if(iPosRequestor)
-		{
-		iAllowedCapabilitiesforPOS.SetAllowedCapabilities(EFalse, EFalse, EFalse, EFalse, EFalse, EFalse, EFalse, EFalse);
-		iPosRequestor->SetPosMethodAndAllowedCapabilities (iAllowedCapabilitiesforPOS,iPosMethod ); 
+	    {
+        // Append the SUPL POS INIT optional parameters to the list
+        // in POS Requestor
+        iPosRequestor->AppendInfoRequest(iCurSetCapabilities);
+        iPosRequestor->AppendInfoRequest(iReqAsstData);
+        iPosRequestor->AppendInfoRequest(iPosition);
+        iPosRequestor->AppendInfoRequest(iPosPayload);
+        iPosRequestor->AppendInfoRequest(iVelocity);
+    
+        // Set self as Observer to POS Requestor
+		//Comment to ignore coverity reverse NULL error
+        //coverity[REVERSE_INULL :FALSE]
+        iPosRequestor->SetObserver(this);
+    
+        TBuf<128> msg(_L("Filling iPosMethod in iPosRequestor: "));
+        iTrace->Trace(msg, KTraceFileName, __LINE__); 
+    
+        iAllowedCapabilitiesforPOS.SetAllowedCapabilities(EFalse, EFalse, EFalse, EFalse, EFalse, EFalse, EFalse, EFalse);
+        iPosRequestor->SetPosMethodAndAllowedCapabilities (iAllowedCapabilitiesforPOS,iPosMethod ); 
         if(iHSLPAddress)
             {
             HBufC* slpAddress = CnvUtfConverter::ConvertToUnicodeFromUtf8L(*iHSLPAddress);
@@ -596,7 +600,10 @@ HBufC8* COMASuplPosInitState::EncodeMessageL(TOMASuplVersion &aSuplVersion,
         }
 		
 		COMASuplLocationIdVer2* locationId2 = COMASuplLocationIdVer2::NewL();
+		//coverity[SYMBIAN.CLEANUP_STACK :FALSE]
+		CleanupStack::PushL(locationId2);
 		CopyLocationidToLocationId2L(locationId2);
+		CleanupStack::Pop(locationId2);
 		OMASuplPosInit->SetLocationId2(locationId2);//Ownership will be with OMASuplPosInit
 		
 
@@ -838,7 +845,8 @@ void COMASuplPosInitState::ComparisionLocationIDRequestCompletedL(COMASuplLocati
                         }
                     iLocationId = aLocationId;
                     iTrace->Trace(_L("COMASuplPosInitState::ComparisionLocationIDRequestCompletedL toe limit greater than KMaxCellIdChangeToeLimit. But repeated a pos fetch already so continuing"), KTraceFileName, __LINE__);
-                    iMsgStateObserver->OperationCompleteL(aErrorCode);//use the pos data as it is
+                    if(iMsgStateObserver)
+                        iMsgStateObserver->OperationCompleteL(aErrorCode);//use the pos data as it is
                     }
                 }
             else //ignore the position data
@@ -852,7 +860,8 @@ void COMASuplPosInitState::ComparisionLocationIDRequestCompletedL(COMASuplLocati
                 	iLocationId = NULL;
                     }
                 iLocationId = aLocationId;
-                iMsgStateObserver->OperationCompleteL(aErrorCode);
+                if(iMsgStateObserver)
+                    iMsgStateObserver->OperationCompleteL(aErrorCode);
                 }
             }
         }
@@ -1688,6 +1697,8 @@ void COMASuplPosInitState::CopyLocationidToLocationId2L(COMASuplLocationIdVer2* 
             TInt MNC,MCC,CI;
             COMASuplCellInfo* cellInfo;
             COMASuplLocationId::TOMASuplStatus status;
+			//Comment to ignore coverity checked return error
+            //coverity[CHECKED_RETURN   :FALSE]
             iLocationId->SuplLocationId(cellInfo, status);
             cellInfo->SuplCellInfo(MNC,MCC,CI);
             

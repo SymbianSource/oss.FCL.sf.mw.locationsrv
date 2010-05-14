@@ -213,6 +213,7 @@ void hmac_sha1_data(const unsigned char data[], unsigned long data_len, hmac_ctx
         }
 
         /* pad the key if necessary */
+        //coverity[OVERRUN_STATIC  :FALSE]
         memset(cx->key + cx->klen, 0, IN_BLOCK_LENGTH - cx->klen);
 
         /* xor ipad into key value  */

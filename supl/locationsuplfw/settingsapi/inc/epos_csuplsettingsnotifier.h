@@ -107,10 +107,10 @@ NONSHARABLE_CLASS(CSuplSettingsNotifier) :public CActive
         
         TBool iStopObserve;
 
-        CSuplSettings::TSuplSettingsUsage   iUsage;
-        
+         
         TInt iFallBackValue;
         TInt iFallBackTimerValue;
+        TInt iTriggerServiceStatus; // 0 = TriggerON , 1 = TriggerOFF
         
         
         //used to indicate if this object was created to listen for DB Change events

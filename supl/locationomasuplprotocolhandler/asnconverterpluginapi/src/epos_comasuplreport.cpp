@@ -293,10 +293,12 @@ EXPORT_C void COMASuplReportData::GetMutipleLocId(COMASuplMultipleLocIds*& aMult
 EXPORT_C COMASuplReportData* COMASuplReportData::CloneL()
     {
     COMASuplReportData* repDataToRet = COMASuplReportData::NewL();
+    CleanupStack::PushL( repDataToRet );
     repDataToRet->SetMutipleLocId(iMultipleLocIds->CloneL());
     repDataToRet->SetResultCode(iResultCode);
     repDataToRet->SetTimeStamp(iTimeStamp);
     repDataToRet->SetPosData(iPositionData->CloneL());
+    CleanupStack::Pop(repDataToRet);
     return repDataToRet;
     }
 // -----------------------------------------------------------------------------

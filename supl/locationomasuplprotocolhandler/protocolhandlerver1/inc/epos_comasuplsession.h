@@ -52,6 +52,8 @@
 
 #include "EPos_CPosNetworkPrivacy.h"
 
+#include <flogger.h>
+
 
 class RMobilePhone;
 class TOMASuplVersion;
@@ -215,21 +217,21 @@ class COMASuplSession : public CSuplSessionBase,
             * @param aError - Error during Launch
             * @return None
             */
-        	void SettingsUICompletedL(TInt aError);
+        	void SettingsUICompletedL(TInt aError) ;
 		
             /** 
             * This callback method is used to notify the client about 
             * the completion of UI
             * @return None
             */
-			void SettingsUsageUICompletedL(TInt aError);
+					void SettingsUsageUICompletedL(TInt /*aError*/) {};
 			
             /** 
             * This callback method is used to notify the client about 
             * the completion of UI 
             * @return None
             */
-			void SettingsTimeOutUICompletedL(TInt aError);
+					void SettingsTimeOutUICompletedL(TInt aError) ;
 			
 	public: 			 
 			/**
@@ -1067,8 +1069,12 @@ class COMASuplSession : public CSuplSessionBase,
 			
 						
 			TTime iSessionStartTime;
+			TTime iSessionStartTime1;
 			
 			TTime iSessionEndTime;
+			
+			RFileLogger iLogger;
+			
 			//Is POS message is First one or Not.
 			TBool iIsFirstPOSMessage;
 

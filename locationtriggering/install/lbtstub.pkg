@@ -34,22 +34,21 @@
 ;
 ; Files to be eclipsed
 ;
-""-"!:\sys\bin\lbt.dll"
-""-"!:\sys\bin\lbtlogger.dll"
-""-"!:\sys\bin\lbtmanager.dll"
-""-"!:\resource\plugins\lbtserverlogic.rsc"
-""-"!:\sys\bin\lbtserverlogic.dll"
-""-"!:\sys\bin\lbtserverlogicbase.dll"
-""-"!:\sys\bin\lbtcontainer.dll"
-""-"!:\sys\bin\lbtstrategy.dll"
-""-"!:\sys\bin\lbtstrategypluginapi.dll"
-""-"!:\resource\plugins\lbtstrategy.rsc"
-""-"!:\sys\bin\ltmvmtdetapi.dll"
-""-"!:\sys\bin\ltcellidmovdet.dll"
-""-"!:\resource\plugins\ltcellidmovdet.rsc"
-""-"!:\sys\bin\lbtserver.exe"
-""-"!:\private\1028312B\backup_registration.xml"
-""-"C:\private\101f875a\import\[1028312B].rsc"
+""-"Z:\sys\bin\lbt.dll"
+""-"Z:\sys\bin\lbtlogger.dll"
+""-"Z:\sys\bin\lbtmanager.dll"
+""-"Z:\resource\plugins\lbtserverlogic.rsc"
+""-"Z:\sys\bin\lbtserverlogic.dll"
+""-"Z:\sys\bin\lbtserverlogicbase.dll"
+""-"Z:\sys\bin\lbtcontainer.dll"
+""-"Z:\sys\bin\lbtstrategy.dll"
+""-"Z:\sys\bin\lbtstrategypluginapi.dll"
+""-"Z:\resource\plugins\lbtstrategy.rsc"
+""-"Z:\sys\bin\ltmvmtdetapi.dll"
+""-"Z:\sys\bin\ltcellidmovdet.dll"
+""-"Z:\resource\plugins\ltcellidmovdet.rsc"
+""-"Z:\sys\bin\lbtserver.exe"
+""-"Z:\private\1028312B\backup_registration.xml"
 
 
 

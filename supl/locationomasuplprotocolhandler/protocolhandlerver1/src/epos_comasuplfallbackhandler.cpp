@@ -42,7 +42,8 @@ _LIT(KTraceFileName,"SUPL_OMA_SESSION::epos_comasuplfallbackhandler.cpp");
 // -----------------------------------------------------------------------------
 //
 COMASuplFallBackHandler::COMASuplFallBackHandler(CSuplSettingsInternal& aSettings):
-												iSuplSettings(aSettings)
+												iSuplSettings(aSettings),
+												iAttemptedBackupServer(EFalse)
     {
 
     }
@@ -113,6 +114,8 @@ COMASuplFallBackHandler::~COMASuplFallBackHandler()
 TInt COMASuplFallBackHandler::GetNextSLPAddressL(TInt64& aSLPId, TDes& aHslpToBeUsedAddress,TDes& aIAPName,TBool& aTls,
                                                  TBool& aPskTls,TInt aLastErrorCode,TBool& aIsIapDialogShown)
     {
+	iTrace->Trace(_L("COMASuplFallBackHandler::GetNextSLPAddressL"),KTraceFileName, __LINE__);
+	
     _LIT(KFormatTxt,"%/0%1%/1%2%/2%3%/3 %-B%:0%J%:1%T%:2%S%:3%+B"); 
     
     TBuf<256> LogBuffer;
@@ -162,6 +165,37 @@ TInt COMASuplFallBackHandler::GetNextSLPAddressL(TInt64& aSLPId, TDes& aHslpToBe
 	     	}  
 	 	} 
     
+	//Check to see if the server list is empty.  If it is create the HSLP Address from the IMSI and use that
+	// as the server address.  This does not add the server to the list and this functionality should only
+	// be tried once
+	if(iSLPList->Count() <= 0 && (!iAttemptedBackupServer))
+		{
+		iTrace->Trace(_L("Going to create and use alternative HSLP Address from IMSI"),KTraceFileName, __LINE__);
+
+		iAttemptedBackupServer = ETrue;
+
+		//Generate the HSLP Address
+		GenerateHslpAddressFromIMSIL();
+
+		//Copy the generated address into the supplied function arguments
+		aHslpToBeUsedAddress.Copy(iGenratedHslpAddress);
+		aIAPName.Zero();   
+		aIAPName.Copy(iDefaultIAPName);
+		aTls = ETrue;
+		aPskTls = EFalse;
+		aIsIapDialogShown = ETrue;
+
+		iTrace->Trace(_L("Server being used:"),KTraceFileName, __LINE__);
+		LogBuffer.Copy(aHslpToBeUsedAddress);
+		iTrace->Trace(LogBuffer,KTraceFileName, __LINE__);
+
+		iTrace->Trace(_L("iap being used:"),KTraceFileName, __LINE__);
+		LogBuffer.Copy(aIAPName);
+		iTrace->Trace(LogBuffer,KTraceFileName, __LINE__);
+
+		return KErrNone;
+		}
+	
     if( iSLPList->Count() <= 0 || iCurrentServerCounter >= iSLPList->Count() ) 
         {
         LogBuffer.Copy(_L("No more servers available..."));
