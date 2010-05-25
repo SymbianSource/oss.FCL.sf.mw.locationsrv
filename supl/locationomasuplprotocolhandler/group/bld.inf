@@ -19,7 +19,7 @@
 #include <platform_paths.hrh>
 
 PRJ_PLATFORMS
-WINSCW ARMV5
+WINSCW ARMV5 GCCE
 
 PRJ_EXPORTS
 ../rom/omasuplprotocolhandler.iby           CORE_MW_LAYER_IBY_EXPORT_PATH(omasuplprotocolhandler.iby)

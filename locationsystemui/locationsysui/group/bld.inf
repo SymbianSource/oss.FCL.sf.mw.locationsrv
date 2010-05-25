@@ -21,7 +21,7 @@
 #include <platform_paths.hrh>
 
 PRJ_PLATFORMS
-DEFAULT
+DEFAULT GCCE
 //  Help exports
 #include "../help/group/bld.inf"
 

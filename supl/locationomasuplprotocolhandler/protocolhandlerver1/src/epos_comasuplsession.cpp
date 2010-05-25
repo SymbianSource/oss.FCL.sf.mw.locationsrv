@@ -3850,9 +3850,11 @@ TBool COMASuplSession::CheckProtocolVersionL(COMASuplAsnMessageBase* aDecodedAsn
                             }
                         CleanupStack::PopAndDestroy(serverParams);
                         }
-                    
+                    if(iSuplState)
+                    	{
                     delete iSuplState;
                     iSuplState = NULL;
+                      }
                     CleanupStack::PushL(hslpAdress);
                     ServerAddressCheckForSuplInitL();
                     iSuplState = COMASuplEndState::NewL(iErrorStatusCode,iOMASuplAsnHandlerBaseImpl,iEncodedSuplInit,hslpAdress);		

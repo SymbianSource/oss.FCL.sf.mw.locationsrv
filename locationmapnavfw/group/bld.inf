@@ -17,7 +17,7 @@
 
 
 PRJ_PLATFORMS
-DEFAULT
+DEFAULT GCCE
 
 #include "../library/group/bld.inf"
 #include "../aiwprovider/group/bld.inf"

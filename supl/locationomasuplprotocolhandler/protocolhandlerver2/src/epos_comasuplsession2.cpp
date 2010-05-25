@@ -2197,6 +2197,10 @@ void COMASuplSession::HandleOMASuplMessageL(COMASuplAsnMessageBase* aDecodedAsnM
         {
         CreateCloneMessageL(aDecodedAsnMessage);		
         UpdateSuplSessionIDL();
+		if (iRequestType == ESUPL_NETWORK && messageType == COMASuplAsnMessageBase::ESUPL_INIT)
+			{
+			ServerAddressCheckForSuplInitL();
+			}
  
         iSuplSessionState = ESUPL_INITIALIZED;
         iSuplMsgType = ESUPL_END;

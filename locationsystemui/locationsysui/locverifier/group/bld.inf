@@ -22,7 +22,7 @@
 #include <platform_paths.hrh>
 
 PRJ_PLATFORMS
-DEFAULT
+DEFAULT GCCE
 
 PRJ_EXPORTS
 

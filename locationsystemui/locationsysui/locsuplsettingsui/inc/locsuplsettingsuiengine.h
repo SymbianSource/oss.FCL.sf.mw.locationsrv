@@ -136,7 +136,7 @@ class CLocSUPLSettingsUiEngine : public CActive,
         /**
 		 * Creates a new server entry in Supl Settings.
 		 */
-		void CLocSUPLSettingsUiEngine::AddNewServerL( 
+		void AddNewServerL( 
 		        const TDesC& aServerAddress,
 		        const TDesC& aIapName,
 		        const TBool aUsageInHomeNw

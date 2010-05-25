@@ -23,13 +23,8 @@ PRJ_PLATFORMS
 WINSCW ARMV5
 
 PRJ_EXPORTS
-/****
-../Data/102073D2.txt      /epoc32/RELEASE/winscw/UDEB/Z/private/10202be9/102073D2.txt
-../Data/102073D2.txt      /epoc32/data/Z/private/10202be9/102073D2.txt
-*/
 
-../data/backup_registration.xml     /epoc32/RELEASE/winscw/udeb/z/private/102073ca/backup_registration.xml
-../data/backup_registration.xml     /epoc32/data/z/private/102073ca/backup_registration.xml
+../data/backup_registration.xml    z/private/102073ca/backup_registration.xml
 
 PRJ_MMPFILES
 epos_csuplserver.mmp

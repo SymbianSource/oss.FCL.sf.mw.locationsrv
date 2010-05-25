@@ -17,7 +17,7 @@
 
 
 PRJ_PLATFORMS
-WINSCW ARMV5
+WINSCW ARMV5 GCCE
 
 #include "../locationsuplfw/group/bld.inf"
 #include "../locationomasuplprotocolhandler/group/bld.inf"

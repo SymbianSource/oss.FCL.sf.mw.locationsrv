@@ -17,7 +17,7 @@
 
 
 PRJ_PLATFORMS
-DEFAULT
+DEFAULT GCCE
 
 PRJ_EXPORTS
 ../inc/lbtcontainer.h                           |../../inc/lbtcontainer.h

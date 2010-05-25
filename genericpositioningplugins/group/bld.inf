@@ -18,7 +18,7 @@
 
 #include <platform_paths.hrh>
 PRJ_PLATFORMS
-DEFAULT
+DEFAULT GCCE
 
 #include "../locationnpppsy/group/bld.inf"
 #include "../locationsuplpsy/group/bld.inf"

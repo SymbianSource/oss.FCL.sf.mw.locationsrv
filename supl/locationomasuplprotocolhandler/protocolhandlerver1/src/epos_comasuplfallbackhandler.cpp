@@ -136,6 +136,47 @@ TInt COMASuplFallBackHandler::GetNextSLPAddressL(TInt64& aSLPId, TDes& aHslpToBe
             		aTls = ETrue;
             		aPskTls = EFalse;
             		aIsIapDialogShown = ETrue;
+					
+					CServerParams* param = CServerParams::NewL();
+					CleanupStack::PushL(param);
+					
+					//Find out if this alternative generated SUPL server is in the SUPL Settings list
+					TInt err = iSuplSettings.GetSlpInfoAddress(iGenratedHslpAddress, param);
+					if(err == KErrNotFound)
+						{
+						//Server does not exist
+						iTrace->Trace(_L("Server does not exist in list so adding it in."),KTraceFileName, __LINE__);
+						CServerParams* newParam=CServerParams::NewL();
+						CleanupStack::PushL(newParam);
+						User::LeaveIfError(newParam->Set( iGenratedHslpAddress,iDefaultIAPName,ETrue,ETrue,ETrue,EFalse ));
+
+						err = iSuplSettings.AddNewServer( newParam, aSLPId ); //Ignore error
+						LogBuffer.Copy(_L("AddNewServer() completed with err: "));
+						LogBuffer.AppendNum(err);
+						iTrace->Trace(LogBuffer,KTraceFileName, __LINE__); 		
+						
+						CleanupStack::PopAndDestroy(&newParam);
+						}
+					else
+						{
+						//Server exists, get the SLP ID and the IAP Access point for this server
+						HBufC* hslpAddress =  HBufC::NewL(KHSLPAddressLength);       
+						HBufC* iapName =  HBufC::NewL(KMaxIapNameLength);
+						TBool serverEnabled;
+						TBool simChangeRemove;
+						TBool usageInHomeNw;
+						TBool editable;
+						
+						iTrace->Trace(_L("Server already exists, getting the SLP ID and Access Point."),KTraceFileName, __LINE__);
+						
+						param->Get(aSLPId,hslpAddress->Des(),iapName->Des(),serverEnabled,simChangeRemove,usageInHomeNw,editable);
+						aIAPName.Copy(iapName->Des());
+						
+						delete hslpAddress;
+						delete iapName;
+						}
+					
+					CleanupStack::PopAndDestroy(&param);
                                 
             		iTrace->Trace(_L("Fallback allowed & TLSAuth failed"),KTraceFileName, __LINE__);
             		iTrace->Trace(_L("Server being used:"),KTraceFileName, __LINE__);
@@ -192,6 +233,18 @@ TInt COMASuplFallBackHandler::GetNextSLPAddressL(TInt64& aSLPId, TDes& aHslpToBe
 		iTrace->Trace(_L("iap being used:"),KTraceFileName, __LINE__);
 		LogBuffer.Copy(aIAPName);
 		iTrace->Trace(LogBuffer,KTraceFileName, __LINE__);
+		
+		//Add the server to the list for future connections
+		CServerParams* param=CServerParams::NewL();
+		CleanupStack::PushL(param);
+		User::LeaveIfError(param->Set( iGenratedHslpAddress,iDefaultIAPName,ETrue,ETrue,ETrue,EFalse ));
+
+		TInt err = iSuplSettings.AddNewServer( param, aSLPId ); //Ignore error
+		LogBuffer.Copy(_L("AddNewServer() completed with err: "));
+		LogBuffer.AppendNum(err);
+		iTrace->Trace(LogBuffer,KTraceFileName, __LINE__); 		
+		
+		CleanupStack::PopAndDestroy(&param);
 
 		return KErrNone;
 		}

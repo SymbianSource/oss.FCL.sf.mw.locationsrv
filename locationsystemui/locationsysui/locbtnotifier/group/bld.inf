@@ -24,11 +24,9 @@ DEFAULT
 
 PRJ_EXPORTS
 
-../data/locbtgpspsypscontextstate.xml  /epoc32/RELEASE/winscw/UDEB/Z/private/10282BC4/Settings/10282C74/locbtgpspsypscontextstate.xml
-../data/locbtgpspsypscontextstate.xml  /epoc32/data/Z/private/10282BC4/Settings/10282C74/locbtgpspsypscontextstate.xml
+../data/locbtgpspsypscontextstate.xml  Z/private/10282BC4/Settings/10282C74/locbtgpspsypscontextstate.xml
+../data/locbtgpspsypscontextstate.rul  Z/private/10282BC4/Rules/locbtgpspsypscontextstate.rul
 
-../data/locbtgpspsypscontextstate.rul  /epoc32/RELEASE/winscw/UDEB/Z/private/10282BC4/Rules/locbtgpspsypscontextstate.rul
-../data/locbtgpspsypscontextstate.rul   /epoc32/data/Z/private/10282BC4/Rules/locbtgpspsypscontextstate.rul
 
 PRJ_MMPFILES
 

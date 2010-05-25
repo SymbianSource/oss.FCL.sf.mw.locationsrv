@@ -19,16 +19,12 @@
 #include <platform_paths.hrh>
 
 PRJ_PLATFORMS  
-DEFAULT
+DEFAULT GCCE
 
 PRJ_EXPORTS
 #ifdef CORE_MW_LAYER_IBY_EXPORT_PATH
 ../rom/locationtriggering.iby                         CORE_MW_LAYER_IBY_EXPORT_PATH(locationtriggering.iby)
 ../rom/locationtriggeringstub.iby                     CORE_MW_LAYER_IBY_EXPORT_PATH(locationtriggeringstub.iby)
-
-// Export SIS File
-../data/lbtstub.sis  					/epoc32/data/z/system/install/lbtstub.sis
-
 #endif
 
 #ifdef MW_LAYER_CONFML
