@@ -115,11 +115,11 @@ TInt COMASuplFallBackHandler::GetNextSLPAddressL(TInt64& aSLPId, TDes& aHslpToBe
     {
 	iTrace->Trace(_L("COMASuplFallBackHandler::GetNextSLPAddressL"),KTraceFileName, __LINE__);
 	
-        _LIT(KFormatTxt,"%/0%1%/1%2%/2%3%/3 %-B%:0%J%:1%T%:2%S%:3%+B"); 
-        
-        TBuf<256> LogBuffer;
-       
-       if( aLastErrorCode != KErrNone)// If its KErrNone then its means server name is asked first time and no need for Tls failure check
+    _LIT(KFormatTxt,"%/0%1%/1%2%/2%3%/3 %-B%:0%J%:1%T%:2%S%:3%+B"); 
+    
+    TBuf<256> LogBuffer;
+    
+     if( aLastErrorCode != KErrNone)// If its KErrNone then its means server name is asked first time and no need for Tls failure check
     	{
     	
     	if( CheckErrorCodeL(aLastErrorCode) )
@@ -135,6 +135,47 @@ TInt COMASuplFallBackHandler::GetNextSLPAddressL(TInt64& aSLPId, TDes& aHslpToBe
             		aTls = ETrue;
             		aPskTls = EFalse;
             		aIsIapDialogShown = ETrue;
+					
+					CServerParams* param = CServerParams::NewL();
+					CleanupStack::PushL(param);
+					
+					//Find out if this alternative generated SUPL server is in the SUPL Settings list
+					TInt err = iSuplSettings.GetSlpInfoAddress(iGenratedHslpAddress, param);
+					if(err == KErrNotFound)
+						{
+						//Server does not exist
+						iTrace->Trace(_L("Server does not exist in list so adding it in."),KTraceFileName, __LINE__);
+						CServerParams* newParam=CServerParams::NewL();
+						CleanupStack::PushL(newParam);
+						User::LeaveIfError(newParam->Set( iGenratedHslpAddress,iDefaultIAPName,ETrue,ETrue,ETrue,EFalse ));
+
+						err = iSuplSettings.AddNewServer( newParam, aSLPId ); //Ignore error
+						LogBuffer.Copy(_L("AddNewServer() completed with err: "));
+						LogBuffer.AppendNum(err);
+						iTrace->Trace(LogBuffer,KTraceFileName, __LINE__); 		
+						
+						CleanupStack::PopAndDestroy(&newParam);
+						}
+					else
+						{
+						//Server exists, get the SLP ID and the IAP Access point for this server
+						HBufC* hslpAddress =  HBufC::NewL(KHSLPAddressLength);       
+						HBufC* iapName =  HBufC::NewL(KMaxIapNameLength);
+						TBool serverEnabled;
+						TBool simChangeRemove;
+						TBool usageInHomeNw;
+						TBool editable;
+						
+						iTrace->Trace(_L("Server already exists, getting the SLP ID and Access Point."),KTraceFileName, __LINE__);
+						
+						param->Get(aSLPId,hslpAddress->Des(),iapName->Des(),serverEnabled,simChangeRemove,usageInHomeNw,editable);
+						aIAPName.Copy(iapName->Des());
+						
+						delete hslpAddress;
+						delete iapName;
+						}
+					
+					CleanupStack::PopAndDestroy(&param);
                                 
             		iTrace->Trace(_L("Fallback allowed & TLSAuth failed"),KTraceFileName, __LINE__);
             		iTrace->Trace(_L("Server being used:"),KTraceFileName, __LINE__);
@@ -162,138 +203,151 @@ TInt COMASuplFallBackHandler::GetNextSLPAddressL(TInt64& aSLPId, TDes& aHslpToBe
 	     	{
 	     	return KErrNotFound;
 	     	}  
-	 	} 
-	 	
-		//Check to see if the server list is empty.  If it is create the HSLP Address from the IMSI and use that
-		// as the server address.  This does not add the server to the list and this functionality should only
-		// be tried once
-		if(iSLPList->Count() <= 0 && (!iAttemptedBackupServer))
-			{
-			iTrace->Trace(_L("Going to create and use alternative HSLP Address from IMSI"),KTraceFileName, __LINE__);
+	 	}
 
-			iAttemptedBackupServer = ETrue;
+	//Check to see if the server list is empty.  If it is create the HSLP Address from the IMSI and use that
+	// as the server address.  This does not add the server to the list and this functionality should only
+	// be tried once
+	if(iSLPList->Count() <= 0 && (!iAttemptedBackupServer))
+		{
+		iTrace->Trace(_L("Going to create and use alternative HSLP Address from IMSI"),KTraceFileName, __LINE__);
 
-			//Generate the HSLP Address
-			GenerateHslpAddressFromIMSIL();
+		iAttemptedBackupServer = ETrue;
 
-			//Copy the generated address into the supplied function arguments
-			aHslpToBeUsedAddress.Copy(iGenratedHslpAddress);
-			aIAPName.Zero();   
-			aIAPName.Copy(iDefaultIAPName);
-			aTls = ETrue;
-			aPskTls = EFalse;
-			aIsIapDialogShown = ETrue;
+		//Generate the HSLP Address
+		GenerateHslpAddressFromIMSIL();
 
-			iTrace->Trace(_L("Server being used:"),KTraceFileName, __LINE__);
-			LogBuffer.Copy(aHslpToBeUsedAddress);
-			iTrace->Trace(LogBuffer,KTraceFileName, __LINE__);
+		//Copy the generated address into the supplied function arguments
+		aHslpToBeUsedAddress.Copy(iGenratedHslpAddress);
+		aIAPName.Zero();   
+		aIAPName.Copy(iDefaultIAPName);
+		aTls = ETrue;
+		aPskTls = EFalse;
+		aIsIapDialogShown = ETrue;
 
-			iTrace->Trace(_L("iap being used:"),KTraceFileName, __LINE__);
-			LogBuffer.Copy(aIAPName);
-			iTrace->Trace(LogBuffer,KTraceFileName, __LINE__);
+		iTrace->Trace(_L("Server being used:"),KTraceFileName, __LINE__);
+		LogBuffer.Copy(aHslpToBeUsedAddress);
+		iTrace->Trace(LogBuffer,KTraceFileName, __LINE__);
 
-			return KErrNone;
-			}
+		iTrace->Trace(_L("iap being used:"),KTraceFileName, __LINE__);
+		LogBuffer.Copy(aIAPName);
+		iTrace->Trace(LogBuffer,KTraceFileName, __LINE__);
 		
-        if( iSLPList->Count() <= 0 || iCurrentServerCounter >= iSLPList->Count() ) 
-            {
-            LogBuffer.Copy(_L("No more servers available..."));
-            iTrace->Trace(LogBuffer,KTraceFileName, __LINE__);              
-            return KErrNotFound;
-            }
-                 
-        iTrace->Trace(_L("Trying next server..."),KTraceFileName, __LINE__);                
-                 
-        //Fallback Timer...
-        if(aLastErrorCode == KErrNone) //This means, server name is asked for first time only...
-            {
-            iTrace->Trace(_L("Start Time: "),KTraceFileName, __LINE__);                 
-            iFallBackStartTime.HomeTime();
-            LogBuffer.Zero();
-            iFallBackStartTime.FormatL(LogBuffer,KFormatTxt); 
-            iTrace->Trace(LogBuffer,KTraceFileName, __LINE__);              
-            }
-        else
-            {
-            TTime currentTime;
-            currentTime.HomeTime();
-            TTimeIntervalMicroSeconds diff = currentTime.MicroSecondsFrom(iFallBackStartTime); 
-                            
-                            
-            iTrace->Trace(_L("Current Time: "),KTraceFileName, __LINE__);               
-            LogBuffer.Zero();
-            currentTime.FormatL(LogBuffer,KFormatTxt); 
-            iTrace->Trace(LogBuffer,KTraceFileName, __LINE__);              
-                            
-            LogBuffer.Copy(_L("Difference between time: "));
-            LogBuffer.AppendNum(diff.Int64());
-            iTrace->Trace(LogBuffer,KTraceFileName, __LINE__);              
-                            
-            if( diff.Int64() > iAllowedFallBackTimerValue)  
-                {
-                LogBuffer.Copy(_L("Timeout happened..."));
-                iTrace->Trace(LogBuffer,KTraceFileName, __LINE__);      
-                
-                return KErrTimedOut;
-                }
-            }   
-                    
-        if(aLastErrorCode == KErrNone)  //This will be called only once...for first time only
-            {
-            aSLPId = (*iSLPList)[0].iSLPId;
-            aHslpToBeUsedAddress.Copy((*iSLPList)[0].iHSLPAddress);
-            aIAPName.Copy((*iSLPList)[0].iIapName);
-            aTls = (*iSLPList)[0].iTls;
-            aPskTls = (*iSLPList)[0].iPskTls;
-            aIsIapDialogShown = (*iSLPList)[0].iIsIAPDialgShown;
-            iCurrentServerCounter++;                
+		//Add the server to the list for future connections
+		CServerParams* param=CServerParams::NewL();
+		CleanupStack::PushL(param);
+		User::LeaveIfError(param->Set( iGenratedHslpAddress,iDefaultIAPName,ETrue,ETrue,ETrue,EFalse ));
+
+		TInt err = iSuplSettings.AddNewServer( param, aSLPId ); //Ignore error
+		LogBuffer.Copy(_L("AddNewServer() completed with err: "));
+		LogBuffer.AppendNum(err);
+		iTrace->Trace(LogBuffer,KTraceFileName, __LINE__); 		
+		
+		CleanupStack::PopAndDestroy(&param);
+
+		return KErrNone;
+		}
+    
+    if( iSLPList->Count() <= 0 || iCurrentServerCounter >= iSLPList->Count() ) 
+        {
+        LogBuffer.Copy(_L("No more servers available..."));
+        iTrace->Trace(LogBuffer,KTraceFileName, __LINE__); 				
+        return KErrNotFound;
+        }
+             
+    iTrace->Trace(_L("Trying next server..."),KTraceFileName, __LINE__); 				
+             
+    //Fallback Timer...
+    if(aLastErrorCode == KErrNone) //This means, server name is asked for first time only...
+        {
+        iTrace->Trace(_L("Start Time: "),KTraceFileName, __LINE__); 				
+        iFallBackStartTime.HomeTime();
+        LogBuffer.Zero();
+        iFallBackStartTime.FormatL(LogBuffer,KFormatTxt); 
+        iTrace->Trace(LogBuffer,KTraceFileName, __LINE__); 				
+        }
+    else
+        {
+        TTime currentTime;
+        currentTime.HomeTime();
+        TTimeIntervalMicroSeconds diff = currentTime.MicroSecondsFrom(iFallBackStartTime); 
                         
+                        
+        iTrace->Trace(_L("Current Time: "),KTraceFileName, __LINE__); 				
+        LogBuffer.Zero();
+        currentTime.FormatL(LogBuffer,KFormatTxt); 
+        iTrace->Trace(LogBuffer,KTraceFileName, __LINE__); 				
+                        
+        LogBuffer.Copy(_L("Difference between time: "));
+        LogBuffer.AppendNum(diff.Int64());
+        iTrace->Trace(LogBuffer,KTraceFileName, __LINE__); 				
+                        
+        if( diff.Int64() > iAllowedFallBackTimerValue)	
+            {
+            LogBuffer.Copy(_L("Timeout happened..."));
+            iTrace->Trace(LogBuffer,KTraceFileName, __LINE__); 		
+            
+            return KErrTimedOut;
+            }
+        }	
+                
+    if(aLastErrorCode == KErrNone)  //This will be called only once...for first time only
+        {
+        aSLPId = (*iSLPList)[0].iSLPId;
+        aHslpToBeUsedAddress.Copy((*iSLPList)[0].iHSLPAddress);
+        aIAPName.Copy((*iSLPList)[0].iIapName);
+        aTls = (*iSLPList)[0].iTls;
+        aPskTls = (*iSLPList)[0].iPskTls;
+        aIsIapDialogShown = (*iSLPList)[0].iIsIAPDialgShown;
+        iCurrentServerCounter++;				
+                    
+        iTrace->Trace(_L("Server being used:"),KTraceFileName, __LINE__);
+        LogBuffer.Copy(aHslpToBeUsedAddress);
+        iTrace->Trace(LogBuffer,KTraceFileName, __LINE__);
+                    
+        iTrace->Trace(_L("iap being used:"),KTraceFileName, __LINE__);
+        LogBuffer.Copy(aIAPName);
+        iTrace->Trace(LogBuffer,KTraceFileName, __LINE__);
+                    
+        iTrace->Trace(_L("iap dlg configuration:"),KTraceFileName, __LINE__);
+        LogBuffer.Delete(0,256);
+        LogBuffer.AppendNum(aIsIapDialogShown);
+        iTrace->Trace(LogBuffer,KTraceFileName, __LINE__);
+                    
+        return KErrNone;
+        }
+    else
+        {
+        if(iIsFallBackAllowed && CheckErrorCodeL(aLastErrorCode))// Do not fallback in case if IMSI generated address failed for previous try.
+            {
+            aSLPId = (*iSLPList)[iCurrentServerCounter].iSLPId;	
+            aHslpToBeUsedAddress.Copy((*iSLPList)[iCurrentServerCounter].iHSLPAddress);
+            aIAPName.Copy((*iSLPList)[iCurrentServerCounter].iIapName);    			
+            aTls = (*iSLPList)[iCurrentServerCounter].iTls;
+            aPskTls = (*iSLPList)[iCurrentServerCounter].iPskTls;
+            aIsIapDialogShown = (*iSLPList)[iCurrentServerCounter].iIsIAPDialgShown;
+            iCurrentServerCounter++;
+            iTrace->Trace(_L("Fallback allowed & TLSAuth passed"),KTraceFileName, __LINE__);
             iTrace->Trace(_L("Server being used:"),KTraceFileName, __LINE__);
             LogBuffer.Copy(aHslpToBeUsedAddress);
             iTrace->Trace(LogBuffer,KTraceFileName, __LINE__);
-                        
+                                                                   
             iTrace->Trace(_L("iap being used:"),KTraceFileName, __LINE__);
             LogBuffer.Copy(aIAPName);
             iTrace->Trace(LogBuffer,KTraceFileName, __LINE__);
-                        
+                                                                    
             iTrace->Trace(_L("iap dlg configuration:"),KTraceFileName, __LINE__);
             LogBuffer.Delete(0,256);
             LogBuffer.AppendNum(aIsIapDialogShown);
             iTrace->Trace(LogBuffer,KTraceFileName, __LINE__);
-                        
             return KErrNone;
             }
         else
             {
-            if(iIsFallBackAllowed && CheckErrorCodeL(aLastErrorCode))// Do not fallback in case if IMSI generated address failed for previous try.
-                {
-                aSLPId = (*iSLPList)[iCurrentServerCounter].iSLPId; 
-                aHslpToBeUsedAddress.Copy((*iSLPList)[iCurrentServerCounter].iHSLPAddress);
-                aIAPName.Copy((*iSLPList)[iCurrentServerCounter].iIapName);             
-                aTls = (*iSLPList)[iCurrentServerCounter].iTls;
-                aPskTls = (*iSLPList)[iCurrentServerCounter].iPskTls;
-                aIsIapDialogShown = (*iSLPList)[iCurrentServerCounter].iIsIAPDialgShown;
-                iCurrentServerCounter++;
-                iTrace->Trace(_L("Fallback allowed & TLSAuth passed"),KTraceFileName, __LINE__);
-                iTrace->Trace(_L("Server being used:"),KTraceFileName, __LINE__);
-                LogBuffer.Copy(aHslpToBeUsedAddress);
-                iTrace->Trace(LogBuffer,KTraceFileName, __LINE__);
-                                                                       
-                iTrace->Trace(_L("iap being used:"),KTraceFileName, __LINE__);
-                LogBuffer.Copy(aIAPName);
-                iTrace->Trace(LogBuffer,KTraceFileName, __LINE__);
-                                                                        
-                iTrace->Trace(_L("iap dlg configuration:"),KTraceFileName, __LINE__);
-                LogBuffer.Delete(0,256);
-                LogBuffer.AppendNum(aIsIapDialogShown);
-                iTrace->Trace(LogBuffer,KTraceFileName, __LINE__);
-                return KErrNone;
-                }
-            else
-                {
-                return KErrNotFound;
-                }
+            return KErrNotFound;
             }
+        }
+                    
     }
     
 // -----------------------------------------------------------------------------

@@ -289,6 +289,8 @@ class COMASuplConnRequestor : public CActive
             TBool iIsSettingInitilized;
             
             TInt64 iCurrentSLPId;
+            
+            TBool iTriggerSession;
 
 };
 

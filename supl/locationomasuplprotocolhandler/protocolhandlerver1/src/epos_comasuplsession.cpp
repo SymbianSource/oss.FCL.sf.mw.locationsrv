@@ -4170,7 +4170,16 @@ void COMASuplSession::CheckForSuplUsageL()
                 HandleSuplInitErrorL(iNwInitCompletionCode);                             
                 }                
             else
-	            InitializeL(iRequestID); 
+            	{
+            		if (iRoaming)                
+                    HandleRoamingCheckCompleteL(KErrNone, EFalse);                    
+                else
+                    {                        
+                    iEtelRoamingCheck = ETrue;
+                    iProtocolManager.CheckForRoaming();
+                    }
+	            //InitializeL(iRequestID); 
+	          	}
             /*}
 
             else if (usage == CSuplSettings::ESuplUsageHomeAutomatic || usage == CSuplSettings::ESuplUsageAlwaysAsk)
@@ -4268,85 +4277,10 @@ void COMASuplSession::HandleRoamingCheckCompleteL(TInt aErrorCode, TBool aHomeNw
         {            
             iUsageHomeNW = aHomeNw;   
             iConnRequestor->UpdateSLPListForHomeUsage(iUsageHomeNW);             
-            //CSuplSettings::TSuplSettingsUsage usage = iSuplSettings->SUPLUsage();
-            
-            /*if (usage == CSuplSettings::ESuplUsageAlwaysAsk)
-                {
-                TInt err = KErrNone;                
-                    if (!aHomeNw)
-                        {                            
-                        //iTrace->Trace(_L("Invoking LaunchSuplUsageSettingsUI, user is roaming"), KTraceFileName, __LINE__);
-                        //err = iProtocolManager.LaunchSuplUsageSettingsUI(this, ETrue);        
-                        }
-                    else
-                        {                            
-                        //iTrace->Trace(_L("Invoking LaunchSuplUsageSettingsUI, user is not roaming"), KTraceFileName, __LINE__);
-                        //err = iProtocolManager.LaunchSuplUsageSettingsUI(this, EFalse);        
-                        }
-
-                if(KErrNone != err && KErrInUse == err)
-                    {
-                        iTrace->Trace(_L("Dialog in use, setting flag"), KTraceFileName, __LINE__);
-                        SetSuplUsageFlag();                            
-                    }
-                if( KErrNone == err  && iRequestType == ESUPL_NETWORK )
-                    {
-                    iTrace->Trace(_L("Network Session , starting timer"), KTraceFileName, __LINE__);
-                    COMASuplInit* suplInit = static_cast <COMASuplInit*> (iDecodedAsnMessage);
-                    TOMASuplQop qop;
-                    TInt retVal = suplInit->Qop(qop);
-                    TInt delay;
-                    qop.Delay(delay);
-                    //if delay is > 7, it is not valid
-                    if (delay > 7)
-                        delay = 0;                                
-                    if(retVal == KErrNone && delay > 0)
-                        {
-                        TReal delayReal;
-                        Math::Pow(delayReal, 2, (TReal)delay);
-                        delay = (TInt) delayReal;
-                        TBuf<128> msg(_L("Delay present in message, value is = "));
-                        msg.AppendNum(delay);
-                        iTrace->Trace(msg, KTraceFileName, __LINE__); 
-                        isTimeoutDialogTimerStarted = ETrue;
-                        iDialogTimer->StartTimer(delay);
-                        }  	
-                    else
-                        {
-                        if (iSuplInitTimeOut > 0)
-                            {                                                        
-                            TBuf<256> msg(_L("Delay value in CR is"));
-                            msg.AppendNum(iSuplInitTimeOut);
-                            iTrace->Trace(msg, KTraceFileName, __LINE__); 
-                            iDialogTimer->StartTimer(iSuplInitTimeOut * KSecond);
-                            isTimeoutDialogTimerStarted = ETrue;
-                            }
-                        else
-                            iTrace->Trace(_L("Timeout is <= 0"), KTraceFileName, __LINE__);
-                        }
-                    iDlgStartTime.HomeTime();
-                    }
-                else if (KErrNone != err)
-                    {
-                    iTrace->Trace(_L("Invoking HandleSuplErrorL"), KTraceFileName, __LINE__);
-                    HandleSuplErrorL(err);
-                    }
-
-                }*/
-            //else if (usage == CSuplSettings::ESuplUsageHomeAutomatic) 
-            //{                
-            //if (!aHomeNw)
-              //  {                
-                //TInt err = KErrNone;                
-                //if (!iSuplSettings->IsUIActive() )
-                    {
-                    //iTrace->Trace(_L("Invoking LaunchSuplUsageSettingsUI, user is roaming"), KTraceFileName, __LINE__);
-                    //err = iProtocolManager.LaunchSuplUsageSettingsUI(this, ETrue);        
 
                     if(iSuplMsgType == ESUPL_INIT)
                         {
                         iTrace->Trace(_L("Dialog timer started"), KTraceFileName, __LINE__);
-				     
                         COMASuplInit* suplInit = static_cast <COMASuplInit*> (iDecodedAsnMessage);
                         TOMASuplQop qop;
                         TInt retVal = suplInit->Qop(qop);
@@ -4377,19 +4311,6 @@ void COMASuplSession::HandleRoamingCheckCompleteL(TInt aErrorCode, TBool aHomeNw
                                 iTrace->Trace(_L("Timeout is <= 0"), KTraceFileName, __LINE__);
                             }
                         }
-                    }
-
-              /*  if(!iSuplSettings->IsUIActive() && KErrNone != err)
-                    {
-                        SetSuplUsageFlag();                            
-                    }
-                else
-                    {
-                    iTrace->Trace(_L("Invoking HandleSuplErrorL"), KTraceFileName, __LINE__);
-                    HandleSuplErrorL(err);
-                    }*/
-                
-                       
                                 
                 if (iNwInitError)
                     {
@@ -4397,13 +4318,15 @@ void COMASuplSession::HandleRoamingCheckCompleteL(TInt aErrorCode, TBool aHomeNw
                     HandleSuplInitErrorL(iNwInitCompletionCode);                             
                     }                
                 else
-	                InitializeL(iRequestID); 
-                                                
+                {
+                	iTrace->Trace(_L("COMASuplSession::InitializeL called after roaming check"), KTraceFileName, __LINE__);
+	                InitializeL(iRequestID);  
+	              }  
         }
-        else
-            {
-	        	iSessionObserver.TerminateSession(this, KErrGeneral);	
-            }                
+   else
+        {
+      	iSessionObserver.TerminateSession(this, KErrGeneral);	
+        }                
     }            
 TInt COMASuplSession::SuplIpcSessionID() 
     {

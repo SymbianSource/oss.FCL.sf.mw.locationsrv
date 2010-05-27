@@ -47,7 +47,8 @@ COMASuplConnRequestor::COMASuplConnRequestor(CSuplCommunicationManager& aCommMgr
     				 						 iCommMgr(aCommMgr), 
     				 						 iProtocolManager(aProtoMgr),
     				 						 iPort(aPort),
-    				 						 iObserver( aObserver)
+    				 						 iObserver( aObserver),
+    				 						 iTriggerSession(EFalse)
     {
 			
     }
@@ -116,6 +117,14 @@ COMASuplConnRequestor::~COMASuplConnRequestor()
 //    
 void COMASuplConnRequestor::CreateConnectionL(TBool aTriggerSession)
 	{
+	if(!iIsSettingInitilized)
+        {
+        iTriggerSession = aTriggerSession;
+				iState = EInitialState;
+        InitilizeSetting();
+        }
+    else
+        {
 		TBuf<100> iapName;
 		TBuf<128> buffer;
 		iState = EConnecting;  
@@ -159,6 +168,7 @@ void COMASuplConnRequestor::CreateConnectionL(TBool aTriggerSession)
 				iObserver.OperationCompleteL(errorCode);
 			}
 	}
+    }
 
 // -----------------------------------------------------------------------------
 // COMASuplConnRequestor::OpenConnection
@@ -215,6 +225,7 @@ void COMASuplConnRequestor::OpenConnection()
 		}
 		else
 		{
+		iState = EInitilizeSetting;
 			InitilizeSetting();
 		}
 	}
@@ -261,6 +272,14 @@ void COMASuplConnRequestor::RunL()
     	switch(iState)
     		{
     		
+		case EInitialState:
+            {
+            iIsSettingInitilized = ETrue;
+            iTrace->Trace(_L("Setting API Initilizing Completed..."), KTraceFileName, __LINE__);
+            CreateConnectionL(iTriggerSession);
+            
+            break;
+            }
 			case  EConnecting:
 				{
 					if(iLastConnectionError < 0)
@@ -362,7 +381,7 @@ void COMASuplConnRequestor::SetIAPID(TInt aIAPID)
 void COMASuplConnRequestor::InitilizeSetting()
 	{
 			iTrace->Trace(_L("Intilizing Setting API..."), KTraceFileName, __LINE__); 				
-			iState = EInitilizeSetting;
+			
 			iSuplSettings->Initialize(iStatus);
 			SetActive();
 	}

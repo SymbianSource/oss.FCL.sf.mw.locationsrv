@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/translations" >
+        <file alias="possettings">translations/possettings.qm</file>
+    </qresource>
+</RCC>

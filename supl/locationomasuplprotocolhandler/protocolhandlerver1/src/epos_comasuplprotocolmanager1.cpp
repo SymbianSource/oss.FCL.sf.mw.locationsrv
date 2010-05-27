@@ -106,13 +106,21 @@ EXPORT_C COMASUPLProtocolManager1::~COMASUPLProtocolManager1()
 		{
 			iSettingsLauncher->CancelLaunch();
 		}*/
-	iSuplSettings->SetUIActive( EFalse );
+		
+	if(iSuplSettings)
+		{
+		iSuplSettings->SetUIActive( EFalse );
+		}
 
 	DeleteAllSessions();
 	iSuplSessions.Reset();
 	iSuplSessions.Close();
 
-    iTelServer.UnloadPhoneModule(iTsyName);
+	//Only attempt to unload the phone if the TSY has actually been initialised
+	if(iTsyName.Length() > 0)
+		{
+		iTelServer.UnloadPhoneModule(iTsyName);
+		}
 
 	
 	iQueuedPacket.Close();
