@@ -253,7 +253,7 @@ COMASuplSession::COMASuplSession(RMobilePhone& aMobilePhone ,
 			SessionEnd();
 			CompleteSession(KErrCancel);
 		}
-
+		iProtocolManager.CancelUiLaunch();
 		delete this;
 	}
 

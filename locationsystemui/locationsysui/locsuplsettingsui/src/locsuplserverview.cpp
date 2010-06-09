@@ -707,6 +707,8 @@ void CLocSUPLServerView::ChangeMSKL()
 		}
 	else if( iStartedPrioritize )
 		{
+		//ou1cimx1#352684. to disable first item flicker
+	   iNewContainer->ListBoxL().SetCurrentItemIndex(iSelectedIndex);
 	   iNewContainer->ListBoxL().DisableSingleClick(ETrue); 
 		iStartedPrioritize = EFalse;
 		TRAP_IGNORE( 

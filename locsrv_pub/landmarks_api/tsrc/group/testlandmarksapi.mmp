@@ -65,6 +65,9 @@ SOURCE			testposlmcategoryserialization.cpp
 //RESOURCE        resource_file
 //RESOURCE        resource_file2
 
+SYSTEMINCLUDE   /epoc32/include/platform
+SYSTEMINCLUDE   /epoc32/include/mw
+
 USERINCLUDE     ../inc 
 
 MW_LAYER_SYSTEMINCLUDE

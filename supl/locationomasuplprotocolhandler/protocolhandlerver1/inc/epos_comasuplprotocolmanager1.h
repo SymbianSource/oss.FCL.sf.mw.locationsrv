@@ -277,6 +277,8 @@ public:
 	TInt LaunchSuplUsageSettingsUI(MOMASuplUICompletionObserver* aObserver, TBool aRoaming);
 	TInt LaunchSuplDialogTimeoutUI(MOMASuplUICompletionObserver* aObserver );
 	void UpdateAllSubSessnsInSameSession(TInt aIpcSessionId);
+	
+	void CancelUiLaunch();
 
 	void SettingsChanged();
 

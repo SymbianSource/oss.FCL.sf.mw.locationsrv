@@ -2073,4 +2073,16 @@ void COMASUPLProtocolManager1::SetCommonConfig(COMASuplCommonConfig*& aCommmonCo
     iPersistFailTimer = aCommmonConfig->iPersistFailTimer;
     }
     
+    // -----------------------------------------------------------------------------
+// COMASUPLProtocolManager1::CancelUiLaunch
+// 
+// 
+// -----------------------------------------------------------------------------
+//
+void COMASUPLProtocolManager1::CancelUiLaunch()
+    {
+    iTrace->Trace(_L("COMASUPLProtocolManager1::CancelUiLaunch"), KTraceFileName, __LINE__);
+    iSettingsLauncher->CancelLaunch();
+    }
+    
 // end of file
