@@ -255,7 +255,7 @@ TAny* HPosLmDatabaseInfo::AllocateL(const TDesC& aDatabaseUri)
                                aDatabaseUri.Size();
 
     // allocate memory
-    return User::AllocL(_FOFF(HPosLmDatabaseInfo,
+    return User::AllocL(_FOFF_DYNAMIC(HPosLmDatabaseInfo,
                               iBuffer[requiredBufferSize]));
 
     }
