@@ -43,10 +43,8 @@ PRJ_EXPORTS
 ../inc/EPos_CPosLmSettingsHandler.h         |../../../inc/epos_cposlmsettingshandler.h
 ../inc/EPos_PosLmLongTextColHandler.h       |../../../inc/epos_poslmlongtextcolhandler.h
 
-../data/101FE99B.txt                        /epoc32/release/winscw/udeb/z/private/10202be9/101fe99b.txt
 
 PRJ_MMPFILES
-//gnumakefile epos_landmarksglobalcategories_icons.mk
 EPos_LmInternalServices.mmp
 EPos_LandmarksGlobalCategories.mmp
 

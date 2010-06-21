@@ -84,7 +84,7 @@
        void ListTriggerIdsList(RLbt& aLbt, RArray < TLbtTriggerId >& aTriggerIdList,
             CActiveSchedulerWait* aWait,CLbtListTriggerOptions* aListOptions=NULL);                          
         void CreateIterator(RLbt& aLbt,CActiveSchedulerWait* aWait,CLbtListTriggerOptions* aListOptions=NULL);   
-        void CTriggerFireObserver::DeleteFilteredTriggers( RLbt& aLbt,CLbtTriggerFilterBase* aFilter,CActiveSchedulerWait* aWait ); 
+        void DeleteFilteredTriggers( RLbt& aLbt,CLbtTriggerFilterBase* aFilter,CActiveSchedulerWait* aWait ); 
         TInt GetFireCount( ) ; 
         TInt GetError( ) ; 
         
@@ -92,7 +92,7 @@
         void UpdateTriggersState(RLbt& aLbt, CLbtTriggerEntry::TLbtTriggerState aState, 
             CActiveSchedulerWait* aWait,CLbtTriggerFilterBase *  aFilter=NULL) ;
             
-        void CTriggerFireObserver::PopulateFromCurrentCell(CLbtGeoCell& cell,CActiveSchedulerWait* aWait )  ;             
+        void PopulateFromCurrentCell(CLbtGeoCell& cell,CActiveSchedulerWait* aWait )  ;             
         
         void RunL( );
         

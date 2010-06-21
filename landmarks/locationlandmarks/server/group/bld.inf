@@ -25,7 +25,7 @@ PRJ_EXPORTS
 // Internal APIs
 ../inc/EPos_PosLmServerCommon.h     |../../../inc/epos_poslmservercommon.h
 
-../data/backup_registration.xml     /epoc32/data/z/private/101fdf81/backup_registration.xml
+../data/backup_registration.xml     z:/private/101fdf81/backup_registration.xml
 
 PRJ_MMPFILES
 EPos_LandmarksServer.mmp

@@ -152,7 +152,7 @@ public:
     /**
      *Constructor for TOMASuplHistoricReporting
      */
-    TOMASuplHistoricReporting();
+    IMPORT_C TOMASuplHistoricReporting();
 
     /**
      * Setter method  for allowed reporting criteria type

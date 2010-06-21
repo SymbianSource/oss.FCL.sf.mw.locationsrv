@@ -55,5 +55,5 @@ LIBRARY         centralrepository.lib
 LIBRARY flogger.lib
 /* LIBRARY         gba.lib */
 
-exportunfrozen 
+//exportunfrozen 
 epocallowdlldata

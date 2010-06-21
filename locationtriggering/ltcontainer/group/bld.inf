@@ -31,8 +31,7 @@ PRJ_EXPORTS
 ../inc/lbtsecuritypolicy.h 						|../../inc/lbtsecuritypolicy.h
 
 // Registration file for backup and restore
-../data/backup_registration.xml     /epoc32/winscw/c/private/1028312B/backup_registration.xml
-../data/backup_registration.xml     /epoc32/data/z/private/1028312B/backup_registration.xml
+../data/backup_registration.xml     z:/private/1028312B/backup_registration.xml
 
 
 PRJ_MMPFILES

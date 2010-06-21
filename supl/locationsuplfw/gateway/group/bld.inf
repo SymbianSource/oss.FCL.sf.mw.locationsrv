@@ -24,7 +24,7 @@ WINSCW ARMV5
 
 PRJ_EXPORTS
 
-../data/backup_registration.xml    z/private/102073ca/backup_registration.xml
+../data/backup_registration.xml    z:/private/102073ca/backup_registration.xml
 
 PRJ_MMPFILES
 epos_csuplserver.mmp

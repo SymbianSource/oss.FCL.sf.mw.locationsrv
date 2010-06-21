@@ -233,7 +233,7 @@ class COMASuplLocationIdVer2 : public COMASuplLocationId
       * @param aTOMASuplVer2CellInfo TOMASuplVer2CellInfoExtn
       * @return None                                           
       */   
-     void SetVer2CellInfo(TOMASuplVer2CellInfoExtn aTOMASuplVer2CellInfo);
+     IMPORT_C void SetVer2CellInfo(TOMASuplVer2CellInfoExtn aTOMASuplVer2CellInfo);
 
      /**
       * Clone Method for COMASuplLocationIdVer2
