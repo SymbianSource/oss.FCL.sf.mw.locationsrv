@@ -21,7 +21,7 @@
 
 #include "possettingscommon.h"
 #include "possettingsengineprivate.h"
-#include <QObject.h>
+#include <QObject>
 #include <qglobal.h>
 
 /**

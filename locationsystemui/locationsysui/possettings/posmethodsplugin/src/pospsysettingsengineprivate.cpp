@@ -20,9 +20,9 @@
 #include "pospsysettingsengine.h"
 
 #include <qglobal.h>
-#include <epos_cposmodules.h>
-#include <epos_cposmoduleidlist.h>
-#include <epos_cposmoduleupdate.h>
+#include <EPos_CPosModules.h>
+#include <EPos_CPosModuleIdList.h>
+#include <EPos_CPosModuleUpdate.h>
 
 // constants
 const TInt KNameLength = 50;

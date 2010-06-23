@@ -165,10 +165,12 @@ TInt CCLbsSuplTiRequestManager::GetPosition(const TLbsNetSessionId& aSessionId, 
 //
 void CCLbsSuplTiRequestManager::CloseSession()
     {
-    iTrace->Trace(_L("CCLbsSuplTiRequestManager::CloseSession() start"), KTraceFileName, __LINE__);
+    if(iTrace)
+        iTrace->Trace(_L("CCLbsSuplTiRequestManager::CloseSession() start"), KTraceFileName, __LINE__);
     iRequestorCollection.ResetAndDestroy(); //cancels all active requests
     iServer.Close();
-    iTrace->Trace(_L("CCLbsSuplTiRequestManager::CloseSession() end"), KTraceFileName, __LINE__);
+    if(iTrace)
+        iTrace->Trace(_L("CCLbsSuplTiRequestManager::CloseSession() end"), KTraceFileName, __LINE__);
     }
 // -----------------------------------------------------------------------------
 // CCLbsSuplTiRequestManager::FindSessionId

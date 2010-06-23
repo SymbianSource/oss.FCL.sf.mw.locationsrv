@@ -29,7 +29,7 @@ MOC_DIR =     moc
 OBJECTS_DIR = obj
 RCC_DIR =     rcc
 RESOURCES += possettingsplugin.qrc
-#TRANSLATIONS = lilocationmw.ts
+TRANSLATIONS = lilocationmw.ts
 
 # Platforms
 SYMBIAN_PLATFORMS = WINSCW \

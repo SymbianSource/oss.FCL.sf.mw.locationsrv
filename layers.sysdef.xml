@@ -14,6 +14,11 @@
        mrp="" bldFile="&layer_real_source_path;/supl/locationomasuplprotocolhandler/asnpluginimplementation/group"
        filter="dfs_build"  name="lodo_locationsrv_supl_asnpluginimplementation"  />
      </module>
+     <module name="locationsupllocinfoconverter"> 
+     	<unit unitID="lodo.locationsrv.supl.locationsupllocinfoconverter"
+       mrp="" bldFile="&layer_real_source_path;/supl/locationsupllocinfoconverter/group"
+       filter="dfs_build"  name="lodo_locationsrv_supl_locationsupllocinfoconverter"  />
+     </module>
      <module name="asnpluginimplementationver2"> 
      	<unit unitID="lodo.locationsrv.supl.asnpluginimplementationver2"
        mrp="" bldFile="&layer_real_source_path;/supl/locationomasuplprotocolhandler/asnpluginimplementationver2/group"

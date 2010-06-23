@@ -18,11 +18,11 @@
 #include "possettingsengineprivate.h"
 #include "possettingsengine.h"
 #include <qglobal.h>
-#include <epos_csuplsettings.h>
+#include <EPos_CSuplSettings.h>
 #include <lbtcommon.h>
-#include <epos_cposmodules.h>
-#include <epos_cposmoduleidlist.h>
-#include <epos_cposmoduleupdate.h>
+#include <EPos_CPosModules.h>
+#include <EPos_CPosModuleIdList.h>
+#include <EPos_CPosModuleUpdate.h>
 
 //---------------------------------------------------------------------
 // PosSettingsEnginePrivate::PosSettingsEnginePrivate()

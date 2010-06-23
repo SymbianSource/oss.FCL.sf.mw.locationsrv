@@ -53,4 +53,7 @@ EXPORTS
 	?GetPosition@RSuplTerminalSubSession@@QAEHAAVTPositionInfoBase@@@Z @ 52 NONAME ; int RSuplTerminalSubSession::GetPosition(class TPositionInfoBase &)
 	?ConstructL@CSuplSubSessnPtrHolder@@IAEXHH@Z @ 53 NONAME ; void CSuplSubSessnPtrHolder::ConstructL(int, int)
 	?NewL@CSuplSubSessnPtrHolder@@SAPAV1@HH@Z @ 54 NONAME ; class CSuplSubSessnPtrHolder * CSuplSubSessnPtrHolder::NewL(int, int)
+	?CancelLocationConversion@RSuplTerminalInternal@@QAEXXZ @ 55 NONAME ; void RSuplTerminalInternal::CancelLocationConversion(void)
+	??0RSuplTerminalInternal@@QAE@XZ @ 56 NONAME ; RSuplTerminalInternal::RSuplTerminalInternal(void)
+	?ConvertAreaInfoToCoordinates@RSuplTerminalInternal@@QAEXAAVTRequestStatus@@AAUTGeoCellInfo@@@Z @ 57 NONAME ; void RSuplTerminalInternal::ConvertAreaInfoToCoordinates(class TRequestStatus &, struct TGeoCellInfo &)
 

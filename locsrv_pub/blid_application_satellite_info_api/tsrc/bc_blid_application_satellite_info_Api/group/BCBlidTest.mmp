@@ -17,7 +17,7 @@
 
 
 #if defined(__S60_)
-        // To get the OS_LAYER_SYSTEMINCLUDE-definition
+        // To get the MW_LAYER_SYSTEMINCLUDE-definition
         #include <platform_paths.hrh>
 #endif
 
@@ -26,31 +26,23 @@ TARGETTYPE      dll
 UID             0x1000008D 0x101FB3E3
 
 CAPABILITY      ALL -TCB
-/* Remove comments and replace 0x00000000 with correct vendor id */
-// VENDORID     0x00000000
-/* Remove comments and replace 0x00000000 with correct secure id */
-// SECUREID     0x00000000
 
-//TARGETPATH      ?target_path
 DEFFILE         BCBlidTest.def
 
 SOURCEPATH      ../src
 SOURCE          BCBlidTest.cpp
 SOURCE          BCBlidTestBlocks.cpp
 
-//RESOURCE        resource_file
-//RESOURCE        resource_file2
 
 USERINCLUDE     ../inc 
 
 #if defined(__S60_)
-    OS_LAYER_SYSTEMINCLUDE
+    MW_LAYER_SYSTEMINCLUDE
 #else
     SYSTEMINCLUDE   /epoc32/include 
     SYSTEMINCLUDE   /epoc32/include/internal
 #endif
 
-SYSTEMINCLUDE   /epoc32/include 
 SYSTEMINCLUDE   /epoc32/include/applications
 
 
@@ -64,26 +56,5 @@ LIBRARY			ws32.lib
 
 LANG            SC
 
-/*
-START WINS      
-?wins_specific_information
-END
-
-START MARM
-?marm_specific_information
-END
-*/
-// Other possible keywords:
- 
-// DOCUMENT     ?file, that is not compiled, but added to MSVC project workspace (i.e. release notes)
-/*
-START BITMAP ?target
-TARGETPATH   ?emulated_path_on_target_machine
-HEADER
-SOURCE       ?color_depth ?source_bitmap
-END
-*/
-// DEFFILE ?filename
-// AIF ?filename
 
 // End of File

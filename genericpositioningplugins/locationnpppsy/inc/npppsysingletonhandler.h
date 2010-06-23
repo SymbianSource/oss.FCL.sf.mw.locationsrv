@@ -51,7 +51,7 @@ class CNppPsySingletonHandler : public CBase
         *                         status.
         * @reuturn the pointer the the singleton handler
         */
-        static CNppPsySingletonHandler* CNppPsySingletonHandler::GetInstanceL( 
+        static CNppPsySingletonHandler* GetInstanceL( 
             MPositionerStatus& aStatusInterface );
 
         /**

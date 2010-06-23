@@ -360,7 +360,7 @@ class CPosLmLocalDatabase : public CPosLandmarkDatabaseExtended
         *   full information.
         * @return The landmark.
         */
-        CPosLandmark* CPosLmLocalDatabase::ReadLmLC(
+        CPosLandmark* ReadLmLC(
             TPosLmItemId aLandmarkId,
             TBool aIsPartial );
 

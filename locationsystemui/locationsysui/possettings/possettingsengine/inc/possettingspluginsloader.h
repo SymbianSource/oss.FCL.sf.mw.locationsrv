@@ -18,9 +18,9 @@
 #ifndef PosSettingsPluginsLoader_H
 #define PosSettingsPluginsLoader_H
 
-#include "PosSettingsadvinterface.h"
+#include "possettingsadvinterface.h"
 
-#include <QObject.h>
+#include <QObject>
 #include <e32cmn.h>
 
 class PosSettingsPluginsLoader 

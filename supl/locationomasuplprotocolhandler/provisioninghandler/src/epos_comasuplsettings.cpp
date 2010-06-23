@@ -20,7 +20,7 @@
 
 #include <CWPParameter.h>
 #include <WPAdapterUtil.h>
-#include <ApUtils.h>
+//#include <ApUtils.h>
 
 #include "epos_comasupltrace.h"
 #include "epos_comasuplsettings.h"

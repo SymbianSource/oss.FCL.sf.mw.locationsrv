@@ -25,7 +25,7 @@
 
 #include <qlist.h>
 #include <qstring.h>
-#include <epos_mposmodulesobserver.h>
+#include <EPos_MPosModulesObserver.h>
 
 /**
  * The class defines the interface for receiving position

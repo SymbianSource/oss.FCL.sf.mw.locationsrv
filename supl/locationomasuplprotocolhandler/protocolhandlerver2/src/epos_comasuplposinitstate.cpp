@@ -800,6 +800,8 @@ void COMASuplPosInitState::ComparisionLocationIDRequestCompletedL(COMASuplLocati
         }
     //if the current Cell id is the same as the Cell id when we made the request for assistance data then use the assistance data
     //and we have not already repeated a request before
+    //Comment to ignore coverity forward NULL error
+    //coverity[FORWARD_NULL   :FALSE]
     if(!iRepeatedPosDataFetch && iLocationId->GetCellId() == aLocationId->GetCellId()) 
         {
         iTrace->Trace(_L("COMASuplPosInitState::ComparisionLocationIDRequestCompletedL Cell Id not changed since making last request, so continuing"), KTraceFileName, __LINE__); 

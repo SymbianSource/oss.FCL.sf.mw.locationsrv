@@ -20,7 +20,7 @@
 
 #include "possettingsadvop.h"
 
-#include <QObject.h>
+#include <QObject>
 #include <cpbasesettingview.h>
 
 //class PosSettingsAdvancedDataForm;

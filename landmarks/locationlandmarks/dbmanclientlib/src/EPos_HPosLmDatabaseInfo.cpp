@@ -254,9 +254,16 @@ TAny* HPosLmDatabaseInfo::AllocateL(const TDesC& aDatabaseUri)
                                sizeof(TInt) +
                                aDatabaseUri.Size();
 
+#if defined(__GCCE__)
+  // allocate memory
+    return User::AllocL(_FOFF(HPosLmDatabaseInfo,
+                             iBuffer) + requiredBufferSize * sizeof (typeof(iBuffer)));
+#else
     // allocate memory
     return User::AllocL(_FOFF(HPosLmDatabaseInfo,
-                              iBuffer[requiredBufferSize]));
+                             iBuffer[requiredBufferSize]));
+#endif
+
 
     }
 

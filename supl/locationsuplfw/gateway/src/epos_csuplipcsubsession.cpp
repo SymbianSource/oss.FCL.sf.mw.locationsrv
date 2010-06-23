@@ -226,6 +226,19 @@ void CSuplIPCSubSession::ServiceL(const RMessage2& aMessage)
         	HandleNotifyTriggerFiredL(aMessage);
         	break;
         	}
+        case ESuplTerminalSubssnLocationConversion:
+                    {
+                    iMessage=aMessage;
+                    iReqType = ESuplTerminalSubssnLocationConversion;
+                    HandleLocationConversionL(aMessage);
+                    break;
+                    }
+                            
+                case ESuplTerminalSubssnCancelLocationConversion:
+                    {
+                    HandleCancelLocationConversionL(aMessage);
+                    break;
+                    }  
 		default:
 			User::Leave(KErrNotSupported);
         }
@@ -734,5 +747,51 @@ void CSuplIPCSubSession::HandleNotifyTriggerFiredL(const RMessage2& aMessage)
 						
 	CleanupStack::Pop(fireInfoBuf);	    		
 	}
-	
+// ---------------------------------------------------------
+// CSuplIPCSubSession::HandleLocationConversionL
+//
+// (other items were commented in a header).
+// ---------------------------------------------------------
+//  
+void CSuplIPCSubSession::HandleLocationConversionL(const RMessage2& aMessage)
+    {
+    DEBUG_TRACE("CSuplIPCSubSession::HandleLocationConversionL", __LINE__)
+
+    if (iSuplSessnReq->IsActive())
+        {
+        SuplGlobal::RequestComplete(aMessage, KErrAlreadyExists);
+        }
+
+    if(iReqType==ESuplTerminalSubssnLocationConversion)
+        {
+        HBufC8* cellBuf = SuplGlobal::CopyClientBuffer8LC(aMessage,0);
+                
+        TGeoCellInfo& cellInfo = reinterpret_cast
+        <TGeoCellInfo&>(const_cast<TUint8&>(*cellBuf->Ptr()));
+                            
+        iSuplSessnReq->MakeLocationConversionRequestL( iSuplSession,cellInfo );
+        
+        CleanupStack::PopAndDestroy(cellBuf);        
+        }
+         
+    }
+
+// ---------------------------------------------------------
+// CSuplIPCSubSession::HandleCancelLocationConversionL
+//
+// (other items were commented in a header).
+// ---------------------------------------------------------
+//  
+void CSuplIPCSubSession::HandleCancelLocationConversionL(const RMessage2& aMessage)
+    {
+    DEBUG_TRACE("CSuplIPCSubSession::HandleCancelLocationConversionL", __LINE__)
+
+    if (!iSuplSessnReq->IsActive()||(iReqType!=ESuplTerminalSubssnLocationConversion))
+        {
+        User::Leave(KErrNotFound);
+        }
+    iSuplSessnReq->CancelLocationConversionRequest();
+    SuplGlobal::RequestComplete(aMessage, KErrNone);
+    CompleteRunSession(KErrCancel);            
+    }	
 // End of File

@@ -19,7 +19,7 @@
 
 #include <hbdataformviewitem.h>
 #include <hbdataformmodelitem.h>
-#include <hbwidget>
+#include <HbWidget>
 
 
 //dataItemType for Location services custom widget 

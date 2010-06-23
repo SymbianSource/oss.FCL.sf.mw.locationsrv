@@ -23,4 +23,5 @@ WINSCW ARMV5
 #include "../locationomasuplprotocolhandler/group/bld.inf"
 //#include "../locationomasuplpostester/group/bld.inf"
 #include "../supltiapiimplementation/group/bld.inf"
+//#include "../locationsupllocinfoconverter/group/bld.inf"
 // End of File

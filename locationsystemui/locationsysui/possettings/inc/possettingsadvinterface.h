@@ -19,7 +19,7 @@
 #define POSSETTINGSENGADVANCEDINTERFACE_H
 
 #include "possettingsadvop.h"
-#include <qtplugin>
+#include <QtPlugin>
 
 
 

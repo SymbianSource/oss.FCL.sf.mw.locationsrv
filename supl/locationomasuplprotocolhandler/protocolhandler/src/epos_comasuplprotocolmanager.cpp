@@ -795,7 +795,24 @@ EXPORT_C TInt COMASUPLProtocolManager::GetSUPLMessageVersionL(
 	{
 	return GetSuplVersion(aMajorVersion,aReceivedMessage);
 	}
-
+EXPORT_C void COMASUPLProtocolManager::MakeLocationConversionRequestL( CSuplSessionBase* aSuplSessn,TGeoCellInfo& aCellInfo,TRequestStatus& aStatus )
+    {
+     iTrace->Trace(_L("COMASUPLProtocolManager::MakeLocationConversionRequestL"), KTraceFileName, __LINE__);
+     if(iOMASuplProtocolHandler1)
+        {
+         iTrace->Trace(_L("COMASUPLProtocolManager::MakeLocationConversionRequestL if condition true"), KTraceFileName, __LINE__);
+        COMASUPLProtocolManager* ph1= (COMASUPLProtocolManager*) (iOMASuplProtocolHandler1);
+        ph1->MakeLocationConversionRequestL(aSuplSessn,aCellInfo,aStatus);
+        };
+    }
+EXPORT_C void COMASUPLProtocolManager::CancelLocationConversionRequest(CSuplSessionBase* aSuplSession)
+    {
+     if(iOMASuplProtocolHandler1)
+        {
+        COMASUPLProtocolManager* ph1= (COMASUPLProtocolManager*) (iOMASuplProtocolHandler1);
+        ph1->CancelLocationConversionRequest(aSuplSession);
+        };
+    }
 
 // -----------------------------------------------------------------------------
 // COMASUPLProtocolManager::DeInitilizationCompletedL

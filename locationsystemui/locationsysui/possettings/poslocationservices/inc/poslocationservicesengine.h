@@ -18,7 +18,7 @@
 #define POSLOCATIONSERVICESENGINE_H
 
 #include "poslocationservicesengineprivate.h"
-#include <QObject.h>
+#include <QObject>
 
 
 

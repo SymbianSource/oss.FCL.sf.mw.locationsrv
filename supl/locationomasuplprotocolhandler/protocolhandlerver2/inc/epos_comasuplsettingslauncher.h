@@ -22,7 +22,7 @@
 
 // INCLUDES
 #include <e32std.h>
-#include <agentdialog.h>    // for RGenConAgentDialogServer
+//#include <agentdialog.h>    // for RGenConAgentDialogServer
 
 const TUid KNotifier1Uid = { 0x10009C00 };
 const TUid KNotifier2Uid = { 0x10009C01 };
@@ -155,7 +155,7 @@ class COMASuplSettingsLauncher : public CActive
 		/**
 		* IAP Selector Handle
 		*/
-	    RGenConAgentDialogServer    	iIapSelector;
+	   // RGenConAgentDialogServer    	iIapSelector;
 	    
 		/**
 		* Selected IAP ID

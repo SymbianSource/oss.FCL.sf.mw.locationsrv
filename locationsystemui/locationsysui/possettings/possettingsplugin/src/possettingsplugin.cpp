@@ -20,7 +20,7 @@
 #include "possettingspluginhelper.h"
 #include "apilogger.h"
 
-#include <QTCore>
+#include <QtCore>
 #include <QDebug>
 #include <QTranslator>
 #include <cpsettingformentryitemdataimpl.h>

@@ -16,7 +16,7 @@
  */
 
 
-#include "PosSettingsSignalMapper.h"
+#include "possettingssignalmapper.h"
 
 
 //---------------------------------------------------------------------

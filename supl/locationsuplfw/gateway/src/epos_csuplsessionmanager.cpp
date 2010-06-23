@@ -465,5 +465,49 @@ void CSuplSessionManager::NotifyTriggerFired(
 		User::RequestComplete(status,KErrNotReady);
 		}	
 	}
+// ---------------------------------------------------------
+// CSuplSessionManager::MakeLocationConversionRequestL
+//
+// (other items were commented in a header).
+// ---------------------------------------------------------
+//      
+void CSuplSessionManager::MakeLocationConversionRequestL( CSuplSessionBase* aSuplSessn,
+                                                          TGeoCellInfo& aCellInfo,
+                                                          TRequestStatus& aStatus
+                                                        )
+    {
+    DEBUG_TRACE("CSuplSessionManager::MakeLocationConversionRequestL", __LINE__)
+    TInt err = KErrNone;
+    if(iProtocolMgr && aSuplSessn)
+        {
+        DEBUG_TRACE("CSuplSessionManager::MakeLocationConversionRequestL if condition true", __LINE__)
+        TRAP(err,iProtocolMgr->MakeLocationConversionRequestL(aSuplSessn,aCellInfo,aStatus));   
+        DEBUG_TRACE("CSuplSessionManager::MakeLocationConversionRequestL err", __LINE__)
+        if(err!=KErrNone)
+            {
+            DEBUG_TRACE("CSuplSessionManager::MakeLocationConversionRequestL err not KErrNone", __LINE__)
+            TRequestStatus *status = &aStatus;
+            User::RequestComplete(status,KErrNotReady); 
+            }
+        }
+    else
+        {
+        TRequestStatus *status = &aStatus;
+        User::RequestComplete(status,KErrNotReady);
+        }
+    }
+
+// ---------------------------------------------------------
+// CSuplSessionManager::CancelLocationConversionRequest
+//
+// (other items were commented in a header).
+// ---------------------------------------------------------
+//
+void CSuplSessionManager::CancelLocationConversionRequest(CSuplSessionBase *aSessn)
+    {
+    DEBUG_TRACE("CSuplSessionManager::CancelLocationConversionRequest", __LINE__)
+    if(iProtocolMgr && aSessn)
+     iProtocolMgr->CancelLocationConversionRequest(aSessn);
+    }
     
 // End of File

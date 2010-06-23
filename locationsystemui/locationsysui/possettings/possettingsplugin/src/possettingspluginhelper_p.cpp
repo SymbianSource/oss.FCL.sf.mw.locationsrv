@@ -18,7 +18,7 @@
 
 #include "possettingspluginhelper_p.h"
 #include "possettingspluginhelper.h"
-#include <epos_cposmodules.h>
+#include <EPos_CPosModules.h>
 #include <lbs/epos_cposmoduleidlist.h>
 #include <featmgr.h> 
 

@@ -19,5 +19,8 @@ TEMPLATE = subdirs
 SYMBIAN_PLATFORMS = WINSCW ARMV5
 
 SUBDIRS += possettings/possettings.pro
+SUBDIRS += privacyverifiernotifierui/privacyverifiernotifierui.pro
 
+BLD_INF_RULES.prj_exports += "conf/loclocalvariation.confml  MW_LAYER_CONFML(loclocalvariation.confml)" \
+							 "conf/loclocalvariation_20022D83.crml  MW_LAYER_CRML(loclocalvariation_20022D83.crml)" 
    

@@ -20,7 +20,7 @@
 
 #include "possettingsglobal.h"
 
-#include<qobject>
+#include<QObject>
 #include <cpbasesettingview.h>
 
 // Forward declaration

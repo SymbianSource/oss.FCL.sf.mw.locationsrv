@@ -33,5 +33,6 @@ const TUint32 KSuplSettigsDBPath = 0x00000008;
 const TUint32 KSuplSessionDBEvent = 0x00000009;
 const TUint32 KSuplSessionDBChangedSessionId = 0x0000000A;
 const TUint32 KSuplSettingsTriggerServiceStatus = 0x0000000B;
+const TUint32 KSuplGeoInfoConvServerName = 0x0000000C;
 
 #endif //SUPLSETTINGSINTERNALCRKEYS_H

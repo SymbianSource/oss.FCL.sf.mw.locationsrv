@@ -20,7 +20,7 @@
 
 #include "possettingscommon.h"
 
-#include <epos_mposmodulesobserver.h>
+#include <EPos_MPosModulesObserver.h>
 #include <lbtserver.h>
 #include <lbtmanager.h>
 

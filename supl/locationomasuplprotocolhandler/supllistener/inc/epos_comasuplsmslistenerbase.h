@@ -112,7 +112,7 @@ protected:
 	 *
 	 * @since S60 v3.1
 	 */
-    void COMASuplSmsListenerBase::SendL( const TPtr8& aMessage );
+    void SendL( const TPtr8& aMessage );
 
     // from base class CActive    
     /**

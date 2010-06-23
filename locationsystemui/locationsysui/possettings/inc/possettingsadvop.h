@@ -20,7 +20,7 @@
 
 
 #include "possettingsglobal.h"
-#include <QObject.h>
+#include <qobject.h>
 #include <hbview.h>
 #include <hbdataform.h>
 #include <hbdataformmodel.h>
