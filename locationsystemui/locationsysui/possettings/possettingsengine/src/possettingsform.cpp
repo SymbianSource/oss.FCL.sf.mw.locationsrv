@@ -327,7 +327,7 @@ void PosSettingsForm::insertOrRemovePosTypeModelItem(bool insert, HbDataFormMode
         }
     else {
         if(!model->indexFromItem(posTypeModelItem).isValid()) { 
-                model->insertDataFormItem(posIndex,posTypeModelItem);  
+                model->insertDataFormItem(posIndex,posTypeModelItem,model->invisibleRootItem());  
                 addPosTypeConnection(posTypeModelItem);
                 
                 if(posTypeModelItem == mBgPosType) {
@@ -357,25 +357,24 @@ void PosSettingsForm::createPosTypeModelItem(PosTypeIndex posTypeModelItemIndex)
     HbDataFormModel* model =  static_cast<HbDataFormModel*>(this->model());
     switch(posTypeModelItemIndex) {
         case PosTypeIndexGps: {         
-           mGpsPosType = new HbDataFormModelItem(HbDataFormModelItem::CheckBoxItem,
-                   QString(),
-                   model->invisibleRootItem());         
+           
+        mGpsPosType = new HbDataFormModelItem(HbDataFormModelItem::CheckBoxItem,
+                        QString());     
            mGpsPosType->setData(HbDataFormModelItem::DescriptionRole, hbTrId("txt_loe_info_enable_for_most_accurate_positioning"));
            mGpsPosType->setContentWidgetData("text", hbTrId("txt_loe_list_gps"));
             break;
             }
         case PosTypeIndexWireless: {          
+           
             mWirelessPosType = new HbDataFormModelItem(HbDataFormModelItem::CheckBoxItem,
-                    QString(),
-                    model->invisibleRootItem());          
+                                QString());    
             mWirelessPosType->setData(HbDataFormModelItem::DescriptionRole, hbTrId("txt_loe_info_use_wifi_and_mobile_networks_to_get"));
             mWirelessPosType->setContentWidgetData("text", hbTrId("txt_loe_list_wireless_networks"));   
            break;
            }
         case PosTypeIndexBackground:{  
             mBgPosType = new HbDataFormModelItem(HbDataFormModelItem::CheckBoxItem,
-            		QString(),
-                    model->invisibleRootItem());          		    
+                                QString());
 		    mBgPosType->setData(HbDataFormModelItem::DescriptionRole, hbTrId("txt_loe_info_enable_applications_and_services_upda"));
 		    mBgPosType->setContentWidgetData("text", hbTrId("txt_loe_list_background_positioning")); 		  	
            break;

@@ -236,7 +236,7 @@ void PosPsySettingsPlugin::addItems()
         {
         // create the check box item
         HbDataFormModelItem* checkBox = new HbDataFormModelItem(
-                HbDataFormModelItem::CheckBoxItem, QString(), mGroup);
+                    HbDataFormModelItem::CheckBoxItem, QString());
         QString psyName = mPsyList.at(i).mPsyName;
         qDebug() << "Psy Name: " << psyName;
         checkBox->setContentWidgetData("text", psyName);

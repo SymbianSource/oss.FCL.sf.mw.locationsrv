@@ -174,6 +174,30 @@ void CAdvancedTriggerSupervision::EnableSimPSYL()
     CleanupStack::PopAndDestroy( idList );
 	CleanupStack::PopAndDestroy( db );
     }
+
+// -----------------------------------------------------------------------------
+// CAdvancedTriggerSupervision::GetCurrentCoordinateL
+// Returns current position
+// -----------------------------------------------------------------------------
+//
+void CAdvancedTriggerSupervision::GetCurrentCoordinateL( TCoordinate& aCoordinate )
+    {
+    CTriggerFireObserver* notifier= CTriggerFireObserver::NewL();
+    CleanupStack::PushL( notifier );
+    CActiveSchedulerWait* wait = new ( ELeave ) CActiveSchedulerWait;
+    CleanupStack::PushL( wait );
+    TPositionInfo positionInfo;
+    // Ownership of wait is transferred to notifier
+    notifier->CurrentPositionL( positionInfo,wait );
+    CleanupStack::Pop( wait );
+    wait->Start();
+    TPosition position;
+    positionInfo.GetPosition( position );
+    aCoordinate.SetCoordinate( position.Latitude(),position.Longitude(),position.Altitude() );
+    CleanupStack::Pop( notifier ); // notifier
+    delete notifier;
+    }
+
 // -----------------------------------------------------------------------------
 // CAdvancedTriggerSupervision::RunMethodL
 // Run specified method. Contains also table of test mothods and their names.
@@ -280,10 +304,10 @@ TInt CAdvancedTriggerSupervision::ATSTest1L( CStifItemParser& aItem )
 	trig->SetRequestorL(ReqType,ReqFormat,ReqData);
     	// set condition
 
-    	TCoordinate coordinate(62.5285,23.9385);
-   	// TCoordinate coordinate(62.4438,23.9385);
-        coordinate.Move(90,2000);
-   	CLbtGeoCircle* circle=CLbtGeoCircle::NewL(coordinate,1000);
+    TCoordinate coordinate;
+    GetCurrentCoordinateL( coordinate );
+    coordinate.Move(90,200);
+   	CLbtGeoCircle* circle=CLbtGeoCircle::NewL(coordinate,100);
     	CleanupStack::PushL( circle );
     
          
@@ -314,10 +338,12 @@ TInt CAdvancedTriggerSupervision::ATSTest1L( CStifItemParser& aItem )
     	TReal32 trigDistance;
     	TPosition firePosition;
     	FireInfo = notifier->GetFiredTrigger();
+    	iLog->Log(_L("GFT"));
     	FireInfo.iFiredPositionInfo.GetPosition(firePosition);
+    	iLog->Log(_L("GP"));
     	firePosition.Distance(coordinate,trigDistance);
      
-    	if( trigDistance<=1000 && FireInfo.iTriggerId==trigId )
+    	if( FireInfo.iTriggerId==trigId )
     	{
     
 	  	CleanupStack::PopAndDestroy( notifier );
@@ -400,10 +426,10 @@ TInt CAdvancedTriggerSupervision::ATSTest2L( CStifItemParser& aItem )
 	trig->SetRequestorL(ReqType,ReqFormat,ReqData);
     	// set condition
 
-    	TCoordinate coordinate(62.5285,23.9385);
-   	// TCoordinate coordinate(62.4438,23.9385);
-    coordinate.Move(90,510);
-   	CLbtGeoCircle* circle=CLbtGeoCircle::NewL(coordinate,1000);
+    	TCoordinate coordinate;
+    	GetCurrentCoordinateL( coordinate );
+    coordinate.Move(90,110);
+   	CLbtGeoCircle* circle=CLbtGeoCircle::NewL(coordinate,200);
     	CleanupStack::PushL( circle );
     
          
@@ -437,7 +463,7 @@ TInt CAdvancedTriggerSupervision::ATSTest2L( CStifItemParser& aItem )
     	FireInfo.iFiredPositionInfo.GetPosition(firePosition);
     	firePosition.Distance(coordinate,trigDistance);
      
-    	if( trigDistance<=1000 && FireInfo.iTriggerId==trigId)
+    	if( FireInfo.iTriggerId==trigId)
     	{
     
 	  	CleanupStack::PopAndDestroy( notifier );
@@ -521,10 +547,10 @@ TInt CAdvancedTriggerSupervision::ATSTest3L( CStifItemParser& aItem )
 	trig->SetRequestorL(ReqType,ReqFormat,ReqData);
     	// set condition
 
-    	TCoordinate coordinate(62.5285,23.9385);
-   	// TCoordinate coordinate(62.4438,23.9385);
+    	TCoordinate coordinate;
+    	GetCurrentCoordinateL( coordinate );
     
-   	CLbtGeoCircle* circle=CLbtGeoCircle::NewL(coordinate,1000);
+   	CLbtGeoCircle* circle=CLbtGeoCircle::NewL(coordinate,100);
     	CleanupStack::PushL( circle );
     
          
@@ -558,7 +584,7 @@ TInt CAdvancedTriggerSupervision::ATSTest3L( CStifItemParser& aItem )
     	FireInfo.iFiredPositionInfo.GetPosition(firePosition);
     	firePosition.Distance(coordinate,trigDistance);
      
-    	if( trigDistance<=1000 && FireInfo.iTriggerId==trigId)
+    	if( FireInfo.iTriggerId==trigId)
     	{
   
 	  	CleanupStack::PopAndDestroy( notifier );
@@ -639,10 +665,10 @@ TInt CAdvancedTriggerSupervision::ATSTest4L( CStifItemParser& aItem )
 	trig->SetRequestorL(ReqType,ReqFormat,ReqData);	
     	// set condition
 
-    	TCoordinate coordinate(62.5285,23.9385);
-   	// TCoordinate coordinate(62.4438,23.9385);
-    coordinate.Move(90,2000);
-   	CLbtGeoCircle* circle=CLbtGeoCircle::NewL(coordinate,1000);
+    TCoordinate coordinate;
+    GetCurrentCoordinateL( coordinate );
+    coordinate.Move(90,200);
+   	CLbtGeoCircle* circle=CLbtGeoCircle::NewL(coordinate,100);
     	CleanupStack::PushL( circle );
     
          
@@ -676,7 +702,7 @@ TInt CAdvancedTriggerSupervision::ATSTest4L( CStifItemParser& aItem )
     	FireInfo.iFiredPositionInfo.GetPosition(firePosition);
     	firePosition.Distance(coordinate,trigDistance);
      
-    	if( trigDistance>=1000 && FireInfo.iTriggerId==trigId)
+    	if( FireInfo.iTriggerId==trigId)
     	{
    
 	  	CleanupStack::PopAndDestroy( notifier );
@@ -760,10 +786,10 @@ TInt CAdvancedTriggerSupervision::ATSTest5L( CStifItemParser& aItem )
 	trig->SetRequestorL(ReqType,ReqFormat,ReqData);
     	// set condition
 
-    	TCoordinate coordinate(62.5285,23.9385);
-   	// TCoordinate coordinate(62.4438,23.9385);
-    coordinate.Move(90,1010);
-   	CLbtGeoCircle* circle=CLbtGeoCircle::NewL(coordinate,1000);
+    TCoordinate coordinate;
+    GetCurrentCoordinateL( coordinate );
+    coordinate.Move(90,110);
+   	CLbtGeoCircle* circle=CLbtGeoCircle::NewL(coordinate,100);
     	CleanupStack::PushL( circle );
     
          
@@ -797,7 +823,7 @@ TInt CAdvancedTriggerSupervision::ATSTest5L( CStifItemParser& aItem )
     	FireInfo.iFiredPositionInfo.GetPosition(firePosition);
     	firePosition.Distance(coordinate,trigDistance);
      
-    	if( trigDistance>=1000 && FireInfo.iTriggerId==trigId)
+    	if(  FireInfo.iTriggerId==trigId)
     	{
    
 	  	CleanupStack::PopAndDestroy( notifier );
@@ -881,10 +907,10 @@ TInt CAdvancedTriggerSupervision::ATSTest6L( CStifItemParser& aItem )
 	trig->SetRequestorL(ReqType,ReqFormat,ReqData);
     	// set condition
 
-    	TCoordinate coordinate(62.5285,23.9385);
-   	// TCoordinate coordinate(62.4438,23.9385);
+    TCoordinate coordinate;
+    GetCurrentCoordinateL( coordinate );
     
-   	CLbtGeoCircle* circle=CLbtGeoCircle::NewL(coordinate,1000);
+   	CLbtGeoCircle* circle=CLbtGeoCircle::NewL(coordinate,100);
     	CleanupStack::PushL( circle );
     
          
@@ -918,7 +944,7 @@ TInt CAdvancedTriggerSupervision::ATSTest6L( CStifItemParser& aItem )
     	FireInfo.iFiredPositionInfo.GetPosition(firePosition);
     	firePosition.Distance(coordinate,trigDistance);
      
-    	if( trigDistance>=1000 && FireInfo.iTriggerId==trigId)
+    	if( FireInfo.iTriggerId==trigId)
     	{
   
 	  	CleanupStack::PopAndDestroy( notifier );
@@ -953,117 +979,117 @@ TInt CAdvancedTriggerSupervision::ATSTest6L( CStifItemParser& aItem )
 TInt CAdvancedTriggerSupervision::ATSTest7L( CStifItemParser& aItem )
     {
 
-    	iLog->Log(_L("Entering Test1"));
-      _LIT( KSimulationFile,"c:\\system\\data\\simu_move1.sps" );
- // _LIT( KSimulationFile0,"c:\\system\\data\\simu_move2.sps" );
 
- 	 RLbtServer lbtserver;
- 	 RLbt lbt;
- 	 iLog->Log(_L("Before connecting"));
- 	 User::LeaveIfError( lbtserver.Connect() );
-        CleanupClosePushL( lbtserver );
-        iLog->Log(_L("Connection to RLbtServer Passed "));
- 	 User::LeaveIfError( lbt.Open(lbtserver));
- 	 iLog->Log(_L("Subsession opened "));
- 	 CleanupClosePushL( lbt );
- 	 //Enable only simpsy
-     EnableSimPSYL();
-     //Clear all triggers
- 	 TRAP_IGNORE(lbt.DeleteTriggersL()) ;       
- 	 
- 	 CRepository* repository = CRepository::NewLC(KCRUidSimulationPSY);
- 	 iLog->Log(_L("Simulation PSY Repository object created"));
-//	 User::LeaveIfError(repository->Set(KCRKeySimPSYSimulationFile, KSimulationFile0));
-	 User::LeaveIfError(repository->Set(KCRKeySimPSYSimulationFile, KSimulationFile));
-	 iLog->Log(_L("Simulation input file set "));
-	 CleanupStack::PopAndDestroy(repository);
-	 
-	  //Construct a startup trigger
-    	 CLbtStartupTrigger* trig = CLbtStartupTrigger::NewL();
-    
-    	//Push to cleanup stack
-    	CleanupStack::PushL( trig );
-    	iLog->Log(_L("Startup Trigger Entry Created "));
-    
-    	// Set Name
-    	trig->SetNameL(_L("Trigger1"));
-    	trig->SetNameL(_L("abc"));
-    	_LIT( KMyTriggerHandlingProcessName, "About.exe");
-   	//  _LIT( KMyTriggerHandlingProcessName, "TestServerStarter.exe");
-   	// _LIT( KMyTriggerHandlingProcessName, "ConsoleUI.exe");
-    
-    	TSecureId secureid;
-    	trig->SetProcessId(KMyTriggerHandlingProcessName,secureid);
-       
-    	//set Requestor     
-    CRequestorBase::TRequestorType ReqType=CRequestorBase::ERequestorUnknown;
-	CRequestorBase::_TRequestorFormat ReqFormat=CRequestorBase::EFormatUnknown;
-	TBuf<KLbtMaxNameLength> ReqData=_L("");
-	trig->SetRequestorL(ReqType,ReqFormat,ReqData);
-    	// set condition
+    iLog->Log(_L("Entering Test1"));
+  _LIT( KSimulationFile,"c:\\system\\data\\simu_move3.sps" );
+// _LIT( KSimulationFile0,"c:\\system\\data\\simu_move2.sps" );
 
-    	TCoordinate coordinate(62.5285,23.9385);
-   	// TCoordinate coordinate(62.4438,23.9385);
-    
-   		CLbtGeoCircle* circle=CLbtGeoCircle::NewL(coordinate,1000);
-    	CleanupStack::PushL( circle );
-    
-         
-    	// ownership of circle object transferred to the condition object
-    	CLbtTriggerConditionArea* condition=CLbtTriggerConditionArea::NewL(
-                                                circle,
-                                                CLbtTriggerConditionArea::EFireOnEnter);
-        
-    	CleanupStack::Pop( circle );
-    
-    	trig->SetCondition(condition); // ownership transferred to object
+ RLbtServer lbtserver;
+ RLbt lbt;
+ iLog->Log(_L("Before connecting"));
+ User::LeaveIfError( lbtserver.Connect() );
+    CleanupClosePushL( lbtserver );
+    iLog->Log(_L("Connection to RLbtServer Passed "));
+ User::LeaveIfError( lbt.Open(lbtserver));
+ iLog->Log(_L("Subsession opened "));
+ CleanupClosePushL( lbt );
+ 
+ //Enable only simpsy
+ EnableSimPSYL();
+ //Clear all triggers
+ TRAP_IGNORE(lbt.DeleteTriggersL()) ;       
+ CRepository* repository = CRepository::NewLC(KCRUidSimulationPSY);
+ iLog->Log(_L("Simulation PSY Repository object created"));
+//   User::LeaveIfError(repository->Set(KCRKeySimPSYSimulationFile, KSimulationFile0));
+ User::LeaveIfError(repository->Set(KCRKeySimPSYSimulationFile, KSimulationFile));
+ iLog->Log(_L("Simulation input file set "));
+ CleanupStack::PopAndDestroy(repository);
+ 
+  //Construct a startup trigger
+     CLbtStartupTrigger* trig = CLbtStartupTrigger::NewL();
 
-    	TLbtTriggerId trigId;
-        
-        
-    	CTriggerFireObserver* notifier= CTriggerFireObserver::NewL( lbt,coordinate);
-    	CleanupStack::PushL( notifier );
+    //Push to cleanup stack
+    CleanupStack::PushL( trig );
+    iLog->Log(_L("Startup Trigger Entry Created "));
+
+    // Set Name
+    trig->SetNameL(_L("Trigger1"));
+    trig->SetNameL(_L("abc"));
+    _LIT( KMyTriggerHandlingProcessName, "About.exe");
+//  _LIT( KMyTriggerHandlingProcessName, "TestServerStarter.exe");
+// _LIT( KMyTriggerHandlingProcessName, "ConsoleUI.exe");
+
+    TSecureId secureid;
+    trig->SetProcessId(KMyTriggerHandlingProcessName,secureid);
+   
+    //set Requestor     
+CRequestorBase::TRequestorType ReqType=CRequestorBase::ERequestorUnknown;
+CRequestorBase::_TRequestorFormat ReqFormat=CRequestorBase::EFormatUnknown;
+TBuf<KLbtMaxNameLength> ReqData=_L("");
+trig->SetRequestorL(ReqType,ReqFormat,ReqData);
+    // set condition
+
+TCoordinate coordinate;
+GetCurrentCoordinateL( coordinate );
+
+    CLbtGeoCircle* circle=CLbtGeoCircle::NewL(coordinate,200);
+    CleanupStack::PushL( circle );
+
+     
+    // ownership of circle object transferred to the condition object
+    CLbtTriggerConditionArea* condition=CLbtTriggerConditionArea::NewL(
+                                            circle,
+                                            CLbtTriggerConditionArea::EFireOnEnter);
     
-    	CActiveSchedulerWait* wait=new(ELeave)CActiveSchedulerWait;
-        
-    	notifier->CreateTriggers( lbt,*trig,trigId,ETrue,wait );
-    	wait->Start( );
-    	CLbtGeoCircle* circle2=CLbtGeoCircle::NewL(coordinate,500);
-    	circle2->SetRadius(500);
-    	CLbtTriggerConditionArea* condition2=CLbtTriggerConditionArea::NewL(
-                                                circle2,
-                                                CLbtTriggerConditionArea::EFireOnEnter);
-    	
-    	trig->SetCondition(condition2);
-    	notifier->CreateTriggers( lbt,*trig,trigId,ETrue,wait );
-    	wait->Start( );
-    	
-    	iLog->Log(_L("Triggers Created"));
-   // 	notifier->StartNotification( wait );
-  	//	wait->Start( );
-  		notifier->StartNotification( wait );
-  		wait->Start( );
-	  	notifier->After(120000000);
-	  	wait->Start( );
-  		RArray<TLbtTriggerFireInfo> Firedtriggers;
-  		lbt.GetFiredTriggersL(Firedtriggers);
-  		if(Firedtriggers.Count()==2)
-  		{
-  				CleanupStack::PopAndDestroy( notifier );
-	   CleanupStack::PopAndDestroy( trig );
-	   CleanupStack::Pop( &lbt );
-	   CleanupStack::PopAndDestroy( &lbtserver );
-  			return KErrNone;
-  		}
-  		else
-  		{
-  				CleanupStack::PopAndDestroy( notifier );
-	   CleanupStack::PopAndDestroy( trig );
-	   CleanupStack::Pop( &lbt );
-	   CleanupStack::PopAndDestroy( &lbtserver );
-  			return -99;
-  		}
-    	
+    CleanupStack::Pop( circle );
+
+    trig->SetCondition(condition); // ownership transferred to object
+
+    TLbtTriggerId trigId;
+    
+    
+    CTriggerFireObserver* notifier= CTriggerFireObserver::NewL( lbt,coordinate);
+    CleanupStack::PushL( notifier );
+
+    CActiveSchedulerWait* wait=new(ELeave)CActiveSchedulerWait;
+    
+    notifier->CreateTriggers( lbt,*trig,trigId,ETrue,wait );
+    wait->Start( );
+    CLbtGeoCircle* circle2=CLbtGeoCircle::NewL(coordinate,100);
+    circle2->SetRadius(500);
+    CLbtTriggerConditionArea* condition2=CLbtTriggerConditionArea::NewL(
+                                            circle2,
+                                            CLbtTriggerConditionArea::EFireOnEnter);
+    
+    trig->SetCondition(condition2);
+    notifier->CreateTriggers( lbt,*trig,trigId,ETrue,wait );
+    wait->Start( );
+    
+    iLog->Log(_L("Triggers Created"));
+    notifier->StartNotification( wait );
+    wait->Start( );
+    wait->Start( );
+    RArray<TLbtTriggerFireInfo> Firedtriggers;
+    lbt.GetFiredTriggersL(Firedtriggers);
+    if(Firedtriggers.Count()==2)
+    {
+        CleanupStack::PopAndDestroy( notifier );
+   CleanupStack::PopAndDestroy( trig );
+   CleanupStack::Pop( &lbt );
+   CleanupStack::PopAndDestroy( &lbtserver );
+        return KErrNone;
+    }
+    else
+    {
+        CleanupStack::PopAndDestroy( notifier );
+   CleanupStack::PopAndDestroy( trig );
+   CleanupStack::Pop( &lbt );
+   CleanupStack::PopAndDestroy( &lbtserver );
+        return -99;
+    }
+
+//  return KErrNone; 
+
     }
 
 
@@ -1127,10 +1153,10 @@ TInt CAdvancedTriggerSupervision::ATSTest8L( CStifItemParser& aItem )
 	trig->SetRequestorL(ReqType,ReqFormat,ReqData);
     	// set condition
 
-    	TCoordinate coordinate(62.5285,23.9385);
-   	// TCoordinate coordinate(62.4438,23.9385);
+    TCoordinate coordinate;
+    GetCurrentCoordinateL( coordinate );
     
-   		CLbtGeoCircle* circle=CLbtGeoCircle::NewL(coordinate,1000);
+   		CLbtGeoCircle* circle=CLbtGeoCircle::NewL(coordinate,200);
     	CleanupStack::PushL( circle );
     
          
@@ -1153,7 +1179,7 @@ TInt CAdvancedTriggerSupervision::ATSTest8L( CStifItemParser& aItem )
         
     	notifier->CreateTriggers( lbt,*trig,trigId,ETrue,wait );
     	wait->Start( );
-    	CLbtGeoCircle* circle2=CLbtGeoCircle::NewL(coordinate,500);
+    	CLbtGeoCircle* circle2=CLbtGeoCircle::NewL(coordinate,100);
     	circle2->SetRadius(500);
     	CLbtTriggerConditionArea* condition2=CLbtTriggerConditionArea::NewL(
                                                 circle2,
@@ -1166,9 +1192,6 @@ TInt CAdvancedTriggerSupervision::ATSTest8L( CStifItemParser& aItem )
     	iLog->Log(_L("Triggers Created"));
     	notifier->StartNotification( wait );
   		wait->Start( );
-  	//	notifier->StartNotification( wait );
-  	//	wait->Start( );
-  		notifier->After(1200000000);
   		wait->Start( );
   		RArray<TLbtTriggerFireInfo> Firedtriggers;
   		lbt.GetFiredTriggersL(Firedtriggers);
@@ -1254,10 +1277,10 @@ TInt CAdvancedTriggerSupervision::ATSTest9L( CStifItemParser& aItem )
 		trig->SetRequestorL(ReqType,ReqFormat,ReqData);
     	// set condition
 
-    	TCoordinate coordinate(62.5285,23.9385);
-   	// TCoordinate coordinate(62.4438,23.9385);
+        TCoordinate coordinate;
+        GetCurrentCoordinateL( coordinate );
     
-   		CLbtGeoCircle* circle=CLbtGeoCircle::NewL(coordinate,500);
+   		CLbtGeoCircle* circle=CLbtGeoCircle::NewL(coordinate,200);
     	CleanupStack::PushL( circle );
     
          
@@ -1280,8 +1303,7 @@ TInt CAdvancedTriggerSupervision::ATSTest9L( CStifItemParser& aItem )
         
     	notifier->CreateTriggers( lbt,*trig,trigId,ETrue,wait );
     	wait->Start( );
-    	CLbtGeoCircle* circle2=CLbtGeoCircle::NewL(coordinate,500);
-    	circle2->SetRadius(250);
+    	CLbtGeoCircle* circle2=CLbtGeoCircle::NewL(coordinate,200);
     	CLbtTriggerConditionArea* condition2=CLbtTriggerConditionArea::NewL(
                                                 circle2,
                                                 CLbtTriggerConditionArea::EFireOnEnter);
@@ -1293,11 +1315,8 @@ TInt CAdvancedTriggerSupervision::ATSTest9L( CStifItemParser& aItem )
     	iLog->Log(_L("Triggers Created"));
     	notifier->StartNotification( wait );
   		wait->Start( );
-  	//	notifier->StartNotification( wait );
-  	//	wait->Start( );
+  	    wait->Start( );
   		
-  		notifier->After(120000000);
-  		wait->Start( );
   		RArray<TLbtTriggerFireInfo> Firedtriggers;
   		lbt.GetFiredTriggersL(Firedtriggers);
   		CleanupStack::PopAndDestroy( notifier );
@@ -1377,9 +1396,10 @@ TInt CAdvancedTriggerSupervision::ATSTest10L( CStifItemParser& aItem )
 	trig->SetRequestorL(ReqType,ReqFormat,ReqData);
     	// set condition
 
-    	TCoordinate coordinate(62.5285,23.9385);
+    TCoordinate coordinate;
+    GetCurrentCoordinateL( coordinate );
    		    
-   		CLbtGeoCircle* circle=CLbtGeoCircle::NewL(coordinate,500);
+   		CLbtGeoCircle* circle=CLbtGeoCircle::NewL(coordinate,100);
     	CleanupStack::PushL( circle );
     
          
@@ -1402,9 +1422,8 @@ TInt CAdvancedTriggerSupervision::ATSTest10L( CStifItemParser& aItem )
         
     	notifier->CreateTriggers( lbt,*trig,trigId,ETrue,wait );
     	wait->Start( );
-    	CLbtGeoCircle* circle2=CLbtGeoCircle::NewL(coordinate,500);
-    	circle2->SetRadius(500);
-    	coordinate.Move(90,1000);
+    	CLbtGeoCircle* circle2=CLbtGeoCircle::NewL(coordinate,100);
+    	coordinate.Move(90,200);
     	circle2->SetCenter(coordinate);
     	CLbtTriggerConditionArea* condition2=CLbtTriggerConditionArea::NewL(
                                                 circle2,
@@ -1417,9 +1436,6 @@ TInt CAdvancedTriggerSupervision::ATSTest10L( CStifItemParser& aItem )
     	iLog->Log(_L("Triggers Created"));
     	notifier->StartNotification( wait );
   		wait->Start( );
-  	//	notifier->StartNotification( wait );
-  	//	wait->Start( );
-  		notifier->After(120000000);
   		wait->Start( );
   		RArray<TLbtTriggerFireInfo> Firedtriggers;
   		lbt.GetFiredTriggersL(Firedtriggers);
@@ -1505,9 +1521,10 @@ TInt CAdvancedTriggerSupervision::ATSTest11L( CStifItemParser& aItem )
 	trig->SetRequestorL(ReqType,ReqFormat,ReqData);
     	// set condition
 
-    	TCoordinate coordinate(62.5285,23.9385);
+    TCoordinate coordinate;
+    GetCurrentCoordinateL( coordinate );
    		    
-   		CLbtGeoCircle* circle=CLbtGeoCircle::NewL(coordinate,500);
+   		CLbtGeoCircle* circle=CLbtGeoCircle::NewL(coordinate,100);
     	CleanupStack::PushL( circle );
     
          
@@ -1531,8 +1548,8 @@ TInt CAdvancedTriggerSupervision::ATSTest11L( CStifItemParser& aItem )
     	notifier->CreateTriggers( lbt,*trig,trigId,ETrue,wait );
     	wait->Start( );
     	
-       	coordinate.Move(90,500);
-       	CLbtGeoCircle* circle2=CLbtGeoCircle::NewL(coordinate,500);
+       	coordinate.Move(90,100);
+       	CLbtGeoCircle* circle2=CLbtGeoCircle::NewL(coordinate,100);
     	circle2->SetCenter(coordinate);
     	CLbtTriggerConditionArea* condition2=CLbtTriggerConditionArea::NewL(
                                                 circle2,
@@ -1545,8 +1562,8 @@ TInt CAdvancedTriggerSupervision::ATSTest11L( CStifItemParser& aItem )
     	iLog->Log(_L("Triggers Created"));
     	notifier->StartNotification( wait );
   		wait->Start( );
-  		notifier->After(120000000);
-  		wait->Start( );
+        wait->Start( );
+
     	iLog->Log(_L("Trigger Fired"));
     	RArray<TLbtTriggerFireInfo> Firedtriggers;
   		lbt.GetFiredTriggersL(Firedtriggers);
@@ -1581,7 +1598,7 @@ TInt CAdvancedTriggerSupervision::ATSTest12L( CStifItemParser& aItem )
     {
 
         	iLog->Log(_L("Entering Test1"));
-      _LIT( KSimulationFile,"c:\\system\\data\\test3.nme" );
+     _LIT( KSimulationFile,"c:\\system\\data\\simu_move2.sps" );
  // _LIT( KSimulationFile0,"c:\\system\\data\\simu_move2.sps" );
 
  	 RLbtServer lbtserver;
@@ -1630,9 +1647,10 @@ TInt CAdvancedTriggerSupervision::ATSTest12L( CStifItemParser& aItem )
 		trig->SetRequestorL(ReqType,ReqFormat,ReqData);
     	// set condition
 
-    	TCoordinate coordinate(62.5285,23.9385);
-   		    
-   		CLbtGeoCircle* circle=CLbtGeoCircle::NewL(coordinate,1000);
+	    TCoordinate coordinate;
+	    GetCurrentCoordinateL( coordinate );
+  		    
+   		CLbtGeoCircle* circle=CLbtGeoCircle::NewL(coordinate,100);
     	CleanupStack::PushL( circle );
     
          
@@ -1655,21 +1673,18 @@ TInt CAdvancedTriggerSupervision::ATSTest12L( CStifItemParser& aItem )
         
     	notifier->CreateTriggers( lbt,*trig,trigId,ETrue,wait );
     	wait->Start( );
-   	 TCoordinate coordinates[10]=
+    	TCoordinate movCoordinates( coordinate.Latitude(),coordinate.Longitude() );
+    	
+    	TCoordinate coordinates[4];
+    	// Initialise the coordinate
+    	for( TInt i=0;i<4;i++ )
    		{
- 		TCoordinate(62.5285,23.9385) ,
-		TCoordinate(62.5267,23.9636),
-		TCoordinate(62.5167,23.9528),	
-	/*	TCoordinate(62.5141,23.9312),
-		TCoordinate(62.5296,23.9514),
-	    TCoordinate(62.5269,23.9331),
-		TCoordinate(62.518,23.9401),
-		TCoordinate(62.5394,23.9439),
-		TCoordinate(62.5275,23.9223),*/
-		TCoordinate(62.5331,23.9551)};
+   		movCoordinates.Move( 90,300 );
+   		coordinates[i] = movCoordinates;
+   		}
     	for(int i=0;i<4;i++)
     	{
-    	CLbtGeoCircle* circle=CLbtGeoCircle::NewL(coordinate,500);	
+    	CLbtGeoCircle* circle=CLbtGeoCircle::NewL(coordinate,100);	
       //	coordinate.Move(45,100);
     	circle->SetCenter(coordinates[i]);
     	if(i%2==0)
@@ -1697,11 +1712,14 @@ TInt CAdvancedTriggerSupervision::ATSTest12L( CStifItemParser& aItem )
     	
     	notifier->StartNotification( wait );
   		wait->Start( );
-  		notifier->After(600000000);
-  		wait->Start( );
+        wait->Start( );
+        wait->Start( );
+        wait->Start( );
+
+
   		RArray<TLbtTriggerFireInfo> Firedtriggers;
   		lbt.GetFiredTriggersL(Firedtriggers);
-  		if(Firedtriggers.Count()==3)
+  		if(Firedtriggers.Count()==4)
   		{
   			CleanupStack::PopAndDestroy( notifier );
 	   CleanupStack::PopAndDestroy( trig );
@@ -1778,10 +1796,10 @@ TInt CAdvancedTriggerSupervision::ATSTest13L( CStifItemParser& aItem )
 	trig->SetRequestorL(ReqType,ReqFormat,ReqData);
     	// set condition
 
-    	TCoordinate coordinate(62.5285,23.9385);
-   	// TCoordinate coordinate(62.4438,23.9385);
-    	coordinate.Move(90,5000);
-   	CLbtGeoCircle* circle=CLbtGeoCircle::NewL(coordinate,10000);
+    TCoordinate coordinate;
+    GetCurrentCoordinateL( coordinate );
+    	coordinate.Move(90,1000);
+   	CLbtGeoCircle* circle=CLbtGeoCircle::NewL(coordinate,2000);
     	CleanupStack::PushL( circle );
     
          
@@ -1815,7 +1833,7 @@ TInt CAdvancedTriggerSupervision::ATSTest13L( CStifItemParser& aItem )
        	FireInfo.iFiredPositionInfo.GetPosition(firePosition);
     	firePosition.Distance(coordinate,trigDistance);
      
-    	if( trigDistance<=11500 && FireInfo.iTriggerId==trigId)
+    	if( FireInfo.iTriggerId==trigId)
     	{
   
 	  	CleanupStack::PopAndDestroy( notifier );
@@ -1899,9 +1917,10 @@ TInt CAdvancedTriggerSupervision::ATSTest14L( CStifItemParser& aItem )
 	trig->SetRequestorL(ReqType,ReqFormat,ReqData);
     	// set condition
 
-    	TCoordinate coordinate(62.5285,23.9385);
+    TCoordinate coordinate;
+    GetCurrentCoordinateL( coordinate );
    		    
-   		CLbtGeoCircle* circle=CLbtGeoCircle::NewL(coordinate,1000);
+   		CLbtGeoCircle* circle=CLbtGeoCircle::NewL(coordinate,100);
     	CleanupStack::PushL( circle );
     
          
@@ -1925,8 +1944,8 @@ TInt CAdvancedTriggerSupervision::ATSTest14L( CStifItemParser& aItem )
     	notifier->CreateTriggers( lbt,*trig,trigId,ETrue,wait );
     	wait->Start( );
     	
-       	coordinate.Move(90,2000);
-       	CLbtGeoCircle* circle2=CLbtGeoCircle::NewL(coordinate,500);
+       	coordinate.Move(90,500);
+       	CLbtGeoCircle* circle2=CLbtGeoCircle::NewL(coordinate,100);
     	circle2->SetCenter(coordinate);
     	CLbtTriggerConditionArea* condition2=CLbtTriggerConditionArea::NewL(
                                                 circle2,
@@ -1954,7 +1973,7 @@ TInt CAdvancedTriggerSupervision::ATSTest14L( CStifItemParser& aItem )
     	FireInfo.iFiredPositionInfo.GetPosition(firePosition);
     	firePosition.Distance(coordinate,trigDistance);
      
-    	if( trigDistance<=1000 && FireInfo.iTriggerId==trigId)
+    	if( FireInfo.iTriggerId==trigId)
     	{
     
 	  	CleanupStack::PopAndDestroy( notifier );
@@ -2044,9 +2063,10 @@ TInt CAdvancedTriggerSupervision::ATSTest15L( CStifItemParser& aItem )
 	trig->SetRequestorL(ReqType,ReqFormat,ReqData);
     	// set condition
 
-    	TCoordinate coordinate(62.5285,23.9385);
+    TCoordinate coordinate;
+    GetCurrentCoordinateL( coordinate );
    		    
-   		CLbtGeoCircle* circle=CLbtGeoCircle::NewL(coordinate,500);
+   		CLbtGeoCircle* circle=CLbtGeoCircle::NewL(coordinate,100);
     	CleanupStack::PushL( circle );
     
          
@@ -2070,8 +2090,8 @@ TInt CAdvancedTriggerSupervision::ATSTest15L( CStifItemParser& aItem )
     	notifier->CreateTriggers( lbt,*trig,trigId,ETrue,wait );
     	wait->Start( );
     	
-       	coordinate.Move(90,2000);
-       	CLbtGeoCircle* circle2=CLbtGeoCircle::NewL(coordinate,800);
+       	coordinate.Move(90,300);
+       	CLbtGeoCircle* circle2=CLbtGeoCircle::NewL(coordinate,100);
     	circle2->SetCenter(coordinate);
     	CLbtTriggerConditionArea* condition2=CLbtTriggerConditionArea::NewL(
                                                 circle2,
@@ -2081,8 +2101,8 @@ TInt CAdvancedTriggerSupervision::ATSTest15L( CStifItemParser& aItem )
     	notifier->CreateTriggers( lbt,*trig,trigIdtochange,ETrue,wait );
     	wait->Start( );
     	
-    	coordinate.Move(90,2000);
-    	CLbtGeoCircle* circle3=CLbtGeoCircle::NewL(coordinate,700);
+    	coordinate.Move(90,400);
+    	CLbtGeoCircle* circle3=CLbtGeoCircle::NewL(coordinate,100);
     	circle3->SetCenter(coordinate);
     	CLbtTriggerConditionArea* condition3=CLbtTriggerConditionArea::NewL(
                                                 circle3,
@@ -2194,9 +2214,10 @@ TInt CAdvancedTriggerSupervision::ATSTest16L( CStifItemParser& aItem )
 	trig->SetRequestorL(ReqType,ReqFormat,ReqData);
     	// set condition
 
-    	TCoordinate coordinate(62.5285,23.9385);
+    TCoordinate coordinate;
+    GetCurrentCoordinateL( coordinate );
    		    
-   		CLbtGeoCircle* circle=CLbtGeoCircle::NewL(coordinate,1000);
+   		CLbtGeoCircle* circle=CLbtGeoCircle::NewL(coordinate,100);
     	CleanupStack::PushL( circle );
     
          
@@ -2220,8 +2241,8 @@ TInt CAdvancedTriggerSupervision::ATSTest16L( CStifItemParser& aItem )
     	notifier->CreateTriggers( lbt,*trig,trigId,ETrue,wait );
     	wait->Start( );
     	
-       	coordinate.Move(90,10000);
-       	CLbtGeoCircle* circle2=CLbtGeoCircle::NewL(coordinate,500);
+       	coordinate.Move(90,500);
+       	CLbtGeoCircle* circle2=CLbtGeoCircle::NewL(coordinate,100);
     	circle2->SetCenter(coordinate);
     	CLbtTriggerConditionArea* condition2=CLbtTriggerConditionArea::NewL(
                                                 circle2,
@@ -2235,8 +2256,8 @@ TInt CAdvancedTriggerSupervision::ATSTest16L( CStifItemParser& aItem )
     //	User::LeaveIfError(repository->Set(KCRKeySimPSYSimulationFile, KSimulationFile));
     //	notifier->After(3000000);
     //	wait->Start( );
-    	coordinate.Move(270,5000);
-    	CLbtGeoCircle* circle3=CLbtGeoCircle::NewL(coordinate,500);
+    	coordinate.Move(270,200);
+    	CLbtGeoCircle* circle3=CLbtGeoCircle::NewL(coordinate,100);
     	circle3->SetCenter(coordinate);
     	CLbtTriggerConditionArea* condition3=CLbtTriggerConditionArea::NewL(
                                                 circle3,
@@ -2347,9 +2368,10 @@ TInt CAdvancedTriggerSupervision::ATSTest17L( CStifItemParser& aItem )
 	trig->SetRequestorL(ReqType,ReqFormat,ReqData);
     	// set condition
 
-    	TCoordinate coordinate(62.5285,23.9385);
+    TCoordinate coordinate;
+    GetCurrentCoordinateL( coordinate );
    		    
-   		CLbtGeoCircle* circle=CLbtGeoCircle::NewL(coordinate,1000);
+   		CLbtGeoCircle* circle=CLbtGeoCircle::NewL(coordinate,100);
     	CleanupStack::PushL( circle );
     
          
@@ -2373,8 +2395,8 @@ TInt CAdvancedTriggerSupervision::ATSTest17L( CStifItemParser& aItem )
     	notifier->CreateTriggers( lbt,*trig,trigId,ETrue,wait );
     	wait->Start( );
     	
-       	coordinate.Move(90,5000);
-       	CLbtGeoCircle* circle3=CLbtGeoCircle::NewL(coordinate,500);
+       	coordinate.Move(90,500);
+       	CLbtGeoCircle* circle3=CLbtGeoCircle::NewL(coordinate,100);
     	circle3->SetCenter(coordinate);
     	CLbtTriggerConditionArea* condition2=CLbtTriggerConditionArea::NewL(
                                                 circle3,
@@ -2384,8 +2406,8 @@ TInt CAdvancedTriggerSupervision::ATSTest17L( CStifItemParser& aItem )
     	notifier->CreateTriggers( lbt,*trig,trigIdtochange,ETrue,wait );
     	wait->Start( );
     	
-    	coordinate.Move(90,5000);
-    	CLbtGeoCircle* circle2=CLbtGeoCircle::NewL(coordinate,500);
+    	coordinate.Move(90,500);
+    	CLbtGeoCircle* circle2=CLbtGeoCircle::NewL(coordinate,100);
     	circle2->SetCenter(coordinate);
     	CLbtTriggerConditionArea* condition3=CLbtTriggerConditionArea::NewL(
                                                 circle2,

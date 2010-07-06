@@ -670,7 +670,7 @@ HBufC8* COMASuplPosInitState::EncodeMessageL(TOMASuplVersion &aSuplVersion,
 			}
 
 		// Position
-		if(iPosition)
+		if(iPosition && iRequestType == COMASuplSession::ESUPL_TERMINAL)
 			{
 			if(KErrNone == iPosition->Status() && !iIgnorePosData) //if iIgnorePosData is set do not use the pos data
 				{

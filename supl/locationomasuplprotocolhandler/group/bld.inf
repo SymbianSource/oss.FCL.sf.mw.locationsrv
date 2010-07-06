@@ -31,7 +31,6 @@ PRJ_EXPORTS
 ../conf/omasuplconfigparam.confml           MW_LAYER_CONFML(omasuplconfigparam.confml) 
 ../crml/omasuplconfigparam_102750A0.crml    MW_LAYER_CRML(omasuplconfigparam_102750A0.crml)
 ../conf/suplsettings_productconfig.confml                	MW_LAYER_CONFML(suplsettings_productconfig.confml) 
-../conf/CI_suplsettings_productconfig.confml                	MW_LAYER_CONFML(CI_suplsettings_productconfig.confml) 
 ../crml/suplsettings_productconfig_2001FCB9.crml         MW_LAYER_CRML(suplsettings_productconfig_2001FCB9.crml)
 
 //#include "../posmsgpluginapi/group/bld.inf"

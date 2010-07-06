@@ -526,6 +526,10 @@ EXPORT_C void COMASUPLProtocolManager::HandleSuplMessageL(
 		    {
 		    iOMASuplProtocolHandler1->HandleSuplMessageL(aSuplSession,aStatus,aMessage);
 		    }
+		else if (iOMASuplProtocolHandler2)
+				{
+				iOMASuplProtocolHandler2->HandleSuplMessageL(aSuplSession,aStatus,aMessage);
+				}
 		}
 	else if( major == 2 )
 		{
@@ -534,6 +538,10 @@ EXPORT_C void COMASUPLProtocolManager::HandleSuplMessageL(
 		    {
 		    iOMASuplProtocolHandler2->HandleSuplMessageL(aSuplSession,aStatus,aMessage);
 		    }
+		else if (iOMASuplProtocolHandler1)
+				{
+				iOMASuplProtocolHandler1->HandleSuplMessageL(aSuplSession,aStatus,aMessage);
+				}
 		}
 	else
 		{
