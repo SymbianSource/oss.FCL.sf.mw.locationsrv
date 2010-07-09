@@ -5687,7 +5687,7 @@ void COMASuplSession::LaunchNotifyDialogL()
 				//Inform UI that ,trigger session has started...
 		InsertActiveSessionL();
 		TInt privacyId;
-		iNetworkPrivacy->NotifyLocationRequestL(*iSuplReqInfo, privacyId); 
+		TRAP_IGNORE(iNetworkPrivacy->NotifyLocationRequestL(*iSuplReqInfo, privacyId); )
 		iTrace->Trace(_L(" Calling InsertActiveSessionL"), KTraceFileName, __LINE__);
          
 	}
@@ -5726,7 +5726,7 @@ void COMASuplSession::LaunchNotifyDialogL()
 				
 				
 				
-    	iNetworkPrivacy->NotifyLocationRequestL(*iSuplReqInfo, iRequestorId);
+    	TRAP_IGNORE(iNetworkPrivacy->NotifyLocationRequestL(*iSuplReqInfo, iRequestorId);)
     	
     }
     

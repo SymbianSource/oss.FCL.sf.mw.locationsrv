@@ -257,7 +257,7 @@ TInt COMASuplInitState::MakeGSMNotificationL()
 		// Notify Network Privacy of the request information
 		// Synchronous call 
 		TInt RequestId;
-		iNetworkPrivacy->NotifyLocationRequestL(*suplReqInfo,RequestId);
+		TRAP_IGNORE(iNetworkPrivacy->NotifyLocationRequestL(*suplReqInfo,RequestId);)
 		
 		if(iIsNotificationOnly)
 		{
@@ -304,7 +304,6 @@ TInt COMASuplInitState::MakeGSMVerificationL(CPosNetworkPrivacy::TRequestDecisio
 	if(!clientError)
 		{
 		// Set name of Client
-			iTrace->Trace(_L("clientError = 0"), KTraceFileName, __LINE__);
 		if(client)
 			{
 				iTrace->Trace(_L("calling suplReqInfo->SetLCSClientL"), KTraceFileName, __LINE__);
@@ -313,7 +312,7 @@ TInt COMASuplInitState::MakeGSMVerificationL(CPosNetworkPrivacy::TRequestDecisio
 		
 		delete client;
 		}
-	iTrace->Trace(_L("Line 315 successfully called"), KTraceFileName, __LINE__);
+	
 	if(!reqError || !clientError)
 		{
 			// Verify the request information using Network Privacy
@@ -323,18 +322,12 @@ TInt COMASuplInitState::MakeGSMVerificationL(CPosNetworkPrivacy::TRequestDecisio
 			// a timeout comes in from GSM Network. In this case verification will 
 			// be rejected.
 			iTrace->Trace(_L("Calling iNetworkPrivacy->VerifyLocationRequestL"), KTraceFileName, __LINE__); 					
-			TInt err = KErrNone;
 			
-			TRAP(err, iNetworkPrivacy->VerifyLocationRequestL(*suplReqInfo, 
-				iGSMRequestId, *this, aTimeOutStrategy);)
+			
+			TRAP_IGNORE(iNetworkPrivacy->VerifyLocationRequestL(*suplReqInfo, 
+				iGSMRequestId, *this, aTimeOutStrategy);) 					
 				
-				TBuf<64> msg;
-				msg.AppendNum(err);
-				iTrace->Trace(_L("Trap value: "), KTraceFileName, __LINE__); 
-				iTrace->Trace(msg, KTraceFileName, __LINE__); 
-				iTrace->Trace(_L("iNetworkPrivacy->VerifyLocationRequestL called "), KTraceFileName, __LINE__); 					
-				
-	        
+	        TBuf<64> msg;
 	        msg.Copy(_L("1.0 Privacy Fw Generated Verification Request id:"));
 	        msg.AppendNum(iGSMRequestId);
 	        iTrace->Trace(msg, KTraceFileName, __LINE__);       

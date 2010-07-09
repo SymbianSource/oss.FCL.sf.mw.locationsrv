@@ -35,7 +35,7 @@ public:
      * Destrcutor
      */
     ~PosVerificationDialogPlugin();
-    
+
     /**
      * Checks if client is allowed use the device dialog that the plugin creates. 
      * Device dialog service calls this function before creating a device dialog or 
@@ -52,7 +52,7 @@ public:
             accessAllowed(const QString &notificationType,
                     const QVariantMap &parameters,
                     const QVariantMap &securityInfo) const;
-    
+
     /**
      * Create a device dialog instance compatible with the version requested. 
      * This could always be the latest version if it is backwards compatible with older versions. 
@@ -65,7 +65,7 @@ public:
 
     HbDeviceDialogInterface *createDeviceDialog(
             const QString &deviceDialogType, const QVariantMap &parameters);
-    
+
     /**
      * Gets information of the device dialog created by the plugin. Device dialog manager calls 
      * this function before creating the device dialog widget to check HbDeviceDialogPlugin::DeviceDialogGroup, 
@@ -75,7 +75,7 @@ public:
 
     bool deviceDialogInfo(const QString &deviceDialogType,
             const QVariantMap &parameters, DeviceDialogInfo *info) const;
-    
+
     /**
      * Returns a list of device dialog types the plugin implements. A plugin may implement 
      * several device dialog types. By convention device dialog type strings should follow 
@@ -88,17 +88,24 @@ public:
      * @returns - plugin flags
      */
     HbDeviceDialogPlugin::PluginFlags pluginFlags() const;
-    
+
     /**
      * Returns an error last occurred. Error code ranges are defined in HbDeviceDialog. The code 
      * is passed to a client by device dialog framework
      * @returns- errorcode
      */
     int error() const;
-    
+
 private:
-    
-    
+
+    /**
+     * Fix for ou1cimx1#462081
+     * Loads the qt message file for localization and installs the translator.
+     */
+    void installTranslator();
+
+private:
+
     /**
      * instance of translator
      * owns

@@ -51,21 +51,6 @@ PosVerificationDialogPlugin::PosVerificationDialogPlugin() :
     mTranslator(NULL)
     {
     qDebug() << "+PosVerificationDialogPlugin::PosVerificationDialogPlugin()";
-    mTranslator = new QTranslator();
-
-    QString lang = QLocale::system().name();
-    QString path = "z:/resource/qt/translations/";
-    QString altpath = "c://resource/";
-    bool loaded = false;
-    loaded = mTranslator->load(path + QString("lilocationmw_") + lang);
-    if (loaded == false)
-        {
-        loaded = mTranslator->load(altpath + QString("lilocationmw_") + lang);
-        }
-    if (loaded)
-        {
-        qApp->installTranslator(mTranslator);
-        }
     //#ifndef QT_NO_DEBUG_OUTPUT
     //    ApiLogger::OpenLogFile();
     //    qInstallMsgHandler(ApiLogger::MyOutputHandler);
@@ -122,6 +107,9 @@ HbDeviceDialogInterface * PosVerificationDialogPlugin::createDeviceDialog(
     {
     qDebug() << "+PosVerificationDialogPlugin::createDeviceDialog(): Type"
             << deviceDialogType;
+    //install the translator. Fix for Bug id: ou1cimx1#462081
+    installTranslator();
+
     int i;
     PosVerificationCustomDialog * dialog = 0;
     const int numTypes = sizeof(verdlgtypes) / sizeof(verdlgtypes[0]);
@@ -141,7 +129,8 @@ HbDeviceDialogInterface * PosVerificationDialogPlugin::createDeviceDialog(
                 CustomDocumentLoader loader;
                 bool ok = false;
                 loader.load(POSVERFICATIONDIALOG_DOCML, &ok);
-                Q_ASSERT_X(ok, "PosVerificationCustomDialog", "invalid DocML file");
+                Q_ASSERT_X(ok, "PosVerificationCustomDialog",
+                        "invalid DocML file");
 
                 if (ok)
                     {
@@ -236,6 +225,35 @@ int PosVerificationDialogPlugin::error() const
     {
     qDebug() << "PosVerificationDialogPlugin::error()";
     return 0;
+    }
+
+//-----------------------------------------------------------------------
+// PosVerificationDialogPlugin::installTranslator 
+// loads the qt message file and installs the translator
+//-----------------------------------------------------------------------
+void PosVerificationDialogPlugin::installTranslator()
+    {
+    if (!mTranslator)
+        {
+        mTranslator = new QTranslator();
+        }
+    else
+        {
+        return;
+        }
+    QString lang = QLocale::system().name();
+    QString path = "z:/resource/qt/translations/";
+    QString altpath = "c://resource/";
+    bool loaded = false;
+    loaded = mTranslator->load(path + QString("lilocationmw_") + lang);
+    if (loaded == false)
+        {
+        loaded = mTranslator->load(altpath + QString("lilocationmw_") + lang);
+        }
+    if (loaded)
+        {
+        qApp->installTranslator(mTranslator);
+        }
     }
 
 Q_EXPORT_PLUGIN2(posverificationdialogplugin, PosVerificationDialogPlugin)
