@@ -36,8 +36,8 @@ _LIT(KTraceFileName,"SUPL_PH_API::epos_csuplcommunicationmanager.cpp");
 
 // ============================ MEMBER FUNCTIONS ===============================
 
-CSuplCommunicationManager::CSuplCommunicationManager():
-	iServerConnected(EFalse)
+CSuplCommunicationManager::CSuplCommunicationManager(MSuplConnectionMonitor& aConnMonitor):
+	iServerConnected(EFalse), iConnMonitor(aConnMonitor)
     {
     }
 
@@ -49,9 +49,9 @@ void CSuplCommunicationManager::ConstructL()
 	iTrace->Trace(_L("CSuplCommunicationManager::ConstructL"), KTraceFileName, __LINE__); 
     }
 
-EXPORT_C CSuplCommunicationManager* CSuplCommunicationManager::NewL()
+EXPORT_C CSuplCommunicationManager* CSuplCommunicationManager::NewL(MSuplConnectionMonitor& aConnMonitor)
     {
-    CSuplCommunicationManager* self = new( ELeave ) CSuplCommunicationManager;
+    CSuplCommunicationManager* self = new( ELeave ) CSuplCommunicationManager(aConnMonitor);
     
     CleanupStack::PushL( self );
     self->ConstructL();
@@ -127,7 +127,8 @@ EXPORT_C CSuplConnection *CSuplCommunicationManager::CreateConnectionL(const TDe
     	suplConnection = CSuplConnection::NewL(iSocketServ, aHostAddress, aPort, aIAPId, this);	
     	iConnArray.Append(suplConnection);
     	iTrace->Trace(_L("CSuplCommunicationManager::CreateConnectionL New Connection Created"), KTraceFileName, __LINE__);
-    	}
+    	iConnMonitor.ConnectionOpened();
+    }
     else
     	{
     	// Check if we have exceeded the max no. of sessions 
@@ -140,8 +141,9 @@ EXPORT_C CSuplConnection *CSuplCommunicationManager::CreateConnectionL(const TDe
     		suplConnection = CSuplConnection::NewL(iSocketServ, aHostAddress, aPort, aIAPId, this);
     		iConnArray.Append(suplConnection);
     		iTrace->Trace(_L("CSuplCommunicationManager::CreateConnectionL New Connection Created"), KTraceFileName, __LINE__);
-    		}
+        	iConnMonitor.ConnectionOpened();
     	}
+    }
     
     // Increment the Ref Count
     suplConnection->IncRefCount();
@@ -181,6 +183,7 @@ EXPORT_C CSuplConnection* CSuplCommunicationManager::CreateConnectionL(const TDe
     	{
         suplConnection = CSuplConnection::NewL(iSocketServ, aHostAddress, aPort, aIAPId, aTls, aPskTls, this); 
         iConnArray.Append(suplConnection);
+       	iConnMonitor.ConnectionOpened();
         iTrace->Trace(_L("CSuplCommunicationManager::CreateConnectionL New Connection Created"), KTraceFileName, __LINE__);
     	}
     else
@@ -194,6 +197,7 @@ EXPORT_C CSuplConnection* CSuplCommunicationManager::CreateConnectionL(const TDe
         	{
             suplConnection = CSuplConnection::NewL(iSocketServ, aHostAddress, aPort, aIAPId, aTls, aPskTls, this);
             iConnArray.Append(suplConnection);
+        	iConnMonitor.ConnectionOpened();
             iTrace->Trace(_L("CSuplCommunicationManager::CreateConnectionL New Connection Created"), KTraceFileName, __LINE__);
         	}
     	}
@@ -242,6 +246,8 @@ EXPORT_C TInt CSuplCommunicationManager::DestroyConnection(CSuplConnection *aCon
     //Last Session invoking Destroy
     iTrace->Trace(_L("CSuplCommunicationManager::DestroyConnection Destroy Connection"), KTraceFileName, __LINE__);
     aConnection->Destroy();
+    
+    iConnMonitor.ConnectionClosed();
     
     return KErrNone;
     }

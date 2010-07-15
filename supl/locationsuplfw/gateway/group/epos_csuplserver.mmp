@@ -47,6 +47,7 @@ SOURCE				epos_csuplnetinitiatedsession.cpp
 SOURCE				epos_csuplserverstartuprequest.cpp
 SOURCE				epos_csuplconnecttimer.cpp
 SOURCE              epos_csuplecomeventwatcher.cpp
+SOURCE		    epos_csuplsessionretryq.cpp
 
 MW_LAYER_SYSTEMINCLUDE
 

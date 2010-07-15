@@ -465,7 +465,7 @@ COMASuplSession::TOMASuplReqType COMASuplSession::RequestType()
 
     	if(aAllowedCapabilities == 0)
     		{
-    			iAllowedCapabilities = KGpsSETAssisted | KGpsSETBased | KAutonomousGps| KAFLT | KECID | KEOTD | KOTDOA | KCID; 
+				iAllowedCapabilities = KGpsSETBased | KAutonomousGps| KAFLT | KECID | KEOTD | KOTDOA | KCID; 
     		}
     	else
     		{

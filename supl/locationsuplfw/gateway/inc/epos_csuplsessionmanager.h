@@ -26,6 +26,8 @@
 #include <epos_suplterminal.h>
 #include <epos_suplterminaltrigger.h>
 #include "epos_csuplecomeventwatcher.h"
+#include "epos_csuplsessionretryq.h"
+#include "epos_csuplcommunicationmanager.h"
 
 // FORWARD DECLARATIONS
 class CSUPLProtocolManagerBase;
@@ -37,7 +39,7 @@ class CSuplCommunicationManager;
 /**
 *  Class to handle SUPL sessions 
 */
-class CSuplSessionManager : public CBase
+class CSuplSessionManager : public CBase, MSuplConnectionMonitor
 	{
     public:  // Constructors and destructor
 
@@ -67,6 +69,9 @@ class CSuplSessionManager : public CBase
         void DeInitialize(TRequestStatus& aStatus);
         void CancelDeInitialize();
 
+		void QueueForReIssueRequestL(CSuplSessionRequest& aSessionRequest);
+		void RemoveFromQueueForReIssueRequest(CSuplSessionRequest& aSessionRequest);
+
 		void StartTriggerSessionL(
 				CSuplSessionBase* aSuplSession,
 				TRequestStatus& aStatus,
@@ -86,7 +91,11 @@ class CSuplSessionManager : public CBase
         	);
 		
 		TInt GetSUPLMessageVersionL(TInt& aMajorVersion, const TDesC8& aReceivedMessage);
-		
+
+		// from MSuplConnectionMonitor
+		void ConnectionOpened();
+		void ConnectionClosed();
+	
     private:
 
         /**
@@ -110,7 +119,7 @@ class CSuplSessionManager : public CBase
         CSuplCommunicationManager*  iCommMgr;
         TInt iConnectError;
         CSuplEcomEventWatcher*      iEcomWatcher;
-
+		CSuplSessionRetryQ*			iSessionRetryQ;
     };
 
 

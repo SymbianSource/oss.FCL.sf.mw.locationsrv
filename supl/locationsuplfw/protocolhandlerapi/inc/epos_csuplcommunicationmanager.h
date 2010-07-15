@@ -36,6 +36,13 @@ class CSuplConnTrace;
 
 // CLASS DECLARATION
 
+class MSuplConnectionMonitor
+	{
+public:
+	virtual void ConnectionOpened() = 0;
+	virtual void ConnectionClosed() = 0;
+	};
+
 /**
 *  CSuplCommunicationManager is the Singleton that provides SUPL Connection 
 *  to be used by Protocol Handler
@@ -54,7 +61,7 @@ class CSuplCommunicationManager : public CBase, public MSuplPacketNotifier
         /**
         * Two-phased constructor.
         */
-        IMPORT_C static CSuplCommunicationManager* NewL();
+        IMPORT_C static CSuplCommunicationManager* NewL(MSuplConnectionMonitor& aConnMonitor);
         
         /**
         * Destructor.
@@ -178,7 +185,7 @@ class CSuplCommunicationManager : public CBase, public MSuplPacketNotifier
         /**
         * C++ default constructor.
         */
-        CSuplCommunicationManager();
+        CSuplCommunicationManager(MSuplConnectionMonitor& aConnMonitor);
 
         /**
         * By default Symbian 2nd phase constructor is private.
@@ -206,6 +213,8 @@ class CSuplCommunicationManager : public CBase, public MSuplPacketNotifier
         
         // Trace Log
         CSuplConnTrace* iTrace;
+        
+        MSuplConnectionMonitor& iConnMonitor;
     };
 
 #endif      // C_CSUPLCOMMUNICATIONMANAGER_H   
