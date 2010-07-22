@@ -46,6 +46,9 @@
 #include "epos_comasupltimeouttimer.h"
 #include "epos_omasuplconstants.h"
 #include "epos_comasuplcommonconfig.h"
+#include "epos_suplgeocellinfo.h"
+
+#include "epos_comasupllocationid.h"
 
 _LIT(KTraceFileName,"SUPL_OMA_PH::EPos_COMASUPLProtocolManager1.cpp");
 
@@ -106,13 +109,21 @@ EXPORT_C COMASUPLProtocolManager1::~COMASUPLProtocolManager1()
 		{
 			iSettingsLauncher->CancelLaunch();
 		}*/
-	iSuplSettings->SetUIActive( EFalse );
+		
+	if(iSuplSettings)
+		{
+		iSuplSettings->SetUIActive( EFalse );
+		}
 
 	DeleteAllSessions();
 	iSuplSessions.Reset();
 	iSuplSessions.Close();
 
-    iTelServer.UnloadPhoneModule(iTsyName);
+	//Only attempt to unload the phone if the TSY has actually been initialised
+	if(iTsyName.Length() > 0)
+		{
+		iTelServer.UnloadPhoneModule(iTsyName);
+		}
 
 	
 	iQueuedPacket.Close();
@@ -2065,9 +2076,102 @@ void COMASUPLProtocolManager1::SetCommonConfig(COMASuplCommonConfig*& aCommmonCo
     iSuplInitTimeOut = aCommmonConfig->iSuplInitTimeOut;
     iPersistFailTimer = aCommmonConfig->iPersistFailTimer;
     }
-void COMASUPLProtocolManager1::HandleSuplTriggerStatusChangeL(
-               CSuplSettings::TSuplTriggerStatus /*aSuplTriggerStatus*/ ) 
+void COMASUPLProtocolManager1::HandleSuplTriggerStatusChangeL(CSuplSettings::TSuplTriggerStatus /*aSuplTriggerStatus*/ ) 
+{
+
+}
+
+// -----------------------------------------------------------------------------
+// COMASUPLProtocolManager1::MakeLocationConversionRequestL
+// 
+// To make conversion request to retrieve position for a given cell id
+// -----------------------------------------------------------------------------
+//
+void COMASUPLProtocolManager1::MakeLocationConversionRequestL( CSuplSessionBase* aSuplSessn,
+        TGeoCellInfo& aCellInfo,
+        TRequestStatus& aStatus )
     {
-    
+    iTrace->Trace(_L("COMASUPLProtocolManager1::MakeLocationConversionRequestL"), KTraceFileName, __LINE__);
+    TBuf<64> tempBuf;
+
+    if ( iSuplSessions.Find(aSuplSessn) == KErrNotFound )
+        {
+        TRequestStatus *status = &aStatus; 
+        User::RequestComplete(status,KErrNotFound ); 
+        return;
+        }
+
+    CheckForSessionCount();
+    iRunningSessionCount++;
+
+    COMASuplLocationId* locationId =   COMASuplLocationId::NewL();
+    CleanupStack::PushL(locationId);
+    COMASuplLocationId::TOMASuplStatus status = COMASuplLocationId::EStale;
+    switch(aCellInfo.iGeoCellType)
+        {
+        case EGeoGsmCell:
+            {
+            iTrace->Trace(_L("COMASUPLProtocolManager1::MakeLocationConversionRequestL - Setting GSM Cell Info"), KTraceFileName, __LINE__);
+            COMASuplGSMCellInfo* cellInfo = COMASuplGSMCellInfo::NewL();
+            cellInfo->SetSuplGSMCellInfo(aCellInfo.iMNC,aCellInfo.iMCC,aCellInfo.iCid,aCellInfo.iLac);
+            locationId->SetSuplLocationId(cellInfo,status);
+            }
+            break;
+        case EGeoWcdmaCell:
+            {
+            iTrace->Trace(_L("COMASUPLProtocolManager1::MakeLocationConversionRequestL - Setting WCDMA Cell Info"), KTraceFileName, __LINE__);
+            COMASuplCellInfo* cellInfo = COMASuplCellInfo::NewL();
+            cellInfo->SetSuplCellInfo(aCellInfo.iMNC,aCellInfo.iMCC,aCellInfo.iCid);
+            locationId->SetSuplLocationId(cellInfo,status);
+            }
+            break;
+        }
+    CleanupStack::Pop(locationId); 
+    tempBuf.Copy(_L("MCC = "));
+    tempBuf.AppendNum(aCellInfo.iMCC);
+    iTrace->Trace(tempBuf, KTraceFileName, __LINE__);
+    tempBuf.Copy(_L("MNC = "));
+    tempBuf.AppendNum(aCellInfo.iMNC);
+    iTrace->Trace(tempBuf, KTraceFileName, __LINE__);
+    tempBuf.Copy(_L("LAC = "));
+    tempBuf.AppendNum(aCellInfo.iLac);
+    iTrace->Trace(tempBuf, KTraceFileName, __LINE__);
+    tempBuf.Copy(_L("CId = "));
+    tempBuf.AppendNum(aCellInfo.iCid);
+    iTrace->Trace(tempBuf, KTraceFileName, __LINE__);
+    tempBuf.Copy(_L("Prompt = "));
+    tempBuf.AppendNum(aCellInfo.iConnectionPrompt);
+    iTrace->Trace(tempBuf, KTraceFileName, __LINE__);
+
+    TInt allowedCapabilities = KECID|KCID;
+    TInt requestID = 1000; 
+    COMASuplSession* OMASession =  static_cast<COMASuplSession*>(aSuplSessn);
+    OMASession->SetConfigurationParameters(iUT1_StartTimer,iUT2_PosInitTimer, iUT3_PosTimer,iPrivacyTimer,iSETMode,
+            iSuplUsage, iPersistFailTimer,iSuplInitTimeOut);
+    OMASession->RunSuplSessionL(aStatus,ETrue, KNullDesC,EFalse, allowedCapabilities,iRunningSessionCount,requestID,ETrue,locationId,aCellInfo.iConnectionPrompt,aCellInfo.iWlanOnly);
+
+    }
+
+// -----------------------------------------------------------------------------
+// COMASUPLProtocolManager1::CancelLocationConversionRequest
+// 
+// Cancel an ongoing conversion request 
+// -----------------------------------------------------------------------------
+//
+void COMASUPLProtocolManager1::CancelLocationConversionRequest(CSuplSessionBase* aSuplSession)
+    {
+    // Log
+    iTrace->Trace(_L("COMASUPLProtocolManager1::CancelLocationConversionRequest"), KTraceFileName, __LINE__);
+
+    // Check if the Session is valid
+    TInt index = iSuplSessions.Find(aSuplSession);
+
+    if(KErrNotFound == index)
+        {
+        iTrace->Trace(_L("Cannot find Supl session."), KTraceFileName, __LINE__);
+        return;
+        }
+    aSuplSession->CancelRunSession();   
+    return ;
     }
 // end of file

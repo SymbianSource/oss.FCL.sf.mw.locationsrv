@@ -25,12 +25,14 @@
 #include <lbspositioninfo.h>
 #include <epos_suplterminal.h>
 #include <epos_suplterminaltrigger.h>
+#include <epos_suplgeocellinfo.h>
 #include "epos_csuplecomeventwatcher.h"
 
 // FORWARD DECLARATIONS
 class CSUPLProtocolManagerBase;
 class CSuplSessionBase;
 class CSuplCommunicationManager;
+
 
 // CLASS DECLARATION
 
@@ -86,6 +88,14 @@ class CSuplSessionManager : public CBase
         	);
 		
 		TInt GetSUPLMessageVersionL(TInt& aMajorVersion, const TDesC8& aReceivedMessage);
+		
+		
+		void MakeLocationConversionRequestL( CSuplSessionBase* aSuplSessn,
+		                                             TGeoCellInfo& aCellInfo,
+		                                             TRequestStatus& aStatus
+		                                           );	                                           
+		                                           
+		void CancelLocationConversionRequest(CSuplSessionBase *aSessn);
 		
     private:
 

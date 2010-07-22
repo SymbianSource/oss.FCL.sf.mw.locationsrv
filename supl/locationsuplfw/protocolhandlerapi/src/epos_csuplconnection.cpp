@@ -139,7 +139,9 @@ CSuplConnection::CSuplConnection(RSocketServ &aSocketServ):
     iConnectStarted(EFalse),
     iSendInProgress(EFalse),
     iFirstPkt(EFalse),
-    iListenCount(0)
+    iListenCount(0),
+    iPrompt(EFalse),
+    iWlanOnly(EFalse)
     {
     iHostAddress.Zero();
     CActiveScheduler::Add(this);
@@ -991,6 +993,106 @@ EXPORT_C void CSuplConnection::Connect(TRequestStatus &aStatus)
 	// Log
     iTrace->Trace(_L("CSuplConnection::Connect:Exit"), KTraceFileName, __LINE__);
     }
+
+
+// -----------------------------------------------------------------------------
+// CSuplConnection::Connect
+// Makes a secure connection to Network
+// (other items were commented in a header).
+// -----------------------------------------------------------------------------
+//
+
+EXPORT_C void CSuplConnection::Connect(TRequestStatus &aStatus,TBool aPrompt,TBool aWlanOnly)
+    {
+    
+        // Log
+        iTrace->Trace(_L("CSuplConnection::Connect"), KTraceFileName, __LINE__);
+        iPrompt = aPrompt;
+        iWlanOnly = aWlanOnly;
+        
+        if (iState == EConnected)
+            {
+            aStatus = KRequestPending;
+            TRequestStatus *reqStatus = &aStatus;
+            User::RequestComplete(reqStatus, KErrNone); 
+            iConnectClients++;
+            return;
+            }                
+
+        // Check if Connect() is started.  If started, add status to Q
+        //if (iConnectStarted)
+          //  {
+            aStatus = KRequestPending;
+            TRequestStatus *reqStatus = &aStatus;
+            iConnArray.Append(reqStatus);
+           // }                
+        
+        if (!iConnectStarted)
+            {                
+            iTrace->Trace(_L("CSuplConnection::Connect : Connection not started"), KTraceFileName, __LINE__);
+        // Connect only if not already connected
+        if(iState == ENotConnected || iState == EFailure)
+        {   
+            iTrace->Trace(_L("CSuplConnection::Connect : ENotConnected"), KTraceFileName, __LINE__);
+            iConnectStarted = ETrue;
+
+#ifndef __WINS__
+            
+            iTrace->Trace(_L("CSuplConnection::Connect ExtendedConnPref"), KTraceFileName, __LINE__);
+            
+            TExtendedConnPref OCCPrefs;
+            TConnPrefList prefList;
+
+                if(iWlanOnly)
+                    {
+                    iTrace->Trace(_L("CSuplConnection::Connect : iWLANOnly used"), KTraceFileName, __LINE__);
+                    OCCPrefs.SetBearerSet(TExtendedConnPref::EExtendedConnBearerWLAN);
+                    OCCPrefs.SetSnapPurpose(CMManager::ESnapPurposeInternet);
+                    }
+                else
+                    {
+                    iTrace->Trace(_L("CSuplConnection::Connect using OCC"), KTraceFileName, __LINE__);   
+                    iTrace->Trace(_L("CSuplConnection::Connect OCC GPRS Connection.."), KTraceFileName, __LINE__);
+                    OCCPrefs.SetBearerSet(TExtendedConnPref::EExtendedConnBearerCellular);
+                    OCCPrefs.SetSnapPurpose(CMManager::ESnapPurposeInternet);
+                   }
+                
+                if(!iPrompt)
+                   {
+                    iTrace->Trace(_L("CSuplConnection::Connect : silent connection"), KTraceFileName, __LINE__);
+                    OCCPrefs.SetNoteBehaviour(TExtendedConnPref::ENoteBehaviourConnSilent);
+                   }
+                else
+                    {
+                    iTrace->Trace(_L("CSuplConnection::Connect : Dialog prompt"), KTraceFileName, __LINE__);
+                    OCCPrefs.SetNoteBehaviour(TExtendedConnPref::ENoteBehaviourDefault);
+                    }
+                
+              
+            
+            TRAP_IGNORE(prefList.AppendL(&OCCPrefs));
+            
+            
+            TInt ret = iConnection.Open(iSocketServ);
+            // Start an Outgoing Connection with overrides
+            iConnection.Start(prefList,iStatus);
+            // Set state to ERetriveIAP
+            iState = ERetriveIAP;   
+            SetActive();     
+            
+            
+            
+#else
+            ConnectIAP();
+#endif
+        }
+            }
+        else
+            iTrace->Trace(_L("CSuplConnection::Connect : Conn in progress, request queued"), KTraceFileName, __LINE__);
+    // Log
+    iTrace->Trace(_L("CSuplConnection::Connect:Exit"), KTraceFileName, __LINE__);
+    }
+    
 
 // -----------------------------------------------------------------------------
 // CSuplConnection::CompleteConnectStatus

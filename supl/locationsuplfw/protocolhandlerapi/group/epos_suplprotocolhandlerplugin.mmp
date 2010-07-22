@@ -55,5 +55,5 @@ LIBRARY         centralrepository.lib extendedconnpref.lib netmeta.lib /*extende
 LIBRARY flogger.lib
 /* LIBRARY         gba.lib */
 
-exportunfrozen 
+//exportunfrozen 
 epocallowdlldata

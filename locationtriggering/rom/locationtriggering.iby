@@ -51,8 +51,6 @@ ECOM_PLUGIN( ltcellidmovdet.dll, ltcellidmovdet.rsc )
 // Backup and restore registeration file
 data=DATAZ_\private\1028312B\backup_registration.xml			\private\1028312B\backup_registration.xml
 
-// Central repository file
-data=DATAZ_\private\10202be9\1028312F.txt				\private\10202be9\1028312F.txt
 
 // Location Triggering Management Library
 file=ABI_DIR\BUILD_DIR\lbtmanager.dll                  SHARED_LIB_DIR\lbtmanager.dll

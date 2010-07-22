@@ -265,7 +265,7 @@ TInt CSettingsApi::RunMethodL(
 				ENTRY( "ChangeSuplTriggerServiceStatusOFF", CSettingsApi::ChangeSuplTriggerServiceStatusOFF),
 				ENTRY( "GetSuplTriggerServiceStatusON", CSettingsApi::GetSuplTriggerServiceStatusON),
 				ENTRY( "GetSuplTriggerServiceStatusOFF", CSettingsApi::GetSuplTriggerServiceStatusOFF),
-				ENTRY( "SetstatusOtherThanAppropriate", CSettingsApi::SetstatusOtherThanAppropriate),
+				//ENTRY( "SetstatusOtherThanAppropriate", CSettingsApi::SetstatusOtherThanAppropriate),
 				ENTRY( "ProductConfiguredServer1", CSettingsApi::ProductConfiguredServer1),	
 				ENTRY( "ProductConfiguredServer2", CSettingsApi::ProductConfiguredServer2),	
 				ENTRY( "ProductConfiguredServer3", CSettingsApi::ProductConfiguredServer3),	
@@ -2639,7 +2639,7 @@ aServerAddress.Copy(KServer);
 aIapName.Create(256);
 aIapName.Copy(KIap);
 
-aParamValues->Set(aServerAddress,aIapName,ETrue,EFalse,ETrue,ETrue);
+aParamValues->Set(aServerAddress,aIapName,ETrue,ETrue,ETrue,ETrue);
 	
   CSuplSettings *aSettings=CSuplSettings::NewL();
   TInt ret,ret1;
@@ -3520,7 +3520,7 @@ TInt CSettingsApi::IsSLPExistsString()
  
  iLog->Log(_L("Is SLP Exists for valid server address"));
 	
-_LIT8(KServer, "supl1.nokia.com");
+_LIT8(KServer, "supl.nokia.com");
 
 	RBuf aServer;
 	aServer.Create(256);
@@ -4421,7 +4421,9 @@ TInt CSettingsApi::SetGetTriggerParamsL( CStifItemParser& aItem )
     sessionName.Copy(_L("Session1"));
     TTime endTime1;
     endTime1 = 100;
-    TInt ret=params->Set( 5,sessionName,ETrue,ETrue,CTriggerParams::EPeriodic,CTriggerParams::ETerminalInitiated,10,10,endTime1);
+    TInt ret=params->Set( 5,sessionName,ETrue,ETrue,CTriggerParams::EPeriodic,CTriggerParams::ETerminalInitiated,10,10);
+    	params->SetTriggerEndTime(endTime1);
+    	
     if( KErrNone!=ret)
         {
         delete params;
@@ -4437,7 +4439,9 @@ TInt CSettingsApi::SetGetTriggerParamsL( CStifItemParser& aItem )
     TTime endTime2;
     HBufC* name = HBufC::NewL( 256);
     ret = params->Get(sessionId,name->Des(),notificationPresent,triggerNotificationStatus,
-                                 triggerType,requestType,outstandingTrigger,interval,endTime2 );
+                                 triggerType,requestType,outstandingTrigger,interval);
+                                 
+		params->GetTriggerEndTime(endTime2 );                                 
     
     delete params;
     if( KErrNone!=ret)
@@ -4462,14 +4466,19 @@ TInt CSettingsApi::SetGetTriggerParamsL( CStifItemParser& aItem )
 
 TInt CSettingsApi::SetTriggerLongSessionNameL( CStifItemParser& aItem )
     {
-    CTriggerParams* params = CTriggerParams::NewL();
+    CTriggerParams* params = CTriggerParams::NewLC();
     TBuf<300> sessionName;
     for(TInt i=0;i<290;i++)
         {
         sessionName.Append(_L("a"));
         }
-    TInt ret=params->Set( 5,sessionName,ETrue,ETrue,CTriggerParams::EPeriodic,CTriggerParams::ETerminalInitiated,10,10,0);
-    delete params;
+        
+    TInt ret=params->Set( 5,sessionName,ETrue,ETrue,CTriggerParams::EPeriodic,CTriggerParams::ETerminalInitiated,10,10);
+   
+    	
+    	
+    CleanupStack::PopAndDestroy();
+    	
     if( KErrArgument!= ret )
         {
         return KErrGeneral;
@@ -4483,7 +4492,7 @@ TInt CSettingsApi::SetTriggerEmptySessionNameL( CStifItemParser& aItem )
     CTriggerParams* params = CTriggerParams::NewL();
     TBuf<300> sessionName;
     sessionName.Zero();
-    TInt ret=params->Set( 5,sessionName,ETrue,ETrue,CTriggerParams::EPeriodic,CTriggerParams::ETerminalInitiated,10,10,0);
+    TInt ret=params->Set( 5,sessionName,ETrue,ETrue,CTriggerParams::EPeriodic,CTriggerParams::ETerminalInitiated,10,10);
     
        TInt64 sessionId;
         TBool notificationPresent;
@@ -4495,7 +4504,7 @@ TInt CSettingsApi::SetTriggerEmptySessionNameL( CStifItemParser& aItem )
         TTime endTime;
         HBufC* name = HBufC::NewL( 256);
         ret = params->Get(sessionId,name->Des(),notificationPresent,triggerNotificationStatus,
-                                     triggerType,requestType,outstandingTrigger,interval,endTime );
+                                     triggerType,requestType,outstandingTrigger,interval);
         
         delete params;
      TInt comp=name->Compare(sessionName);
@@ -4553,8 +4562,11 @@ TInt CSettingsApi::SetSessionObserverTwiceL( CStifItemParser& aItem )
 	CSessionObserver* obs = CSessionObserver::NewL();
 	TInt err=settings->SetSessionObserverL(*obs);
 	err=settings->SetSessionObserverL(*obs);
+			
 	CleanupStack::PopAndDestroy(1);
 	delete obs;
+	if ( err == KErrAlreadyExists)
+		return KErrNone ;
 	return err;
 	}					
 
@@ -4593,7 +4605,7 @@ TInt CSettingsApi::GetASessionParamNullL( CStifItemParser& aItem )
     {
     CTriggerParams* params=NULL;
     CSuplSettings* settings = CSuplSettings::NewL();
-    TInt err=settings->GetTriggerParams(12,params);
+    TInt err=settings->GetTriggerParams(10,params);
     delete settings;
     if( KErrArgument!=err)
         {
@@ -4607,8 +4619,9 @@ TInt CSettingsApi::GetASessionParamInValidL( CStifItemParser& aItem )
     {
     CTriggerParams* params=CTriggerParams::NewL();
     CSuplSettings* settings = CSuplSettings::NewL();
-    TInt err=settings->GetTriggerParams(15,params);//Invalid Id
+    TInt err=settings->GetTriggerParams(11,params);//Invalid Id
     delete settings;
+    delete params;
     if( KErrNotFound!=err)
         {
         return KErrGeneral;
@@ -4631,14 +4644,12 @@ TInt CSettingsApi::ChangeSuplTriggerServiceStatusON()
     CSuplSettings* settings = CSuplSettings::NewL() ;
     TInt ret ;
     //settings->SetObserverL(*this);
-    ret = settings->ChangeSuplTriggerServiceStatus(CSuplSettings::ESuplTriggerON);
+    ret = settings->SetSuplTriggeredServiceStatus(CSuplSettings::ESuplTriggerOn);
     iLog->Log(_L("Supltrigger ON = %d "),ret ) ;
     if(ret != KErrNone) 
         {
           iLog->Log(_L("Supltrigger service status:Error = %d"), ret); 
         }
-              
-       // CActiveScheduler::Start();
     iLog->Log(_L("ChangeSuplTriggerServiceStatus ON = %d "),ret ) ;
     delete settings;
     return ret;
@@ -4652,7 +4663,7 @@ TInt CSettingsApi::ChangeSuplTriggerServiceStatusOFF()
     CSuplSettings* settings = CSuplSettings::NewL() ;
     TInt ret ;
    // settings->SetObserverL(*this);
-    ret = settings->ChangeSuplTriggerServiceStatus(CSuplSettings::ESuplTriggerOFF);
+    ret = settings->SetSuplTriggeredServiceStatus(CSuplSettings::ESuplTriggerOff);
     iLog->Log(_L("Supltrigger OFF = %d "),ret ) ;
     if(ret != KErrNone) 
         {
@@ -4676,8 +4687,8 @@ TInt CSettingsApi::GetSuplTriggerServiceStatusON()
         {
          CSuplSettings::TSuplTriggerStatus status;
          CSuplSettings* settings = CSuplSettings::NewL();
-         ret = settings->GetSuplTriggerServiceStatus(status);
-         if (ret == KErrNone && status == CSuplSettings::ESuplTriggerON)
+         ret = settings->GetSuplTriggeredServiceStatus(status);
+         if (ret == KErrNone && status == CSuplSettings::ESuplTriggerOn)
             {
               iLog->Log(_L("status are matching...returned=%d" ),(TInt)status);    
             }
@@ -4705,8 +4716,8 @@ TInt CSettingsApi::GetSuplTriggerServiceStatusOFF()
       {
        CSuplSettings::TSuplTriggerStatus status;
        CSuplSettings* settings = CSuplSettings::NewL();
-       ret = settings->GetSuplTriggerServiceStatus(status);
-       if (ret == KErrNone && status == CSuplSettings::ESuplTriggerOFF)
+       ret = settings->GetSuplTriggeredServiceStatus(status);
+       if (ret == KErrNone && status == CSuplSettings::ESuplTriggerOff)
           {
            iLog->Log(_L("status are matching...returned=%d" ),(TInt)status);    
           }
@@ -4726,63 +4737,53 @@ TInt CSettingsApi::GetSuplTriggerServiceStatusOFF()
     return ret;         
     }
 
-// Change the status other than the appropriat
-TInt CSettingsApi::SetstatusOtherThanAppropriate()
+
+ 
+ TInt CSettingsApi::ProductConfiguredServer1()
    {
-    CSuplSettings::TSuplTriggerStatus status = (CSuplSettings::TSuplTriggerStatus)10;
-    CSuplSettings* settings = CSuplSettings::NewL();
-    TInt ret=settings->ChangeSuplTriggerServiceStatus(status);
-    
-    if(ret != KErrArgument)
-        {
-         iLog->Log(_L("SuplTriggerServiceStatus returned=%d" ),ret);  
-        }
-    iLog->Log(_L("Expected KErrArgument =%d" ),ret); 
-    ret = KErrNone;        
-    delete settings;
-    return ret;
+						CServerParams *aParamValues= CServerParams::NewL();
+						
+						TInt64 aSlpId =10;
+						
+						iLog->Log(_L("Setting CServerParams with product config parameter")); 
+						_LIT8(KServer, "supl.nokia.com");
+						_LIT8(KIap, "airtelgprs.com");
+							
+						RBuf aServerAddress, aIapName; 	
+								
+						aServerAddress.Create(128);
+						aServerAddress.Copy(KServer);
+						aIapName.Create(128);
+						aIapName.Copy(KIap);
+						
+						aParamValues->Set(aServerAddress,aIapName,ETrue,EFalse,ETrue,ETrue,aSlpId);
+						
+						aParamValues->SetServerConfigurationType(ETrue);
+						
+						aIapName.Close();
+						aServerAddress.Close();
+						
+						HBufC* aServerAddress1 = HBufC::NewL(64);
+						HBufC* aIapName1 = HBufC::NewL(64);
+
+						TBool aServerEnabled,aSimChangeRemove,aUsageInHomeNw,aEditable,aProductConfigured;
+						
+						TInt ret = aParamValues->Get(aSlpId,aServerAddress1->Des(),aIapName1->Des(),aServerEnabled,aSimChangeRemove,aUsageInHomeNw,aEditable);
+						aParamValues->GetServerConfigurationType(aProductConfigured);
+						
+						delete aParamValues;
+						delete aServerAddress1;
+						delete aIapName1;
+						
+						if(ret != KErrNone) 
+							return ret;
+							
+						if (aProductConfigured)
+							return KErrNone;
+						else
+							return KErrGeneral;
 }
 
-TInt CSettingsApi::ProductConfiguredServer1()
-   {
-    
-    CServerParams *aParamValues= CServerParams::NewL();
-
-iLog->Log(_L("Setting CServerParams with product config parameter")); 
-_LIT8(KServer, "supl.nokia.com");
-_LIT8(KIap, "airtelgprs.com");
-	
-RBuf aServerAddress, aIapName; 	
-		
-aServerAddress.Create(128);
-aServerAddress.Copy(KServer);
-aIapName.Create(128);
-aIapName.Copy(KIap);
-
-aParamValues->Set(aServerAddress,aIapName,ETrue,EFalse,ETrue,ETrue,0,ETrue);
-
-aIapName.Close();
-aServerAddress.Close();
-
-HBufC* aServerAddress1 = HBufC::NewL(64);
-HBufC* aIapName1 = HBufC::NewL(64);
-TInt64 aSlpId;
-TBool aServerEnabled,aSimChangeRemove,aUsageInHomeNw,aEditable,aProductConfigured;
-
-TInt ret = aParamValues->Get(aSlpId,aServerAddress1->Des(),aIapName1->Des(),aServerEnabled,aSimChangeRemove,aUsageInHomeNw,aEditable,aProductConfigured);
-
-delete aParamValues;
-delete aServerAddress1;
-delete aIapName1;
-
-if(ret != KErrNone) 
-	return ret;
-	
-if (aProductConfigured)
-	return KErrNone;
-else
-	return KErrGeneral;
-}
 
 TInt CSettingsApi::ProductConfiguredServer2()
    {
@@ -4792,7 +4793,7 @@ TInt CSettingsApi::ProductConfiguredServer2()
   	TInt64 slp;
 
 iLog->Log(_L("Setting CServerParams with product config parameter")); 
-_LIT8(KServer, "supl111.nokia.com");
+_LIT8(KServer, "product.supl.nokia.com");
 _LIT8(KIap, "airtelgprs.com");
 	
 RBuf aServerAddress, aIapName; 	
@@ -4802,7 +4803,8 @@ aServerAddress.Copy(KServer);
 aIapName.Create(128);
 aIapName.Copy(KIap);
 
-aParamValues->Set(aServerAddress,aIapName,ETrue,EFalse,ETrue,ETrue,0,ETrue);
+			aParamValues->Set(aServerAddress,aIapName,ETrue,EFalse,ETrue,ETrue);
+			aParamValues->SetServerConfigurationType(ETrue);
 
 ret = aSettings->AddNewServer(aParamValues,slp);
 	iLog->Log(_L("Return Value=%d" ),ret);
@@ -4823,7 +4825,9 @@ HBufC* aIapName1 = HBufC::NewL(64);
 TInt64 aSlpId;
 TBool aServerEnabled,aSimChangeRemove,aUsageInHomeNw,aEditable,aProductConfigured;
 
-ret = aParamValues1->Get(aSlpId,aServerAddress1->Des(),aIapName1->Des(),aServerEnabled,aSimChangeRemove,aUsageInHomeNw,aEditable,aProductConfigured);
+ret = aParamValues1->Get(aSlpId,aServerAddress1->Des(),aIapName1->Des(),aServerEnabled,aSimChangeRemove,aUsageInHomeNw,aEditable);
+
+aParamValues1->GetServerConfigurationType(aProductConfigured);
 
 delete aParamValues;
 delete aParamValues1;
@@ -4848,7 +4852,7 @@ TInt CSettingsApi::ProductConfiguredServer3()
   	TInt64 slp;
 
 iLog->Log(_L("Setting CServerParams with product config parameter")); 
-_LIT8(KServer, "supl121.nokia.com");
+_LIT8(KServer, "user.supl.nokia.com");
 _LIT8(KIap, "airtelgprs.com");
 	
 RBuf aServerAddress, aIapName; 	
@@ -4858,7 +4862,8 @@ aServerAddress.Copy(KServer);
 aIapName.Create(128);
 aIapName.Copy(KIap);
 
-aParamValues->Set(aServerAddress,aIapName,ETrue,EFalse,ETrue,ETrue,0,ETrue);
+			aParamValues->Set(aServerAddress,aIapName,ETrue,EFalse,ETrue,ETrue);
+			aParamValues->SetServerConfigurationType(EFalse);
 
  ret = aSettings->AddNewServer(aParamValues,slp);
 	iLog->Log(_L("Return Value=%d" ),ret);
@@ -4868,7 +4873,7 @@ if (ret != KErrNone)
 	return ret;
 	
 	CServerParams *aParamValues1 = CServerParams::NewL();
-ret = aSettings->GetSlpInfoAddress(_L("supl121.nokia.com"),aParamValues1);
+ret = aSettings->GetSlpInfoAddress(aServerAddress,aParamValues1);
 	
 aIapName.Close();
 aServerAddress.Close();
@@ -4878,7 +4883,9 @@ HBufC* aIapName1 = HBufC::NewL(64);
 TInt64 aSlpId;
 TBool aServerEnabled,aSimChangeRemove,aUsageInHomeNw,aEditable,aProductConfigured;
 
-ret = aParamValues1->Get(aSlpId,aServerAddress1->Des(),aIapName1->Des(),aServerEnabled,aSimChangeRemove,aUsageInHomeNw,aEditable,aProductConfigured);
+ret = aParamValues1->Get(aSlpId,aServerAddress1->Des(),aIapName1->Des(),aServerEnabled,aSimChangeRemove,aUsageInHomeNw,aEditable);
+aParamValues1->GetServerConfigurationType(aProductConfigured);
+
 
 delete aParamValues;
 delete aParamValues1;
@@ -4889,7 +4896,7 @@ delete aIapName1;
 if(ret != KErrNone) 
 	return ret;
 	
-if (aProductConfigured)
+if (!aProductConfigured)
 	return KErrNone;
 else
 	return KErrGeneral;
@@ -4903,7 +4910,7 @@ TInt CSettingsApi::ProductConfiguredServer4()
   	TInt ret,slp;
 
 iLog->Log(_L("Setting CServerParams with product config parameter")); 
-_LIT8(KServer, "supl131.nokia.com");
+_LIT8(KServer, "user.google.nokia.com");
 _LIT8(KIap, "airtelgprs.com");
 	
 RBuf aServerAddress, aIapName; 	
@@ -4913,7 +4920,9 @@ aServerAddress.Copy(KServer);
 aIapName.Create(128);
 aIapName.Copy(KIap);
 
-aParamValues->Set(aServerAddress,aIapName,ETrue,EFalse,ETrue,ETrue,0,ETrue);
+			aParamValues->Set(aServerAddress,aIapName,ETrue,EFalse,ETrue,ETrue);
+			aParamValues->SetServerConfigurationType(EFalse);
+
 
 ret = aSettings->SetDefaultServer(aParamValues);
 	iLog->Log(_L("Return Value=%d" ),ret);
@@ -4933,7 +4942,8 @@ HBufC* aIapName1 = HBufC::NewL(64);
 TInt64 aSlpId;
 TBool aServerEnabled,aSimChangeRemove,aUsageInHomeNw,aEditable,aProductConfigured;
 
-ret = aParamValues1->Get(aSlpId,aServerAddress1->Des(),aIapName1->Des(),aServerEnabled,aSimChangeRemove,aUsageInHomeNw,aEditable,aProductConfigured);
+ret = aParamValues1->Get(aSlpId,aServerAddress1->Des(),aIapName1->Des(),aServerEnabled,aSimChangeRemove,aUsageInHomeNw,aEditable);
+aParamValues1->GetServerConfigurationType(aProductConfigured);
 
 delete aParamValues;
 delete aParamValues1;
@@ -4950,6 +4960,8 @@ else
 	return KErrGeneral;
     
 }
+
+ 
 
 // EPOC default constructor
 void CObserverTest::ConstructL()

@@ -17,7 +17,7 @@
 
 
 PRJ_PLATFORMS
-WINSCW ARMV5
+WINSCW ARMV5 GCCE
 
 #include "../genericpositioningplugins/group/bld.inf"
 #include "../landmarks/group/bld.inf"

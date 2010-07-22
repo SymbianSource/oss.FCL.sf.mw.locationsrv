@@ -28,6 +28,9 @@
 #include <StifTestModule.h>
 
 
+// Forward declaration
+class TCoordinate;
+
 // CONSTANTS
 //const ?type ?constant_var = ?constant;
 
@@ -134,7 +137,12 @@ NONSHARABLE_CLASS(CAdvancedTriggerSupervision) : public CScriptBase
         */
         void Delete();
         void EnableSimPSYL();
-
+        
+        /**
+         * Gets current coordinate
+         */
+        void GetCurrentCoordinateL( TCoordinate& aCoordinate );
+            
         /**
         * Test methods are listed below. 
         */

@@ -95,7 +95,7 @@ LIBRARY flogger.lib
 LIBRARY efsrv.lib 
 LIBRARY aknnotify.lib 
 LIBRARY commonengine.lib 
-LIBRARY agentdialog.lib
+//LIBRARY agentdialog.lib
 
 LIBRARY epossuplprotocolhandlerplugin.lib
 LIBRARY epos_comasuplasnplugin.lib

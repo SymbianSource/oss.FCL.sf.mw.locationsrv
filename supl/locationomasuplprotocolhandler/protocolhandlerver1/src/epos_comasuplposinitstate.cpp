@@ -443,7 +443,7 @@ void COMASuplPosInitState::GetPosParamsL()
 		}
 	// Get the information from POS
 	if(iPosRequestor)
-	    User::LeaveIfError(iPosRequestor->GetSuplInfoL());
+	User::LeaveIfError(iPosRequestor->GetSuplInfoL());
 	
 	}
 // -----------------------------------------------------------------------------

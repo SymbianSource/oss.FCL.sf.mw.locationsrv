@@ -23,6 +23,9 @@ WINSCW ARMV5
 PRJ_EXPORTS
 
 ../inc/epos_suplparameters.h MW_LAYER_PLATFORM_EXPORT_PATH(epos_suplparameters.h)
+../inc/epos_suplterminalinternal.h	  |../../../inc/epos_suplterminalinternal.h
+../inc/epos_suplgeocellinfo.h	  |../../../inc/epos_suplgeocellinfo.h
+
 PRJ_MMPFILES
 epos_suplterminalapi.mmp
 

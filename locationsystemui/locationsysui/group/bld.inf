@@ -23,13 +23,14 @@
 PRJ_PLATFORMS
 DEFAULT
 
+PRJ_EXPORTS
 
 // Export Configuration Markup language and Central Repository Mark up language files
 
 ../conf/loclocalvariation.confml       	MW_LAYER_CONFML(loclocalvariation.confml)
 ../conf/loclocalvariation_20022D83.crml MW_LAYER_CRML(loclocalvariation_20022D83.crml)
 
-PRJ_EXPORTS
+
 // Query and Notification
 #include "../queryandnotification/group/bld.inf" 
 

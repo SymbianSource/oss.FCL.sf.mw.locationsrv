@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hbdocument version="1.1">
+    <object name="qtl_dialog_softkey_2_left" type="HbAction">
+        <string name="role" value="HbDialog:primaryAction"/>
+        <string locid="txt_loe_button_accept" name="text" value="Accept"/>
+    </object>
+    <object name="qtl_dialog_softkey_2_right" type="HbAction">
+        <string name="role" value="HbDialog:secondaryAction"/>
+        <string locid="txt_common_button_reject" name="text" value="Reject"/>
+    </object>
+    <widget name="PosVerificationCustomDialog" type="PosVerificationCustomDialog">
+        <sizehint height="42.38806un" type="PREFERRED" width="50.5un"/>
+        <widget name="heading" role="HbDialog:headingWidget" type="HbLabel">
+            <enums name="textWrapping" value="TextWordWrap"/>
+            <enums name="alignment" value="AlignLeft|AlignLeading"/>
+            <contentsmargins bottom="var(hb-param-margin-gene-popup)" left="var(hb-param-margin-gene-popup)" right="var(hb-param-margin-gene-popup)" top="var(hb-param-margin-gene-popup)"/>
+            <string name="plainText" value="Location request"/>
+            <fontspec name="fontSpec" role="Primary" textheight="var(hb-param-text-height-primary)"/>
+        </widget>
+        <widget name="scrollArea" role="HbDialog:contentWidget" type="HbScrollArea">
+            <widget name="containerWidget" role="HbScrollArea:contents" type="HbWidget">
+                <widget name="container_2" type="HbWidget">
+                    <widget name="queryText_1" type="HbLabel">
+                        <enums name="textWrapping" value="TextWordWrap"/>
+                        <enums name="alignment" value="AlignLeft|AlignLeading"/>
+                        <sizepolicy horizontalPolicy="Preferred" horizontalStretch="0" verticalPolicy="Preferred" verticalStretch="0"/>
+                        <sizehint height="14un" type="PREFERRED" width="5.67164un"/>
+                        <sizehint height="14un" type="MINIMUM"/>
+                        <contentsmargins bottom="var(hb-param-margin-gene-popup)" left="var(hb-param-margin-gene-popup)" right="0" top="0"/>
+                        <sizehint type="MAXIMUM" width="50un"/>
+                        <string name="plainText" value="Your location will be shared by default if you don't respond"/>
+                        <fontspec name="fontSpec" role="Primary" textheight="var(hb-param-text-height-primary)"/>
+                    </widget>
+                    <widget name="requestors" type="HbWidget">
+                        <real name="z" value="0"/>
+                        <sizehint height="23.8806un" type="PREFERRED" width="23.8806un"/>
+                        <layout type="stacked"/>
+                    </widget>
+                    <real name="z" value="0"/>
+                    <sizehint height="29.25373un" type="PREFERRED" width="49.85075un"/>
+                    <sizehint height="2504062.01158un" type="MAXIMUM"/>
+                    <layout orientation="Vertical" type="linear">
+                        <contentsmargins bottom="var(hb-param-margin-gene-popup)" left="var(hb-param-margin-gene-popup)" right="var(hb-param-margin-gene-popup)" top="var(hb-param-margin-gene-popup)"/>
+                        <linearitem itemname="queryText_1"/>
+                        <linearitem itemname="requestors"/>
+                    </layout>
+                </widget>
+                <real name="z" value="0"/>
+                <sizepolicy horizontalPolicy="Preferred" horizontalStretch="0" verticalPolicy="Preferred" verticalStretch="0"/>
+                <sizehint height="50un" type="PREFERRED" width="50un"/>
+                <sizehint height="2504062.01158un" type="MAXIMUM"/>
+                <layout type="anchor">
+                    <anchoritem dst="container_2" dstEdge="LEFT" spacing="0un" src="" srcEdge="LEFT"/>
+                    <anchoritem dst="container_2" dstEdge="TOP" spacing="0un" src="" srcEdge="TOP"/>
+                </layout>
+            </widget>
+            <real name="z" value="1"/>
+        </widget>
+        <ref object="qtl_dialog_softkey_2_left" role="HbWidget:addAction"/>
+        <ref object="qtl_dialog_softkey_2_right" role="HbWidget:addAction"/>
+    </widget>
+    <metadata activeUIState="Common ui state" display="NHD-3.2-inch_portrait" unit="un">
+        <uistate name="Common ui state" sections="#common"/>
+    </metadata>
+</hbdocument>

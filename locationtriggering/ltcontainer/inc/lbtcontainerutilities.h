@@ -116,7 +116,7 @@ class LbtContainerUtilities
 		 * 
 		 * @return ETrue if the UIDs suffices the security polity, EFalse otherwise
 		 */
-		static TBool LbtContainerUtilities::RunSecurityPolicy( TUid& aOwnerUid,
+		static TBool RunSecurityPolicy( TUid& aOwnerUid,
 															   TUid& aManagerUid,
 															   TSecureId& aStartupProcessUid,
 															   TLbtSecurityPolicy& aSecurityPolicy );

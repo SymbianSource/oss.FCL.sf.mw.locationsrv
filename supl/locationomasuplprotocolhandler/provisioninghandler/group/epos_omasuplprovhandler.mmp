@@ -60,8 +60,9 @@ MW_LAYER_SYSTEMINCLUDE
 LIBRARY         euser.lib
 LIBRARY         provisioningengine.lib
 LIBRARY 		bafl.lib 
-LIBRARY			apengine.lib 
+ 
 LIBRARY         commdb.lib
 LIBRARY         centralrepository.lib
 LIBRARY 				epos_csuplutils.lib
 LIBRARY         epos_suplsettings.lib
+LIBRARY         cmmanager.lib

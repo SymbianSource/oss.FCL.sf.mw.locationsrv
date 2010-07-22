@@ -304,15 +304,16 @@ TInt COMASuplInitState::MakeGSMVerificationL(CPosNetworkPrivacy::TRequestDecisio
 	if(!clientError)
 		{
 		// Set name of Client
-			
+			iTrace->Trace(_L("clientError = 0"), KTraceFileName, __LINE__);
 		if(client)
 			{
+				iTrace->Trace(_L("calling suplReqInfo->SetLCSClientL"), KTraceFileName, __LINE__);
 				suplReqInfo->SetLCSClientL(*client,iIdType);	
 			}
 		
 		delete client;
 		}
-	
+	iTrace->Trace(_L("Line 315 successfully called"), KTraceFileName, __LINE__);
 	if(!reqError || !clientError)
 		{
 			// Verify the request information using Network Privacy
@@ -321,9 +322,19 @@ TInt COMASuplInitState::MakeGSMVerificationL(CPosNetworkPrivacy::TRequestDecisio
 			// what decision the GSM Network will make if the user won't answer before 
 			// a timeout comes in from GSM Network. In this case verification will 
 			// be rejected.
-			iNetworkPrivacy->VerifyLocationRequestL(*suplReqInfo, 
-				iGSMRequestId, *this, aTimeOutStrategy);
-	        TBuf<64> msg;
+			iTrace->Trace(_L("Calling iNetworkPrivacy->VerifyLocationRequestL"), KTraceFileName, __LINE__); 					
+			TInt err = KErrNone;
+			
+			TRAP(err, iNetworkPrivacy->VerifyLocationRequestL(*suplReqInfo, 
+				iGSMRequestId, *this, aTimeOutStrategy);)
+				
+				TBuf<64> msg;
+				msg.AppendNum(err);
+				iTrace->Trace(_L("Trap value: "), KTraceFileName, __LINE__); 
+				iTrace->Trace(msg, KTraceFileName, __LINE__); 
+				iTrace->Trace(_L("iNetworkPrivacy->VerifyLocationRequestL called "), KTraceFileName, __LINE__); 					
+				
+	        
 	        msg.Copy(_L("1.0 Privacy Fw Generated Verification Request id:"));
 	        msg.AppendNum(iGSMRequestId);
 	        iTrace->Trace(msg, KTraceFileName, __LINE__);       

@@ -4767,10 +4767,16 @@ void COMASuplSession::CheckForSuplUsageL()
                 HandleSuplInitErrorL(iNwInitCompletionCode);                             
                 }                
             else
-                {                    
-                iTrace->Trace(_L("CheckForSuplUsageL, Initializing"), KTraceFileName, __LINE__); 
-                InitializeL(iRequestID); 
-                }
+            	{
+            		if (iRoaming)                
+                    HandleRoamingCheckCompleteL(KErrNone, EFalse);                    
+                else
+                    {                        
+                    iEtelRoamingCheck = ETrue;
+                    iProtocolManager.CheckForRoaming();
+                    }
+	            //InitializeL(iRequestID); 
+	          	}
             /*}
 
         else if (usage == CSuplSettings::ESuplUsageHomeAutomatic || usage == CSuplSettings::ESuplUsageAlwaysAsk)

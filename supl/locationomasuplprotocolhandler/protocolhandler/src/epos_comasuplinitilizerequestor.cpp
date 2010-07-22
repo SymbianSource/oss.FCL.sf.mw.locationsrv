@@ -223,7 +223,7 @@ void COMASuplInitilizeRequestor::RunL()
         		            SetActive();
         		            break;
     		        		}
-                iObserver.InitilizationCompletedL( iStatus.Int() );
+                        iObserver.InitilizationCompletedL( iStatus.Int() );
     		    }
     }
 

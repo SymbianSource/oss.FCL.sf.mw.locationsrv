@@ -131,7 +131,14 @@ void CAdvancedTriggerSupervision::ConstructL()
                           CStifLogger::ETxt,
                           CStifLogger::EFile,
                           EFalse );
-
+    
+    RProcess process;
+    ret = process.Create(_L("lbsroot"), KNullDesC);
+    TRequestStatus status;
+    process.Rendezvous(status);
+    process.Resume();             
+    User::WaitForRequest(status);
+    process.Close();    
     }
 
 // -----------------------------------------------------------------------------

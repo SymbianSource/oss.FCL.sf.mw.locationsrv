@@ -253,6 +253,11 @@ public:
      *
      */
 	IMPORT_C virtual TInt GetSUPLMessageVersionL(TInt& aMajorVersion, const TDesC8& aReceivedMessage);
+	IMPORT_C  void CancelLocationConversionRequest(CSuplSessionBase* aSuplSession);
+	    
+	    IMPORT_C  void MakeLocationConversionRequestL( CSuplSessionBase* aSuplSessn,
+	                                                  TGeoCellInfo& aCellInfo,
+	                                                  TRequestStatus& aStatus );
 	
 protected: // Construction
 	/**

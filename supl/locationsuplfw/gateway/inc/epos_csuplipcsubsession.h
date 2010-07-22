@@ -126,6 +126,11 @@ class CSuplIPCSubSession : public CObject,public MSuplSessionObserver
 		void HandlePeriodicTriggerSessionWithServernameL(const RMessage2& aMessage);		
 		void HandleStopTriggerringSessionL(const RMessage2& aMessage);		
 		void HandleNotifyTriggerFiredL(const RMessage2& aMessage);
+		/*
+		         * For Periodic Trigger Seesion
+		         */
+		        void HandleLocationConversionL(const RMessage2& aMessage);
+		        void HandleCancelLocationConversionL(const RMessage2& aMessage);
 
     private:    // Data
     	CSuplSessionBase*		iSuplSession;

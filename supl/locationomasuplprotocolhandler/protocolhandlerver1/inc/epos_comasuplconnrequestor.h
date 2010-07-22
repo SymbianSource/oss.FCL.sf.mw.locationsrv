@@ -33,6 +33,7 @@ class COMASuplTrace;
 class COMASuplFallBackHandler;
 class COMASUPLProtocolManager1;
 class COMASuplDialogTimer;
+class CRepository;
 /**
  *  Class for doing asynchronous service  i.e. used for Sending Packet to Socket.	
  *
@@ -91,6 +92,18 @@ class COMASuplConnRequestor : public CActive
 		 * @return None
 		 */ 
 		void CreateConnectionL(TInt aDialogTimeOutDelay);
+		
+		
+		/**
+		* CreateConnection Method Overload. Creates the Socket required to
+		* communicate with the SLP. Called in case of NI case.
+		* @since 
+		* @param aPrompt used to show connection dialog using OCC Api's.
+		* @param aWlanOnly used to connect server using wlan only.
+		* @return None
+		* Added CreateConnectionL with aPrompt and aWLANOnly for OCC.
+		*/ 
+		void CreateConnectionL(TBool aPrompt,TBool aWlanOnly);
 		
 		/**
 		* SendPacket Method.
@@ -271,6 +284,8 @@ class COMASuplConnRequestor : public CActive
 			//SUPLSettings
 			CSuplSettingsInternal *iSuplSettings;
 			
+			CRepository*            iRepository;
+			
 			//Trace Utility
 			COMASuplTrace* iTrace;
 			TBool iIsHSLPGenerated;
@@ -283,6 +298,11 @@ class COMASuplConnRequestor : public CActive
             TBool iIsSettingInitilized;
             
             TInt64 iCurrentSLPId;
+            TBool iPrompt;
+            
+            TBool iWlanOnly;
+            
+            TBool iIsStaleLocIdPresent;
 
 };
 

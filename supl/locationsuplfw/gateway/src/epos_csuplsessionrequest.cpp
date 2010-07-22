@@ -245,7 +245,13 @@ void CSuplSessionRequest::RunL()
         	iNetObserver->CompleteForwardMessageL(iHandle);
         	break;
         	}
-
+        case ESuplLocationConversionRequest:
+        case ESuplCancelLocationConversionRequest:
+            {
+            iRequestPhase = ESuplReqInactive;
+            iObserver->CompleteRunSession(err);
+            break;
+            }
         default :
             DebugPanic(EPosSuplServerPanicRequestInconsistency);
         }
@@ -390,5 +396,33 @@ void CSuplSessionRequest::CancelTriggerringRequest()
     iSessnMgr.CancelTriggerringSession(iSuplSessn);	
 	//SetActive();
     }
-    
+// ---------------------------------------------------------
+// CSuplSessionRequest::MakeLocationConversionRequestL
+//
+// (other items were commented in a header).
+// ---------------------------------------------------------
+//
+void CSuplSessionRequest::MakeLocationConversionRequestL( CSuplSessionBase* aSuplSessn,
+                                                          TGeoCellInfo& aCellInfo )
+    {
+    DEBUG_TRACE("CSuplSessionRequest::MakeLocationConversionRequestL", __LINE__)
+    iRequestPhase = ESuplLocationConversionRequest;
+    iStatus = KRequestPending;
+    iSessnMgr.MakeLocationConversionRequestL(aSuplSessn,aCellInfo,iStatus );
+    SetActive();       
+    }
+
+        
+// ---------------------------------------------------------
+// CSuplSessionRequest::CancelLocationConversionRequest
+//
+// (other items were commented in a header).
+// ---------------------------------------------------------
+//
+void CSuplSessionRequest::CancelLocationConversionRequest()
+    {
+    DEBUG_TRACE("CSuplSessionRequest::CancelLocationConversionRequest", __LINE__)
+    iRequestPhase = ESuplCancelLocationConversionRequest;
+    iSessnMgr.CancelLocationConversionRequest(iSuplSessn); 
+    }  
 //  End of File
