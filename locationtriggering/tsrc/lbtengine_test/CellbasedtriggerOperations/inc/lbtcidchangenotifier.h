@@ -43,6 +43,14 @@ public:
  */
 NONSHARABLE_CLASS( CLbtCidChangeNotifier ) : public CActive
     {
+    enum TState
+        {
+        ENone,
+        
+        ECurrentNetwork,
+        
+        ENotifyNetworkChange
+        };
 public:
 
     /**
@@ -56,7 +64,12 @@ public:
     ~CLbtCidChangeNotifier();
     
 public:
-
+    
+    /**
+     * 
+     */
+    void GetCurrentCGIInfo();
+    
     /**
      * Initiates a request for notification after the specified time interval
      * has elapsed
@@ -92,6 +105,8 @@ private:
      
      MLbtCidChangeObsrvr *iObs;
      
+     
+     TState iState;
     };
 
 #endif  // C_LBTSTRATEGYTIMER_H

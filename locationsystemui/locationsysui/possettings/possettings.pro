@@ -26,12 +26,13 @@ SUBDIRS += poslocationservices/poslocationservices.pro
 
 DEFINES += BUILD_POSSETTINGS
 
+INCLUDEPATH += $$MW_LAYER_SYSTEMINCLUDE
+
 # Build.inf rules
 BLD_INF_RULES.prj_exports += "$${LITERAL_HASH}include <platform_paths.hrh>" \
     "possettings_stub.sis /epoc32/data/z/system/install/possettings_stub.sis" \
     "rom/possettings.iby CORE_MW_LAYER_IBY_EXPORT_PATH(possettings.iby)" \
-    "rom/possettings_resources.iby LANGUAGE_APP_LAYER_IBY_EXPORT_PATH(possettings_resources.iby)" \
     "conf/positioningsettings.confml MW_LAYER_CONFML(positioningsettings.confml)" \
-    "conf/positioningsettings_2002E685.crml MW_LAYER_CRML(positioningsettings_2002E685.crml)"
-
+    "conf/positioningsettings_2002E685.crml MW_LAYER_CRML(positioningsettings_2002E685.crml)" \
+    "rom/possettings_resources.iby LANGUAGE_MW_LAYER_IBY_EXPORT_PATH(possettings_resources.iby)"
    

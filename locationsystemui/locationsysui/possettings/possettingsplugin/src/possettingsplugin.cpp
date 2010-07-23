@@ -43,16 +43,9 @@ PosSettingsPlugin::PosSettingsPlugin():mTranslator(0)
     
     QString lang = QLocale::system().name();
     QString path = "z:/resource/qt/translations/";
-    bool loaded = false;
-    loaded = mTranslator->load(path + QString("lilocationmw_") + lang);
-    if (loaded == false)
-        {
-        loaded = mTranslator->load("possettings", ":/translations");
-        }
-    if (loaded)
-        {
-        qApp->installTranslator(mTranslator);
-        }
+    mTranslator->load(path + QString("lilocationmw_") + lang);
+    qApp->installTranslator(mTranslator);
+    
     qDebug() << "- PosSettingsPluginHelper::PosSettingsPlugin()";
     }
 

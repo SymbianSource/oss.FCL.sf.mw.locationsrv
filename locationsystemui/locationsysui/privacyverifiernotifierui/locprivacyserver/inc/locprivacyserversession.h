@@ -25,7 +25,6 @@
 
 // FORWARD DECLARATIONS
 class CPosPrivacyServer;
-//class CPosPrivManager;
 class RPosRequestorStack;
 
 // CLASS DECLARATION

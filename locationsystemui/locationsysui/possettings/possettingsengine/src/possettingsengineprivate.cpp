@@ -24,6 +24,17 @@
 #include <EPos_CPosModuleIdList.h>
 #include <EPos_CPosModuleUpdate.h>
 
+// AGPS psy module UID
+const TUid KAGPSPsyModuleID =
+    {
+    0x101fe98c
+    };
+// NPP Psy module UID
+const TUid KNPPPsyModuleID =
+    {
+    0x10206915
+    };
+
 //---------------------------------------------------------------------
 // PosSettingsEnginePrivate::PosSettingsEnginePrivate()
 // (other items were commented in a header).
@@ -256,6 +267,8 @@ void PosSettingsEnginePrivate::setBackGroundPositioningStateL(
 //---------------------------------------------------------------------
 void PosSettingsEnginePrivate::populatePsyModuleInfoListL()
     {
+    TBool agpsState = EFalse;
+    TBool nppState = EFalse;
     CPosModuleIdList* idList = mPosModules->ModuleIdListLC();
     TInt cnt = idList->Count();
     for ( TInt i = 0; i < cnt; ++i )
@@ -285,15 +298,49 @@ void PosSettingsEnginePrivate::populatePsyModuleInfoListL()
         if( moduleInfo.IsAvailable() )
             {
             psyModuleInfo.mState = StateEnable;
+            // capture the state of the agps psy module
+            if (moduleInfo.ModuleId() == KAGPSPsyModuleID)
+                {
+                agpsState = ETrue;
+                }
+            // capture the state of npp psy module
+            if (moduleInfo.ModuleId() == KNPPPsyModuleID)
+                {
+                nppState = ETrue;
+                }
+
             }
         else 
             {
             psyModuleInfo.mState = StateDisable;
+            // capture the state of the agps psy module
+            if (moduleInfo.ModuleId() == KAGPSPsyModuleID)
+                {
+                agpsState = EFalse;
+                }
+            // capture the state of npp psy module
+            if (moduleInfo.ModuleId() == KNPPPsyModuleID)
+                {
+                nppState = EFalse;
+                }
             }
         
-        mPsyModuleInfoList.Append( psyModuleInfo );
+        mPsyModuleInfoList.AppendL( psyModuleInfo );
         }
-    CleanupStack::PopAndDestroy( idList );
+    // Check if the state of both agps & npp psy are disabled then turn off the supl trigger status
+    // else turn it back on again even if either is enabled
+    if (!agpsState && !nppState)
+        {
+        User::LeaveIfError(mSuplSettings->SetSuplTriggeredServiceStatus(
+                CSuplSettings::ESuplTriggerOff));
+        }
+    else
+        {
+        User::LeaveIfError(mSuplSettings->SetSuplTriggeredServiceStatus(
+                CSuplSettings::ESuplTriggerOn));
+        }
+
+    CleanupStack::PopAndDestroy(idList);
     }
 
 

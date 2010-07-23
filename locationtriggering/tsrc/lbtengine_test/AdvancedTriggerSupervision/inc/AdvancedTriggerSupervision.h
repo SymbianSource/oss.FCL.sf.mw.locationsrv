@@ -30,6 +30,7 @@
 
 // Forward declaration
 class TCoordinate;
+class MProEngEngine;
 
 // CONSTANTS
 //const ?type ?constant_var = ?constant;
@@ -142,6 +143,17 @@ NONSHARABLE_CLASS(CAdvancedTriggerSupervision) : public CScriptBase
          * Gets current coordinate
          */
         void GetCurrentCoordinateL( TCoordinate& aCoordinate );
+        
+        /**
+         * Set the phone profile to offline mode
+         */
+        void SetProfileToOfflineL();
+        
+        /**
+         * Restore original profile
+         */
+        void RestoreProfileL();
+                
             
         /**
         * Test methods are listed below. 
@@ -187,11 +199,18 @@ NONSHARABLE_CLASS(CAdvancedTriggerSupervision) : public CScriptBase
 
     private:    // Data
         
-        // ?one_line_short_description_of_data
-        //?data_declaration;
+		/**
+		 * Pointer to profile engine
+		 * Own.
+		 */
+        MProEngEngine* iProEngine;
+        
+        /**
+         * Current profile id
+         */
+        TInt iCurrentProfile;
 
-        // Reserved pointer for future extension
-        //TAny* iReserved;
+
 
     public:     // Friend classes
         //?friend_class_declaration;

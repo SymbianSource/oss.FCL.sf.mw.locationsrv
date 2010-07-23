@@ -21,6 +21,7 @@
 #ifdef __LOCATIONSYSUI
 
 #include <bldvariant.hrh>
+#include <data_caging_paths_for_iby.hrh>
 file=ABI_DIR\BUILD_DIR\possettingsengine.dll                   SHARED_LIB_DIR\possettingsengine.dll
 file=ABI_DIR\BUILD_DIR\possettingsplugin.dll                   SHARED_LIB_DIR\possettingsplugin.dll
 file=ABI_DIR\BUILD_DIR\pospsysettings.dll											SHARED_LIB_DIR\pospsysettings.dll	

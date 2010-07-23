@@ -1,5 +1,0 @@
-<RCC>
-    <qresource prefix="/translations" >
-        <file alias="lilocationmw">translations/lilocationmw.qm</file>
-    </qresource>
-</RCC>

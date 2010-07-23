@@ -79,6 +79,7 @@ CLpdRequestorProcessor::~CLpdRequestorProcessor()
 TBool CLpdRequestorProcessor::ReadRequestorsL(
     const CPosPrivacyNotifier& aPosNotifier )
     {
+    LOCVERIFIERDLGDEBUG( "+CLpdGlobalPluginDialog::ReadRequestorsL" );
     __ASSERT_DEBUG( aPosNotifier.CurrentRequest() != KPosNullQNRequestId,
                     HandleAssertErrorL() );
 
@@ -117,6 +118,7 @@ TBool CLpdRequestorProcessor::ReadRequestorsL(
      	}
      resSession.Close();
        
+    LOCVERIFIERDLGDEBUG( "-CLpdGlobalPluginDialog::ReadRequestorsL" );
     return allRequestorIdsValid;
     }
 

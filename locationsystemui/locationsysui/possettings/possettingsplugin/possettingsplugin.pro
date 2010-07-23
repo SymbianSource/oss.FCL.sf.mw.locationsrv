@@ -28,8 +28,6 @@ CONFIG += hb\
 MOC_DIR =     moc
 OBJECTS_DIR = obj
 RCC_DIR =     rcc
-RESOURCES += possettingsplugin.qrc
-TRANSLATIONS = lilocationmw.ts
 
 # Platforms
 SYMBIAN_PLATFORMS = WINSCW \
@@ -50,16 +48,14 @@ HEADERS += 	inc/possettingsplugin.h \
 						inc/possettingspluginhelper.h \
 						inc/possettingspluginhelper_p.h \
     				inc/apilogger.h
-						
+
+
+TRANSLATIONS=lilocationmw.ts
+
 symbian { 
     TARGET.EPOCALLOWDLLDATA = 1
     DEFINES += PLUGINUID3=0x2002C318
     TARGET.UID3 = 0x2002C318 
-
-    # Add translation files
-    addFiles.sources = translations/possettings.qm
-    addFiles.path = .
-    #DEPLOYMENT += addFiles
 
     deploy.path = C:
     qtplugins.path = /resource/qt/plugins/controlpanel

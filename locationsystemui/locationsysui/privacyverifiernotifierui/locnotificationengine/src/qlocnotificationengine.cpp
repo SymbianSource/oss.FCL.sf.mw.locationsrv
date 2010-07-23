@@ -40,8 +40,12 @@
 //---------------------------------------------------------------------
 QLocNotificationEngine::QLocNotificationEngine()
     {
+    qDebug()
+            << "+QLocNotificationEngine::QLocNotificationEngine()";
     //"symbian" is the string used to load the contact manager corresponding to the phonebook database
     mContactManager = new QtMobility::QContactManager("symbian");
+   qDebug()
+            << "-QLocNotificationEngine::QLocNotificationEngine()";	
     }
 
 //------QLocNotificationEngine-----------------------------------------
@@ -60,7 +64,8 @@ QLocNotificationEngine::~QLocNotificationEngine()
 //---------------------------------------------------------------------
 void QLocNotificationEngine::processRequestors(QPosRequestorData& posRequestorData)
     {        
-  
+    qDebug()
+            << "+QLocNotificationEngine::processRequestors()"; 
     QtMobility::QContactDetailFilter filter;
 
     QString idString;
@@ -100,8 +105,7 @@ void QLocNotificationEngine::processRequestors(QPosRequestorData& posRequestorDa
         {
                
         QtMobility::QContact match = mContactManager->contact(matchingContacts.at(0)); //return the first contact among the ones found
-
-       // QtMobility::QContactDisplayLabel cdl = match.detail(QtMobility::QContactDisplayLabel::DefinitionName);
+          
         QString labelDetail = match.displayLabel();
         posRequestorData.setPosRequestorData(idFormat,labelDetail); //set back result
         }
@@ -120,6 +124,8 @@ void QLocNotificationEngine::processRequestors(QPosRequestorData& posRequestorDa
     		}
     	} 
     
+    qDebug()
+            << "-QLocNotificationEngine::processRequestors()"; 
     }
 
 //---------------------------------------------------------------------

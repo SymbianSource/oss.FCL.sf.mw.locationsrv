@@ -76,9 +76,11 @@ CLpdVerifierPlugin::CLpdVerifierPlugin() :
 //
 void CLpdVerifierPlugin::ConstructL()
     {
+    LOCVERIFIERDLGDEBUG( "+CLpdVerifierPlugin::ConstructL" );
     BaseConstructL(KNotifierChannel, KNotifierPriority);
   
     iRtorProcessor = CLpdRequestorProcessor::NewL();
+    LOCVERIFIERDLGDEBUG( "-CLpdVerifierPlugin::ConstructL" );    	
     }
 
 // -----------------------------------------------------------------------------
@@ -88,18 +90,20 @@ void CLpdVerifierPlugin::ConstructL()
 //
 CLpdVerifierPlugin* CLpdVerifierPlugin::NewL()
     {
+     LOCVERIFIERDLGDEBUG( "+CLpdVerifierPlugin::NewL" );
     CLpdVerifierPlugin* self = new (ELeave) CLpdVerifierPlugin;
 
     CleanupStack::PushL(self);
     self->ConstructL();
     CleanupStack::Pop(self);
-
+     LOCVERIFIERDLGDEBUG( "-CLpdVerifierPlugin::NewL" );
     return self;
     }
 
 // Destructor
 CLpdVerifierPlugin::~CLpdVerifierPlugin()
     {
+    LOCVERIFIERDLGDEBUG( "+CLpdVerifierPlugin::~CLpdVerifierPlugin" );
     // Destruction of this plugin should only occur only in shutdown
     // or in severe problem situation.
 
@@ -118,6 +122,7 @@ CLpdVerifierPlugin::~CLpdVerifierPlugin()
     iRequestActiveObject = NULL; 
     delete iRtorProcessor;
     iRtorProcessor = NULL; 
+    LOCVERIFIERDLGDEBUG( "-CLpdVerifierPlugin::~CLpdVerifierPlugin" );
     
     }
 
@@ -128,7 +133,7 @@ CLpdVerifierPlugin::~CLpdVerifierPlugin()
 //
 void CLpdVerifierPlugin::HandleNewRequestL(TPosQNRequestId /*aRequestId */ )
     {
-    LOCVERIFIERDLGDEBUG( "CLpdVerifierPlugin::HandleNewRequestL" );
+    LOCVERIFIERDLGDEBUG( "+CLpdVerifierPlugin::HandleNewRequestL" );
     
     // Check whether the notifier is already handling a request
     // If yes, do nothing for now.
@@ -141,6 +146,7 @@ void CLpdVerifierPlugin::HandleNewRequestL(TPosQNRequestId /*aRequestId */ )
         iRequestActiveObject = CLpdRequestAO::NewL(*this);
         iRequestActiveObject->ScheduleRequest();
         }
+    LOCVERIFIERDLGDEBUG( "-CLpdVerifierPlugin::HandleNewRequestL" );
     }
 
 
@@ -151,7 +157,7 @@ void CLpdVerifierPlugin::HandleNewRequestL(TPosQNRequestId /*aRequestId */ )
 //
 void CLpdVerifierPlugin::HandleRequestCancelled(TPosQNRequestId aRequestId)
     {
-    LOCVERIFIERDLGDEBUG( "CLpdVerifierPlugin::HandleRequestCancelled" );
+    LOCVERIFIERDLGDEBUG( "+CLpdVerifierPlugin::HandleRequestCancelled" );
     // Check whether the request is coming from Uikon Server. 
     // If not reject this request.
     if (!CheckClientSecureId(KPrivSrvSecureId))
@@ -182,7 +188,7 @@ void CLpdVerifierPlugin::HandleRequestCancelled(TPosQNRequestId aRequestId)
         LOCVERIFIERDLGDEBUG( "Notification cancelled" );
         iNotifier->Cancel();
         }
-    
+    LOCVERIFIERDLGDEBUG( "-CLpdVerifierPlugin::HandleRequestCancelled" );
     }
 
 // -----------------------------------------------------------------------------
@@ -192,12 +198,12 @@ void CLpdVerifierPlugin::HandleRequestCancelled(TPosQNRequestId aRequestId)
 //
 void CLpdVerifierPlugin::HandleAllRequestCancelled()
     {
-    LOCVERIFIERDLGDEBUG( "CLpdVerifierPlugin::HandleAllRequestCancelled" );
+    LOCVERIFIERDLGDEBUG( "+CLpdVerifierPlugin::HandleAllRequestCancelled" );
     if (iCurrentRequest != KPosNullQNRequestId)
         { // current request requires some specific behavior
         HandleRequestCancelled(iCurrentRequest);
         }
-   
+   LOCVERIFIERDLGDEBUG( "-CLpdVerifierPlugin::HandleAllRequestCancelled" );
     }
 
 // -----------------------------------------------------------------------------
@@ -209,7 +215,7 @@ void CLpdVerifierPlugin::HandleVerificationResultL(TInt aResultCode)
     {
     iVerifyResult = aResultCode;
 
-        LOCVERIFIERDLGDEBUG1( "CLpdVerifierPlugin::HandleVerificationResultL(%d)",
+        LOCVERIFIERDLGDEBUG1( "+CLpdVerifierPlugin::HandleVerificationResultL(%d)",
                 iVerifyResult );
 
     switch (iVerifyResult)
@@ -244,6 +250,7 @@ void CLpdVerifierPlugin::HandleVerificationResultL(TInt aResultCode)
         }
 
     CompleteCurrentAndContinue(iVerifyResult); // this request was handled
+    LOCVERIFIERDLGDEBUG( "-CLpdVerifierPlugin::HandleVerificationResultL" );
     }
 // -----------------------------------------------------------------------------
 // CLpdVerifierPlugin::HandleNotificationResultL
@@ -253,7 +260,7 @@ void CLpdVerifierPlugin::HandleVerificationResultL(TInt aResultCode)
 void CLpdVerifierPlugin::HandleNotificationResultL(TInt aResultCode)
     {
 
-   LOCVERIFIERDLGDEBUG1( "CLpdVerifierPlugin::HandleVerificationResultL(%d)",
+   LOCVERIFIERDLGDEBUG1( "+CLpdVerifierPlugin::HandleVerificationResultL(%d)",
                 aResultCode );
     CompleteRequest(iCurrentRequest, aResultCode);
     iCurrentRequest = KPosNullQNRequestId;
@@ -284,6 +291,7 @@ void CLpdVerifierPlugin::HandleNotificationResultL(TInt aResultCode)
         }
 
     iRequestActiveObject->ScheduleRequest(); // handle next req.
+    LOCVERIFIERDLGDEBUG( "-CLpdVerifierPlugin::HandleNotificationResultL" );
     }
 
 // -----------------------------------------------------------------------------
@@ -293,7 +301,7 @@ void CLpdVerifierPlugin::HandleNotificationResultL(TInt aResultCode)
 //
 void CLpdVerifierPlugin::HandleLeave(TInt /*aError*/)
     {
-        LOCVERIFIERDLGDEBUG1( "CLpdVerifierPlugin::HandleLeave(%d)", aError);
+        LOCVERIFIERDLGDEBUG1( "+CLpdVerifierPlugin::HandleLeave(%d)", aError);
     // In this case user needs feedback about the error situation:
     
 
@@ -301,6 +309,7 @@ void CLpdVerifierPlugin::HandleLeave(TInt /*aError*/)
     // iVerifyResult, but queue handling is still continued.
     // iVerifyResult is better completion code for request than aError.
     CompleteCurrentAndContinue(iVerifyResult);
+    LOCVERIFIERDLGDEBUG( "-CLpdVerifierPlugin::HandleLeave" );
     }
 
 // -----------------------------------------------------------------------------
@@ -310,6 +319,7 @@ void CLpdVerifierPlugin::HandleLeave(TInt /*aError*/)
 //
 void CLpdVerifierPlugin::HandleNextRequest()
     {
+    LOCVERIFIERDLGDEBUG( "+CLpdVerifierPlugin::HandleNextRequest" );
     TRAPD( err, HandleNextRequestL() );
     if (err)
         {
@@ -321,6 +331,7 @@ void CLpdVerifierPlugin::HandleNextRequest()
 
         CompleteCurrentAndContinue(iVerifyResult);
         }
+    LOCVERIFIERDLGDEBUG( "-CLpdVerifierPlugin::HandleNextRequest" );
     }
 
 // -----------------------------------------------------------------------------
@@ -330,7 +341,7 @@ void CLpdVerifierPlugin::HandleNextRequest()
 //
 void CLpdVerifierPlugin::HandleNextRequestL()
     {
-
+    LOCVERIFIERDLGDEBUG( "+CLpdVerifierPlugin::HandleNextRequestL" );
     // It is better to free previous query resources here, because
     // now all callback methods have finished (active object allowed
     // run to completion)
@@ -382,6 +393,7 @@ void CLpdVerifierPlugin::HandleNextRequestL()
         {
         User::Leave(KErrNotSupported);
         }
+    LOCVERIFIERDLGDEBUG( "-CLpdVerifierPlugin::HandleNextRequestL" );
     }
 
 // -----------------------------------------------------------------------------
@@ -391,6 +403,7 @@ void CLpdVerifierPlugin::HandleNextRequestL()
 //
 void CLpdVerifierPlugin::HandleNextVerificationL()
     {
+    LOCVERIFIERDLGDEBUG( "+CLpdVerifierPlugin::HandleNextVerificationL" );
     __ASSERT_DEBUG( iCurrentRequest != KPosNullQNRequestId,
             HandleAssertErrorL() );
     __ASSERT_DEBUG( !iVerifierQuery, HandleAssertErrorL() );
@@ -421,6 +434,7 @@ void CLpdVerifierPlugin::HandleNextVerificationL()
         
         iVerifierQuery->StartQueryL();    
         }
+    LOCVERIFIERDLGDEBUG( "-CLpdVerifierPlugin::HandleNextVerificationL" );
     }
 
 // -----------------------------------------------------------------------------
@@ -430,11 +444,13 @@ void CLpdVerifierPlugin::HandleNextVerificationL()
 //
 void CLpdVerifierPlugin::HandleNextNotificationL()
     {
+    LOCVERIFIERDLGDEBUG( "+CLpdVerifierPlugin::HandleNextNotificationL" );
     __ASSERT_DEBUG( iCurrentRequest != KPosNullQNRequestId,
             HandleAssertErrorL() );
     
     // There is no differentiation now for periodic and single shot notifications
     HandleNextNonPeriodicNotificationL();
+    LOCVERIFIERDLGDEBUG( "-CLpdVerifierPlugin::HandleNextNotificationL" );
     }
 // -----------------------------------------------------------------------------
 // CLpdVerifierPlugin::HandleNextNonPeriodicNotificationL
@@ -443,7 +459,7 @@ void CLpdVerifierPlugin::HandleNextNotificationL()
 //
 void CLpdVerifierPlugin::HandleNextNonPeriodicNotificationL()
     {
-    
+    LOCVERIFIERDLGDEBUG( "+CLpdVerifierPlugin::HandleNextNonPeriodicNotificationL" );
     __ASSERT_DEBUG( iCurrentRequest != KPosNullQNRequestId,
             HandleAssertErrorL() );
     __ASSERT_DEBUG( !iNotifier, HandleAssertErrorL() );
@@ -462,6 +478,7 @@ void CLpdVerifierPlugin::HandleNextNonPeriodicNotificationL()
     iNotifier = CLpdNotifierQueryLauncher::NewL(*this);
     iNotifier->SetRequestInfoL(iRtorProcessor);
     iNotifier->StartQueryL();
+    LOCVERIFIERDLGDEBUG( "-CLpdVerifierPlugin::HandleNextNonPeriodicNotificationL" );
     }
 
 
@@ -472,6 +489,7 @@ void CLpdVerifierPlugin::HandleNextNonPeriodicNotificationL()
 //
 void CLpdVerifierPlugin::CompleteCurrentAndContinue(TInt aResultCode)
     {
+    LOCVERIFIERDLGDEBUG( "+CLpdVerifierPlugin::CompleteCurrentAndContinue" );
     if (iCurrentRequest != KPosNullQNRequestId)
         {
         CompleteRequest(iCurrentRequest, aResultCode);
@@ -480,6 +498,7 @@ void CLpdVerifierPlugin::CompleteCurrentAndContinue(TInt aResultCode)
 
     __ASSERT_DEBUG( iRequestActiveObject, HandleDebugAssertError() );
     iRequestActiveObject->ScheduleRequest(); // handle next req.
+    LOCVERIFIERDLGDEBUG( "-CLpdVerifierPlugin::CompleteCurrentAndContinue" );
     }
 
 // -----------------------------------------------------------------------------
@@ -489,6 +508,7 @@ void CLpdVerifierPlugin::CompleteCurrentAndContinue(TInt aResultCode)
 //
 void CLpdVerifierPlugin::FreeQueryResources()
     {
+    LOCVERIFIERDLGDEBUG( "+CLpdVerifierPlugin::FreeQueryResources" );
     iCurrentRequest = KPosNullQNRequestId;
     delete iVerifierQuery;
     iVerifierQuery = NULL;
@@ -500,6 +520,7 @@ void CLpdVerifierPlugin::FreeQueryResources()
         // be NULL, otherwise it points to an instance.
         iRtorProcessor->ResetAndDestroyRequestors();
         }
+    LOCVERIFIERDLGDEBUG( "-CLpdVerifierPlugin::FreeQueryResources" );
     }
 
 // -----------------------------------------------------------------------------
@@ -509,11 +530,13 @@ void CLpdVerifierPlugin::FreeQueryResources()
 //
 void CLpdVerifierPlugin::HandleAssertErrorL() const
     {
+    LOCVERIFIERDLGDEBUG( "+CLpdVerifierPlugin::HandleAssertErrorL" ); 
 #ifdef _DEBUG        
     User::Panic(KPanicText, KLpdErrGeneral);
 #else
     User::Leave( KErrCorrupt );
 #endif
+    LOCVERIFIERDLGDEBUG( "-CLpdVerifierPlugin::HandleAssertErrorL" ); 
     }
 
 // -----------------------------------------------------------------------------
@@ -523,9 +546,11 @@ void CLpdVerifierPlugin::HandleAssertErrorL() const
 //
 void CLpdVerifierPlugin::HandleDebugAssertError() const
     {
+    LOCVERIFIERDLGDEBUG( "+CLpdVerifierPlugin::HandleDebugAssertError" ); 
 #ifdef _DEBUG
     User::Panic(KPanicText, KLpdErrGeneral);
 #endif
+    LOCVERIFIERDLGDEBUG( "-CLpdVerifierPlugin::HandleDebugAssertError" ); 
     }
 
 
@@ -538,6 +563,7 @@ void CLpdVerifierPlugin::HandleDebugAssertError() const
 // -----------------------------------------------------------------------------
 CPosRequestor::TRequestType CLpdVerifierPlugin::CheckRequestTypeL()
     {
+    LOCVERIFIERDLGDEBUG( "+CLpdVerifierPlugin::CheckRequestTypeL" );
     CPosRequestor::TRequestType reqType = CPosRequestor::ENetworkTypeUnknown;
     if (RequestorCountL() > 0)
         {
@@ -545,6 +571,7 @@ CPosRequestor::TRequestType CLpdVerifierPlugin::CheckRequestTypeL()
         reqType = requestor->RequestType();
         CleanupStack::PopAndDestroy(requestor);
         }
+    LOCVERIFIERDLGDEBUG( "-CLpdVerifierPlugin::CheckRequestTypeL" );
     return reqType;
     }
 

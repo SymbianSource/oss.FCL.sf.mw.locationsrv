@@ -157,7 +157,8 @@ void CLocRequestorUtilsResolver::ConstructL()
 		}
 	catch( int error )
 		{
-		User::Leave(error);
+		// Memory alloc failure
+		User::Leave(KErrNoMemory);
 		}	
 	}
 

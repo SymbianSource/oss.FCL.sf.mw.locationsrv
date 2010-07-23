@@ -51,16 +51,8 @@ PosIndicatorPlugin::PosIndicatorPlugin() : mError(0), mTranslator(0)
     
     QString locale = QLocale::system().name();
     QString path = "z:/resource/qt/translations/";
-    bool loaded = false;
-    loaded = mTranslator->load(path + QString("lilocationmw_") + locale);
-    if (loaded == false)
-        {
-        loaded = mTranslator->load("lilocationmw", ":/translations");
-        }
-    if (loaded)
-        {
-        qApp->installTranslator(mTranslator);
-        }
+    mTranslator->load(path + QString("lilocationmw_") + locale);
+    qApp->installTranslator(mTranslator);
         
     mIndicatorTypes.append(typeOfIndicator);
     qDebug() << "- PosIndicatorPlugin::PosIndicatorPlugin()";

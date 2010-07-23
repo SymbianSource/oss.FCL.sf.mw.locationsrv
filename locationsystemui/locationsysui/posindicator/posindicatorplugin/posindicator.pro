@@ -21,7 +21,6 @@ CONFIG += hb \
           plugin
 MOC_DIR =     moc
 OBJECTS_DIR = obj
-RESOURCES += posindicatorplugin.qrc
 
 DEPENDPATH += .
 INCLUDEPATH += ../inc
@@ -51,9 +50,5 @@ symbian {
     pluginstub.path = /resource/plugins/indicators
     DEPLOYMENT += pluginstub
     
-    # Add translation files
-    addFiles.sources = translations/lilocationmw.qm
-    addFiles.path = .
-    DEPLOYMENT += addFiles
 }
 

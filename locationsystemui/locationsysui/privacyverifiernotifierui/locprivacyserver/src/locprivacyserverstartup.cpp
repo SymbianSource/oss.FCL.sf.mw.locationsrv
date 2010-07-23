@@ -19,6 +19,7 @@
 #include "locprivacyserverstartup.h"
 #include "locprivacyserver.h"
 #include "locprivacycommon.h"
+#include "locutilsdebug.h"
 
 // ============================ MEMBER FUNCTIONS ===============================
 
@@ -30,6 +31,7 @@
 //
 TInt LocPrivacyServerStartup::StartServer()
     {
+    LOCUTILSDEBUG( "+LocPrivacyServerStartup::StartServer" )
     __UHEAP_MARK;
 
     CTrapCleanup* cleanupStack = CTrapCleanup::New();
@@ -44,6 +46,7 @@ TInt LocPrivacyServerStartup::StartServer()
 
     __UHEAP_MARKEND;
 
+    LOCUTILSDEBUG( "-LocPrivacyServerStartup::StartServer" )
     return ret;
     }
 
@@ -55,6 +58,7 @@ TInt LocPrivacyServerStartup::StartServer()
 //
 void LocPrivacyServerStartup::StartServerL()
     {
+    LOCUTILSDEBUG( "+LocPrivacyServerStartup::StartServerL" )
     // Rename thread to aid debugging
     User::LeaveIfError(User::RenameThread(KLocPrivacyServerName));
 
@@ -74,6 +78,7 @@ void LocPrivacyServerStartup::StartServerL()
 
     delete server;
     delete scheduler;
+   LOCUTILSDEBUG( "-LocPrivacyServerStartup::StartServerL" )
     }
 
 // -----------------------------------------------------------------------------

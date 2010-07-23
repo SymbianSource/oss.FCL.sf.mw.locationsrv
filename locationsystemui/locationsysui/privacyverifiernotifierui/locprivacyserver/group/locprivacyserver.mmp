@@ -44,5 +44,6 @@ LIBRARY         eposutils.lib
 LIBRARY         efsrv.lib
 LIBRARY         estor.lib
 LIBRARY         locnotificationengine.lib
+LIBRARY			locutils.lib
 
 // End of file

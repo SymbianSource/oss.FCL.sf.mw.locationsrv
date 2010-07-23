@@ -21,6 +21,7 @@
 #include "locprivacycommon.h"
 #include "locprivacyserversession.h"
 #include "locprivacyserverdebugpanic.h"
+#include "locutilsdebug.h"
 
 
 // CONSTANTS
@@ -41,7 +42,9 @@ CLocPrivacyServer::CLocPrivacyServer(TInt aPriority)
 // EPOC default constructor can leave.
 void CLocPrivacyServer::ConstructL()
     {
+    LOCUTILSDEBUG( "+CLocPrivacyServer::ConstructL" )
     User::LeaveIfError(Start(KLocPrivacyServerName));
+    LOCUTILSDEBUG( "-CLocPrivacyServer::ConstructL" )
     }
 
 // Two-phased constructor
@@ -67,7 +70,9 @@ CLocPrivacyServer::~CLocPrivacyServer()
 //
 void CLocPrivacyServer::IncrementSessions()
     {
+    LOCUTILSDEBUG( "+CLocPrivacyServer::IncrementSessions" )
     iNumSessions++;
+    LOCUTILSDEBUG( "-CLocPrivacyServer::IncrementSessions" )
     }
 
 // ---------------------------------------------------------
@@ -79,12 +84,14 @@ void CLocPrivacyServer::IncrementSessions()
 void CLocPrivacyServer::DecrementSessions(
     CLocPrivacyServerSession* /*aSession*/)
     {
+    LOCUTILSDEBUG( "+CLocPrivacyServer::DecrementSessions" )
     iNumSessions--;
     if (iNumSessions == 0)
         {
          // Shutdown the server by shutting down the active scheduler.
         CActiveScheduler::Stop();
         }
+    LOCUTILSDEBUG( "-CLocPrivacyServer::DecrementSessions" )
     }
 
 // ---------------------------------------------------------
@@ -97,11 +104,12 @@ CSession2* CLocPrivacyServer::NewSessionL(
     const TVersion& /*aVersion*/,
     const RMessage2& /*aMessage*/) const
     {
-    
+    LOCUTILSDEBUG( "+CLocPrivacyServer::NewSessionL" )
     // Make new session
     CLocPrivacyServerSession* newSession = CLocPrivacyServerSession::NewL(
             const_cast<CLocPrivacyServer&>(*this));
 
+    LOCUTILSDEBUG( "-CLocPrivacyServer::NewSessionL" )
     return newSession;
     }
 
@@ -114,8 +122,10 @@ CSession2* CLocPrivacyServer::NewSessionL(
 //
 TInt CLocPrivacyServer::RunError(TInt aError)
     {
+    LOCUTILSDEBUG( "-CLocPrivacyServer::RunError" )
     Message().Complete(aError);
     ReStart();
+    LOCUTILSDEBUG( "-CLocPrivacyServer::RunError" )
     return KErrNone;
     }
 

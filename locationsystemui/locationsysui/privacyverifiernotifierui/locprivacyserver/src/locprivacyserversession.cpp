@@ -16,13 +16,20 @@
 */
 
 // INCLUDE FILES
+
 #include <s32mem.h>
 #include <lbs/EPos_RPosRequestorStack.h>
+
 #include "locprivacyinternal.h" 
 #include "locprivacyserver.h"
 #include "locprivacyserversession.h"
 #include "locprivacyserverdebugpanic.h"
 #include "locrequestorutilsresolver.h"
+#include "locutilsdebug.h"
+
+
+
+
 // CONSTANTS
 
 // ================= MEMBER FUNCTIONS =======================
@@ -60,8 +67,10 @@ CLocPrivacyServerSession::CLocPrivacyServerSession() :
 // EPOC default constructor
 void CLocPrivacyServerSession::ConstructL(CLocPrivacyServer& aServer)
     {
+    LOCUTILSDEBUG( "+CLocPrivacyServerSession::ConstructL" )
     aServer.IncrementSessions();
     iBufFlat = CBufFlat::NewL(KPosBufFlatExpandSize);
+    LOCUTILSDEBUG( "-CLocPrivacyServerSession::ConstructL" )
     }
 
 // ---------------------------------------------------------
@@ -72,9 +81,11 @@ void CLocPrivacyServerSession::ConstructL(CLocPrivacyServer& aServer)
 //
 void CLocPrivacyServerSession::ServiceL(const RMessage2& aMessage)
     {
+    LOCUTILSDEBUG( "+CLocPrivacyServerSession::ServiceL" ) 
     TRAPD(err, DispatchL(aMessage));
 
     aMessage.Complete(err);
+    LOCUTILSDEBUG( "-CLocPrivacyServerSession::ServiceL" )
 
     }
 
@@ -86,10 +97,12 @@ void CLocPrivacyServerSession::ServiceL(const RMessage2& aMessage)
 //
 void CLocPrivacyServerSession::CloseSession()
     {
+    LOCUTILSDEBUG( "+CLocPrivacyServerSession::CloseSession" ) 
     CLocPrivacyServer
             * server =
                     static_cast<CLocPrivacyServer*> (const_cast<CServer2*> (Server()));
     server->DecrementSessions(this);
+    LOCUTILSDEBUG( "-CLocPrivacyServerSession::CloseSession" ) 
     }
 
 // ---------------------------------------------------------
@@ -100,6 +113,7 @@ void CLocPrivacyServerSession::CloseSession()
 //
 void CLocPrivacyServerSession::DispatchL(const RMessage2& aMessage)
     {
+    LOCUTILSDEBUG( "+CLocPrivacyServerSession::DispatchL" ) 
     switch ( aMessage.Function() )
         {
         case ELocPrivacyGetSize:
@@ -171,6 +185,7 @@ void CLocPrivacyServerSession::DispatchL(const RMessage2& aMessage)
                     ELocPrivSrvPanicUnknownActivity);
             break;
         }
+    LOCUTILSDEBUG( "-CLocPrivacyServerSession::DispatchL" )
     }
 
 //  End of File

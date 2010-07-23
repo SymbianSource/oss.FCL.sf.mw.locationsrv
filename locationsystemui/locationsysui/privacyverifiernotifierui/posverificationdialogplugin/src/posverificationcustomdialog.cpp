@@ -40,24 +40,6 @@ PosVerificationCustomDialog::~PosVerificationCustomDialog()
     {
     qDebug()
             << "+PosVerificationCustomDialog::~PosVerificationCustomDialog()";
-    /*            
-     delete mHeadingLabel;
-     mHeadingLabel = NULL;
-
-     delete mPrimaryAction;
-     mPrimaryAction = NULL;
-
-     delete mQueryText;
-     mQueryText = NULL;
-
-     mRequestorListItems.clear();
-
-     delete mRequestorList;
-     mRequestorList = NULL;
-
-     delete mSecondryAction;
-     mSecondryAction = NULL;
-     */
     delete mQueryText2;
     mQueryText2 = NULL;
 

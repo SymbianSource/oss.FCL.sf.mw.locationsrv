@@ -75,6 +75,9 @@
 #include <EPos_CPosModuleIdList.h>
 #include <EPos_CPosModules.h>
 #include <EPos_CPosModuleUpdate.h> // CPosModuleUpdate
+
+#include <MProEngEngine.h>
+#include <Profile.hrh>
 // EXTERNAL DATA STRUCTURES
 //extern  ?external_data;
 
@@ -199,6 +202,24 @@ void CAdvancedTriggerSupervision::GetCurrentCoordinateL( TCoordinate& aCoordinat
     }
 
 // -----------------------------------------------------------------------------
+// CAdvancedTriggerSupervision::SetProfileToOfflineL
+// -----------------------------------------------------------------------------
+void CAdvancedTriggerSupervision::SetProfileToOfflineL()
+    {
+    // Store current profile id.
+    iCurrentProfile =  iProEngine->ActiveProfileId();
+    // Change the active profile to Off-line
+    iProEngine->SetActiveProfileL( EProfileOffLineId );
+    }
+// -----------------------------------------------------------------------------
+// CAdvancedTriggerSupervision::RestoreProfileL
+// -----------------------------------------------------------------------------
+void CAdvancedTriggerSupervision::RestoreProfileL()
+    {
+    iProEngine->SetActiveProfileL( iCurrentProfile );
+    }
+
+// -----------------------------------------------------------------------------
 // CAdvancedTriggerSupervision::RunMethodL
 // Run specified method. Contains also table of test mothods and their names.
 // -----------------------------------------------------------------------------
@@ -270,6 +291,11 @@ TInt CAdvancedTriggerSupervision::ATSTest1L( CStifItemParser& aItem )
  	 User::LeaveIfError( lbt.Open(lbtserver));
  	 iLog->Log(_L("Subsession opened "));
  	 CleanupClosePushL( lbt );
+ 	 
+     // Set profile to offline mode.This is required to avoid movement detection blocking the 
+     // trigger firing.
+     SetProfileToOfflineL();
+     
  	 //Enable only simpsy
      EnableSimPSYL();
      //Clear all triggers
@@ -342,7 +368,7 @@ TInt CAdvancedTriggerSupervision::ATSTest1L( CStifItemParser& aItem )
     	FireInfo.iFiredPositionInfo.GetPosition(firePosition);
     	iLog->Log(_L("GP"));
     	firePosition.Distance(coordinate,trigDistance);
-     
+    	RestoreProfileL();
     	if( FireInfo.iTriggerId==trigId )
     	{
     
@@ -390,6 +416,11 @@ TInt CAdvancedTriggerSupervision::ATSTest2L( CStifItemParser& aItem )
  	 User::LeaveIfError( lbt.Open(lbtserver));
  	 iLog->Log(_L("Subsession opened "));
  	 CleanupClosePushL( lbt );
+ 	 
+     // Set profile to offline mode.This is required to avoid movement detection blocking the 
+     // trigger firing.
+     SetProfileToOfflineL();
+ 	 
  	 //Enable only simpsy
      EnableSimPSYL();
      //Clear all triggers
@@ -462,7 +493,7 @@ TInt CAdvancedTriggerSupervision::ATSTest2L( CStifItemParser& aItem )
     	FireInfo = notifier->GetFiredTrigger();
     	FireInfo.iFiredPositionInfo.GetPosition(firePosition);
     	firePosition.Distance(coordinate,trigDistance);
-     
+    	RestoreProfileL();
     	if( FireInfo.iTriggerId==trigId)
     	{
     
@@ -511,6 +542,11 @@ TInt CAdvancedTriggerSupervision::ATSTest3L( CStifItemParser& aItem )
  	 User::LeaveIfError( lbt.Open(lbtserver));
  	 iLog->Log(_L("Subsession opened "));
  	 CleanupClosePushL( lbt );
+ 	 
+     // Set profile to offline mode.This is required to avoid movement detection blocking the 
+     // trigger firing.
+     SetProfileToOfflineL();
+ 	 
  	 //Enable only simpsy
      EnableSimPSYL();
      //Clear all triggers
@@ -583,7 +619,7 @@ TInt CAdvancedTriggerSupervision::ATSTest3L( CStifItemParser& aItem )
     	FireInfo = notifier->GetFiredTrigger();
     	FireInfo.iFiredPositionInfo.GetPosition(firePosition);
     	firePosition.Distance(coordinate,trigDistance);
-     
+    	RestoreProfileL();
     	if( FireInfo.iTriggerId==trigId)
     	{
   
@@ -631,6 +667,11 @@ TInt CAdvancedTriggerSupervision::ATSTest4L( CStifItemParser& aItem )
  	 User::LeaveIfError( lbt.Open(lbtserver));
  	 iLog->Log(_L("Subsession opened "));
  	 CleanupClosePushL( lbt );
+ 	 
+     // Set profile to offline mode.This is required to avoid movement detection blocking the 
+     // trigger firing.
+     SetProfileToOfflineL();
+ 	 
  	 //Enable only simpsy
      EnableSimPSYL();
      //Clear all triggers
@@ -701,7 +742,7 @@ TInt CAdvancedTriggerSupervision::ATSTest4L( CStifItemParser& aItem )
     	FireInfo = notifier->GetFiredTrigger();
     	FireInfo.iFiredPositionInfo.GetPosition(firePosition);
     	firePosition.Distance(coordinate,trigDistance);
-     
+    	RestoreProfileL();
     	if( FireInfo.iTriggerId==trigId)
     	{
    
@@ -750,6 +791,11 @@ TInt CAdvancedTriggerSupervision::ATSTest5L( CStifItemParser& aItem )
  	 User::LeaveIfError( lbt.Open(lbtserver));
  	 iLog->Log(_L("Subsession opened "));
  	 CleanupClosePushL( lbt );
+ 	 
+     // Set profile to offline mode.This is required to avoid movement detection blocking the 
+     // trigger firing.
+     SetProfileToOfflineL();
+ 	 
  	 //Enable only simpsy
      EnableSimPSYL();
      //Clear all triggers
@@ -822,7 +868,8 @@ TInt CAdvancedTriggerSupervision::ATSTest5L( CStifItemParser& aItem )
     	FireInfo = notifier->GetFiredTrigger();
     	FireInfo.iFiredPositionInfo.GetPosition(firePosition);
     	firePosition.Distance(coordinate,trigDistance);
-     
+    	
+    	RestoreProfileL();
     	if(  FireInfo.iTriggerId==trigId)
     	{
    
@@ -871,6 +918,11 @@ TInt CAdvancedTriggerSupervision::ATSTest6L( CStifItemParser& aItem )
  	 User::LeaveIfError( lbt.Open(lbtserver));
  	 iLog->Log(_L("Subsession opened "));
  	 CleanupClosePushL( lbt );
+ 	 
+     // Set profile to offline mode.This is required to avoid movement detection blocking the 
+     // trigger firing.
+     SetProfileToOfflineL();
+ 	 
  	 //Enable only simpsy
      EnableSimPSYL();
      //Clear all triggers
@@ -943,7 +995,8 @@ TInt CAdvancedTriggerSupervision::ATSTest6L( CStifItemParser& aItem )
     	FireInfo = notifier->GetFiredTrigger();
     	FireInfo.iFiredPositionInfo.GetPosition(firePosition);
     	firePosition.Distance(coordinate,trigDistance);
-     
+    	
+    	RestoreProfileL();
     	if( FireInfo.iTriggerId==trigId)
     	{
   
@@ -994,6 +1047,10 @@ TInt CAdvancedTriggerSupervision::ATSTest7L( CStifItemParser& aItem )
  iLog->Log(_L("Subsession opened "));
  CleanupClosePushL( lbt );
  
+     // Set profile to offline mode.This is required to avoid movement detection blocking the 
+     // trigger firing.
+     SetProfileToOfflineL();
+     
  //Enable only simpsy
  EnableSimPSYL();
  //Clear all triggers
@@ -1071,6 +1128,7 @@ GetCurrentCoordinateL( coordinate );
     wait->Start( );
     RArray<TLbtTriggerFireInfo> Firedtriggers;
     lbt.GetFiredTriggersL(Firedtriggers);
+    RestoreProfileL();
     if(Firedtriggers.Count()==2)
     {
         CleanupStack::PopAndDestroy( notifier );
@@ -1117,6 +1175,10 @@ TInt CAdvancedTriggerSupervision::ATSTest8L( CStifItemParser& aItem )
  	 User::LeaveIfError( lbt.Open(lbtserver));
  	 iLog->Log(_L("Subsession opened "));
  	 CleanupClosePushL( lbt );
+ 	 
+     // Set profile to offline mode.This is required to avoid movement detection blocking the 
+     // trigger firing.
+     SetProfileToOfflineL();
  	 
  	 //Enable only simpsy
      EnableSimPSYL();
@@ -1195,6 +1257,7 @@ TInt CAdvancedTriggerSupervision::ATSTest8L( CStifItemParser& aItem )
   		wait->Start( );
   		RArray<TLbtTriggerFireInfo> Firedtriggers;
   		lbt.GetFiredTriggersL(Firedtriggers);
+  		RestoreProfileL();
   		if(Firedtriggers.Count()==2)
   		{
   			CleanupStack::PopAndDestroy( notifier );
@@ -1241,6 +1304,10 @@ TInt CAdvancedTriggerSupervision::ATSTest9L( CStifItemParser& aItem )
  	 User::LeaveIfError( lbt.Open(lbtserver));
  	 iLog->Log(_L("Subsession opened "));
  	 CleanupClosePushL( lbt );
+ 	 
+     // Set profile to offline mode.This is required to avoid movement detection blocking the 
+     // trigger firing.
+     SetProfileToOfflineL();
  	 
  	 //Enable only simpsy
      EnableSimPSYL();
@@ -1324,6 +1391,7 @@ TInt CAdvancedTriggerSupervision::ATSTest9L( CStifItemParser& aItem )
 	    CleanupStack::Pop( &lbt );
 	    CleanupStack::PopAndDestroy( &lbtserver );
 	    //delete wait;
+	    RestoreProfileL();
   		if(Firedtriggers.Count()==2)
   		{
   			return KErrNone;
@@ -1360,6 +1428,11 @@ TInt CAdvancedTriggerSupervision::ATSTest10L( CStifItemParser& aItem )
  	 User::LeaveIfError( lbt.Open(lbtserver));
  	 iLog->Log(_L("Subsession opened "));
  	 CleanupClosePushL( lbt );
+ 	 
+     // Set profile to offline mode.This is required to avoid movement detection blocking the 
+     // trigger firing.
+     SetProfileToOfflineL();
+ 	 
  	 //Enable only simpsy
      EnableSimPSYL();
      //Clear all triggers
@@ -1439,6 +1512,7 @@ TInt CAdvancedTriggerSupervision::ATSTest10L( CStifItemParser& aItem )
   		wait->Start( );
   		RArray<TLbtTriggerFireInfo> Firedtriggers;
   		lbt.GetFiredTriggersL(Firedtriggers);
+  		RestoreProfileL();
   		if(Firedtriggers.Count()==2)
   		{
   			CleanupStack::PopAndDestroy( notifier );
@@ -1484,6 +1558,11 @@ TInt CAdvancedTriggerSupervision::ATSTest11L( CStifItemParser& aItem )
  	 User::LeaveIfError( lbt.Open(lbtserver));
  	 iLog->Log(_L("Subsession opened "));
  	 CleanupClosePushL( lbt );
+ 	 
+ 	 
+     // Set profile to offline mode.This is required to avoid movement detection blocking the 
+     // trigger firing.
+     SetProfileToOfflineL();
  	 
  	 //Enable only simpsy
      EnableSimPSYL();
@@ -1567,6 +1646,7 @@ TInt CAdvancedTriggerSupervision::ATSTest11L( CStifItemParser& aItem )
     	iLog->Log(_L("Trigger Fired"));
     	RArray<TLbtTriggerFireInfo> Firedtriggers;
   		lbt.GetFiredTriggersL(Firedtriggers);
+  		RestoreProfileL();
   		if(Firedtriggers.Count()==2)
   		{
   			CleanupStack::PopAndDestroy( notifier );
@@ -1610,6 +1690,10 @@ TInt CAdvancedTriggerSupervision::ATSTest12L( CStifItemParser& aItem )
  	 User::LeaveIfError( lbt.Open(lbtserver));
  	 iLog->Log(_L("Subsession opened "));
  	 CleanupClosePushL( lbt );
+ 	 
+     // Set profile to offline mode.This is required to avoid movement detection blocking the 
+     // trigger firing.
+     SetProfileToOfflineL();
  	 
  	 //Enable only simpsy
      EnableSimPSYL();
@@ -1719,6 +1803,7 @@ TInt CAdvancedTriggerSupervision::ATSTest12L( CStifItemParser& aItem )
 
   		RArray<TLbtTriggerFireInfo> Firedtriggers;
   		lbt.GetFiredTriggersL(Firedtriggers);
+  		RestoreProfileL();
   		if(Firedtriggers.Count()==4)
   		{
   			CleanupStack::PopAndDestroy( notifier );
@@ -1762,6 +1847,11 @@ TInt CAdvancedTriggerSupervision::ATSTest13L( CStifItemParser& aItem )
  	 User::LeaveIfError( lbt.Open(lbtserver));
  	 iLog->Log(_L("Subsession opened "));
  	 CleanupClosePushL( lbt );
+ 	 
+     // Set profile to offline mode.This is required to avoid movement detection blocking the 
+     // trigger firing.
+     SetProfileToOfflineL();
+ 	 
  	 //Enable only simpsy
      EnableSimPSYL();
      //Clear all triggers
@@ -1832,7 +1922,7 @@ TInt CAdvancedTriggerSupervision::ATSTest13L( CStifItemParser& aItem )
     	FireInfo = notifier->GetFiredTrigger();
        	FireInfo.iFiredPositionInfo.GetPosition(firePosition);
     	firePosition.Distance(coordinate,trigDistance);
-     
+    	RestoreProfileL();
     	if( FireInfo.iTriggerId==trigId)
     	{
   
@@ -1882,6 +1972,11 @@ TInt CAdvancedTriggerSupervision::ATSTest14L( CStifItemParser& aItem )
  	 User::LeaveIfError( lbt.Open(lbtserver));
  	 iLog->Log(_L("Subsession opened "));
  	 CleanupClosePushL( lbt );
+ 	 
+     // Set profile to offline mode.This is required to avoid movement detection blocking the 
+     // trigger firing.
+     SetProfileToOfflineL();
+ 	 
  	 //Enable only simpsy
      EnableSimPSYL();
      //Clear all triggers
@@ -1964,6 +2059,7 @@ TInt CAdvancedTriggerSupervision::ATSTest14L( CStifItemParser& aItem )
     	TReal32 trigDistance;
     	TPosition firePosition;
     	FireInfo = notifier->GetFiredTrigger();
+    	RestoreProfileL();
     	if(FireInfo.iTriggerId!=trigId)
     	{
     //	notifier->StartNotification( wait );
@@ -2026,6 +2122,11 @@ TInt CAdvancedTriggerSupervision::ATSTest15L( CStifItemParser& aItem )
  	 User::LeaveIfError( lbt.Open(lbtserver));
  	 iLog->Log(_L("Subsession opened "));
  	 CleanupClosePushL( lbt );
+ 	 
+     // Set profile to offline mode.This is required to avoid movement detection blocking the 
+     // trigger firing.
+     SetProfileToOfflineL();
+ 	 
  	 //Enable only simpsy
      EnableSimPSYL();
      //Clear all triggers
@@ -2127,6 +2228,7 @@ TInt CAdvancedTriggerSupervision::ATSTest15L( CStifItemParser& aItem )
     	FireInfo = notifier->GetFiredTrigger();
     	FireInfo.iFiredPositionInfo.GetPosition(firePosition);
     	firePosition.Distance(coordinate,trigDistance);
+    	RestoreProfileL();
      	if(FireInfo.iTriggerId ==trigIdtochange)
      	{
      		
@@ -2178,6 +2280,11 @@ TInt CAdvancedTriggerSupervision::ATSTest16L( CStifItemParser& aItem )
  	 User::LeaveIfError( lbt1.Open(lbtserver));
  	 iLog->Log(_L("Subsession opened "));
  	 CleanupClosePushL( lbt1 );
+ 	 
+     // Set profile to offline mode.This is required to avoid movement detection blocking the 
+     // trigger firing.
+     SetProfileToOfflineL();
+ 	 
  	 //Enable only simpsy
      EnableSimPSYL();
      //Clear all triggers
@@ -2281,7 +2388,7 @@ TInt CAdvancedTriggerSupervision::ATSTest16L( CStifItemParser& aItem )
     	FireInfo = notifier->GetFiredTrigger();
     	FireInfo.iFiredPositionInfo.GetPosition(firePosition);
     	firePosition.Distance(coordinate,trigDistance);
-     
+    	RestoreProfileL();
      	if(FireInfo.iTriggerId ==trigIdtochange)
      	{
      		CleanupStack::PopAndDestroy( notifier );
@@ -2332,6 +2439,11 @@ TInt CAdvancedTriggerSupervision::ATSTest17L( CStifItemParser& aItem )
  	 User::LeaveIfError( lbt.Open(lbtserver));
  	 iLog->Log(_L("Subsession opened "));
  	 CleanupClosePushL( lbt );
+ 	 
+     // Set profile to offline mode.This is required to avoid movement detection blocking the 
+     // trigger firing.
+     SetProfileToOfflineL();
+ 	 
  	 //Enable only simpsy
      EnableSimPSYL();
      //Clear all triggers
@@ -2432,6 +2544,7 @@ TInt CAdvancedTriggerSupervision::ATSTest17L( CStifItemParser& aItem )
     	FireInfo = notifier->GetFiredTrigger();
     	FireInfo.iFiredPositionInfo.GetPosition(firePosition);
     	firePosition.Distance(coordinate,trigDistance);
+    	RestoreProfileL();
      	if(FireInfo.iTriggerId ==trigIdtochange)
      	{
      		CleanupStack::PopAndDestroy( notifier );
@@ -2480,6 +2593,11 @@ TInt CAdvancedTriggerSupervision::ATSTest18L( CStifItemParser& aItem )
  	 User::LeaveIfError( lbt.Open(lbtserver));
  	 iLog->Log(_L("Subsession opened "));
  	 CleanupClosePushL( lbt );
+ 	 
+     // Set profile to offline mode.This is required to avoid movement detection blocking the 
+     // trigger firing.
+     SetProfileToOfflineL();
+ 	 
  	 //Enable only simpsy
      EnableSimPSYL();
      //Clear all triggers
@@ -2583,6 +2701,7 @@ User::LeaveIfError(repository->Set(KCRKeySimPSYSimulationFile, KSimulationFile))
     	FireInfo = notifier->GetFiredTrigger();
     	FireInfo.iFiredPositionInfo.GetPosition(firePosition);
     	firePosition.Distance(coordinate,trigDistance);
+    	RestoreProfileL();
     	if( trigDistance>=1000)
     	{
     	_LIT(KProcessToSearch, "About"); 
@@ -2648,6 +2767,11 @@ TInt CAdvancedTriggerSupervision::ATSTest19L( CStifItemParser& /* aItem */ )
  	 User::LeaveIfError( lbt.Open( lbtserver ) );
  	 iLog->Log(_L("Subsession opened "));
  	 CleanupClosePushL( lbt );
+ 	 
+     // Set profile to offline mode.This is required to avoid movement detection blocking the 
+     // trigger firing.
+     SetProfileToOfflineL();
+ 	 
  	 //Enable only simpsy
      EnableSimPSYL();
      //Clear all triggers
@@ -2732,6 +2856,7 @@ TInt CAdvancedTriggerSupervision::ATSTest19L( CStifItemParser& /* aItem */ )
     FireInfo = notifier->GetFiredTrigger();
     FireInfo.iFiredPositionInfo.GetPosition(firePosition);
     firePosition.Distance(coordinate,trigDistance);
+    RestoreProfileL();
     if( trigDistance<=1000 &&notifier->iTriggerFireCount ==2)
     {
     	CleanupStack::PopAndDestroy( notifier );
@@ -2776,6 +2901,11 @@ TInt CAdvancedTriggerSupervision::ATSTest19L( CStifItemParser& /* aItem */ )
  	 User::LeaveIfError( lbt.Open( lbtserver ) );
  	 iLog->Log(_L("Subsession opened "));
  	 CleanupClosePushL( lbt );
+ 	 
+     // Set profile to offline mode.This is required to avoid movement detection blocking the 
+     // trigger firing.
+     SetProfileToOfflineL();
+ 	 
  	 //Enable only simpsy
      EnableSimPSYL();
      //Clear all triggers
@@ -2856,6 +2986,7 @@ TInt CAdvancedTriggerSupervision::ATSTest19L( CStifItemParser& /* aItem */ )
     FireInfo = notifier->GetFiredTrigger();
     FireInfo.iFiredPositionInfo.GetPosition(firePosition);
     firePosition.Distance(coordinate,trigDistance);
+    RestoreProfileL();
     if( trigDistance>=1000 &&notifier->iTriggerFireCount ==2)
     {
     	CleanupStack::PopAndDestroy( notifier );
@@ -2899,6 +3030,11 @@ TInt CAdvancedTriggerSupervision::ATSTest19L( CStifItemParser& /* aItem */ )
  	 User::LeaveIfError( lbt.Open( lbtserver ) );
  	 iLog->Log(_L("Subsession opened "));
  	 CleanupClosePushL( lbt );
+ 	 
+     // Set profile to offline mode.This is required to avoid movement detection blocking the 
+     // trigger firing.
+     SetProfileToOfflineL();
+ 	 
  	 //Enable only simpsy
      EnableSimPSYL();
      //Clear all triggers
@@ -2978,6 +3114,7 @@ TInt CAdvancedTriggerSupervision::ATSTest19L( CStifItemParser& /* aItem */ )
     FireInfo = notifier->GetFiredTrigger();
     FireInfo.iFiredPositionInfo.GetPosition(firePosition);
     firePosition.Distance(coordinate,trigDistance);
+    RestoreProfileL();
     if( trigDistance<=1000 &&notifier->iTriggerFireCount ==2)
     {
     	CleanupStack::PopAndDestroy( notifier );

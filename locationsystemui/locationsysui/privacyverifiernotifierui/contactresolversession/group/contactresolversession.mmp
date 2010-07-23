@@ -44,6 +44,7 @@ LIBRARY         euser.lib
 LIBRARY		eiksrv.lib 
 LIBRARY         eposprvtyp.lib
 LIBRARY         estor.lib bafl.lib
-LIBRARY         flogger.lib
+LIBRARY			locutils.lib
 
 EPOCALLOWDLLDATA
+

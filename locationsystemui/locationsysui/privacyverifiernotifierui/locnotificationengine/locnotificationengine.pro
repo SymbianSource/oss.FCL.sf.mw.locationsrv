@@ -29,9 +29,11 @@ LIBS += -leposprvtyp
 
 # Input
 SOURCES += src/locrequestorutilsresolver.cpp \
-    src/qlocnotificationengine.cpp
+    src/qlocnotificationengine.cpp \
+    src/apilogger.cpp
 HEADERS += inc/locrequestorutilsresolver.h \
-    inc/qlocnotificationengine.h
+    inc/qlocnotificationengine.h \
+    inc/apilogger.h
 symbian: { 
     TARGET.EPOCALLOWDLLDATA = 1
     DEFINES += BUILD_POSSETTINGS

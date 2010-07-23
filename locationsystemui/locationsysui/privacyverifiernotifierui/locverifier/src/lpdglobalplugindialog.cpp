@@ -20,6 +20,7 @@
 #include "lpdglobalplugindialog.h"
 #include "lpddlgobserver.h"
 #include "lpdrequestorprocessor.h"
+#include "locverifierdlgdebug.h"
 
 #include <lbs/EPos_CPosContactRequestor.h>
 #include <lbs/EPos_CPosServiceRequestor.h>
@@ -81,6 +82,7 @@ CLpdGlobalPluginDialog::CLpdGlobalPluginDialog(
 //
 void CLpdGlobalPluginDialog::ConstructL()
     {
+    LOCVERIFIERDLGDEBUG( "+CLpdGlobalPluginDialog::ConstructL" );
     iMsgBox = CHbDeviceDialogSymbian::NewL();
     iNotification = CHbDeviceNotificationDialogSymbian::NewL(this);
     TBool result =
@@ -89,6 +91,7 @@ void CLpdGlobalPluginDialog::ConstructL()
         {
         HbTextResolverSymbian::Init(KLocTsFileName, KLocTsAFileAltPath);
         }
+    LOCVERIFIERDLGDEBUG( "-CLpdGlobalPluginDialog::ConstructL" );
     }
 
 // -----------------------------------------------------------------------------
@@ -110,6 +113,7 @@ CLpdGlobalPluginDialog* CLpdGlobalPluginDialog::NewL(
 // Destructor
 CLpdGlobalPluginDialog::~CLpdGlobalPluginDialog()
 	{
+   	 LOCVERIFIERDLGDEBUG( "+CLpdGlobalPluginDialog::~CLpdGlobalPluginDialog" );
    	delete iMsgBox;
 	iMsgBox = NULL;
 	
@@ -118,7 +122,7 @@ CLpdGlobalPluginDialog::~CLpdGlobalPluginDialog()
 	
 	 delete iRequestInfo;
 	 iRequestInfo=NULL;
-	
+	 LOCVERIFIERDLGDEBUG( "-CLpdGlobalPluginDialog::~CLpdGlobalPluginDialog" );
 	}
 
 
@@ -129,6 +133,7 @@ CLpdGlobalPluginDialog::~CLpdGlobalPluginDialog()
 //
 void CLpdGlobalPluginDialog::RunVerificationQueryL()
     {
+    LOCVERIFIERDLGDEBUG( "+CLpdGlobalPluginDialog::RunVerificationQueryL" );
     mSymbianVariantMap = CHbSymbianVariantMap::NewL();
     CleanupStack::PushL(mSymbianVariantMap);
     
@@ -143,10 +148,12 @@ void CLpdGlobalPluginDialog::RunVerificationQueryL()
         }
     CSystemToneService::Delete(sts);
     CleanupStack::Pop(mSymbianVariantMap);
+    LOCVERIFIERDLGDEBUG( "-CLpdGlobalPluginDialog::RunVerificationQueryL" );
     }
 
 void CLpdGlobalPluginDialog::RunNotificationL()
     {
+    LOCVERIFIERDLGDEBUG( "+CLpdGlobalPluginDialog::RunNotificationL" );
     if( EPosDecisionByRequestSource == iRequestInfo->iNotifReason ||
         EPosVerificationTimeout == iRequestInfo->iNotifReason    )
         {
@@ -195,6 +202,7 @@ void CLpdGlobalPluginDialog::RunNotificationL()
     iNotification->SetTimeout(KNotificationTimeout);
     iNotification->EnableTouchActivation(ETrue);
     iNotification->ShowL();
+    LOCVERIFIERDLGDEBUG( "-CLpdGlobalPluginDialog::RunNotificationL" );
     }
 
 // -----------------------------------------------------------------------------
@@ -204,6 +212,7 @@ void CLpdGlobalPluginDialog::RunNotificationL()
 //
 void CLpdGlobalPluginDialog::SetRequestInfoL( CLpdRequestorProcessor* aRequestInfo )
     {
+    LOCVERIFIERDLGDEBUG( "+CLpdGlobalPluginDialog::SetRequestInfoL" );
     if(iRequestInfo)
         {
         // clear and create again if already has been set before
@@ -245,6 +254,7 @@ void CLpdGlobalPluginDialog::SetRequestInfoL( CLpdRequestorProcessor* aRequestIn
             }
         
         }
+    LOCVERIFIERDLGDEBUG( "-CLpdGlobalPluginDialog::SetRequestInfoL" );
     }
 
 
@@ -252,41 +262,52 @@ void CLpdGlobalPluginDialog::SetRequestInfoL( CLpdRequestorProcessor* aRequestIn
 void CLpdGlobalPluginDialog::Cancel()
     {
     // Close any running dialogs if any.Close() doesnt have any effect if dialog is not running
+    LOCVERIFIERDLGDEBUG( "+CLpdGlobalPluginDialog::Cancel" );
     isCancelled = ETrue;
     iMsgBox->Cancel();
     iNotification->Close();
+    LOCVERIFIERDLGDEBUG( "-CLpdGlobalPluginDialog::Cancel" );
     }
 
 void CLpdGlobalPluginDialog::NotificationDialogActivated(
         const CHbDeviceNotificationDialogSymbian */*aDialog*/)        
     {
+    LOCVERIFIERDLGDEBUG( "+CLpdGlobalPluginDialog::NotificationDialogActivated" );
     // Complete with KErrNone now 
     TRAP_IGNORE(iCallBack.HandleDlgDismissedL( KErrNone ));
+    LOCVERIFIERDLGDEBUG( "-CLpdGlobalPluginDialog::NotificationDialogActivated" );
     }
 
 void CLpdGlobalPluginDialog::NotificationDialogClosed(
         const CHbDeviceNotificationDialogSymbian */*aDialog*/,
         TInt aCompletionCode)
     {
+    LOCVERIFIERDLGDEBUG( "+CLpdGlobalPluginDialog::NotificationDialogClosed" );
     TRAP_IGNORE(iCallBack.HandleDlgDismissedL( aCompletionCode ));
+    LOCVERIFIERDLGDEBUG( "-CLpdGlobalPluginDialog::NotificationDialogClosed" );
     }
 
 void CLpdGlobalPluginDialog::DataReceived(CHbSymbianVariantMap& /*aData*/)
     {
+    LOCVERIFIERDLGDEBUG( "+CLpdGlobalPluginDialog::DataReceived" );
     mDissmissed = ETrue;
     TRAP_IGNORE(iCallBack.HandleDlgDismissedL( KErrAccessDenied ));
+    LOCVERIFIERDLGDEBUG( "-CLpdGlobalPluginDialog::DataReceived" );
     }
 
 void CLpdGlobalPluginDialog::DeviceDialogClosed(TInt /*aCompletionCode*/)
     {
+     LOCVERIFIERDLGDEBUG( "+CLpdGlobalPluginDialog::DeviceDialogClosed" );
     if (!mDissmissed && !isCancelled)
         {
         TRAP_IGNORE(iCallBack.HandleDlgDismissedL( KErrNone ));
         }
+     LOCVERIFIERDLGDEBUG( "-CLpdGlobalPluginDialog::DeviceDialogClosed" );
     }
 
 void CLpdGlobalPluginDialog::AddVerDlgHeadingParamL()
     {
+    LOCVERIFIERDLGDEBUG( "+CLpdGlobalPluginDialog::AddVerDlgHeadingParamL" );
     HBufC* headingText = HbTextResolverSymbian::LoadL(KRequestHeading);
     CleanupStack::PushL(headingText);
     CHbSymbianVariant* heading = CHbSymbianVariant::NewL(headingText,
@@ -295,10 +316,12 @@ void CLpdGlobalPluginDialog::AddVerDlgHeadingParamL()
     mSymbianVariantMap->Add(KHeadingKey, heading );
     CleanupStack::Pop(heading);
     CleanupStack::PopAndDestroy(headingText);
+    LOCVERIFIERDLGDEBUG( "-CLpdGlobalPluginDialog::AddVerDlgHeadingParamL" );
     }
 
 void CLpdGlobalPluginDialog::AddQueryTextParamL()
     {
+     LOCVERIFIERDLGDEBUG( "+CLpdGlobalPluginDialog::AddQueryTextParamL" );
     HBufC * value = HBufC::NewL(KVariantMaxSize);
     CleanupStack::PushL(value);
     HBufC * value2 = HBufC::NewL(KVariantMaxSize);
@@ -387,11 +410,12 @@ void CLpdGlobalPluginDialog::AddQueryTextParamL()
     CleanupStack::Pop(queryText2);
     CleanupStack::Pop(queryText);
     CleanupStack::PopAndDestroy(3);
+    LOCVERIFIERDLGDEBUG( "-CLpdGlobalPluginDialog::AddQueryTextParamL" );
     }
 
 void CLpdGlobalPluginDialog::AddRequestorsParamL()
     {
-
+    LOCVERIFIERDLGDEBUG( "+CLpdGlobalPluginDialog::AddRequestorsParamL" );
     CDesC16ArrayFlat* array = new CDesC16ArrayFlat(8);
     TInt reqCount = iRequestInfo->iRequestors.Count();
     if (!reqCount)
@@ -414,6 +438,7 @@ void CLpdGlobalPluginDialog::AddRequestorsParamL()
     CHbSymbianVariant* requestors = CHbSymbianVariant::NewL(marray,
             CHbSymbianVariant::EDesArray);
     mSymbianVariantMap->Add(KRequestorKey, requestors);
+    LOCVERIFIERDLGDEBUG( "-CLpdGlobalPluginDialog::AddRequestorsParamL" );
     }
 
 // End of file

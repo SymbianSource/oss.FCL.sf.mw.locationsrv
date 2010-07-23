@@ -319,7 +319,7 @@ void PosSettingsForm::insertOrRemovePosTypeModelItem(bool insert, HbDataFormMode
                 // So next time when we want to check if it is present, we have to create dummy modelitem
                 // else with existing handle, we will get kern exec 3 error
                 createPosTypeModelItem(posTypeModelItemIndex);  
-                if(posTypeModelItem == mBgPosType) {
+                if(posTypeModelItemIndex == PosTypeIndexBackground) {
                         mSettingsEngine.setBackGroundPositioningState(StateDisable);
                     }
                 }
@@ -330,7 +330,7 @@ void PosSettingsForm::insertOrRemovePosTypeModelItem(bool insert, HbDataFormMode
                 model->insertDataFormItem(posIndex,posTypeModelItem,model->invisibleRootItem());  
                 addPosTypeConnection(posTypeModelItem);
                 
-                if(posTypeModelItem == mBgPosType) {
+                if(posTypeModelItemIndex == PosTypeIndexBackground){
                     //Restore to old state in case of background positioning.
                     if(mSettingsEngine.cRBackgroundPositioningStatus()) {
                         mSettingsEngine.setBackGroundPositioningState(StateEnable);

@@ -18,6 +18,7 @@
 #include "contactresolversession.h"
 #include "locprivacyinternal.h"
 #include "locprivacycommon.h"
+#include "locutilsdebug.h"
 
 #include <lbs/epos_cposrequestor.h>
 #include <lbs/EPos_RPosRequestorStack.h>
@@ -25,7 +26,8 @@
 #include <s32strm.h>
 #include <s32mem.h>
 
-
+//This determines the number of outstanding requests the client may have with the server at any one time. 
+//The maximum number of slots is 255.
 TInt KDefaultMessageSlots = 255;
 const TUid KServerUid3 =
     {
@@ -53,6 +55,8 @@ EXPORT_C void RContactResolverSession::ResolveRequestorsL(RPointerArray<
         CPosRequestor>& aRequestors)
     {
 
+     LOCUTILSDEBUG( "+RContactResolverSession::ResolveRequestorsL" )
+     
     RPosRequestorStack* requestors = new (ELeave) RPosRequestorStack;
     CleanupStack::PushL(requestors);
 
@@ -122,6 +126,7 @@ EXPORT_C void RContactResolverSession::ResolveRequestorsL(RPointerArray<
     CleanupStack::PopAndDestroy(&readStream);
     CleanupStack::PopAndDestroy(buffer1);
  
+    LOCUTILSDEBUG( "-RContactResolverSession::ResolveRequestorsL" )
     }
 
 // -----------------------------------------------------------------------------
@@ -131,6 +136,8 @@ EXPORT_C void RContactResolverSession::ResolveRequestorsL(RPointerArray<
 
 EXPORT_C TInt RContactResolverSession::Connect()
     {
+    LOCUTILSDEBUG( "+RContactResolverSession::Connect" )
+    
     TInt error = StartServer();
 
     if (KErrNone == error)
@@ -138,6 +145,7 @@ EXPORT_C TInt RContactResolverSession::Connect()
         error = CreateSession(KLocPrivacyServerName, Version(),
                 KDefaultMessageSlots);
         }
+    LOCUTILSDEBUG( "-RContactResolverSession::Connect" )
     return error;
     }
 
@@ -148,6 +156,8 @@ EXPORT_C TInt RContactResolverSession::Connect()
 //
 TInt RContactResolverSession::StartServer()
     {
+    LOCUTILSDEBUG( "+RContactResolverSession::StartServer" )
+    
     TInt result;
 
     TFindServer findServer(KLocPrivacyServerName);
@@ -165,7 +175,8 @@ TInt RContactResolverSession::StartServer()
         {
         return result;
         }
-
+    LOCUTILSDEBUG( "-RContactResolverSession::StartServer" )
+    
     return KErrNone;
     }
 
@@ -176,6 +187,8 @@ TInt RContactResolverSession::StartServer()
 //
 TInt RContactResolverSession::CreateServerProcess()
     {
+    LOCUTILSDEBUG( "+RContactResolverSession::CreateServerProcess" )
+    
     TInt result;
 
     const TUidType serverUid(KNullUid, KNullUid, KServerUid3);
@@ -212,11 +225,15 @@ TInt RContactResolverSession::CreateServerProcess()
         return (status.Int());
         }
 
+    LOCUTILSDEBUG( "-RContactResolverSession::CreateServerProcess" )
+    
     return KErrNone;
     }
 
 TVersion RContactResolverSession::Version() const
     {
+    LOCUTILSDEBUG( "RContactResolverSession::Version" )
+    
     return TVersion(KLocPrivacyServerMajorVersionNumber,
             KLocPrivacyServerMinorVersionNumber,
             KLocPrivacyServerBuildVersionNumber);
@@ -224,5 +241,9 @@ TVersion RContactResolverSession::Version() const
 
 EXPORT_C void RContactResolverSession::Close()
     {
+    LOCUTILSDEBUG( "+RContactResolverSession::Close" )
+    
     RSessionBase::Close();
+    	
+    LOCUTILSDEBUG( "-RContactResolverSession::Close" )
     }

@@ -23,6 +23,7 @@
 #include <locprivacyinternal.h>
 
 // FORWARD DECLARATIONS
+
 class CLocPrivacyServerSession;
 
 // CLASS DECLARATION
