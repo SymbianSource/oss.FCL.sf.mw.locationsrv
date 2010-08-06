@@ -172,7 +172,7 @@ COMASuplSession::COMASuplSession(RMobilePhone& aMobilePhone ,
 		
 		if( aIMSI.Length() )
 		    {
-		    iIMSI.Create( aIMSI );    
+		    User::LeaveIfError(iIMSI.Create( aIMSI ));    
 		    }
 		
 		if(iPosHandler)
@@ -510,7 +510,7 @@ COMASuplSession::TOMASuplReqType COMASuplSession::RequestType()
 
     	if(aAllowedCapabilities == 0)
     		{
-    			iAllowedCapabilities = KGpsSETAssisted | KGpsSETBased | KAutonomousGps| KAFLT | KECID | KEOTD | KOTDOA | KCID; 
+    			iAllowedCapabilities = KGpsSETBased | KAutonomousGps| KAFLT | KECID | KEOTD | KOTDOA | KCID; 
     		}
     	else
     		{

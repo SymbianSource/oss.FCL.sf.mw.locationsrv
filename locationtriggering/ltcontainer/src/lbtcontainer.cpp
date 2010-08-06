@@ -350,7 +350,11 @@ EXPORT_C void CLbtContainer::SetChangeObserver(
     
     if ( KErrNotFound == iObservers.Find(obsvr, compareAlgoirthm) )
         {
-        iObservers.Append( obsvr );
+        TInt error = iObservers.Append( obsvr );
+        if( error != KErrNone )
+            {
+            LOG1("Failed to add observer to the array:%d",error);
+            }
         }
     }
 

@@ -28,6 +28,9 @@
 #include <EPos_CPosLandmarkSearch.h>
 #include <EPos_CPosLmTextCriteria.h>
 #include <EPos_CPosLMItemIterator.h>
+
+_LIT(KTp162DbFile, "TP162Test.ldb");
+
            
 // ================= CONSTANTS =======================
 
@@ -89,11 +92,11 @@ void CPosTp162::TestImportEmptyDbL(const TDesC& aFile, const TDesC8& aMime)
     iLog->Log(_L("----- TestImportEmptyDbL -----"));
     iLog->Log(_L("FILE: %S"), &aFile);
     RemoveAllLmDatabasesL();
-    
+    CopyTestDbFileL(KTp162DbFile);
     iLandmarkParser = CPosLandmarkParser::NewL(aMime);
     iLandmarkParser->SetInputFileL(aFile);
     
-    iDatabase = CPosLandmarkDatabase::OpenL();
+    iDatabase = CPosLandmarkDatabase::OpenL(KTp162DbFile);
     if (iDatabase->IsInitializingNeeded())
         {
         ExecuteAndDeleteLD(iDatabase->InitializeL());
@@ -144,11 +147,11 @@ void CPosTp162::TestImport1L(const TDesC& aFile, const TDesC8& aMime)
     iLog->Log(_L("----- TestImport1L ------"));
     iLog->Log(_L("FILE: %S"), &aFile);
     RemoveAllLmDatabasesL();
-    
+    CopyTestDbFileL(KTp162DbFile);
     iLandmarkParser = CPosLandmarkParser::NewL(aMime);
     iLandmarkParser->SetInputFileL(aFile);
     
-    iDatabase = CPosLandmarkDatabase::OpenL();
+    iDatabase = CPosLandmarkDatabase::OpenL(KTp162DbFile);
    
     if (iDatabase->IsInitializingNeeded())
         {

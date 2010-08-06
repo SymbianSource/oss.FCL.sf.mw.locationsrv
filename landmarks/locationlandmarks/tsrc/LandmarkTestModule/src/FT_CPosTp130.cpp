@@ -75,6 +75,12 @@ void CPosTp130::InitTestL()
     // PrepareDatabases
     const TInt KNrOfDatabases = 5;
     RemoveAllLmDatabasesL();
+    // Get the list of Dbs remaining after removing the possible ones.
+    CPosLmDatabaseManager* dbMan = CPosLmDatabaseManager::NewL();
+        CleanupStack::PushL(dbMan);
+        iDbUris = dbMan->ListDatabasesLC();
+        iInitialDbCount = iDbUris->Count();
+        CleanupStack::PopAndDestroy(iDbUris);
     CopyTestDbFileL(KDb20);
     CopyTestDbFileL(KDb40);
     CopyTestDbFileL(KDb60);
@@ -82,12 +88,28 @@ void CPosTp130::InitTestL()
     CopyTestDbFileL(KDb105);
     
     // List databases
-    CPosLmDatabaseManager* dbMan = CPosLmDatabaseManager::NewL();
-    CleanupStack::PushL(dbMan);
+    
     iDbUris = dbMan->ListDatabasesLC();
     CleanupStack::Pop(iDbUris);
-    AssertTrueSecL(iDbUris->Count() == KNrOfDatabases, _L("Wrong number of test databases!"));
+    AssertTrueSecL(iDbUris->Count() == iInitialDbCount+KNrOfDatabases, _L("Wrong number of test databases!"));
     CleanupStack::PopAndDestroy(dbMan);
+    
+    // Get only the list of dburi in which this test case operations need to be performed
+        TInt dbUriCount = iDbUris->Count();
+        
+        for ( TInt i= 0;i < dbUriCount;i++)
+            {
+        iLog->Log((*iDbUris)[i]);
+        // Action to be performed only on the newly added dbs in this test case, therefore remove any other 
+        // db apart from the ones added in this test case from the iDbUris list
+            TPtrC dbUri((*iDbUris)[i]);
+                if ( (dbUri != KDb20Uri) && (dbUri != KDb40Uri) && (dbUri != KDb60Uri) &&
+                       ( dbUri != KDb80Uri) && (dbUri != KDb105Uri) )
+                    {
+                iDbUris->Delete(i);
+                    }
+
+            }
     
     iDbSearcher = CPosLmMultiDbSearch::NewL(*iDbUris);
     
@@ -229,7 +251,7 @@ void CPosTp130::VerifyIteratorsL(RArray<TInt>& aNrOfExpectedItems, TBool aLm)
     CleanupStack::PushL(TCleanupItem(ResetAndDestroy, &iterators));
     
     TInt totalNrOfMatches(0), totalNrOfExpectedMatches(0);
-    for (TInt i = 0; i < KNrOfDatabases; i++)
+    for (TInt i = 0; i < iDbUris->Count(); i++)
         {
         // 2. Ask for the iterator for each database
         iterators.AppendL(iDbSearcher->MatchIteratorL(i));
@@ -246,7 +268,7 @@ void CPosTp130::VerifyIteratorsL(RArray<TInt>& aNrOfExpectedItems, TBool aLm)
     AssertTrueSecL(totalNrOfMatches == totalNrOfExpectedMatches, _L("totalNrOfMatches != totalNrOfExpectedMatches"));
     AssertTrueSecL(totalNrOfMatches == iDbSearcher->TotalNumOfMatches(), _L("totalNrOfMatches != iDbSearcher->TotalNumOfMatches()"));
     
-    for (TInt dbIndex = 0; dbIndex < KNrOfDatabases; dbIndex++)
+    for (TInt dbIndex = 0; dbIndex < iDbUris->Count(); dbIndex++)
         {
         // 5. Ask for the first item in each iterator
         TPosLmItemId id1 = iterators[dbIndex]->NextL();

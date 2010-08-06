@@ -12,7 +12,7 @@
 * Contributors:
 *
 * Description:   Implementation of COMASuplEtel Class
-*  Version     : %version: 4 % << Don't touch! Updated by Synergy at check-out.
+*  Version     : %version: 5 % << Don't touch! Updated by Synergy at check-out.
 *
 */
 
@@ -205,40 +205,42 @@ void COMASuplETel::HandleLocationIdL()
             {
             case RMobilePhone::ENetworkModeGsm:
                 {
+            //coverity[alloc_fn]
+            //coverity[assign]
                 // For GSM Cell Information
                 COMASuplLocationId* locationId = COMASuplLocationId::NewL(); 
-				//Comment to ignore coverity cleanup stack error
-                //coverity[SYMBIAN.CLEANUP_STACK :FALSE]
-                CleanupStack::PushL(locationId);
-     			COMASuplGSMCellInfo* gsmCellInfo = COMASuplGSMCellInfo::NewL();
-     			CleanupStack::PushL(gsmCellInfo);
-                COMASuplLocationId::TOMASuplStatus lStatus = COMASuplLocationId::ECurrent;
-               
-                TInt    MCC=0;
-                TInt64  MNC=0;
-                TUint   LAC, CellId;
-                TLex LexMCC(iNetworkInfo.iCountryCode);
-                TLex LexMNC(iNetworkInfo.iNetworkId);
+            //coverity[push]
+            CleanupStack::PushL(locationId);
+            COMASuplGSMCellInfo* gsmCellInfo = COMASuplGSMCellInfo::NewL();
+            CleanupStack::PushL(gsmCellInfo);
+            COMASuplLocationId::TOMASuplStatus lStatus =
+                    COMASuplLocationId::ECurrent;
+
+            TInt MCC = 0;
+            TInt64 MNC = 0;
+            TUint LAC, CellId;
+            TLex LexMCC(iNetworkInfo.iCountryCode);
+            TLex LexMNC(iNetworkInfo.iNetworkId);
 
                 LexMCC.Val(MCC);
                 LexMNC.Val(MNC);
                 LAC = iLocationInfo.iLocationAreaCode;
                 CellId = iLocationInfo.iCellId;
-                
-                                
-                gsmCellInfo->SetSuplGSMCellInfo(MNC, MCC,CellId,LAC);                
-                locationId->SetSuplLocationId(gsmCellInfo,lStatus);
-                CleanupStack::Pop(gsmCellInfo);
-                CleanupStack::Pop(locationId); 
-                
-        		#if defined(_DEBUG)  //This is only for logging purpose. 
-				TBuf<128> msg;
-				
-				msg.Copy(_L("It is GSM Network. MCC = "));					
-				msg.AppendNum(MCC);
-				
-				msg.Append(_L(" MNC = "));					
-				msg.AppendNum(MNC);
+
+            gsmCellInfo->SetSuplGSMCellInfo(MNC, MCC, CellId, LAC);
+            locationId->SetSuplLocationId(gsmCellInfo, lStatus);
+            CleanupStack::Pop(gsmCellInfo);
+            //coverity[pop]
+            CleanupStack::Pop(locationId);
+
+#if defined(_DEBUG)  //This is only for logging purpose. 
+            TBuf<128> msg;
+
+            msg.Copy(_L("It is GSM Network. MCC = "));
+            msg.AppendNum(MCC);
+
+            msg.Append(_L(" MNC = "));
+            msg.AppendNum(MNC);
 
 
 				msg.Append(_L(" CellId = "));					
@@ -255,24 +257,28 @@ void COMASuplETel::HandleLocationIdL()
 				    iObserver.LocationIDRequestCompletedL(locationId,KErrNone);
 				else if(iCellMode == EOMASuplCompareCellId)
 				    iObserver.ComparisionLocationIDRequestCompletedL(locationId,KErrNone);
+            //coverity[memory_leak]
                 break;                             
                 }                    
             case RMobilePhone::ENetworkModeWcdma:
                 {
+            //coverity[alloc_fn]
+            //coverity[assign]
                 // For WCDMA  Cell Information
                 COMASuplLocationId* locationId = COMASuplLocationId::NewL(); 
-				//Comment to ignore coverity cleanup stack error
-                //coverity[SYMBIAN.CLEANUP_STACK :FALSE]
-                CleanupStack::PushL(locationId);
-     			COMASuplCellInfo* wcdmaCellInfo = COMASuplCellInfo::NewL();
-     			CleanupStack::PushL(wcdmaCellInfo);
-     			
-                COMASuplLocationId::TOMASuplStatus lStatus = COMASuplLocationId::ECurrent;
-                TInt    MCC=0;
-                TInt64  MNC=0;
-                TUint   UC;
-                TLex LexMCC(iNetworkInfo.iCountryCode);
-                TLex LexMNC(iNetworkInfo.iNetworkId);
+            //coverity[push]
+            CleanupStack::PushL(locationId);
+            
+            COMASuplCellInfo* wcdmaCellInfo = COMASuplCellInfo::NewL();
+            CleanupStack::PushL(wcdmaCellInfo);
+
+            COMASuplLocationId::TOMASuplStatus lStatus =
+                    COMASuplLocationId::ECurrent;
+            TInt MCC = 0;
+            TInt64 MNC = 0;
+            TUint UC;
+            TLex LexMCC(iNetworkInfo.iCountryCode);
+            TLex LexMNC(iNetworkInfo.iNetworkId);
 
                 LexMCC.Val(MCC);
                 LexMNC.Val(MNC);
@@ -282,6 +288,7 @@ void COMASuplETel::HandleLocationIdL()
                 wcdmaCellInfo->SetSuplCellInfo(MNC, MCC, UC);                
                 locationId->SetSuplLocationId(wcdmaCellInfo,lStatus);
                 CleanupStack::Pop(wcdmaCellInfo);
+            //coverity[pop]
                 CleanupStack::Pop(locationId);
                 
            		#if defined(_DEBUG)  //This is only for logging purpose. 
@@ -293,36 +300,38 @@ void COMASuplETel::HandleLocationIdL()
 				msg.Append(_L(" MNC = "));					
 				msg.AppendNum(MNC);
 
+            msg.Append(_L(" UC = "));
+            msg.AppendNum(UC);
 
-				msg.Append(_L(" UC = "));					
-				msg.AppendNum(UC);
-				
-				iTrace->Trace(msg,KTraceFileName, __LINE__); 							
-        		#endif
+            iTrace->Trace(msg, KTraceFileName, __LINE__);
+#endif
 
 				if(iCellMode == EOMASuplCellId)
 				    iObserver.LocationIDRequestCompletedL(locationId,KErrNone);
 				else if(iCellMode == EOMASuplCompareCellId)
 				    iObserver.ComparisionLocationIDRequestCompletedL(locationId,KErrNone);
+            //coverity[memory_leak]
                 break;                             
                 }                    
             default:            
             	{
             	#if _DEBUG 
+            //coverity[alloc_fn]
+            //coverity[assign]            
 	            	// For GSM Cell Information
 	            	COMASuplLocationId* locationId = COMASuplLocationId::NewL(); 
-					//Comment to ignore coverity cleanup stack error
-	            	//coverity[SYMBIAN.CLEANUP_STACK :FALSE]
-                	CleanupStack::PushL(locationId);
-     				COMASuplGSMCellInfo* gsmCellInfo = COMASuplGSMCellInfo::NewL();
-     				CleanupStack::PushL(gsmCellInfo);
-     				
-	                COMASuplLocationId::TOMASuplStatus lStatus = COMASuplLocationId::ECurrent;
-	                TInt    MCC=0;
-	                TInt64  MNC=0;
-	                TUint   LAC, CellId;
-	                TLex LexMCC(iNetworkInfo.iCountryCode);
-	                TLex LexMNC(iNetworkInfo.iNetworkId);
+            //coverity[push]
+            CleanupStack::PushL(locationId);
+            
+            COMASuplGSMCellInfo* gsmCellInfo = COMASuplGSMCellInfo::NewL();
+            CleanupStack::PushL(gsmCellInfo);
+
+            COMASuplLocationId::TOMASuplStatus lStatus = COMASuplLocationId::ECurrent;
+            TInt MCC=0;
+            TInt64 MNC=0;
+            TUint LAC, CellId;
+            TLex LexMCC(iNetworkInfo.iCountryCode);
+            TLex LexMNC(iNetworkInfo.iNetworkId);
 
 	                LexMCC.Val(MCC);
 	                LexMNC.Val(MNC);
@@ -333,7 +342,8 @@ void COMASuplETel::HandleLocationIdL()
 	           		gsmCellInfo->SetSuplGSMCellInfo(MNC, MCC,CellId,LAC);                
 	                locationId->SetSuplLocationId(gsmCellInfo,lStatus);
 	                CleanupStack::Pop(gsmCellInfo);
-                	CleanupStack::Pop(locationId);  
+            //coverity[pop]
+            CleanupStack::Pop(locationId);
                 	
 					#if defined(_DEBUG)  //This is only for logging purpose. 
 					TBuf<128> msg;
@@ -363,7 +373,8 @@ void COMASuplETel::HandleLocationIdL()
                 	else if(iCellMode == EOMASuplCompareCellId)
                 	    iObserver.ComparisionLocationIDRequestCompletedL(NULL,KErrNotSupported);                 	
                 #endif
-                break;        	
+            //coverity[memory_leak]
+            break;
             	}                     
             }
 		

@@ -53,11 +53,12 @@ MW_LAYER_SYSTEMINCLUDE
 LIBRARY         euser.lib
 LIBRARY         estor.lib 
 LIBRARY         stiftestinterface.lib
+LIBRARY         stiftestengine.lib
 LIBRARY         lbs.lib
 LIBRARY         lbt.lib
 LIBRARY         centralrepository.lib 
-
-
+LIBRARY         eposmodset.lib
+LIBRARY         ProfileEngine.lib
 LANG            SC
 
 /*

@@ -438,3 +438,27 @@
 ;File used in TP137
 "..\databases\landmarks\XML_Files\TP137.xml"-"c:\system\test\TestData\TP137.xml"
 "..\databases\landmarks\XML_Files\TP137.gpx"-"c:\system\test\TestData\TP137.gpx"
+
+;Files needed for Tp18
+"..\databases\landmarks\TP18Test.ldb"-"c:\system\test\TestData\TP18Test.ldb"
+"..\databases\landmarks\TP18Test1.ldb"-"c:\system\test\TestData\TP18Test1.ldb"
+
+;Files needed for Tp133
+"..\databases\landmarks\TP133Test.ldb"-"c:\system\test\TestData\TP133Test.ldb"
+
+;Files needed for Tp132
+"..\databases\landmarks\TP132Test.ldb"-"c:\system\test\TestData\TP132Test.ldb"
+
+
+;Files needed for Tp161
+"..\databases\landmarks\TP161Test.ldb"-"c:\system\test\TestData\TP161Test.ldb"
+
+;Files needed for Tp162
+"..\databases\landmarks\TP162Test.ldb"-"c:\system\test\TestData\TP162Test.ldb"
+
+;Files needed for Tp163
+"..\databases\landmarks\TP163Test.ldb"-"c:\system\test\TestData\TP163Test.ldb"
+
+;Files needed for Tp164
+"..\databases\landmarks\TP164Test.ldb"-"c:\system\test\TestData\TP164Test.ldb"
+

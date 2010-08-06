@@ -22,7 +22,7 @@ EXPORTS
 	_ZN25CSuplCommunicationManager17CreateConnectionLERK7TDesC16ji @ 21 NONAME
 	_ZN25CSuplCommunicationManager17DestroyConnectionEP15CSuplConnection @ 22 NONAME
 	_ZN25CSuplCommunicationManager17SetPacketReceiverEP19MSuplPacketReceiver @ 23 NONAME
-	_ZN25CSuplCommunicationManager4NewLEv @ 24 NONAME
+	_ZN25CSuplCommunicationManager4NewLER22MSuplConnectionMonitor @ 24 NONAME
 	_ZN25CSuplCommunicationManagerD0Ev @ 25 NONAME
 	_ZN25CSuplCommunicationManagerD1Ev @ 26 NONAME
 	_ZN25CSuplCommunicationManagerD2Ev @ 27 NONAME

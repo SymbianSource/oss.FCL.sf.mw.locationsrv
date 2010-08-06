@@ -310,7 +310,7 @@ void CLBTContextSourcePlugin::ParseTriggerInformationL( const CCFContextSourceSe
             triggerNode->SetCurrentStateL( defaultCurrentState );
             }
         // Add to triggernode list
-        iTriggerNodeList.Append( triggerNode );
+        iTriggerNodeList.AppendL( triggerNode );
         }
     else
         {
@@ -426,7 +426,7 @@ void CLBTContextSourcePlugin::TriggerCreatedL( TLbtTriggerId& aTrigId ,
     newTrigger->contextName.Set( aContextName );
     newTrigger->triggerName.Set( aTriggerName );
         
-    iTriggerList.Append(newTrigger);
+    iTriggerList.AppendL(newTrigger);
     iCurrentTriggerIndex++;
     if( iCurrentTriggerIndex <= iTriggerNodeList.Count()-1 )
         {            

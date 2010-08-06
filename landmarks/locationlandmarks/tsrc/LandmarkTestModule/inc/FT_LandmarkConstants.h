@@ -139,6 +139,11 @@ _LIT(KDb40, "EPOSLM_040.LDB");
 _LIT(KDb60, "EPOSLM_060.LDB");
 _LIT(KDb80, "EPOSLM_080.LDB");
 _LIT(KDb105, "EPOSLM_105.LDB");
+_LIT(KDb20Uri, "file://C:EPOSLM_020.LDB");
+_LIT(KDb40Uri, "file://C:EPOSLM_040.LDB");
+_LIT(KDb60Uri, "file://C:EPOSLM_060.LDB");
+_LIT(KDb80Uri, "file://C:EPOSLM_080.LDB");
+_LIT(KDb105Uri, "file://C:EPOSLM_105.LDB");
 _LIT(KDbNamePath, "c:\\private\\100012a5\\DBS_101FE978_EPOSLM_%d.LDB");
 _LIT(KDbName, "eposlm_%d.ldb");
 

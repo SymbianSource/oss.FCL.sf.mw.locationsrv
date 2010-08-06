@@ -154,7 +154,7 @@ TInt COMASuplFallBackHandler::GetNextSLPAddressL(TInt64& aSLPId, TDes& aHslpToBe
 						LogBuffer.AppendNum(err);
 						iTrace->Trace(LogBuffer,KTraceFileName, __LINE__); 		
 						
-						CleanupStack::PopAndDestroy(&newParam);
+						CleanupStack::PopAndDestroy(newParam);
 						}
 					else
 						{
@@ -175,7 +175,7 @@ TInt COMASuplFallBackHandler::GetNextSLPAddressL(TInt64& aSLPId, TDes& aHslpToBe
 						delete iapName;
 						}
 					
-					CleanupStack::PopAndDestroy(&param);
+					CleanupStack::PopAndDestroy(param);
                                 
             		iTrace->Trace(_L("Fallback allowed & TLSAuth failed"),KTraceFileName, __LINE__);
             		iTrace->Trace(_L("Server being used:"),KTraceFileName, __LINE__);

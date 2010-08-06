@@ -23,6 +23,7 @@
 #include "t_triggerfireobserver.h"
 
 
+_LIT(KRequestor,"LBT test app");
 
 
 // ============================ MEMBER FUNCTIONS ===============================
@@ -40,6 +41,12 @@ iWait(NULL)
         CActiveScheduler::Add(this);
     }
 
+
+CTriggerFireObserver::CTriggerFireObserver( ):CTimer( CTimer::EPriorityStandard )
+    {
+    CActiveScheduler::Add(this);
+    }
+
 // -----------------------------------------------------------------------------
 // CTriggerFireObserver::ConstructL
 // Symbian 2nd phase constructor can leave.
@@ -54,6 +61,20 @@ void CTriggerFireObserver::ConstructL( RLbt& aLbt )
 
     }
 
+// -----------------------------------------------------------------------------
+// CTriggerFireObserver::ConstructL
+// Symbian 2nd phase constructor can leave.
+// -----------------------------------------------------------------------------
+//
+void CTriggerFireObserver::ConstructL()
+    {
+    User::LeaveIfError( iPosServer.Connect() );
+    User::LeaveIfError( iPositioner.Open( iPosServer ) ); 
+
+    // Set position requestor
+    User::LeaveIfError( iPositioner.SetRequestor( CRequestor::ERequestorService ,
+                        CRequestor::EFormatApplication , KRequestor ) );
+    }
 // -----------------------------------------------------------------------------
 // CTriggerFireObserver::NewL
 // Two-phased constructor.
@@ -72,6 +93,23 @@ CTriggerFireObserver* CTriggerFireObserver::NewL( RLbt& aLbt,TCoordinate& aCoord
 
     }
 
+// -----------------------------------------------------------------------------
+// CTriggerFireObserver::NewL
+// Two-phased constructor.
+// -----------------------------------------------------------------------------
+//
+CTriggerFireObserver* CTriggerFireObserver::NewL()
+    {
+    CTriggerFireObserver* self = new (ELeave) CTriggerFireObserver();
+    CleanupStack::PushL( self );
+    self->ConstructL();
+    CleanupStack::Pop( self );
+    return self;
+    }
+
+
+
+
 // Destructor
 CTriggerFireObserver::~CTriggerFireObserver()
     { 
@@ -79,11 +117,23 @@ CTriggerFireObserver::~CTriggerFireObserver()
 	    Cancel(); 
 	    // Delete notifier object
 	    delete iNotifier;
-	    
-	    iWait=NULL;
-	       
 
+	    iPositioner.Close();
+	    iPosServer.Close();
     }
+
+
+void CTriggerFireObserver::CurrentPositionL( TPositionInfo& aPositionInfo,
+                                             CActiveSchedulerWait* aWait )
+    {
+    iWait = aWait;
+    // Get last known position. The processing of the result
+    // is done in RunL method
+    iPositioner.NotifyPositionUpdate( aPositionInfo, iStatus );
+    // Set this active object active
+    SetActive();
+    }
+
 
 void CTriggerFireObserver::TriggerFiredL( const TLbtTriggerFireInfo& aFireInfo )
 	{

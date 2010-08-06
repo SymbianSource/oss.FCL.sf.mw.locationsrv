@@ -119,7 +119,12 @@ void CLbtAOOperationBase::TriggerStoreChanged( RArray<TLbtTriggerId>& /*aTrigger
     {
     for( TInt i=0;i<aManagerUids.Count();i++ )
         {
-        iManagerUidArray.Append( aManagerUids[i] );
+        TInt error = iManagerUidArray.Append( aManagerUids[i] );
+        if( error != KErrNone )
+            {
+            LOG1("Failed to append manager uids to array:%d",error);
+            return;
+            }
         }
     }
 

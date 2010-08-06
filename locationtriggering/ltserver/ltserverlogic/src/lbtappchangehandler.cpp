@@ -148,7 +148,12 @@ void CLbtAppChangeHandler::HandleAppListRemovalEvent(RArray<TLbtAppInfo>& aNewAp
 			TLbtAppInfo appInfo = iCurrentInstalledApps[i];
 			
 			// The removed application resided in the MMC card
-			iAppList.Append( appInfo );
+			TInt error = iAppList.Append( appInfo );
+			if( error != KErrNone )
+			    {
+                LOG1("Failed to append appInfo:%d",error);
+                return;
+			    }
 						
 			// Check if the application resides in MMC
 			if( appInfo.iFullName.FindC(iMMCDriveChar) >= 0 )
@@ -201,7 +206,12 @@ void CLbtAppChangeHandler::HandleAppListAdditionEvent(RArray<TLbtAppInfo>& aNewA
 			if( appInfo.iFullName.FindC( iMMCDriveChar ) >= 0 )
 				{				
 				// Append to the array only if the application resides on the MMC
-				iAppList.Append( appInfo );
+				TInt error = iAppList.Append( appInfo );
+				if( error != KErrNone )
+				    {
+                    LOG1("Failed to append appInfo to the array:%d",error);
+                    return;
+				    }
 				}
 			}
 		}
@@ -314,7 +324,12 @@ void CLbtAppChangeHandler::HandleAppListEvent(TInt /*aEvent*/)
 	
 	for( TInt i=0;i<newAppList.Count();i++ )
 	    {
-	    iCurrentInstalledApps.Append( newAppList[i] );
+	    TInt error = iCurrentInstalledApps.Append( newAppList[i] );
+	    if( error != KErrNone )
+	        {
+            LOG1("Failed to append new applist to the array:%d",error);
+            break;
+	        }
 	    }
 	newAppList.Close();
 	}
@@ -645,7 +660,7 @@ void CLbtAppChangeHandler::RunL()
 				
 				for(TInt i=0;i<iTriggerEntries.Count();++i)
 					{
-					triggerIds.Append(iTriggerEntries[i]->TriggerEntry()->Id());
+					triggerIds.AppendL(iTriggerEntries[i]->TriggerEntry()->Id());
 					}
 				
 				TLbtTriggerDynamicInfo::TLbtTriggerValidity validity;

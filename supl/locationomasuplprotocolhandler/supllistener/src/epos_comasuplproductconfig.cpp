@@ -100,8 +100,8 @@ void COMASuplProductConfig::StartProductConfigurationL()
         
         TUint32 key = KProductConfigActualKeysStart;
         
-        iServerAddress.Create(KMaxServerNameLength);
-        iIapName.Create(KMaxServerNameLength);
+        User::LeaveIfError(iServerAddress.Create(KMaxServerNameLength));
+        User::LeaveIfError(iIapName.Create(KMaxServerNameLength));
         
         TBool serverEnabled;
         TBool simChangeRemove;

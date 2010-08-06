@@ -6138,7 +6138,7 @@ TInt CCellbasedtriggerOperations::TC_LBT_034_56_testL( CStifItemParser& aItem )
     notifier->CreateTriggers( lbt,*trig,trigId,ETrue,wait );
     wait->Start( );
     
-    iLog->Log(_L("Cell id change notification requested"));
+    iLog->Log(_L("Trigger created"));
     notifier2->StartNotification( wait2 );
     wait2->Start( );
     iLog->Log(_L("Trigger Fired"));

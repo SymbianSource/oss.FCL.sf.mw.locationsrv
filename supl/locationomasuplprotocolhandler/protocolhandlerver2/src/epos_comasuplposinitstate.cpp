@@ -389,35 +389,35 @@ TBool COMASuplPosInitState::ComputeSuplInitVerL()
 // (other items were commented in a header).
 // -----------------------------------------------------------------------------
 //
-void COMASuplPosInitState::GetPosParamsL() 
-	{
-	
-	iGenerationStatus = ETrue;
-	
-	// Re-initialize the POS Requestor
-	if(iPosRequestor)
-		iPosRequestor->DestroyList();
-	//Comment to ignore coverity forward NULL error
-	//coverity[FORWARD_NULL   :FALSE]
-	iPosRequestor->CreateListL();
-	
-	// Create SET capabilities object
-	iCurSetCapabilities = COMASuplSETCapabilities::NewL();
-	
-	// Create the Request Assistance data object
-	iReqAsstData = COMASuplReqAsstData::NewL();
-	
-	// Create Position
-	iPosition = COMASuplPosition::NewL();
+void COMASuplPosInitState::GetPosParamsL()
+    {
 
-	// Create POS Payload
-	iPosPayload = COMASuplPosPayload::NewL();
+    iGenerationStatus = ETrue;
 
-	// Create Velocity
-	iVelocity = COMASuplVelocity::NewL();
-	
-	if(iPosRequestor)
-	    {
+    // Re-initialize the POS Requestor
+    if (iPosRequestor)
+        {
+        iPosRequestor->DestroyList();
+        iPosRequestor->CreateListL();
+        }
+
+    // Create SET capabilities object
+    iCurSetCapabilities = COMASuplSETCapabilities::NewL();
+
+    // Create the Request Assistance data object
+    iReqAsstData = COMASuplReqAsstData::NewL();
+
+    // Create Position
+    iPosition = COMASuplPosition::NewL();
+
+    // Create POS Payload
+    iPosPayload = COMASuplPosPayload::NewL();
+
+    // Create Velocity
+    iVelocity = COMASuplVelocity::NewL();
+
+    if (iPosRequestor)
+        {
         // Append the SUPL POS INIT optional parameters to the list
         // in POS Requestor
         iPosRequestor->AppendInfoRequest(iCurSetCapabilities);
@@ -425,31 +425,32 @@ void COMASuplPosInitState::GetPosParamsL()
         iPosRequestor->AppendInfoRequest(iPosition);
         iPosRequestor->AppendInfoRequest(iPosPayload);
         iPosRequestor->AppendInfoRequest(iVelocity);
-    
+
         // Set self as Observer to POS Requestor
-		//Comment to ignore coverity reverse NULL error
-        //coverity[REVERSE_INULL :FALSE]
+
         iPosRequestor->SetObserver(this);
-    
+
         TBuf<128> msg(_L("Filling iPosMethod in iPosRequestor: "));
-        iTrace->Trace(msg, KTraceFileName, __LINE__); 
-    
-        iAllowedCapabilitiesforPOS.SetAllowedCapabilities(EFalse, EFalse, EFalse, EFalse, EFalse, EFalse, EFalse, EFalse);
-        iPosRequestor->SetPosMethodAndAllowedCapabilities (iAllowedCapabilitiesforPOS,iPosMethod ); 
-        if(iHSLPAddress)
+        iTrace->Trace(msg, KTraceFileName, __LINE__);
+
+        iAllowedCapabilitiesforPOS.SetAllowedCapabilities(EFalse, EFalse,
+                EFalse, EFalse, EFalse, EFalse, EFalse, EFalse);
+        iPosRequestor->SetPosMethodAndAllowedCapabilities(
+                iAllowedCapabilitiesforPOS, iPosMethod);
+        if (iHSLPAddress)
             {
-            HBufC* slpAddress = CnvUtfConverter::ConvertToUnicodeFromUtf8L(*iHSLPAddress);
+            HBufC* slpAddress = CnvUtfConverter::ConvertToUnicodeFromUtf8L(
+                    *iHSLPAddress);
             msg.Copy(_L("Filling iHSLPAddress in iPosRequestor: "));
             msg.Append(*slpAddress);
-            iTrace->Trace(msg, KTraceFileName, __LINE__); 
+            iTrace->Trace(msg, KTraceFileName, __LINE__);
             iPosRequestor->SetSLPAddressUsed(*slpAddress);
             }
-		}
-	// Get the information from POS
-	if(iPosRequestor)
-	User::LeaveIfError(iPosRequestor->GetSuplInfoL());
-	
-	}
+        // Get the information from POS
+        User::LeaveIfError(iPosRequestor->GetSuplInfoL());
+        }
+
+    }
 // -----------------------------------------------------------------------------
 // COMASuplPosInitState::OperationCompleteL
 // An observer method that indicates the completion of
@@ -786,13 +787,17 @@ void COMASuplPosInitState::GetPositionComplete(TInt /*aError*/)
 void COMASuplPosInitState::ComparisionLocationIDRequestCompletedL(COMASuplLocationId* aLocationId,
         TInt aErrorCode)
     {
-    
-    iTrace->Trace(_L("COMASuplPosInitState::ComparisionLocationIDRequestCompletedL..."), KTraceFileName, __LINE__);      
-    
-    if(aErrorCode!=KErrNone)
+
+    iTrace->Trace(
+            _L("COMASuplPosInitState::ComparisionLocationIDRequestCompletedL..."),
+            KTraceFileName, __LINE__);
+
+    if (aErrorCode != KErrNone)
         {
-        iTrace->Trace(_L("COMASuplPosInitState::ComparisionLocationIDRequestFailed"), KTraceFileName, __LINE__);       
-        if(iMsgStateObserver)
+        iTrace->Trace(
+                _L("COMASuplPosInitState::ComparisionLocationIDRequestFailed"),
+                KTraceFileName, __LINE__);
+        if (iMsgStateObserver)
             {
             iMsgStateObserver->OperationCompleteL(aErrorCode);
             return;
@@ -800,69 +805,67 @@ void COMASuplPosInitState::ComparisionLocationIDRequestCompletedL(COMASuplLocati
         }
     //if the current Cell id is the same as the Cell id when we made the request for assistance data then use the assistance data
     //and we have not already repeated a request before
-    //Comment to ignore coverity forward NULL error
-    //coverity[FORWARD_NULL   :FALSE]
-    if(!iRepeatedPosDataFetch && iLocationId->GetCellId() == aLocationId->GetCellId()) 
+
+    if (!iRepeatedPosDataFetch && iLocationId->GetCellId()
+            == aLocationId->GetCellId())
         {
-        iTrace->Trace(_L("COMASuplPosInitState::ComparisionLocationIDRequestCompletedL Cell Id not changed since making last request, so continuing"), KTraceFileName, __LINE__); 
-        if(iLocationId)
-            {
-            delete iLocationId;
-            iLocationId = NULL;
-            }
+        delete iLocationId;
+        iLocationId = NULL;
         iLocationId = aLocationId;
-        if(iMsgStateObserver)
-        iMsgStateObserver->OperationCompleteL(aErrorCode);
+        iTrace->Trace(
+                _L("COMASuplPosInitState::ComparisionLocationIDRequestCompletedL Cell Id not changed since making last request, so continuing"),
+                KTraceFileName, __LINE__);
+
+        if (iMsgStateObserver)
+            iMsgStateObserver->OperationCompleteL(aErrorCode);
         }
     else // Cell id has changed since previous request so assistance data may be invalid
         {
-        iTrace->Trace(_L("COMASuplPosInitState::ComparisionLocationIDRequestCompletedL Cell Id changed since making last request, retrieving toe limit"), KTraceFileName, __LINE__);
+        iTrace->Trace(
+                _L("COMASuplPosInitState::ComparisionLocationIDRequestCompletedL Cell Id changed since making last request, retrieving toe limit"),
+                KTraceFileName, __LINE__);
         TOMASuplNavigationModel navModel;
-        if(KErrNone == iReqAsstData->GetNavigationData(navModel))
+        if (KErrNone == iReqAsstData->GetNavigationData(navModel))
             {
             TInt gpsWeek, gpsToe, NSAT, toeLimit;
             navModel.GetNavigationModel(gpsWeek, gpsToe, NSAT, toeLimit);
-            if(toeLimit >= KMaxCellIdChangeToeLimit) 
+            if (toeLimit >= KMaxCellIdChangeToeLimit)
                 {
-                iTrace->Trace(_L("COMASuplPosInitState::ComparisionLocationIDRequestCompletedL toe limit greater than KMaxCellIdChangeToeLimit. getting  pos data again"), KTraceFileName, __LINE__);
-                if(!iRepeatedPosDataFetch)//if cell id changed and we have not already repeated fetching pos data
+                iTrace->Trace(
+                        _L("COMASuplPosInitState::ComparisionLocationIDRequestCompletedL toe limit greater than KMaxCellIdChangeToeLimit. getting  pos data again"),
+                        KTraceFileName, __LINE__);
+                iLocationId = aLocationId; //update the location id member for the next request as we are making a request again
+                if (!iRepeatedPosDataFetch)//if cell id changed and we have not already repeated fetching pos data
                     {
                     iRepeatedPosDataFetch = ETrue;
-                    if(iLocationId)
-                        {
-                        delete iLocationId;
-                        iLocationId = NULL;
-                        }
-                    iLocationId = aLocationId; //update the location id member for the next request as we are making a request again
-                    iTrace->Trace(_L("COMASuplPosInitState::ComparisionLocationIDRequestCompletedL toe limit greater than KMaxCellIdChangeToeLimit. getting  pos data again"), KTraceFileName, __LINE__);
+
+                    iTrace->Trace(
+                            _L("COMASuplPosInitState::ComparisionLocationIDRequestCompletedL toe limit greater than KMaxCellIdChangeToeLimit. getting  pos data again"),
+                            KTraceFileName, __LINE__);
                     GetPosParamsL();
                     }
                 else
                     {
-                    iRepeatedPosDataFetch = EFalse; //reset the status
-                    if(iLocationId)
-                        {
-                       delete iLocationId;
-                       iLocationId = NULL;
-                        }
                     iLocationId = aLocationId;
-                    iTrace->Trace(_L("COMASuplPosInitState::ComparisionLocationIDRequestCompletedL toe limit greater than KMaxCellIdChangeToeLimit. But repeated a pos fetch already so continuing"), KTraceFileName, __LINE__);
-                    if(iMsgStateObserver)
+                    iRepeatedPosDataFetch = EFalse; //reset the status
+
+                    iTrace->Trace(
+                            _L("COMASuplPosInitState::ComparisionLocationIDRequestCompletedL toe limit greater than KMaxCellIdChangeToeLimit. But repeated a pos fetch already so continuing"),
+                            KTraceFileName, __LINE__);
+                    if (iMsgStateObserver)
                         iMsgStateObserver->OperationCompleteL(aErrorCode);//use the pos data as it is
                     }
                 }
             else //ignore the position data
                 {
-                iIgnorePosData = ETrue;
-                iTrace->Trace(_L("COMASuplPosInitState::ComparisionLocationIDRequestCompletedL toe limit less than KMaxCellIdChangeToeLimit. Ignoring pos data"), KTraceFileName, __LINE__);
-                iRepeatedPosDataFetch = EFalse; //reset the status
-                if(iLocationId)
-                    {
-                	delete iLocationId;
-                	iLocationId = NULL;
-                    }
                 iLocationId = aLocationId;
-                if(iMsgStateObserver)
+                iIgnorePosData = ETrue;
+                iTrace->Trace(
+                        _L("COMASuplPosInitState::ComparisionLocationIDRequestCompletedL toe limit less than KMaxCellIdChangeToeLimit. Ignoring pos data"),
+                        KTraceFileName, __LINE__);
+                iRepeatedPosDataFetch = EFalse; //reset the status
+
+                if (iMsgStateObserver)
                     iMsgStateObserver->OperationCompleteL(aErrorCode);
                 }
             }
@@ -1409,306 +1412,344 @@ void COMASuplPosInitState::LogPosition()
 
 #endif					
 
-}
+    }
 
 void COMASuplPosInitState::LogReqAssistanceData()
-{
-
-#ifdef PRINT_MESSAGE
-		 	if(!iReqAsstData)
-		 		return;
- 	
-			if(KErrNone != iReqAsstData->Status())
-				{
-					iTrace->Trace(_L("No Assistance data is provided by POS message plugin for SUPL_POSINIT "), KTraceFileName, __LINE__);	
-					return;
-				}
-				
-			iTrace->Trace(_L("-------Start of Assistance data in SUPL_POSINIT ----------"), KTraceFileName, __LINE__);			        	
-			TOMASuplNavigationModel navModel;
-			TBool almanacReq, utcModel, ionModel, dgpsCorrect, 
-				  refeLocation, referenceTimeRequested,acquisition, realTime;
-					
-			iReqAsstData->GetReqAsstData(almanacReq, utcModel, ionModel, dgpsCorrect, refeLocation, 
-						 referenceTimeRequested, acquisition, realTime);
-						 
-			TBuf <300> reqAsstDataStr;
-			reqAsstDataStr.Append(_L("Requested Assistance Data - "));
-						 
-			if(almanacReq) reqAsstDataStr.Append(_L(" Almanac Requested "));
-			if(utcModel) reqAsstDataStr.Append(_L(" UTC Model Requested "));
-			if(ionModel) reqAsstDataStr.Append(_L(" Ionospheric Model Requested "));
-			if(dgpsCorrect) reqAsstDataStr.Append(_L(" DGPS Corrections "));
-			if(refeLocation) reqAsstDataStr.Append(_L(" Reference Location "));
-			if(referenceTimeRequested) reqAsstDataStr.Append(_L(" Reference Time "));
-			if(acquisition) reqAsstDataStr.Append(_L(" Acquisition Assistance "));
-			if(realTime) reqAsstDataStr.Append(_L(" Real Time Integrity "));
-			
-			iTrace->Trace(reqAsstDataStr, KTraceFileName, __LINE__); 			 
-			
-			
-			if(KErrNone == iReqAsstData->GetNavigationData(navModel))
-			{
-				TBuf <80> satInfoStr;
-				satInfoStr.Append(_L("Satellite Info  - "));
-
-				TInt gpsWeek, gpsToe, NSAT, toeLimit;
-				navModel.GetNavigationModel(gpsWeek, gpsToe, NSAT, toeLimit);
-				
-				if(gpsWeek) satInfoStr.Append(_L(" GPS Week "));
-				if(gpsToe) satInfoStr.Append(_L(" GPS Toe "));
-				if(NSAT) satInfoStr.Append(_L(" NSAT "));
-				if(toeLimit) satInfoStr.Append(_L(" TOE Limit"));
-				
-				iTrace->Trace(satInfoStr, KTraceFileName, __LINE__);
-				
-				RArray<TOMASuplSatelliteInfoElement> satEleArr;
-				
-				if(KErrNone == navModel.GetSatInfoElement(satEleArr))
-				{
-					TInt count = satEleArr.Count();
-					TBuf <50> satInfoElementStr;
-					satInfoElementStr.Append(_L("Number of Satellite Info Elements - "));
-					satInfoElementStr.AppendNum(count);
-					iTrace->Trace(satInfoElementStr, KTraceFileName, __LINE__); 
-					if(count > 0)
-					{
-						
-						TOMASuplSatelliteInfoElement satInfoEle;
-						
-						for(TInt i = 0; i < count; i ++)
-						{
-							TInt err = navModel.GetSatInfoElement(satInfoEle, i);
-							TInt satId,iode;
-							
-							satInfoEle.GetSatInfoElement(satId, iode);
-							
-							TBuf<50> satInfoEleStr;
-							satInfoEleStr.Append(_L(" Satellite Info Element -  "));
-							satInfoEleStr.AppendNum(satId);
-							satInfoEleStr.Append(_L("    "));
-							satInfoEleStr.AppendNum(iode);
-							iTrace->Trace(satInfoEleStr, KTraceFileName, __LINE__); 
-						}
-					}
-				}
-				else
-				{
-					iTrace->Trace(_L("No Satelite Info OR error in retriving Satelite Info "), KTraceFileName, __LINE__); 
-				}
-				satEleArr.Close();
-			}
-			else
-			{
-				iTrace->Trace(_L("Error in Getting Navigationl Data... "), KTraceFileName, __LINE__); 
-			}
-
-	iTrace->Trace(_L("------- End of Assistance data in SUPL_POSINIT ----------"), KTraceFileName, __LINE__);			        	
-	
-#endif	
-}
-
-void COMASuplPosInitState::LogVelocity(COMASuplVelocity* 
-#ifdef PRINT_MESSAGE
-velocity
-#endif
-)
-{
-
-#ifdef PRINT_MESSAGE
-		if(velocity)
-		{		
-		
-		TBuf<256> msg;
-		TOMASuplVelocityType velocityType = velocity->VelType();
-		COMASuplHorizVelocity* horizVelocity = velocity->Velocity();
-		TUint16 bearing;
-		TUint16 horSpeed;
-		switch(velocityType)	
-			{
-				case  EHorizVelocity:
-					{
-					iTrace->Trace(_L("Velocity Type : EHorizVelocity - Values "), KTraceFileName, __LINE__);
-					horizVelocity->GetHorizVel(bearing,horSpeed);
-					
-					msg.Append(_L("Bearing : "));
-					msg.AppendNum(bearing);
-					msg.Append(_L("Horizontal Speed : "));
-					msg.AppendNum(horSpeed);
-					iTrace->Trace(msg, KTraceFileName, __LINE__);
-					break;
-					}
-				case EHorizAndVertVelocity:
-					{
-					TUint8 verDirect;
-					TUint8 verSpeed;
-					COMASuplHorizAndVertVelocity* horizVertVel = (COMASuplHorizAndVertVelocity*)horizVelocity;
-					horizVertVel->GetHorizAndVertVel(bearing,horSpeed,verDirect,verSpeed);
-					
-					iTrace->Trace(_L("Velocity Type : EHorizVelocity - Values "), KTraceFileName, __LINE__);
-										
-					msg.Append(_L("Bearing : "));
-					msg.AppendNum(bearing);
-					msg.Append(_L("Horizontal Speed : "));
-					msg.AppendNum(horSpeed);
-					msg.Append(_L("Vertical Direction : "));
-					msg.AppendNum(verDirect);
-					msg.Append(_L("Vertical Speed : "));
-					msg.AppendNum(verSpeed);					
-					iTrace->Trace(msg, KTraceFileName, __LINE__);
-					
-					break;
-					}
-				case EHorizUncertVelocity: 
-					{
-					TUint8 uncertSpeed;
-					COMASuplHorizUncertVelocity* horizUncertVel = (COMASuplHorizUncertVelocity*)horizVelocity;
-	
-					horizUncertVel->GetHorizUncertVel(bearing,horSpeed,uncertSpeed);	
-					
-					iTrace->Trace(_L("Velocity Type : EHorizUncertVelocity - Values "), KTraceFileName, __LINE__);
-										
-					msg.Append(_L("Bearing : "));
-					msg.AppendNum(bearing);
-					msg.Append(_L("Horizontal Speed : "));
-					msg.AppendNum(horSpeed);
-					msg.Append(_L("Uncertainity Speed : "));
-					msg.AppendNum(uncertSpeed);
-							
-					iTrace->Trace(msg, KTraceFileName, __LINE__);
-					
-					break;
-					}
-				case EHorizAndVertUncertVelocity:
-					{
-					TUint8  verDirect;
-					TUint8  verSpeed;
-					TUint8  horizUncertSpeed;
-					TUint8  vertUncertSpeed;
-										
-					COMASuplHorizAndVertUncertVelocity* horizVertUncertVel = (COMASuplHorizAndVertUncertVelocity*)horizVelocity;
-
-					horizVertUncertVel->GetHorizVertUncertVel(bearing,horSpeed,verDirect,verSpeed,
-																horizUncertSpeed,vertUncertSpeed);
-					
-					iTrace->Trace(_L("Velocity Type : EHorizAndVertUncertVelocity - Values "), KTraceFileName, __LINE__);
-										
-					msg.Append(_L("Bearing : "));
-					msg.AppendNum(bearing);
-					msg.Append(_L("Horizontal Speed : "));
-					msg.AppendNum(horSpeed);
-					msg.Append(_L("Vertical Direction : "));
-					msg.AppendNum(verDirect);
-					msg.Append(_L("Vertical Speed : "));
-					msg.AppendNum(verSpeed);					
-					msg.Append(_L("Horiz Uncertain Speed : "));
-					msg.AppendNum(horizUncertSpeed);
-					msg.Append(_L("Vertical Uncertain Speed : "));
-					msg.AppendNum(vertUncertSpeed);					
-					iTrace->Trace(msg, KTraceFileName, __LINE__);																					
-																
-				    break;																
-					}
-			}
-		}
-#endif		
-}
-
-void COMASuplPosInitState::LogPacket(const TDesC8& 
-#ifdef PRINT_MESSAGE
-aPacket
-#endif
-)
-{
-
-#ifdef PRINT_MESSAGE
-            RFile file;
-            RFs   fs;
-            TInt cErr=fs.Connect();
-            
-            TInt fErr = file.Open(fs,_L("c:\\logs\\epos\\POSINITpacket.txt"),EFileWrite|EFileShareAny);
-			if (fErr == KErrNotFound)
-			{                            
-				file.Create(fs, _L("c:\\logs\\epos\\POSINITpacket.txt"), EFileWrite|EFileShareAny);
-				fErr = file.Open(fs,_L("c:\\logs\\epos\\POSINITpacket.txt"), EFileWrite|EFileShareAny);
-			}
-
-			TInt aPos;
-			file.Seek(ESeekEnd, aPos);
-			file.Write(aPacket);
-			file.Close();
-			fs.Close();
-#endif		
-}
-
-void COMASuplPosInitState::PrintHex(const TDesC8& 
-#ifdef PRINT_MESSAGE
-aBuffer
-#endif
-,
-TInt 
-#ifdef PRINT_MESSAGE
-aLine
-#endif
-)
-	{
-#ifdef PRINT_MESSAGE
-			TBuf<256> buffer;
-			TBuf<2> buff;
-			_LIT16(KFormat1,"%02x");
-			TInt len = aBuffer.Length();
-			for(TInt i = 0 ; i <len; i++)
-				{
-					buff.Zero();
-					buff.Format(KFormat1,aBuffer[i]);
-					buffer.Append(buff);	
-					buffer.Append(_L(" "));	
-				}
-
-				iTrace->Trace(buffer, KTraceFileName, aLine); 											
-#endif
-	}
-	
-void COMASuplPosInitState::SetTriggerSessionFlag(TBool aTriggerFlag)
     {
-    iTriggerFlag = aTriggerFlag;                
-    }        
 
-TBool COMASuplPosInitState::GetTriggerSessionFlag()
-    {                
-    return iTriggerFlag;
-    }            
-void COMASuplPosInitState::CopyLocationidToLocationId2L(COMASuplLocationIdVer2* aLocationId2)
-    {
-    
-    COMASuplLocationId::TOMASuplCellInfoType cellType = iLocationId->SuplCellInfoType();
-    if( cellType == COMASuplLocationId::EGSM)
+#ifdef PRINT_MESSAGE
+    if (!iReqAsstData)
+        return;
+
+    if (KErrNone != iReqAsstData->Status())
         {
-            TInt MNC,MCC,CI,Lac;
-            COMASuplGSMCellInfo* cellInfo;
-            COMASuplLocationId::TOMASuplStatus status;
-            iLocationId->SuplLocationId(cellInfo, status);
-            cellInfo->SuplGSMCellInfo(MNC,MCC,CI,Lac);
-            
-            COMASuplGSMCellInfo* gsmCellInfo = COMASuplGSMCellInfo::NewL();
-            gsmCellInfo->SetSuplGSMCellInfo(MNC,MCC,CI,Lac);
-            aLocationId2->SetSuplLocationId(gsmCellInfo, status);
+        iTrace->Trace(
+                _L("No Assistance data is provided by POS message plugin for SUPL_POSINIT "),
+                KTraceFileName, __LINE__);
+        return;
+        }
+
+    iTrace->Trace(
+            _L("-------Start of Assistance data in SUPL_POSINIT ----------"),
+            KTraceFileName, __LINE__);
+    TOMASuplNavigationModel navModel;
+    TBool almanacReq, utcModel, ionModel, dgpsCorrect, refeLocation,
+            referenceTimeRequested, acquisition, realTime;
+
+    iReqAsstData->GetReqAsstData(almanacReq, utcModel, ionModel, dgpsCorrect,
+            refeLocation, referenceTimeRequested, acquisition, realTime);
+
+    TBuf<300> reqAsstDataStr;
+    reqAsstDataStr.Append(_L("Requested Assistance Data - "));
+
+    if (almanacReq)
+        reqAsstDataStr.Append(_L(" Almanac Requested "));
+    if (utcModel)
+        reqAsstDataStr.Append(_L(" UTC Model Requested "));
+    if (ionModel)
+        reqAsstDataStr.Append(_L(" Ionospheric Model Requested "));
+    if (dgpsCorrect)
+        reqAsstDataStr.Append(_L(" DGPS Corrections "));
+    if (refeLocation)
+        reqAsstDataStr.Append(_L(" Reference Location "));
+    if (referenceTimeRequested)
+        reqAsstDataStr.Append(_L(" Reference Time "));
+    if (acquisition)
+        reqAsstDataStr.Append(_L(" Acquisition Assistance "));
+    if (realTime)
+        reqAsstDataStr.Append(_L(" Real Time Integrity "));
+
+    iTrace->Trace(reqAsstDataStr, KTraceFileName, __LINE__);
+
+    if (KErrNone == iReqAsstData->GetNavigationData(navModel))
+        {
+        TBuf<80> satInfoStr;
+        satInfoStr.Append(_L("Satellite Info  - "));
+
+        TInt gpsWeek, gpsToe, NSAT, toeLimit;
+        navModel.GetNavigationModel(gpsWeek, gpsToe, NSAT, toeLimit);
+
+        if (gpsWeek)
+            satInfoStr.Append(_L(" GPS Week "));
+        if (gpsToe)
+            satInfoStr.Append(_L(" GPS Toe "));
+        if (NSAT)
+            satInfoStr.Append(_L(" NSAT "));
+        if (toeLimit)
+            satInfoStr.Append(_L(" TOE Limit"));
+
+        iTrace->Trace(satInfoStr, KTraceFileName, __LINE__);
+
+        RArray<TOMASuplSatelliteInfoElement> satEleArr;
+
+        if (KErrNone == navModel.GetSatInfoElement(satEleArr))
+            {
+            TInt count = satEleArr.Count();
+            TBuf<50> satInfoElementStr;
+            satInfoElementStr.Append(
+                    _L("Number of Satellite Info Elements - "));
+            satInfoElementStr.AppendNum(count);
+            iTrace->Trace(satInfoElementStr, KTraceFileName, __LINE__);
+            if (count > 0)
+                {
+
+                TOMASuplSatelliteInfoElement satInfoEle;
+
+                for (TInt i = 0; i < count; i++)
+                    {
+                    TInt err = navModel.GetSatInfoElement(satInfoEle, i);
+                    TInt satId, iode;
+
+                    satInfoEle.GetSatInfoElement(satId, iode);
+
+                    TBuf<50> satInfoEleStr;
+                    satInfoEleStr.Append(_L(" Satellite Info Element -  "));
+                    satInfoEleStr.AppendNum(satId);
+                    satInfoEleStr.Append(_L("    "));
+                    satInfoEleStr.AppendNum(iode);
+                    iTrace->Trace(satInfoEleStr, KTraceFileName, __LINE__);
+                    }
+                }
+            }
+        else
+            {
+            iTrace->Trace(
+                    _L("No Satelite Info OR error in retriving Satelite Info "),
+                    KTraceFileName, __LINE__);
+            }
+        satEleArr.Close();
         }
     else
         {
-            TInt MNC,MCC,CI;
-            COMASuplCellInfo* cellInfo;
-            COMASuplLocationId::TOMASuplStatus status;
-			//Comment to ignore coverity checked return error
-            //coverity[CHECKED_RETURN   :FALSE]
-            iLocationId->SuplLocationId(cellInfo, status);
-            cellInfo->SuplCellInfo(MNC,MCC,CI);
-            
-            COMASuplCellInfo* wcdmaCellInfo = COMASuplCellInfo::NewL();
-            wcdmaCellInfo->SetSuplCellInfo(MNC,MCC,CI);
-            aLocationId2->SetSuplLocationId(wcdmaCellInfo, status);
+        iTrace->Trace(_L("Error in Getting Navigationl Data... "),
+                KTraceFileName, __LINE__);
         }
 
+    iTrace->Trace(
+            _L("------- End of Assistance data in SUPL_POSINIT ----------"),
+            KTraceFileName, __LINE__);
+
+#endif	
+    }
+
+void COMASuplPosInitState::LogVelocity(COMASuplVelocity*
+#ifdef PRINT_MESSAGE
+        velocity
+#endif
+)
+    {
+
+#ifdef PRINT_MESSAGE
+    if (velocity)
+        {
+
+        TBuf<256> msg;
+        TOMASuplVelocityType velocityType = velocity->VelType();
+        COMASuplHorizVelocity* horizVelocity = velocity->Velocity();
+        TUint16 bearing;
+        TUint16 horSpeed;
+        switch (velocityType)
+            {
+            case EHorizVelocity:
+                {
+                iTrace->Trace(_L("Velocity Type : EHorizVelocity - Values "),
+                        KTraceFileName, __LINE__);
+                horizVelocity->GetHorizVel(bearing, horSpeed);
+
+                msg.Append(_L("Bearing : "));
+                msg.AppendNum(bearing);
+                msg.Append(_L("Horizontal Speed : "));
+                msg.AppendNum(horSpeed);
+                iTrace->Trace(msg, KTraceFileName, __LINE__);
+                break;
+                }
+            case EHorizAndVertVelocity:
+                {
+                TUint8 verDirect;
+                TUint8 verSpeed;
+                COMASuplHorizAndVertVelocity* horizVertVel =
+                        (COMASuplHorizAndVertVelocity*) horizVelocity;
+                horizVertVel->GetHorizAndVertVel(bearing, horSpeed,
+                        verDirect, verSpeed);
+
+                iTrace->Trace(_L("Velocity Type : EHorizVelocity - Values "),
+                        KTraceFileName, __LINE__);
+
+                msg.Append(_L("Bearing : "));
+                msg.AppendNum(bearing);
+                msg.Append(_L("Horizontal Speed : "));
+                msg.AppendNum(horSpeed);
+                msg.Append(_L("Vertical Direction : "));
+                msg.AppendNum(verDirect);
+                msg.Append(_L("Vertical Speed : "));
+                msg.AppendNum(verSpeed);
+                iTrace->Trace(msg, KTraceFileName, __LINE__);
+
+                break;
+                }
+            case EHorizUncertVelocity:
+                {
+                TUint8 uncertSpeed;
+                COMASuplHorizUncertVelocity* horizUncertVel =
+                        (COMASuplHorizUncertVelocity*) horizVelocity;
+
+                horizUncertVel->GetHorizUncertVel(bearing, horSpeed,
+                        uncertSpeed);
+
+                iTrace->Trace(
+                        _L("Velocity Type : EHorizUncertVelocity - Values "),
+                        KTraceFileName, __LINE__);
+
+                msg.Append(_L("Bearing : "));
+                msg.AppendNum(bearing);
+                msg.Append(_L("Horizontal Speed : "));
+                msg.AppendNum(horSpeed);
+                msg.Append(_L("Uncertainity Speed : "));
+                msg.AppendNum(uncertSpeed);
+
+                iTrace->Trace(msg, KTraceFileName, __LINE__);
+
+                break;
+                }
+            case EHorizAndVertUncertVelocity:
+                {
+                TUint8 verDirect;
+                TUint8 verSpeed;
+                TUint8 horizUncertSpeed;
+                TUint8 vertUncertSpeed;
+
+                COMASuplHorizAndVertUncertVelocity* horizVertUncertVel =
+                        (COMASuplHorizAndVertUncertVelocity*) horizVelocity;
+
+                horizVertUncertVel->GetHorizVertUncertVel(bearing, horSpeed,
+                        verDirect, verSpeed, horizUncertSpeed,
+                        vertUncertSpeed);
+
+                iTrace->Trace(
+                        _L("Velocity Type : EHorizAndVertUncertVelocity - Values "),
+                        KTraceFileName, __LINE__);
+
+                msg.Append(_L("Bearing : "));
+                msg.AppendNum(bearing);
+                msg.Append(_L("Horizontal Speed : "));
+                msg.AppendNum(horSpeed);
+                msg.Append(_L("Vertical Direction : "));
+                msg.AppendNum(verDirect);
+                msg.Append(_L("Vertical Speed : "));
+                msg.AppendNum(verSpeed);
+                msg.Append(_L("Horiz Uncertain Speed : "));
+                msg.AppendNum(horizUncertSpeed);
+                msg.Append(_L("Vertical Uncertain Speed : "));
+                msg.AppendNum(vertUncertSpeed);
+                iTrace->Trace(msg, KTraceFileName, __LINE__);
+
+                break;
+                }
+            }
+        }
+#endif		
+    }
+
+void COMASuplPosInitState::LogPacket(const TDesC8&
+#ifdef PRINT_MESSAGE
+        aPacket
+#endif
+)
+    {
+
+#ifdef PRINT_MESSAGE
+    RFile file;
+    RFs fs;
+    TInt cErr = fs.Connect();
+
+    TInt fErr = file.Open(fs, _L("c:\\logs\\epos\\POSINITpacket.txt"),
+            EFileWrite | EFileShareAny);
+    if (fErr == KErrNotFound)
+        {
+        file.Create(fs, _L("c:\\logs\\epos\\POSINITpacket.txt"), EFileWrite
+                | EFileShareAny);
+        fErr = file.Open(fs, _L("c:\\logs\\epos\\POSINITpacket.txt"),
+                EFileWrite | EFileShareAny);
+        }
+
+    TInt aPos;
+    file.Seek(ESeekEnd, aPos);
+    file.Write(aPacket);
+    file.Close();
+    fs.Close();
+#endif		
+    }
+
+void COMASuplPosInitState::PrintHex(const TDesC8&
+#ifdef PRINT_MESSAGE
+        aBuffer
+#endif
+        , TInt
+#ifdef PRINT_MESSAGE
+        aLine
+#endif
+)
+    {
+#ifdef PRINT_MESSAGE
+    TBuf<256> buffer;
+    TBuf<2> buff;
+    _LIT16(KFormat1,"%02x");
+    TInt len = aBuffer.Length();
+    for (TInt i = 0; i < len; i++)
+        {
+        buff.Zero();
+        buff.Format(KFormat1, aBuffer[i]);
+        buffer.Append(buff);
+        buffer.Append(_L(" "));
+        }
+
+    iTrace->Trace(buffer, KTraceFileName, aLine);
+#endif
+    }
+
+void COMASuplPosInitState::SetTriggerSessionFlag(TBool aTriggerFlag)
+    {
+    iTriggerFlag = aTriggerFlag;
+    }
+
+TBool COMASuplPosInitState::GetTriggerSessionFlag()
+    {
+    return iTriggerFlag;
+    }
+void COMASuplPosInitState::CopyLocationidToLocationId2L(
+        COMASuplLocationIdVer2* aLocationId2)
+    {
+
+    COMASuplLocationId::TOMASuplCellInfoType cellType =
+            iLocationId->SuplCellInfoType();
+    if (cellType == COMASuplLocationId::EGSM)
+        {
+        TInt MNC, MCC, CI, Lac;
+        COMASuplGSMCellInfo* cellInfo;
+        COMASuplLocationId::TOMASuplStatus status;
+        TInt err = iLocationId->SuplLocationId(cellInfo, status);
+        if (err != KErrNone)
+            return;
+        cellInfo->SuplGSMCellInfo(MNC, MCC, CI, Lac);
+
+        COMASuplGSMCellInfo* gsmCellInfo = COMASuplGSMCellInfo::NewL();
+        gsmCellInfo->SetSuplGSMCellInfo(MNC, MCC, CI, Lac);
+        aLocationId2->SetSuplLocationId(gsmCellInfo, status);
+        }
+    else
+        {
+        TInt MNC, MCC, CI;
+        COMASuplCellInfo* cellInfo;
+        COMASuplLocationId::TOMASuplStatus status;
+
+        TInt err = iLocationId->SuplLocationId(cellInfo, status);
+        if (err != KErrNone)
+            return;
+        cellInfo->SuplCellInfo(MNC, MCC, CI);
+        COMASuplCellInfo* wcdmaCellInfo = COMASuplCellInfo::NewL();
+        wcdmaCellInfo->SetSuplCellInfo(MNC, MCC, CI);
+        aLocationId2->SetSuplLocationId(wcdmaCellInfo, status);
+        }
 
     }
 //  End of File

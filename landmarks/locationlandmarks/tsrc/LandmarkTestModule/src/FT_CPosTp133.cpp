@@ -28,12 +28,14 @@
 #include <EPos_TPosLMSortPref.h>
 #include "FT_CSearchResult.h"
 #include <LbsPosition.h>
+#include "FT_LandmarkConstants.h"
 
 #include <EPos_CPosLmDatabaseManager.h>
 #include <EPos_CPosLmMultiDbSearch.h>
      
 // CONSTANTS
 const TInt KNrOfDatabases = 5;
+_LIT(KTp133DbFile, "TP133Test.ldb");
 // ================= MEMBER FUNCTIONS =======================
 
 // ---------------------------------------------------------
@@ -59,8 +61,11 @@ void CPosTp133::CloseTest()
     delete iMultiLandmarkSearch;
     iMultiLandmarkSearch = NULL;
     
+    iJustNowSearchResults->Reset();
+    
     TRAPD(err, RemoveAllLmDatabasesL());
     if (err != KErrNone) iLog->Log(_L("Problem when removing all lm databases"));
+    ReleaseLandmarkResources();
     }
 
 // ---------------------------------------------------------
@@ -71,14 +76,16 @@ void CPosTp133::CloseTest()
 //
 void CPosTp133::StartL()
     {
-    _LIT(KDb20, "EPOSLM_020.LDB");
-    _LIT(KDb40, "EPOSLM_040.LDB");
-    _LIT(KDb60, "EPOSLM_060.LDB");
-    _LIT(KDb80, "EPOSLM_080.LDB");
-    _LIT(KDb105, "EPOSLM_105.LDB");
-    
+    CDesCArray* dbUris = NULL;
     // PrepareDatabases
     RemoveAllLmDatabasesL();
+    // Get the list of Dbs remaining after removing the possible ones.
+    CPosLmDatabaseManager* dbMan = CPosLmDatabaseManager::NewL();
+        CleanupStack::PushL(dbMan);
+        dbUris = dbMan->ListDatabasesLC();
+        
+        TInt initialDbCount = dbUris->Count();
+        CleanupStack::PopAndDestroy(dbUris);
     CopyTestDbFileL(KDb20);
     CopyTestDbFileL(KDb40);
     CopyTestDbFileL(KDb60);
@@ -88,25 +95,38 @@ void CPosTp133::StartL()
 	iDisplayData = NULL;
 	iLandmarkSearch = NULL;
 	       
-	CPosLmDatabaseManager* dbMan = CPosLmDatabaseManager::NewL();
-    CleanupStack::PushL(dbMan);
-    CDesCArray* dbUris = dbMan->ListDatabasesLC();
+     dbUris = dbMan->ListDatabasesLC();
     CleanupStack::Pop(dbUris);
     CleanupStack::PopAndDestroy(dbMan);
     CleanupStack::PushL(dbUris);
         
-    AssertTrueSecL(dbUris->Count() == KNrOfDatabases, _L("Wrong number of test databases!"));
+    AssertTrueSecL(dbUris->Count() == initialDbCount+KNrOfDatabases, _L("Wrong number of test databases!"));
     
     // Use this db as a template for how the result from multiple db search should be sorted
 	// used mostly in LandmarksSortL
-	iDatabase = UseGeneratedDbFileL();
+    CopyTestDbFileL(KTp133DbFile);
+	iDatabase = CPosLandmarkDatabase::OpenL(KTp133DbFile);
     if (iDatabase->IsInitializingNeeded())
        {
        ExecuteAndDeleteLD(iDatabase->InitializeL());
        }
 
  	AppendSearchResultsL();
+ 	// Get only the list of dburi in which this test case operations need to be performed
+ 	TInt dbUriCount = dbUris->Count();
  	
+ 	for ( TInt i= 0;i < dbUriCount;i++)
+ 	    {
+    iLog->Log((*dbUris)[i]);
+    // Action to be performed only on the newly added dbs in this test case
+        TPtrC dbUri((*dbUris)[i]);
+            if ( (dbUri != KDb20Uri) && (dbUri != KDb40Uri) && (dbUri != KDb60Uri) &&
+                   ( dbUri != KDb80Uri) && (dbUri != KDb105Uri) )
+                {
+                dbUris->Delete(i);
+                }
+
+ 	    }
     DoSearchL(iSearchResults, dbUris, ESynchronous);
     
     DoSearchL(iSearchResults, dbUris, EAsynchronous);

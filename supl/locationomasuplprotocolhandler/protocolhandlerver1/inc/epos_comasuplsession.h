@@ -258,7 +258,7 @@ class COMASuplSession : public CSuplSessionBase,
 			* @param aSessionIdSeed, seed value of session
 			* @param aRequestID, Request Identification number.
 			* @param aIsStaleCellId, indicates if this session is for a stale cell id conversion
-			* @param aLocationId , contains cell id parameters for which position is to be retrieved
+			* @param aLocationId , contains cell id parameters for which position is to be retrieved,ownership is transferred to this object
 			* @param aPrompt indicates if the user is to be prompted when making location requests
 			* @param aWlanOnly ,request to connect server using wlan connection only using OCC Api's
 			* @return None
@@ -1145,8 +1145,9 @@ class COMASuplSession : public CSuplSessionBase,
             
             COMASuplAsnHandlerBase* iOMASuplAsnHandlerBaseImpl; 
             
+            // Network privacy handle.Ownership is with this object
             CPosNetworkPrivacy* iNetworkPrivacy;
-            //Stale cell id which for which position is to be retrieved
+            //Stale cell id which for which position is to be retrieved.Ownership is with this object
             COMASuplLocationId* iStaleLocationId;
 			//indicates if this session is for a stale cell id conversion
             TBool   iIsStaleLocIdPresent;

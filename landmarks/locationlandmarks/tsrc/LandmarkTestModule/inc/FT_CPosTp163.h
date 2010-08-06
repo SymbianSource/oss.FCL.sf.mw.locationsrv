@@ -58,7 +58,8 @@ class CPosTp163 :public CLandmarkTestProcedureBase
         void TestImportL(const TDesC& aFile, const TDesC8& aMime);
         
         void TestParseL(const TDesC& aFile, const TDesC8& aMime);
-        
+        void CheckLandmarkL(TPosLmItemId aLandmarkId, RArray<TPosLmItemId> aCategoriesList);
+                CPosLandmarkParser* iLandmarkParser;
         TInt iErrorsFound;
     };
     

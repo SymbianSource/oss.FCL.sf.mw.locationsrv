@@ -106,6 +106,7 @@ class CPosTp133 : public CLandmarkTestProcedureBase, public MProgressObserver
         	CPosLmMultiDbSearch* iMultiLandmarkSearch;
         	TInt iLastNrOfDisplayData;
         	RArray<TPosLmItemId>* iJustNowSearchResults;
+        	
     };
 
 #endif      // CPOSTP133_H

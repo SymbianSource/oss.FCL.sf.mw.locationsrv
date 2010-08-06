@@ -1262,7 +1262,7 @@ CLbtContainerTriggerEntry* CLbtDbTriggersManager::RetrieveTriggerEntryFromDbL( R
                         }
                     }
                 areaBase->InternalizeL(readStream);
-                areaArray.Append(areaBase);
+                areaArray.AppendL(areaBase);
                 CleanupStack::Pop(1); //areaBase                
                 }
             
@@ -1800,7 +1800,7 @@ void CLbtDbTriggersManager::UpdateTriggersValidityL( TLbtTriggerDynamicInfo::TLb
                     TLbtTriggerModifiedInfo info;
                     info.iTriggerId = triggerId;
                     info.iAreaType = static_cast<CLbtGeoAreaBase::TGeoAreaType>(view.ColInt8(ELbtDbTriggerAreaType));;
-                    iIdArray.Append(info);
+                    iIdArray.AppendL(info);
                     
                     if( currentValidity == TLbtTriggerDynamicInfo::EInvalid &&
                         aValidity == TLbtTriggerDynamicInfo::EValid)
@@ -2050,7 +2050,7 @@ void CLbtDbTriggersManager::DeleteTriggerL( TLbtTriggerId aTriggerId )
     	MLbtTriggerStore::TLbtTriggerModifiedInfo info;
     	info.iTriggerId = aTriggerId;
     	info.iAreaType = areaType;
-    	iIdArray.Append(info);
+    	iIdArray.AppendL(info);
     	}
     
     iView.DeleteL();
@@ -2409,7 +2409,11 @@ void CLbtDbTriggersManager::AppendTriggerInfo(CLbtContainerTriggerEntry* aEntry)
 		info.iStartupProcess = KNullUid;
 		}
         
-    iIdArray.Append(info);
+    TInt error = iIdArray.Append(info);
+    if( error != KErrNone )
+        {
+        LOG1("Failed to appenf info to the array:%d",error);
+        }
 	}
 	
 
@@ -2421,7 +2425,12 @@ void CLbtDbTriggersManager::TriggersModified(RArray<TLbtTriggerModifiedInfo>& aA
 	 {
 	 for( TInt i = 0;i<iIdArray.Count();i++ )
 		 {
-		 aArray.Append(iIdArray[i]);	
+		 TInt error = aArray.Append(iIdArray[i]);
+	      if( error != KErrNone )
+             {
+             LOG1("Failed to append modified triggers:%d",error);
+             return;
+             }
 	     }
 	 iIdArray.Reset();
 	 } 

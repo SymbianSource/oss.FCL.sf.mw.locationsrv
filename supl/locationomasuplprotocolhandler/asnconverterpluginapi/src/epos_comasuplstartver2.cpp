@@ -79,6 +79,7 @@ EXPORT_C void COMASuplLocationIdData::SetLocationId(COMASuplLocationIdVer2* aLoc
         }
     iLocationId2 = aLocationId ;
     }
+//coverity[pass_by_value]
 EXPORT_C void COMASuplLocationIdData::SetECellInfo(TOMASuplECellInfo aMmCellInfo)
     {
     iECId = ETrue;

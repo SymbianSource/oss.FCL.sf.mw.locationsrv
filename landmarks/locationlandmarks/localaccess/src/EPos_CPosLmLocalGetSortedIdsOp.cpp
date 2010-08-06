@@ -143,14 +143,14 @@ void CPosLmLocalGetSortedIdsOp::GetResultL( RArray<TPosLmItemId>& aIdArray )
         {
         for ( TInt i = 0; i < iIdArray->Count(); i++ )
             {
-            aIdArray.Append( (*iIdArray)[i] );
+            aIdArray.AppendL( (*iIdArray)[i] );
             }
         }
     else
         {
         for ( TInt i = iIdArray->Count() - 1; i >= 0; i-- )
             {
-            aIdArray.Append( (*iIdArray)[i] );
+            aIdArray.AppendL( (*iIdArray)[i] );
             }
         }
     }

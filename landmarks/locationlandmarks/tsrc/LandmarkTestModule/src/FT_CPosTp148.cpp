@@ -63,9 +63,7 @@ void CPosTp148::CloseTest()
     iLandmarks.ResetAndDestroy();
     iLandmarks.Close();
 
-    delete iDatabase;
-    iDatabase=NULL;
-
+ 
     delete iLandmarkEncoder;
     iLandmarkEncoder = NULL;
 
@@ -75,19 +73,7 @@ void CPosTp148::CloseTest()
     delete iOperation;
     iOperation = NULL;
 
-    TRAPD(err, RemoveGlobalCategoriesL());
-    if (err != KErrNone && err != KErrNotFound)
-        {
-        HBufC* buf = HBufC::NewLC( 128 );
-        TPtr buffer = buf->Des();
-            
-        buffer.Format(_L("RemoveGlobalCategoriesL leaved with %d"), err);
-        iLog->Log( buffer );
-        
-        CleanupStack::PopAndDestroy( buf );
-        }
-        
-   
+  
 
     iLog->Log(_L("CloseTest Done"));
     }
@@ -101,33 +87,8 @@ void CPosTp148::CloseTest()
 void CPosTp148::StartL()
     {
     BaflUtils::EnsurePathExistsL( iFileSession, KKMZFile );
-
-    // Use same lm db as in composite search test
-    iDatabase = UseCompositeLandmarksDbFileL();
-    if (iDatabase->IsInitializingNeeded())
-       {
-       ExecuteAndDeleteLD(iDatabase->InitializeL());
-       }
-
     // Delete the trace file
     DeleteFileL(KFileTrace);
-
-    delete iDatabase;
-    iDatabase = NULL;
-
-    iDatabase = CPosLandmarkDatabase::OpenL();
-    	
-    	if (iDatabase->IsInitializingNeeded())
-       {
-       ExecuteAndDeleteLD(iDatabase->InitializeL());
-       }
-
-    // Do reset so that global categories are included
-    CPosLmCategoryManager* categoryManager = CPosLmCategoryManager::NewL(*iDatabase);
-    CleanupStack::PushL(categoryManager);
-
-    ExecuteAndDeleteLD(categoryManager->ResetGlobalCategoriesL());
-    CleanupStack::PopAndDestroy(categoryManager);
 
     HBufC8* emptyBuffer=NULL;
     

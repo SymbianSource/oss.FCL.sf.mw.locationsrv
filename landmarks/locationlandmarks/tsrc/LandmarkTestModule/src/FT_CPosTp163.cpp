@@ -26,7 +26,7 @@
            
 // ================= CONSTANTS =======================
 
-  
+  _LIT(KTp163DbFile, "TP163Test.ldb");
     _LIT(KKMZFile, "c:\\system\\test\\testdata\\Tp163KMZ.kmz");
 
     
@@ -64,6 +64,11 @@
 //
 void CPosTp163::CloseTest()
     {
+    delete iLandmarkParser;
+            iLandmarkParser = NULL;
+            
+            delete iDatabase;
+            iDatabase = NULL;
     // Release ECOM stuff
     ReleaseLandmarkResources();
     
@@ -206,120 +211,149 @@ void CPosTp163::TestParseL(const TDesC& aFile, const TDesC8& aMime)
 //
 void CPosTp163::TestImportL(const TDesC& aFile, const TDesC8& aMime)
     {
-    iLog->Log(_L("----- TestImportL -----"));    
+    iLog->Log(_L("----- TestImport1L ------"));
     iLog->Log(_L("FILE: %S"), &aFile);
-
     RemoveAllLmDatabasesL();
-
-    const TDesC* categoryNames[KNrOfLandmarks][4] = {{&KEmpty, &KEmpty, &KEmpty, &KEmpty},
-                                        {&K1, &KEmpty, &KEmpty, &KEmpty},
-                                        {&K2, &K3, &K4, &K5},
-                                        {&KEmpty, &KEmpty, &KEmpty, &KEmpty},
-                                        {&K6, &KEmpty, &KEmpty, &KEmpty},
-                                        {&K7, &K8, &K9, &K10},
-                                        {&K11, &K12, &K13, &KEmpty},
-                                        {&K14, &K15_1, &KEmpty, &KEmpty}};
+    CopyTestDbFileL(KTp163DbFile);
+    iLandmarkParser = CPosLandmarkParser::NewL(aMime);
+    iLandmarkParser->SetInputFileL(aFile);
     
-    CPosLandmarkDatabase* database = OpenDatabaseLC();
+    TRAPD( err,iDatabase = CPosLandmarkDatabase::OpenL(KTp163DbFile));
+    iLog->Log(_L("Error after CPosLandmarkDatabase::OpenL = %d"),err);
    
-    CPosLandmarkParser* parser = CPosLandmarkParser::NewL(aMime);
-    CleanupStack::PushL(parser);
-    
-    CPosLmCategoryManager* categoryManager = CPosLmCategoryManager::NewL(*database);
-    CleanupStack::PushL(categoryManager);
-    
-    RFile file; 
-    TInt err = file.Open(iFileSession, aFile, EFileRead);
-    if (err != KErrNone) 
-    {
-    	iLog->Log(_L("Error when opening file"));
-        User::Leave(err);
-    }
-    CleanupClosePushL(file);
-    
-    parser->SetInputFileHandleL(file);
-    iOperation = database->ImportLandmarksL(*parser, CPosLandmarkDatabase::EIncludeCategories);
-    
-    ExecuteAndDeleteLD(iOperation);
-    iOperation=NULL;
-    
-    CPosLmItemIterator* iter = database->LandmarkIteratorL();
-    CleanupStack::PushL(iter);
-    
-    CDesCArrayFlat* landmarkNames = new (ELeave) CDesCArrayFlat(KNrOfLandmarks);
-    landmarkNames->AppendL(_L("Billigt"));
-    landmarkNames->AppendL(_L("LOG9"));
-    landmarkNames->AppendL(_L("Kalles Hundgård"));
-    landmarkNames->AppendL(_L("MLFW"));
-    landmarkNames->AppendL(_L("TE, Lund"));
-    landmarkNames->AppendL(_L("asdf"));
-    landmarkNames->AppendL(_L("TP48LandmarkWithAllXMLFields"));
-    landmarkNames->AppendL(_L("TP48Landmark With Empty XML Fields"));
-    
-    TPosLmItemId id = iter->NextL();
-    TInt counter = 0;
-    while (id != KPosLmNullItemId)
+    if (iDatabase->IsInitializingNeeded())
         {
-        CPosLandmark* lm = database->ReadLandmarkLC(id);
-        RArray<TPosLmItemId> arr;
-        CleanupClosePushL(arr);
-        
-        TPtrC name;
-        lm->GetLandmarkName(name);
-        TPtrC expName(landmarkNames->MdcaPoint(counter));
-        iLog->Log(_L("Landmark %d, Actual name '%S', Expected '%S'"), counter, &name, &expName);
-        if (expName.CompareC(name) != KErrNone)
-            {
-            iLog->Log(_L("ERROR: Wrong Landmark Name"));
-            iErrorsFound++;
-            }
-        
-        lm->GetCategoriesL(arr);
-        if (arr.Count() == 0) iLog->Log(_L("NOLL"));
-        else
-            {
-            TBuf<100> buf;
-            buf.Format(_L("nr of categories %d"), arr.Count());
-            iLog->Log(buf);
-            }
-            
-        for (TInt i=0;i<arr.Count();i++)
-            {
-            CPosLandmarkCategory* cat = categoryManager->ReadCategoryLC(arr[i]);
-            TPtrC catName;
-            cat->GetCategoryName(catName);
-            iLog->Log(_L("Category %d, Actual '%S', Expected '%S'"), i, &catName, categoryNames[counter][i]);
-            if (catName.CompareC(*categoryNames[counter][i]) != KErrNone) 
-                {
-                iLog->Log(_L("ERROR: Wrong Category Name"));
-                iErrorsFound++;
-                }
-            CleanupStack::PopAndDestroy(cat);
-            }
-
-        CleanupStack::PopAndDestroy(&arr);
-        CleanupStack::PopAndDestroy(lm);
-        id = iter->NextL();
-        counter++;
+        ExecuteAndDeleteLD(iDatabase->InitializeL());
         }
-    TUint32 nr = parser->NumOfParsedLandmarks();
-    if (nr != KNrOfLandmarks)
+    
+    CPosLmCategoryManager* categoryManager = CPosLmCategoryManager::NewL(*iDatabase);
+    CleanupStack::PushL(categoryManager);
+    // Create two local categories, "Dagis" and "BurgerKing" belongs to landmark "asdf"
+    CPosLandmarkCategory* category1 = CPosLandmarkCategory::NewLC();
+    category1->SetCategoryNameL(_L("Dagis"));
+    TPosLmItemId id1 = categoryManager->AddCategoryL(*category1);
+    CleanupStack::PopAndDestroy(category1);
+    
+    CPosLandmarkCategory* category2 = CPosLandmarkCategory::NewLC();
+    category2->SetCategoryNameL(_L("BurgerKing"));
+    TPosLmItemId id2 = categoryManager->AddCategoryL(*category2);
+    CleanupStack::PopAndDestroy(category2);
+    
+    // Create "Frisör" belongs to landmark "TE, Lund"
+    CPosLandmarkCategory* category3 = CPosLandmarkCategory::NewLC();
+    category3->SetCategoryNameL(_L("Frisör"));
+    TPosLmItemId id3 = categoryManager->AddCategoryL(*category3);
+    CleanupStack::PopAndDestroy(category3);
+    
+    // Remove global category  with global id 1
+    // Belongs to "Kalles Hundgård"
+    TPosLmItemId globalId = categoryManager->GetGlobalCategoryL(3000);
+    ExecuteAndDeleteLD(categoryManager->RemoveCategoryL(globalId));
+    
+    CPosLmItemIterator* catIter = categoryManager->CategoryIteratorL();
+    CleanupStack::PushL(catIter);
+    TInt nrOfcategoriesBefore = catIter->NumOfItemsL();
+    CleanupStack::PopAndDestroy(catIter);   
+    
+    iLog->Log(_L("iDatabase->ImportLandmarksL"));
+
+    ExecuteAndDeleteLD(iDatabase->ImportLandmarksL(*iLandmarkParser, CPosLandmarkDatabase::EIncludeGlobalCategoryNames | CPosLandmarkDatabase::ESupressCategoryCreation| CPosLandmarkDatabase::EIncludeCategories));
+    
+
+    catIter = categoryManager->CategoryIteratorL();
+    CleanupStack::PushL(catIter);
+    TInt nrOfcategoriesAfter = catIter->NumOfItemsL();
+    CleanupStack::PopAndDestroy(catIter);
+    if (nrOfcategoriesAfter != nrOfcategoriesBefore) 
     {
-    	iLog->Log(_L("ERROR: Wrong number of landmarks parsed"));
+        iLog->Log(_L("ERROR: Three categories should have been added"));
         iErrorsFound++;
     }
     
-    CleanupStack::PopAndDestroy(iter);
-    landmarkNames->Reset();
-    delete landmarkNames;
-    landmarkNames = NULL;  
+    // Check that landmark "TE, Lund" has "Frisör" and
+    // landmark "asdf" has "Dagis" and "BurgerKing" (and also already existing global categories 
     
-    iLog->Log(_L("-------------------\n"));
-
-    CleanupStack::PopAndDestroy(&file);
+    TBuf<100> buf;
+    
+    RArray<TPosLmItemId> categories;
+    CleanupClosePushL(categories);    
+    
+    TPosLmItemId idde1;
+   
+    // Check id=5 Te, Lund
+    idde1 = categoryManager->GetCategoryL(_L("Frisör"));    
+    categories.Append(idde1);
+    CheckLandmarkL(5, categories);
+    categories.Reset();
+    
+    // Check id=6 asdf
+    idde1 = categoryManager->GetCategoryL(_L("Dagis"));
+    
+    categories.Append(idde1);
+    
+    CheckLandmarkL(6, categories);
+    categories.Reset();
+    
+    CleanupStack::PopAndDestroy(&categories);
     CleanupStack::PopAndDestroy(categoryManager);
-    CleanupStack::PopAndDestroy(parser);
-    CleanupStack::PopAndDestroy(database);
+    
+    delete iLandmarkParser;
+    iLandmarkParser = NULL;
+    
+    delete iDatabase;
+    iDatabase = NULL;
+    iLog->Log(_L("-------------------\n"));
     }
+
+// ---------------------------------------------------------
+// CPosTp163::CheckLandmarkL
+//
+// (other items were commented in a header).
+// ---------------------------------------------------------
+//
+void CPosTp163::CheckLandmarkL(TPosLmItemId aLandmarkId, RArray<TPosLmItemId> aCategoriesList)
+    {
+    iLog->Log(_L("CheckLandmarkL"));
+    
+    // Get landmark
+    CPosLandmark* lm1 = iDatabase->ReadLandmarkLC(aLandmarkId);
+    TPtrC name1;
+    lm1->GetLandmarkName(name1);
+    iLog->Log(name1);
+    
+    RArray<TPosLmItemId> categories;
+    CleanupClosePushL(categories);
+    // Get all categories attached to this landmark
+    lm1->GetCategoriesL(categories);
+   
+    CPosLmCategoryManager* categoryManager = CPosLmCategoryManager::NewL(*iDatabase);
+    CleanupStack::PushL(categoryManager);
+    
+    if ( aCategoriesList.Count() != categories.Count() )
+        {
+        iLog->Log(_L("ERROR: Wrong number of categories, actual %d, expected %d"),
+            categories.Count(), aCategoriesList.Count() );
+        iErrorsFound++;
+        }
+    
+    for (TInt i=0;i<categories.Count();i++)
+        {
+        if (aCategoriesList.Find(categories[i]) != KErrNotFound)
+            {
+            iLog->Log(_L("Found"));
+            }
+        else 
+            {
+            iLog->Log(_L("ERROR: Category '%S' was not found"));
+            iErrorsFound++;
+            }
+        }
+    
+    CleanupStack::PopAndDestroy(categoryManager);
+
+    CleanupStack::PopAndDestroy(&categories);
+    CleanupStack::PopAndDestroy(lm1);
+    }
+    
 	
 //  End of File

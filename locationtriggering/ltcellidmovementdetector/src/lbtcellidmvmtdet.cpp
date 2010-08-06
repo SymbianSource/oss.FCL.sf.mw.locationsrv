@@ -239,7 +239,11 @@ void CLbtCellIdMvmtDet::HandleGsmDataL( RMmCustomAPI::TMmCellInfo& aCellInfo )
                 TReal ed = 0.0;
                 if( KErrNotFound != ComputeED( ed, cellInfo, iPrevCellInfo ) )
                     {
-                    iED.Append( ed );
+                    TInt error = iED.Append( ed );
+                    if( error != KErrNone )
+                        {
+                        LOG1("Failed to append ed to the array:%d",error);
+                        }
                     iSumOfED += ed;
                     if( iED.Count() == 5 )
                         {
@@ -373,8 +377,16 @@ TBool CLbtCellIdMvmtDet::MovementDetected( TReal& aCarrierRSSISD,TReal& aCpichEc
         return ETrue;
         }
         
-    iSumOfSd.Append( sumOfSd );
-    iVarianceOfRssi.Append( aCarrierRSSISD );
+    TInt error = iSumOfSd.Append( sumOfSd );
+    if( error != KErrNone )
+        {
+        LOG1("Append sumOfSd to the array:%d",error);
+        }
+    error = iVarianceOfRssi.Append( aCarrierRSSISD );
+    if( error != KErrNone )
+        {
+        LOG1("Append aCarrierRSSISD to the array:%d",error);
+        }
     if( iSumOfSd.Count() == 3 )
         {
         TReal sumAvg = 0.0;
@@ -489,8 +501,16 @@ TInt CLbtCellIdMvmtDet::ComputeED( TReal& aED, CLbtCellInfo* aCurrCellInfo, CLbt
             TInt diff = 
                 ( ( aPrevCellInfo->GetNMR() )[pos].RxLEV ) - ( nmr.RxLEV );
             Math::Pow( diffSqr, diff, 2 );
-            diffArray.Append( diffSqr );
-            posArray.Append( pos );
+            TInt error = diffArray.Append( diffSqr );
+            if( error != KErrNone )
+                {
+                LOG1("Failed to append to diff array:%d",error);
+                }
+            error = posArray.Append( pos );
+            if( error !=KErrNone )
+                {
+                LOG1("Failed to append to pos array:%d",error);
+                }
             }
         else
             {
@@ -556,7 +576,12 @@ void CLbtCellIdMvmtDet::ComputeVarianceOfED()
 
     iED.Reset();
     TReal variance = sum / 5;
-    iVarianceOfED.Append( variance );
+    TInt error = iVarianceOfED.Append( variance );
+    if( error != KErrNone )
+        {
+        LOG1("Failed to append variance:%d",error);
+        }
+    
     
     // Check if variance is > 5. If true then check the next set of
     // 5 variances. If there are more than two variance readings > 5

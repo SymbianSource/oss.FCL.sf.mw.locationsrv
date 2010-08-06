@@ -109,7 +109,6 @@ EXPORT_C COMASUPLProtocolManager1::~COMASUPLProtocolManager1()
 		{
 			iSettingsLauncher->CancelLaunch();
 		}*/
-		
 	if(iSuplSettings)
 		{
 		iSuplSettings->SetUIActive( EFalse );
@@ -118,11 +117,11 @@ EXPORT_C COMASUPLProtocolManager1::~COMASUPLProtocolManager1()
 	DeleteAllSessions();
 	iSuplSessions.Reset();
 	iSuplSessions.Close();
-
+	
 	//Only attempt to unload the phone if the TSY has actually been initialised
 	if(iTsyName.Length() > 0)
 		{
-		iTelServer.UnloadPhoneModule(iTsyName);
+    	iTelServer.UnloadPhoneModule(iTsyName);
 		}
 
 	
@@ -1617,68 +1616,6 @@ void COMASUPLProtocolManager1::ResetBufferingParameters()
 	}
 	
 	
-// -----------------------------------------------------------------------------
-// COMASUPLProtocolManager1::LaunchSettingsUI
-// 
-// 
-// -----------------------------------------------------------------------------
-//
-/*TInt COMASUPLProtocolManager1::LaunchSettingsUI(MOMASuplUICompletionObserver* aObserver,const TDesC& aForHslp)
-    {        
-	iTrace->Trace(_L("COMASUPLProtocolManager1::LaunchSettingsUI"), KTraceFileName, __LINE__);
-
-    if(iUIRequestArray.Count() <= 0 )
-    	{
-		iTrace->Trace(_L("COMASUPLProtocolManager1::LaunchSettingsUI"), KTraceFileName, __LINE__);
-		iUIRequestArray.Append(aObserver);
-		iSuplSettings->SetUIActive(ETrue);
-		iCurrentlyUsedHslp.Copy(aForHslp);
-		return iSettingsLauncher->LaunchSettings();	
-    	}
-    else if(iCurrentlyUsedHslp.Compare(aForHslp) == KErrNone)
-    	{
-		iUIRequestArray.Append(aObserver);
-    	}
-    else
-    	{
-		return KErrInUse;                
-    	}
-    		
-	return KErrNone;
-    }*/
-
-// -----------------------------------------------------------------------------
-// COMASUPLProtocolManager1::SettingsUICompletedL
-// 
-// 
-// -----------------------------------------------------------------------------
-//
-/*void COMASUPLProtocolManager1::SettingsUICompletedL(TInt aError)
-	{
-	iTrace->Trace(_L("COMASUPLProtocolManager1::SettingsUICompletedL"), KTraceFileName, __LINE__);
-    iSuplSettings->SetUIActive(EFalse);
-
-    if (iDeInitDone)
-        {
-	    iTrace->Trace(_L("COMASUPLProtocolManager1::SettingsUICompletedL, de-init done.  Completing request"), KTraceFileName, __LINE__);
-        iDeInitDone = EFalse;
-        User::RequestComplete(iDeInitRequestStatus,KErrNone);
-        }                
-    else
-        {
-    	for(TInt i = 0; i < iUIRequestArray.Count(); i++)
-    		{
-    			iTrace->Trace(_L("COMASUPLProtocolManager1::SettingsUICompletedL,Forwarding ConnRerquestor "), KTraceFileName, __LINE__);
-    			MOMASuplUICompletionObserver* observer = iUIRequestArray[i];
-    			observer->SettingsUICompletedL(aError);
-    		}
-
-        }
-        
-    iCurrentlyUsedHslp.Copy(_L(""));	
-    iUIRequestArray.Reset();
-    }
-*/
 
 // -----------------------------------------------------------------------------
 // COMASUPLProtocolManager1::DeInitialize
@@ -2076,6 +2013,12 @@ void COMASUPLProtocolManager1::SetCommonConfig(COMASuplCommonConfig*& aCommmonCo
     iSuplInitTimeOut = aCommmonConfig->iSuplInitTimeOut;
     iPersistFailTimer = aCommmonConfig->iPersistFailTimer;
     }
+    
+// -----------------------------------------------------------------------------
+// COMASUPLProtocolManager1::HandleSuplTriggerStatusChangeL
+// pure virtual method from MSuplSettingsObserver; dummy implementation for compilation 
+// -----------------------------------------------------------------------------
+//
 void COMASUPLProtocolManager1::HandleSuplTriggerStatusChangeL(CSuplSettings::TSuplTriggerStatus /*aSuplTriggerStatus*/ ) 
 {
 

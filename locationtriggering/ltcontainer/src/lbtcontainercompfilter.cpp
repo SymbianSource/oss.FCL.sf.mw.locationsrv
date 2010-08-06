@@ -182,19 +182,25 @@ void CLbtContainerCompFilter::RetrieveFilterDataL()
     		    case CLbtTriggerFilterBase::EFilterByAttribute:
     				{
     				CLbtContainerAttrFilter* attrFilter = CLbtContainerAttrFilter::NewL(filter,NULL);
-					iFilterArray.Append(attrFilter);
+    				CleanupStack::PushL( attrFilter );
+					iFilterArray.AppendL(attrFilter);
+					CleanupStack::Pop( attrFilter );
 					break;
     				}
     			case CLbtTriggerFilterBase::EFilterByArea:
     				{
     				CLbtContainerAreaFilter* areaFilter = CLbtContainerAreaFilter::NewL(filter,NULL);
-    				iFilterArray.Append(areaFilter);
+    				CleanupStack::PushL( areaFilter );
+    				iFilterArray.AppendL(areaFilter);
+    				CleanupStack::Pop( areaFilter );
     				break;
     				}
     			case CLbtTriggerFilterBase::EFilterComposite:
     				{
     				CLbtContainerCompFilter* compFilter = CLbtContainerCompFilter::NewL(filter,NULL);
-    				iFilterArray.Append(compFilter);
+    				CleanupStack::PushL( compFilter );
+    				iFilterArray.AppendL(compFilter);
+    				CleanupStack::Pop( compFilter );
     				break;
     				}
         		}

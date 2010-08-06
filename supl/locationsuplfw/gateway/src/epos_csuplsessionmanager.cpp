@@ -49,7 +49,8 @@ CSuplSessionManager::CSuplSessionManager()
 void CSuplSessionManager::ConstructL()
     {
     DEBUG_TRACE("CSuplSessionManager::ConstructL", __LINE__)            
-    iCommMgr = CSuplCommunicationManager::NewL();
+	iSessionRetryQ = CSuplSessionRetryQ::NewL();
+    iCommMgr = CSuplCommunicationManager::NewL(*this);
     iCommMgr->Initialize();
     iConnectError=KErrNone;
     }
@@ -72,6 +73,7 @@ CSuplSessionManager::~CSuplSessionManager()
     if(iProtocolMgr)          
     delete iProtocolMgr;
     delete iCommMgr;
+	delete iSessionRetryQ;
     delete iEcomWatcher;
     REComSession::FinalClose();
     }
@@ -510,4 +512,24 @@ void CSuplSessionManager::CancelLocationConversionRequest(CSuplSessionBase *aSes
      iProtocolMgr->CancelLocationConversionRequest(aSessn);
     }
     
+void CSuplSessionManager::ConnectionOpened()
+	{
+	iSessionRetryQ->SessionStarted();	
+	}
+
+void CSuplSessionManager::ConnectionClosed()
+	{
+	iSessionRetryQ->SessionEnded();	
+	}
+
+void CSuplSessionManager::QueueForReIssueRequestL(CSuplSessionRequest& aSessionRequest)
+	{
+	iSessionRetryQ->AddToQueueL(aSessionRequest);
+	}
+
+void CSuplSessionManager::RemoveFromQueueForReIssueRequest(CSuplSessionRequest& aSessionRequest)
+	{
+	iSessionRetryQ->RemoveFromQueueL(aSessionRequest);
+	}
+
 // End of File

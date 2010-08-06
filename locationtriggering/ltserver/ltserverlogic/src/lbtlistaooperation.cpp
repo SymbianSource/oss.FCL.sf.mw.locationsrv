@@ -159,7 +159,7 @@ void CLbtListAOOperation::RunL()
 		        // This array of trigger ids is passed to container to set the 
 				// fired state to false.	
 				triggerId = iTriggerArray[i]->TriggerEntry()->Id();
-			    triggerIdArray.Append( triggerId );	
+			    triggerIdArray.AppendL( triggerId );	
 		        }
 		        
 	        // This active object was dequed from active scheduler once container completes 

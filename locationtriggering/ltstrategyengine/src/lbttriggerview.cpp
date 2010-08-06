@@ -102,7 +102,12 @@ void CLbtTriggerView::Refresh( TPositionInfo& aPosInfo,
                 return;
                 }
 
-            iRefRequestList.Append( req );
+            err = iRefRequestList.Append( req );
+            if( err != KErrNone )
+                {
+                LOG1("Failed to append req to the array:%d",err);
+                return;
+                }
             }
             
         LOG1( "View State is %d", iState );
@@ -130,7 +135,12 @@ void CLbtTriggerView::GetModifiedTriggers( RArray< TLbtTriggerId >& aList )
     
     for( TInt index = 0; index < iModifiedTrgList.Count(); index++ )
         {
-        aList.Append( iModifiedTrgList[index] );
+        TInt error = aList.Append( iModifiedTrgList[index] );
+        if( error != KErrNone )
+            {
+            LOG1("Failed to append trigger id:%d",error);
+            return;
+            }
         }
     
     // This is done here because strategy engine invokes this method and evaluates all modified triggers
@@ -235,7 +245,11 @@ void CLbtTriggerView::UpdateTriggerInfo( CLbtGeoAreaBase::TGeoAreaType aAreaType
     reqParam.posInfo = aPosInfo;
     reqParam.trigger = aTrigger;
     reqParam.dataMask = aDataMask;
-    iUpdateRequestList.Append( reqParam );
+    TInt error = iUpdateRequestList.Append( reqParam );
+    if( error != KErrNone )
+        {
+        LOG1("Failed to appenf reqParam:%d",error);
+        }
     if( EIdle == iState )
         {
         iState = ERefreshContainer;

@@ -187,7 +187,7 @@ COMASuplSession::COMASuplSession(RMobilePhone& aMobilePhone ,
 
      if( aIMSI.Length() )
          {
-         iIMSI.Create( aIMSI );    
+         User::LeaveIfError(iIMSI.Create( aIMSI ));    
          }
 
      if(iPosHandler)
@@ -1719,6 +1719,7 @@ EXPORT_C TInt COMASuplSession::GetPosition(TPositionInfo& aSuplPosInfo)
     TOMASuplUtcTime UtcTime;
     TOMASuplPositionEstimate PosEstimate;
     TDateTime TimeStamp;
+    //coverity[var_decl]
     TInt ZoneCode,Zone,altitude,AltitudeUncertainty, HorizontalAccuracy;
     TOMASuplAltitudeInfo AltitudeInfo;
     TInt latitude,longitude;
@@ -1775,6 +1776,7 @@ EXPORT_C TInt COMASuplSession::GetPosition(TPositionInfo& aSuplPosInfo)
     msg.AppendNum(altitude);
     iTrace->Trace(msg,KTraceFileName, __LINE__); 
     msg.Copy(_L("Altitude uncertainty "));
+    //coverity[uninit_use_in_call] 
     msg.AppendNum(AltitudeUncertainty);
     iTrace->Trace(msg,KTraceFileName, __LINE__); 
 
@@ -1903,6 +1905,7 @@ EXPORT_C TInt COMASuplSession::GetPosition(HPositionGenericInfo& aSuplPosInfo )
     TOMASuplUtcTime UtcTime;
     TOMASuplPositionEstimate PosEstimate;
     TDateTime TimeStamp;
+    //coverity[var_decl]
     TInt ZoneCode,Zone,altitude,AltitudeUncertainty, HorizontalAccuracy;
     TOMASuplAltitudeInfo AltitudeInfo;
     TInt latitude,longitude;
@@ -1928,6 +1931,7 @@ EXPORT_C TInt COMASuplSession::GetPosition(HPositionGenericInfo& aSuplPosInfo )
     TReal pwrMjr, pwrMnr, pwrAlt;
             Math::Pow(pwrMjr, 1.1, UncertaintySemiMajor);
             Math::Pow(pwrMnr, 1.1, UncertaintySemiMinor);
+    //coverity[uninit_use] 
     Math::Pow(pwrAlt, 1.070000, AltitudeUncertainty); 
     UncertaintySemiMajorReal = 10 * (pwrMjr -1);
     UncertaintySemiMinorReal = 10 * (pwrMnr -1);
@@ -5480,11 +5484,15 @@ void COMASuplSession::RunTriggerSessionL(
 
 void COMASuplSession::GetPeriodicTriggerParams()
     {
-    iTrace->Trace(_L("COMASuplSession::GetPeriodicTriggerParams"), KTraceFileName, __LINE__); 
-    iTriggerParams.Get(iNumFixes, iInterval, iStartTime);
-    iTotalNoOfFixes = iNumFixes;
-    iStartTimeCopy = iStartTime;
-    }        
+    iTrace->Trace(_L("COMASuplSession::GetPeriodicTriggerParams"),
+            KTraceFileName, __LINE__);
+    TInt ret = iTriggerParams.Get(iNumFixes, iInterval, iStartTime);
+    if (KErrNone == ret)
+        {
+        iTotalNoOfFixes = iNumFixes;
+        iStartTimeCopy = iStartTime;
+        }
+    }
 
 void COMASuplSession::StartPeriodicTriggerTimer()
     {

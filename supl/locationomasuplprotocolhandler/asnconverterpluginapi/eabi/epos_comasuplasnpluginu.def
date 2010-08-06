@@ -787,4 +787,5 @@ EXPORTS
 	_ZN27COMASuplSETCapabilitiesVer2D0Ev @ 786 NONAME
 	_ZTI27COMASuplSETCapabilitiesVer2 @ 787 NONAME ; #<TI>#
 	_ZTV27COMASuplSETCapabilitiesVer2 @ 788 NONAME ; #<VT>#
+	_ZN24COMASuplVer2SuplInitExtn6CloneLEPS_ @ 789 NONAME
 

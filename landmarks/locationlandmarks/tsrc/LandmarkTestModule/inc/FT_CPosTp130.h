@@ -126,6 +126,7 @@ class CPosTp130 :public CLandmarkTestProcedureBase
     private: // Data
     
         CDesCArray*             iDbUris;
+        TInt                    iInitialDbCount;
         CPosLmMultiDbSearch*    iDbSearcher;
         RPointerArray<RIdArray>        iExpectedLmResult; // contains expected matches when search patern is *e*
         RPointerArray<RIdArray>        iExpectedCatResult; // contains expected matches when search patern is *e*

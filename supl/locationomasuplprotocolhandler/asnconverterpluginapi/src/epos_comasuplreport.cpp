@@ -423,7 +423,11 @@ EXPORT_C TInt COMASuplReport::GetSessionList(RPointerArray<COMASuplSessionID>& a
         {
         for(TInt count = 0; count < iSessionList.Count();count++)
             {
-            aSessionList.Append(iSessionList[count]);
+            TInt error = aSessionList.Append(iSessionList[count]);
+            if( error != KErrNone )
+                {
+                return error;
+                }
             }
         return KErrNone;
         }
@@ -454,7 +458,11 @@ EXPORT_C TInt COMASuplReport::GetReportDataList(RPointerArray<COMASuplReportData
         {
         for(TInt count = 0; count < iReportDataList.Count();count++)
             {
-            aReportDataList.Append(iReportDataList[count]);
+            TInt error = aReportDataList.Append(iReportDataList[count]);
+            if( error != KErrNone )
+                {
+                return error;
+                }
             }
         return KErrNone;
         }

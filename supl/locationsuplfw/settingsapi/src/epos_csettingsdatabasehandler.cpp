@@ -1696,6 +1696,7 @@ void CSettingsDatabaseHandler::GetAllSLPL(RPointerArray<CServerParams>& aParamVa
     while((err=stmt.Next())==KSqlAtRow)
         {
         CServerParams *params = CServerParams::NewL();
+        CleanupStack::PushL(params);
         SLPId = stmt.ColumnInt(columnIndexSLPID);
         stmt.ColumnText(columnIndexSLPAddress,ServerAddress);
               
@@ -1714,7 +1715,8 @@ void CSettingsDatabaseHandler::GetAllSLPL(RPointerArray<CServerParams>& aParamVa
         params->Set(ServerAddress,Iap,serverEnabled,simChangeRemove,usageInHomeNw,editable,SLPId);
         params->SetServerConfigurationType(prodConfig);
         
-        aParamValues.Append(params);//ownership transferred to RPointerArray
+        aParamValues.AppendL(params);//ownership transferred to RPointerArray
+        CleanupStack::Pop(params);
         }   
 
     stmt.Close();
@@ -1767,6 +1769,7 @@ void CSettingsDatabaseHandler::GetAllSLPL(RPointerArray<CServerParams>& aParamVa
     while((err=stmt.Next())==KSqlAtRow)
         {
         CServerParams *params = CServerParams::NewL();
+        CleanupStack::PushL(params);
         SLPId = stmt.ColumnInt(columnIndexSLPID);
         stmt.ColumnText(columnIndexSLPAddress,ServerAddress);
               
@@ -1784,7 +1787,8 @@ void CSettingsDatabaseHandler::GetAllSLPL(RPointerArray<CServerParams>& aParamVa
         prodConfig = otherprops & KProductConfigured;
         params->Set(ServerAddress,Iap,serverEnabled,simChangeRemove,usageInHomeNw,editable,SLPId);
         params->SetServerConfigurationType(prodConfig);
-        aParamValues.Append(params);//ownership transferred to RPointerArray
+        aParamValues.AppendL(params);//ownership transferred to RPointerArray
+        CleanupStack::Pop(params);
         }   
 
     stmt.Close();
@@ -2556,7 +2560,7 @@ void CSettingsDatabaseHandler::ChangePriorityL(TInt aSlpId,TInt aValue,TBool aDi
         {
         SLPId = stmt.ColumnInt64(columnIndexSLPID);
         if(SLPId != aSlpId)
-            slpIndexArray.Append(stmt.ColumnInt64(columnIndexSLPID));
+            slpIndexArray.AppendL(stmt.ColumnInt64(columnIndexSLPID));
         }
     stmt.Reset(); 
     stmt.Close();
@@ -2727,7 +2731,7 @@ void CSettingsDatabaseHandler::SetPriorityL(TInt aSlpId,TInt aValue)
         {
         SLPId = stmt.ColumnInt64(columnIndexSLPID);
         if(SLPId != aSlpId)
-            slpIndexArray.Append(stmt.ColumnInt64(columnIndexSLPID));
+            slpIndexArray.AppendL(stmt.ColumnInt64(columnIndexSLPID));
         }
     stmt.Reset(); 
     stmt.Close();
@@ -2807,7 +2811,7 @@ void CSettingsDatabaseHandler::NormalizePriorityL()
     //Get all slp ids currently in the database
     while((err=stmt.Next())==KSqlAtRow)
         {
-        slpIdArray.Append(stmt.ColumnInt64(columnIndexSLPID));
+        slpIdArray.AppendL(stmt.ColumnInt64(columnIndexSLPID));
         }
     stmt.Reset();
     
@@ -3207,6 +3211,7 @@ void CSettingsDatabaseHandler::GetAllSessionsL(RPointerArray<CTriggerParams>& aP
     while((err=stmt.Next())==KSqlAtRow)
         {
         CTriggerParams *params = CTriggerParams::NewL();
+        CleanupStack::PushL(params);
         sessionId = stmt.ColumnInt(columnIndexSessionID);
         stmt.ColumnText(columnIndexSessionName,sessionName);
         notificationPresent = stmt.ColumnInt(columnIndexNotificationPresent);
@@ -3219,7 +3224,8 @@ void CSettingsDatabaseHandler::GetAllSessionsL(RPointerArray<CTriggerParams>& aP
         endTime = endTimeInt;
         params->Set(sessionId,sessionName,notificationPresent,triggerNotificationStatus,triggerType,requestType,outstandingTrigger,interval);
 				params->SetTriggerEndTime(endTime);        
-        aParamValues.Append(params);//ownership transferred to RPointerArray
+        aParamValues.AppendL(params);//ownership transferred to RPointerArray
+        CleanupStack::Pop(params);
         }   
 
     stmt.Close();

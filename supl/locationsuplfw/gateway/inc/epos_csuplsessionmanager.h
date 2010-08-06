@@ -27,6 +27,8 @@
 #include <epos_suplterminaltrigger.h>
 #include <epos_suplgeocellinfo.h>
 #include "epos_csuplecomeventwatcher.h"
+#include "epos_csuplsessionretryq.h"
+#include "epos_csuplcommunicationmanager.h"
 
 // FORWARD DECLARATIONS
 class CSUPLProtocolManagerBase;
@@ -39,7 +41,7 @@ class CSuplCommunicationManager;
 /**
 *  Class to handle SUPL sessions 
 */
-class CSuplSessionManager : public CBase
+class CSuplSessionManager : public CBase, MSuplConnectionMonitor
 	{
     public:  // Constructors and destructor
 
@@ -69,6 +71,8 @@ class CSuplSessionManager : public CBase
         void DeInitialize(TRequestStatus& aStatus);
         void CancelDeInitialize();
 
+		void QueueForReIssueRequestL(CSuplSessionRequest& aSessionRequest);
+		void RemoveFromQueueForReIssueRequest(CSuplSessionRequest& aSessionRequest);
 		void StartTriggerSessionL(
 				CSuplSessionBase* aSuplSession,
 				TRequestStatus& aStatus,
@@ -87,16 +91,30 @@ class CSuplSessionManager : public CBase
         		TSuplTriggerFireInfo& aFireInfo
         	);
 		
+	   /**
+        * Get SUPL message version.
+        */
 		TInt GetSUPLMessageVersionL(TInt& aMajorVersion, const TDesC8& aReceivedMessage);
 		
 		
+	   /**
+        * Makes location conversion request.
+        */
 		void MakeLocationConversionRequestL( CSuplSessionBase* aSuplSessn,
 		                                             TGeoCellInfo& aCellInfo,
 		                                             TRequestStatus& aStatus
 		                                           );	                                           
-		                                           
+		
+		/**
+		 * Cancels outstanding conversion request.
+		 */
 		void CancelLocationConversionRequest(CSuplSessionBase *aSessn);
 		
+	
+		// from MSuplConnectionMonitor
+		void ConnectionOpened();
+		void ConnectionClosed();
+	
     private:
 
         /**
@@ -120,7 +138,7 @@ class CSuplSessionManager : public CBase
         CSuplCommunicationManager*  iCommMgr;
         TInt iConnectError;
         CSuplEcomEventWatcher*      iEcomWatcher;
-
+		CSuplSessionRetryQ*			iSessionRetryQ;
     };
 
 

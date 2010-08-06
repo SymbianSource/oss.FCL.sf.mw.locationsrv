@@ -859,7 +859,7 @@ EXPORT_C TInt RSuplTerminalSubSession::GetSlpList(
 		}
 
 	parValues.ResetAndDestroy();
-	aParamValues.ResetAndDestroy();
+    //coverity[deref_ptr_in_call]
 	TInt error = iSuplStorageSettings->GetAllSlp(parValues); //handle return value...
 	if (error!=KErrNone)
 		{
@@ -905,6 +905,7 @@ EXPORT_C TInt RSuplTerminalSubSession::GetSlpList(
 	delete serverAddress;
 	delete iapName;	
     aParamValues.Close();
+    //coverity[check_after_deref]
 	if (iSuplStorageSettings)
 		{
 		delete iSuplStorageSettings;

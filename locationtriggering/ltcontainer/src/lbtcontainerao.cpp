@@ -455,15 +455,22 @@ void CLbtContainerAO::CompleteAsyncRequest(TInt aErr)
 		
 		RArray<TLbtTriggerId> triggerIds;
 		CLbtContainerTriggerEntry* entry = const_cast<CLbtContainerTriggerEntry*>(createop->ContainerTriggerEntry());
-   		triggerIds.Append(entry->TriggerEntry()->Id());
-   		
+   		TInt error = triggerIds.Append(entry->TriggerEntry()->Id());
+   		if( error != KErrNone )
+   		    {
+            LOG1("Failed to append trigger ids to array:%d",error); 
+   		    }
    		
    		TLbtTriggerEventMask eventMask;
    		
    		// Append the manager uids and owner uids into the array
    		RArray<TUid> managerui;
-   		managerui.Append( entry->TriggerEntry()->ManagerUi() );
-		
+   		error = managerui.Append( entry->TriggerEntry()->ManagerUi() );
+        if( error != KErrNone )
+            {
+            LOG1("Failed to append trigger ids to array:%d",error); 
+            }
+   		
    		TUid ownerUid;
    		ownerUid.iUid = (TInt)( entry->ExtendedTriggerInfo()->OwnerSid().iId);
    		managerui.Append( ownerUid );
@@ -659,7 +666,11 @@ void CLbtContainerAO::NotifyListeners()
 	RArray<TUid> managerUis;
 	for(TInt i=0;i<triggerInfoArray.Count();++i)
 		{
-		triggersModified.Append(triggerInfoArray[i].iTriggerId);
+		TInt error = triggersModified.Append(triggerInfoArray[i].iTriggerId);
+		if( error != KErrNone)
+		    {
+            LOG1("Failed to append modified triggers:%d",error);
+		    }
 		
 		if( managerUis.Find(triggerInfoArray[i].iManagerUi) == KErrNotFound )
 			{

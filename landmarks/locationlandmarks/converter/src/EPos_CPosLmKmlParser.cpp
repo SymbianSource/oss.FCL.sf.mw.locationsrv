@@ -214,7 +214,7 @@ void CPosLmKmlParser::SetContentL( TPosXmlTagType aTag, const TDesC& aContent )
         {
         
         case EPosXmlLmCollName: // Folder/Document names will be taken as category
-        	iCategoryArray.Append(aContent.Left( KPosLmMaxCategoryNameLength ).AllocL());
+        	iCategoryArray.AppendL(aContent.Left( KPosLmMaxCategoryNameLength ).AllocL());
         	iCategoryAdded[iFolderCount-1] = ETrue;
             break;
         
@@ -599,7 +599,7 @@ void CPosLmKmlParser::OnStartElementL(
 	    if(startTag == EPosXmlFolder || startTag == EPosXmlDocument)
 	    {
 	    	iFolderCount++;
-	    	iCategoryAdded.Append(EFalse);
+	    	iCategoryAdded.AppendL(EFalse);
 	    }
     
     }

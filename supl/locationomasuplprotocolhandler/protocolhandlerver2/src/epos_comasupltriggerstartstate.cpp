@@ -623,8 +623,9 @@ HBufC8* COMASuplTriggerStartState::EncodeMessageL(TOMASuplVersion &aSuplVersion,
             TOMASuplTriggerParams trgParams;
             TOMASuplPeriodicParams prdParams; 
             TUint fixes, interval, starttime;
-            iTriggerParams.Get(fixes, interval, starttime);
-            
+           TInt errorCode= iTriggerParams.Get(fixes, interval, starttime);
+            if(errorCode==KErrNone)
+             {
 #ifdef PRINT_MESSAGE	
 		    		iTrace->Trace(_L("Periodic Trigger params ..."), KTraceFileName, __LINE__); 							
 	          TBuf<128> buf;
@@ -644,6 +645,7 @@ HBufC8* COMASuplTriggerStartState::EncodeMessageL(TOMASuplVersion &aSuplVersion,
             OMASuplStart->SetTriggerType(COMASuplTriggeredStart::ETOMASuplPeriodicTrigType);
 				    iTrace->Trace(_L("Trigger Type - Periodic ..."), KTraceFileName, __LINE__); 							
 	          OMASuplStart->SetTriggerParams(trgParams);
+	           }
             }
 			
 		iTrace->Trace(_L("Starting Encoding..."), KTraceFileName, __LINE__); 							
@@ -719,7 +721,9 @@ void COMASuplTriggerStartState::LocationIDRequestCompletedL(COMASuplLocationId* 
 			
 		COMASuplGSMCellInfo* cellInfo;
         COMASuplLocationId::TOMASuplStatus status;
-        aLocationId->SuplLocationId(cellInfo, status);
+        TInt err =aLocationId->SuplLocationId(cellInfo, status);
+        if(KErrNone != err)
+        	return;
 
 		TInt refMNC,refMCC,refCI,refLac;
 		cellInfo->SuplGSMCellInfo(refMNC,refMCC,refCI,refLac);
@@ -727,10 +731,7 @@ void COMASuplTriggerStartState::LocationIDRequestCompletedL(COMASuplLocationId* 
         COMASuplGSMCellInfo* cellInfoClone = COMASuplGSMCellInfo::NewL();
         cellInfoClone->SetSuplGSMCellInfo(refMNC,refMCC,refCI,refLac);
 		iLocationId->SetSuplLocationId(cellInfoClone, status);
-		
-		delete aLocationId;
-		aLocationId=NULL;
-		
+				
 		if(iECId)
 			{
 				iTrace->Trace(_L("COMASuplTriggerStartState::LocationIDRequestCompletedL...Retrive E-CellId"), KTraceFileName, __LINE__); 					
@@ -741,6 +742,8 @@ void COMASuplTriggerStartState::LocationIDRequestCompletedL(COMASuplLocationId* 
 			{	
 				GetAssistceDataFromPluginL(aErrorCode);
 			}	
+		delete aLocationId;
+		aLocationId=NULL;
 	}
 
 // -----------------------------------------------------------------------------

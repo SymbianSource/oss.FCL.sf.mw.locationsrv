@@ -33,6 +33,8 @@
 // FORWARD DECLARATIONS
 class MSuplSessionObserver;
 class MNetInitiatedObserver;
+class CSuplSessionBase;
+class CSuplSessionManager;
 // CLASS DECLARATION
 
 /**
@@ -103,6 +105,7 @@ class CSuplSessionRequest : public CActive
 		        
 		void CancelLocationConversionRequest();
 		
+		void ReIssueRequestL();
     protected:  // From CActive
 
         void RunL();
@@ -134,8 +137,10 @@ class CSuplSessionRequest : public CActive
             ESuplStopTriggerRequest,
             ESuplTriggerFiredNotifyRequest,
             ESuplLocationConversionRequest,
-            ESuplCancelLocationConversionRequest
-            };
+            ESuplCancelLocationConversionRequest,
+			ESuplWaitingToRetrySession,
+			ESuplRetryingSession
+		    };
      
 	 TSuplRequestStage           iRequestPhase;
      HBufC8*                     iPositionBuffer;
@@ -144,6 +149,15 @@ class CSuplSessionRequest : public CActive
   	 CSuplSessionManager& 		 iSessnMgr;
 	 CSuplSessionBase*			 iSuplSessn;
 	 TInt iHandle;
+
+	 CSuplSessionBase* iParamSuplSessn;
+	 TInt iParamSetCaps;
+	 TInt iParamReqId;
+	 TBool iParamFallback;
+	 TBool iParamFirstReq;
+	 TBool iParamExtendedQopUsed;
+	 TSuplTerminalQop iParamQop;
+	 HBufC* iParamExtendedFallback;
     };  
 
 #endif  // __CSuplSessionRequest_H__

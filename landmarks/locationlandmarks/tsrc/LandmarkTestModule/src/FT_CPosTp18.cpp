@@ -32,6 +32,9 @@ _LIT(KTakePreparedPartialErr, "Method TakePreparedPartialLandmarksL doesn't leav
 _LIT(KNoPreparedPartialErr, "Method TakePreparedPartialLandmarksL returns incorrect no. landmarks");
 _LIT(KNoPreparedPartialErr2, "Method TakePreparedPartialLandmarksL returns incorrect landmarks");
 
+_LIT(KTp18DbFile, "TP18Test.ldb");
+_LIT(KTp18DbFile1, "TP18Test1.ldb");
+
 // ================= MEMBER FUNCTIONS =======================
 
 
@@ -66,8 +69,8 @@ void CPosTp18::CloseTest()
 void CPosTp18::StartL()
     {
     _LIT(KNotPartialErr, "Landmark is not a partial landmark");
-
-    iDatabase = UseGeneratedDbFileL();
+    CopyTestDbFileL(KTp18DbFile);
+    iDatabase = CPosLandmarkDatabase::OpenL(KTp18DbFile);
     
     if (iDatabase->IsInitializingNeeded())
        {
@@ -414,7 +417,8 @@ void CPosTp18::PreparePartialLandmarksL()
     // should only return empty landmarks
     delete iDatabase;
     iDatabase = NULL;
-    iDatabase = UseGeneratedDbFileL();
+    CopyTestDbFileL(KTp18DbFile1);
+	iDatabase = CPosLandmarkDatabase::OpenL(KTp18DbFile1);
     
     if (iDatabase->IsInitializingNeeded()) ExecuteAndDeleteLD(iDatabase->InitializeL());
        

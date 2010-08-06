@@ -123,6 +123,7 @@ void CLbtCellOperation::RunL()
             	{
             	geoCell = CLbtGeoWcdmaCell::NewL();
             	}
+            CleanupStack::PushL( geoCell );
             geoCell->SetNetworkType( iNetworkMode );
             geoCell->SetNetworkCountryCode( iNwInfo.iCountryCode );
             geoCell->SetNetworkIdentityCode( iNwInfo.iNetworkId );
@@ -137,7 +138,7 @@ void CLbtCellOperation::RunL()
                     {
                     if( iCellInfo.iGsmCellInfo.iNmr[i].iBSIC != -1 )
                         {
-                        bsicArray.Append( iCellInfo.iGsmCellInfo.iNmr[i].iBSIC );
+                        bsicArray.AppendL( iCellInfo.iGsmCellInfo.iNmr[i].iBSIC );
                         }
                     }                
                 gsmCell->SetBsic( bsicArray );
@@ -169,13 +170,14 @@ void CLbtCellOperation::RunL()
             				TLbtWcdmaCellInfo::TLbtCellMeasuredResult cellMsr;
             				cellMsr.iEcNo = ecNo;
             				cellMsr.iRscp = rscp;
-            				wcdmaCellInfo.iMeasurementResult.Append(cellMsr);
+            				wcdmaCellInfo.iMeasurementResult.AppendL(cellMsr);
             				}
             			}
             		}
             	wcdmaCell->SetWcdmaCellInfo(wcdmaCellInfo);
             	geoCell = wcdmaCell;
             	}
+            CleanupStack::Pop( geoCell );
             *(iArea) = geoCell;
             TRequestStatus* status = &iClientStatus;
             User::RequestComplete( status, iStatus.Int() );

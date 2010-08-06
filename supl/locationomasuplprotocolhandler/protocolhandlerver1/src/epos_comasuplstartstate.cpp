@@ -522,6 +522,9 @@ HBufC8* COMASuplStartState::EncodeMessageL(TOMASuplVersion &aSuplVersion,
 void COMASuplStartState::LocationIDRequestCompletedL(COMASuplLocationId* aLocationId,
 													TInt aErrorCode)
 	{
+    delete iLocationId;
+    iLocationId = NULL;
+    iLocationId = aLocationId;
 		iTrace->Trace(_L("COMASuplStartState::LocationIDRequestCompleted..."), KTraceFileName, __LINE__); 								
 		iGenerationStatus = EFalse;
 		if(aErrorCode!=KErrNone)
@@ -533,8 +536,6 @@ void COMASuplStartState::LocationIDRequestCompletedL(COMASuplLocationId* aLocati
 						return;
 					}
 			}
-			
-		iLocationId = aLocationId;
 		
 		if(iECId)
 			{
@@ -1012,6 +1013,14 @@ void COMASuplStartState::GetCurrentCellID(TCellIdInfo& aCurrentCellId,TInt& aTyp
 	aCurrentCellId.iLac = lRefLAC;
 	}
 }
+
+// -----------------------------------------------------------------------------
+// COMASuplStartState::SetStaleCellIdToUse
+// Set stale cell id.
+// 
+// (other items were commented in a header).
+// -----------------------------------------------------------------------------
+//
 void COMASuplStartState::SetStaleCellIdToUse(COMASuplLocationId* aLocationId)
     {
     if(iLocationId)

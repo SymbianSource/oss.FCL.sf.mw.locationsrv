@@ -76,8 +76,8 @@ CSuplSocketReader::CSuplSocketReader(RSocket& aSocket,
 void CSuplSocketReader::ConstructL()
     {
     iTrace = CSuplConnTrace::NewL();
-    iReadBuffer.Create(KSocketDefaultBufferSize);
-    iAdditionalReadBuffer.Create(0);
+    User::LeaveIfError(iReadBuffer.Create(KSocketDefaultBufferSize));
+    User::LeaveIfError(iAdditionalReadBuffer.Create(0));
     }
 
 // -----------------------------------------------------------------------------
@@ -174,13 +174,13 @@ void CSuplSocketReader::RunL()
 								if(iReRead)
 								{
 									RBuf OriginalBuf1;
-									OriginalBuf1.Create(KSocketDefaultBufferSize);
+									User::LeaveIfError(OriginalBuf1.Create(KSocketDefaultBufferSize));
 									OriginalBuf1.Copy(iReadBuffer);
 									TBuf<64> msg2;
 									msg2.Copy(_L("Length of OriginalBuf1 is: "));
 									msg2.AppendNum(OriginalBuf1.Length());
 									iTrace->Trace(msg2, KTraceFileName, __LINE__);
-									iReadBuffer.ReAlloc(KSocketDefaultBufferSize + iAdditionalReadBuffer.Length());
+									User::LeaveIfError(iReadBuffer.ReAlloc(KSocketDefaultBufferSize + iAdditionalReadBuffer.Length()));
 									iReadBuffer.Zero();
 									iReadBuffer.Append(OriginalBuf1);
 									iReadBuffer.Append(iAdditionalReadBuffer);
@@ -189,7 +189,7 @@ void CSuplSocketReader::RunL()
 									OriginalBuf1.Close();					
 								}
     							iAdditionalReadBuffer.Zero();
-    							iAdditionalReadBuffer.ReAlloc(msgSize);		
+    							User::LeaveIfError(iAdditionalReadBuffer.ReAlloc(msgSize));		
     							iReRead = ETrue;
     						}
     					else
@@ -197,10 +197,10 @@ void CSuplSocketReader::RunL()
     							if(iReRead)
     								{
     									RBuf OriginalBuf;
-    									OriginalBuf.Create(KSocketDefaultBufferSize);
+    									User::LeaveIfError(OriginalBuf.Create(KSocketDefaultBufferSize));
     									OriginalBuf.Copy(iReadBuffer);
     									
-    									iReadBuffer.ReAlloc(KSocketDefaultBufferSize + iAdditionalReadBuffer.Length());
+    									User::LeaveIfError(iReadBuffer.ReAlloc(KSocketDefaultBufferSize + iAdditionalReadBuffer.Length()));
     									iReadBuffer.Zero();
     									iReadBuffer.Append(OriginalBuf);
     									iReadBuffer.Append(iAdditionalReadBuffer);

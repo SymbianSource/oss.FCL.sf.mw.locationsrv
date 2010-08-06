@@ -148,7 +148,8 @@ EXPORT_C void TOMASuplReportedLocation::GetLocationEncDescriptor(TOMASuplLocEncD
 // TOMASuplReportedLocation::SetLocationData(TOMASuplLocationData aLocationData)
 // (other items were commented in a header).
 // ---------------------------------------------------------------------------
-//
+
+//coverity[pass_by_value]
 EXPORT_C void TOMASuplReportedLocation::SetLocationData(TOMASuplLocationData aLocationData) 
     {
     iLocationData = aLocationData;

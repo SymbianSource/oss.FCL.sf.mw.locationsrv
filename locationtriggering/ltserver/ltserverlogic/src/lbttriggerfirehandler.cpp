@@ -85,7 +85,7 @@ void CLbtTriggerFireHandler::FireTriggerL(TLbtTriggerFireInfo aFireInfo)
 	{
 	FUNC_ENTER("CLbtTriggerFireHandler::FireTriggerL");
 	// queue the fire info into the array;
-	iFireInfoArray.Append(aFireInfo);
+	iFireInfoArray.AppendL(aFireInfo);
 	
 	if(!IsActive())
 		{
@@ -176,13 +176,15 @@ void CLbtTriggerFireHandler::FireNextTrigger()
 		
 		// Get the trigger entry from container
 		RArray<TLbtTriggerId> triggerId;
-		triggerId.Append( iFireInfoArray[0].iTriggerId );
-		iContainer.GetTriggers( triggerId, 
-								iTriggerArray, 
-								iAOIdentificationNum,
-								iStatus);
-		SetActive();
-		
+		TInt error = triggerId.Append( iFireInfoArray[0].iTriggerId );
+		if( error == KErrNone )
+		    {
+            iContainer.GetTriggers( triggerId, 
+                                    iTriggerArray, 
+                                    iAOIdentificationNum,
+                                    iStatus);
+            SetActive();
+		    }
 		triggerId.Close();		
 		}
 	}

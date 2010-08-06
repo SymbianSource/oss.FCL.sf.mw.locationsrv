@@ -224,15 +224,17 @@ void CCLbsSuplTiRequestManager::InitiateLocationRequest()
 		iTrace->Trace(_L("Session Id not found creating new requestor"), KTraceFileName, __LINE__);
 		//Create a new requestor object
 		CCLbsSuplTiApiRequestor* newRequestor = NULL;
-		TRAPD(err,newRequestor = CCLbsSuplTiApiRequestor::NewL(iObserver,iServer));
+	    // Create new requestor and add it to requestor collection,
+		// ownership is transferred to the collection array
+		TRAPD(err,newRequestor = CCLbsSuplTiApiRequestor::NewL(iObserver,iServer);
+		         iRequestorCollection.AppendL(newRequestor));
 		if(err != KErrNone)
 			{
 			iTrace->Trace(_L("Creating New Requestor Failed"), KTraceFileName, __LINE__);
 			iObserver.RequestComplete(err,iSessionId);
 			return;
 			}
-		//add to requestor collection, ownership is transferred to the collection array
-		iRequestorCollection.Append(newRequestor);
+
 		//ask requestor to make location request
 		newRequestor->RequestLocation(iSessionId,iOptions,iMethod);
 		}

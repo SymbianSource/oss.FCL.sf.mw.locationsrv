@@ -379,7 +379,8 @@ public:
         *
         * @Description: Makes Location conversion request
         *
-        * @Param:       aSuplSessn,session object on which processing will start
+        * @Param:       aSuplSessn,session object on which processing will start. Ownership 
+        *               is not transferred.
         *
         * @Param:       aCellInfo,cell information which needs to be converted to geo-coordinates
         *

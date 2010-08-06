@@ -515,7 +515,7 @@ public:
      * Method used to make conversion request for retrieving position of a location id.
      * 
      * @since S60 v5.2
-     * @param aSuplSessn session object on which processing will start
+     * @param aSuplSessn session object on which processing will start,ownership is not transferred
      * @param aCellInfo contains cell id information and cell id type
      * @param aStatus On return, the status of the request
      * 
@@ -524,7 +524,7 @@ public:
                                                       TGeoCellInfo& aCellInfo,               
                                                       TRequestStatus& aStatus );
     /*
-     * Method used to make cancel a conversion request for retrieving position of a location id.
+     * Method used to make cancel a conversion request for retrieving position of a location id,,ownership is not transferred.
      * 
      * @since S60 v5.2
      * @param aSuplSessn session object which is to be cancelled

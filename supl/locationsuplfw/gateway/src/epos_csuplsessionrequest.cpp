@@ -49,7 +49,8 @@ CSuplSessionRequest::CSuplSessionRequest(CSuplSessionManager& aSessnMgr, CSuplSe
     iRequestPhase(ESuplReqInactive),
     iObserver(aObserver),
     iSessnMgr(aSessnMgr),
-    iSuplSessn(aSuplSessn)    
+    iSuplSessn(aSuplSessn),
+    iParamExtendedFallback(NULL)
     {
     DEBUG_TRACE("CSuplSessionRequest::CSuplSessionRequest", __LINE__)
     CActiveScheduler::Add(this);
@@ -60,7 +61,8 @@ CSuplSessionRequest::CSuplSessionRequest(CSuplSessionManager& aSessnMgr, CSuplSe
     iRequestPhase(ESuplReqInactive),
     iNetObserver(aObserver),
     iSessnMgr(aSessnMgr),
-    iSuplSessn(aSuplSessn)
+    iSuplSessn(aSuplSessn),
+    iParamExtendedFallback(NULL)    
     {
     DEBUG_TRACE("CSuplSessionRequest::CSuplSessionRequest", __LINE__)
     CActiveScheduler::Add(this);
@@ -95,6 +97,13 @@ CSuplSessionRequest* CSuplSessionRequest::NewL(CSuplSessionManager& aSessnMgr, C
 CSuplSessionRequest::~CSuplSessionRequest()
     {
     DEBUG_TRACE("CSuplSessionRequest::~CSuplSessionRequest", __LINE__)
+    iSessnMgr.RemoveFromQueueForReIssueRequest(*this);
+    
+    if (iParamExtendedFallback)
+		{
+        delete iParamExtendedFallback;
+		}
+    
 	if (IsActive())      
       	Cancel();
     }
@@ -115,6 +124,17 @@ void CSuplSessionRequest::MakeSuplSessionRequestL(CSuplSessionBase* aSuplSessn, 
 	
 	iSessnMgr.RunSuplSessionL(aSuplSessn, iStatus, aHslpAddress, fallBack, aSetCaps, aReqId, aFirstReq);
 	SetActive();
+	iParamFallback = ETrue;
+	iParamSuplSessn = aSuplSessn;
+	iParamSetCaps = aSetCaps;
+	iParamReqId = aReqId;
+	iParamFirstReq = aFirstReq;
+    if (iParamExtendedFallback)
+        {
+        delete iParamExtendedFallback;
+        iParamExtendedFallback = NULL;
+        }
+	iParamExtendedQopUsed = EFalse;
     }
 // ---------------------------------------------------------
 // CSuplSessionRequest::MakeSuplSessionRequestL
@@ -132,6 +152,19 @@ void CSuplSessionRequest::MakeSuplSessionRequestL(CSuplSessionBase* aSuplSessn, 
 	
 	iSessnMgr.RunSuplSessionL(aSuplSessn, iStatus, aHslpAddress, fallBack, aSetCaps, aReqId, aQop, aFirstReq);
 	SetActive();
+	
+    iParamFallback = ETrue;
+	iParamSuplSessn = aSuplSessn;
+	iParamSetCaps = aSetCaps;
+	iParamReqId = aReqId;
+	iParamFirstReq = aFirstReq;
+    if (iParamExtendedFallback)
+        {
+        delete iParamExtendedFallback;
+        iParamExtendedFallback = NULL;
+        }
+	iParamQop = aQop;	
+	iParamExtendedQopUsed = ETrue;	
     }
 
 void CSuplSessionRequest::MakeSuplSessionRequestL(CSuplSessionBase* aSuplSessn,const TDesC& aHslpAddress, TBool aFallBack, TInt aSetCaps, TInt aReqId, TBool aFirstReq)
@@ -141,6 +174,20 @@ void CSuplSessionRequest::MakeSuplSessionRequestL(CSuplSessionBase* aSuplSessn,c
     iStatus = KRequestPending;
     iSessnMgr.RunSuplSessionL(aSuplSessn, iStatus, aHslpAddress, aFallBack, aSetCaps, aReqId, aFirstReq);
 	SetActive();
+	
+    iParamFallback = aFallBack;
+	iParamSuplSessn = aSuplSessn;
+	iParamSetCaps = aSetCaps;
+	iParamReqId = aReqId;
+	iParamFirstReq = aFirstReq;
+    if (iParamExtendedFallback)
+        {
+        delete iParamExtendedFallback;
+        iParamExtendedFallback = NULL;
+        }
+	iParamExtendedFallback = HBufC::NewL(aHslpAddress.Length());
+	*iParamExtendedFallback = aHslpAddress;
+	iParamExtendedQopUsed = EFalse;	
     }
 
 void CSuplSessionRequest::MakeSuplSessionRequestL(CSuplSessionBase* aSuplSessn,const TDesC& aHslpAddress, TBool aFallBack, TInt aSetCaps, TInt aReqId, TSuplTerminalQop& aQop, TBool aFirstReq)
@@ -150,6 +197,21 @@ void CSuplSessionRequest::MakeSuplSessionRequestL(CSuplSessionBase* aSuplSessn,c
     iStatus = KRequestPending;
     iSessnMgr.RunSuplSessionL(aSuplSessn, iStatus, aHslpAddress, aFallBack, aSetCaps, aReqId, aQop, aFirstReq);
     SetActive();
+	
+    iParamFallback = aFallBack;
+	iParamSuplSessn = aSuplSessn;
+	iParamSetCaps = aSetCaps;
+	iParamReqId = aReqId;
+	iParamFirstReq = aFirstReq;
+    iParamQop = aQop;   
+    iParamExtendedQopUsed = ETrue;
+    if (iParamExtendedFallback)
+        {
+        delete iParamExtendedFallback;
+        iParamExtendedFallback = NULL;
+        }
+    iParamExtendedFallback = HBufC::NewL(aHslpAddress.Length());
+    *iParamExtendedFallback = aHslpAddress;
     }  
     
 // ---------------------------------------------------------
@@ -212,50 +274,90 @@ void CSuplSessionRequest::RunL()
     {
     DEBUG_TRACE("CSuplSessionRequest::RunL", __LINE__)
     TInt err = iStatus.Int();
-    switch (iRequestPhase)
-        {
-        case ESuplStartTriggerRequest:
-        case ESuplStopTriggerRequest:
-        	{
-			iRequestPhase = ESuplReqInactive;
-			iObserver->CompleteTriggerRunSession(err);			
-        	break;
-        	}
-        case ESuplTriggerFiredNotifyRequest:
-        	{
-			iRequestPhase = ESuplReqInactive;
-			iObserver->CompleteTriggerFiredNotifyRequest(err);			
-        	break;
-        	}
-        case ESuplSessionRequest:
-            {
-			iRequestPhase = ESuplReqInactive;
-			iObserver->CompleteRunSession(err);
-            break;
-            }
-       case ESuplCancelRunSessionRequest:
-            {
-			iRequestPhase = ESuplReqInactive;
-			iObserver->CompleteRunSession(err);
-            break;
-            }
-        case ESuplForwardMessage:
-        	{	
-        	iRequestPhase = ESuplReqInactive;
-        	iNetObserver->CompleteForwardMessageL(iHandle);
-        	break;
-        	}
-        case ESuplLocationConversionRequest:
-        case ESuplCancelLocationConversionRequest:
-            {
-            iRequestPhase = ESuplReqInactive;
-            iObserver->CompleteRunSession(err);
-            break;
-            }
-        default :
-            DebugPanic(EPosSuplServerPanicRequestInconsistency);
-        }
+	
+	if(err != KErrNone && iRequestPhase == ESuplSessionRequest)
+		{
+		DEBUG_TRACE("Retrying session", __LINE__)
+		iRequestPhase = ESuplWaitingToRetrySession;
+		iSessnMgr.QueueForReIssueRequestL(*this);
+		}
+	else
+		{	
+	    switch (iRequestPhase)
+	        {
+	        case ESuplStartTriggerRequest:
+	        case ESuplStopTriggerRequest:
+	        	{
+				iRequestPhase = ESuplReqInactive;
+				iObserver->CompleteTriggerRunSession(err);			
+	        	break;
+	        	}
+	        case ESuplTriggerFiredNotifyRequest:
+	        	{
+				iRequestPhase = ESuplReqInactive;
+				iObserver->CompleteTriggerFiredNotifyRequest(err);			
+	        	break;
+	        	}
+	        case ESuplSessionRequest:
+			case ESuplRetryingSession:
+				{
+				iRequestPhase = ESuplReqInactive;
+				iObserver->CompleteRunSession(err);
+				break;
+				}				
+	       case ESuplCancelRunSessionRequest:
+	            {
+				iRequestPhase = ESuplReqInactive;
+				iObserver->CompleteRunSession(err);
+	            break;
+	            }
+	        case ESuplForwardMessage:
+	        	{	
+	        	iRequestPhase = ESuplReqInactive;
+	        	iNetObserver->CompleteForwardMessageL(iHandle);
+	        	break;
+	        	}
+	        case ESuplLocationConversionRequest:
+	        case ESuplCancelLocationConversionRequest:
+	            {
+	            iRequestPhase = ESuplReqInactive;
+	            iObserver->CompleteRunSession(err);
+	            break;
+	            }
+	        default :
+	            DebugPanic(EPosSuplServerPanicRequestInconsistency);
+	        }
+		}
     }
+
+void CSuplSessionRequest::ReIssueRequestL()
+	{
+	DEBUG_TRACE("CSuplSessionRequest::ReIssueRequestL", __LINE__)
+	if(!iParamExtendedQopUsed)
+		{
+        if (!iParamExtendedFallback)
+            {
+            MakeSuplSessionRequestL(iParamSuplSessn, iParamSetCaps, iParamReqId, iParamFirstReq);
+            }
+        else
+            {
+            MakeSuplSessionRequestL(iParamSuplSessn, *iParamExtendedFallback, iParamFallback, iParamSetCaps, iParamReqId, iParamFirstReq);
+            }
+		}
+	else
+		{
+        if (!iParamExtendedFallback)
+            {
+            MakeSuplSessionRequestL(iParamSuplSessn, iParamSetCaps, iParamReqId, iParamQop, iParamFirstReq);
+            }
+        else
+            {
+            MakeSuplSessionRequestL(iParamSuplSessn, *iParamExtendedFallback, iParamFallback, iParamSetCaps, iParamReqId, iParamQop, iParamFirstReq);
+            }
+		}
+	DEBUG_TRACE("Retry request succesfull", __LINE__)
+	iRequestPhase = ESuplRetryingSession;
+	}
 
 // ---------------------------------------------------------
 // CSuplSessionRequest::RunError

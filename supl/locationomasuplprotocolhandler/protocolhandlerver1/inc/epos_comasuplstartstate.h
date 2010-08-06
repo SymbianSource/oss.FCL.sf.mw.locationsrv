@@ -114,7 +114,7 @@ class COMASuplStartState : public COMASuplState,
              *                     retrieving position for an already retrieved cell id.
              *                     For example : in case of Geo Tagged Images 
              * @since S60 v5.2
-             * @param aLocationId This is the locatiod id parameter containing the stale cell id
+             * @param aLocationId This is the locatiod id parameter containing the stale cell id,ownership is transferred.
              * @return None                     
              */
 			void SetStaleCellIdToUse(COMASuplLocationId* aLocationId);

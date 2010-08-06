@@ -178,9 +178,7 @@ void COMASuplConnRequestor::CreateConnectionL(TBool aPrompt,TBool aWlanOnly)
         iPrompt = aPrompt;
         iWlanOnly = aWlanOnly;
         iIsStaleLocIdPresent = ETrue;
-        //iIsTimeoutDialogTimerStarted = EFalse;
-        //iDialogTimer->Cancel();
-        
+               
         TInt err;
         err = iRepository->Get(KSuplGeoInfoConvServerName, GeoTagServerName);
         User::LeaveIfError(err);

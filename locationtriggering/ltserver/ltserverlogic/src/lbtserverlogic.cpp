@@ -228,7 +228,9 @@ void CLbtServerLogic::ServiceL(const RMessage2 &aMessage, TSubSessionType aType)
 														   *iContainer, 
 														   aType,
 														   *iSettingsManager);
-			iAOOArray.Append(operation);
+			CleanupStack::PushL( operation );
+			iAOOArray.AppendL(operation);
+			CleanupStack::Pop( operation );
 			operation->StartOperationL();
 			break;
 			}
@@ -278,7 +280,9 @@ void CLbtServerLogic::ServiceL(const RMessage2 &aMessage, TSubSessionType aType)
 				}
 			CLbtListAOOperation* operation = 
 						CLbtListAOOperation::NewL(*this, aMessage, *iContainer, aType);
-		    iAOOArray.Append(operation);
+			CleanupStack::PushL( operation );
+		    iAOOArray.AppendL(operation);
+		    CleanupStack::Pop( operation );
 			operation->StartOperationL();
 			break;
 			}
@@ -299,7 +303,9 @@ void CLbtServerLogic::ServiceL(const RMessage2 &aMessage, TSubSessionType aType)
 			
 			CLbtTriggerModifyAOOperation* operation = 
 						CLbtTriggerModifyAOOperation::NewL(*this, aMessage, *iContainer, aType,*iSettingsManager);
-		    iAOOArray.Append(operation);
+			CleanupStack::PushL( operation );
+		    iAOOArray.AppendL(operation);
+		    CleanupStack::Pop( operation );
 			operation->StartOperationL();
 			break;
 			}
@@ -678,7 +684,9 @@ void CLbtServerLogic::HandleSessionClosureL(const TSecureId aSecureId)
 	
 	CLbtDeleteSessionTriggers* deleteSessionTriggers=
 							CLbtDeleteSessionTriggers::NewL(*this,*iContainer,*iNotificationMap);
-	iDeleteSessionTriggersArray.Append(deleteSessionTriggers);
+	CleanupStack::PushL( deleteSessionTriggers );
+	iDeleteSessionTriggersArray.AppendL(deleteSessionTriggers);
+	CleanupStack::Pop( deleteSessionTriggers );
 							
 	deleteSessionTriggers->DeleteSessionTriggers(containerFilter);
 	iNotificationMap->RemoveAllClientMessages(aSecureId);
@@ -1108,7 +1116,7 @@ void CLbtServerLogic::HandleSingleNotificationOperationsL(
     	// Retrieve all client session notification messages.
     	while(!iNotificationMap->Retreive(message, secureId, aServiceId) )
     		{
-    		array.Append(message);
+    		array.AppendL(message);
     		}
 		}
 
@@ -1117,7 +1125,7 @@ void CLbtServerLogic::HandleSingleNotificationOperationsL(
 	                                  aServiceId,
 	                                  CLbtServerLogicBase::TLbtManagementLibrary))
 		{
-		array.Append(message);
+		array.AppendL(message);
 		}
 
 	if(array.Count() == 0)
@@ -1236,7 +1244,7 @@ void CLbtServerLogic::HandleMultipleNotificationOperationsL(
         	
         	while( !iNotificationMap->Retreive(message, sid, aServiceId) )
         		{
-        		array.Append(message);
+        		array.AppendL(message);
         		}
 
             SetNotificationEventType(aOperation, event);
@@ -1501,7 +1509,12 @@ void CLbtServerLogic::NotifyTriggeringSystemSettingChange(TLbtManagementSettings
 		while( !iNotificationMap->Retreive(message,ELbtNotifyTriggeringSysSettingChange,
 										CLbtServerLogicBase::TLbtClientLibrary))
 			{
-			messageArray.Append( message );
+			TInt error = messageArray.Append( message );
+			if( error != KErrNone )
+			    {
+                LOG1("Failed to append message to the array:%d",error);
+                break;
+			    }
 			}
 		if(messageArray.Count())
 			{
@@ -1571,7 +1584,12 @@ void CLbtServerLogic::NotifyTriggeringSystemStatusChange()
 	while( !iNotificationMap->Retreive(message,ELbtNotifyTriggeringSysStatusChange,
 										CLbtServerLogicBase::TLbtClientLibrary))
 			{
-			messageArray.Append( message );
+			TInt error = messageArray.Append( message );
+			if( error != KErrNone )
+			    {
+                LOG1("Failed to append to the array:%d",error);
+                break;
+			    }
 			}
 	if( messageArray.Count() )		
 	    {
@@ -1585,7 +1603,12 @@ void CLbtServerLogic::NotifyTriggeringSystemStatusChange()
 	while( !iNotificationMap->Retreive(message,ELbtNotifyTriggeringSysStatusChange,
 										CLbtServerLogicBase::TLbtManagementLibrary))
 			{
-			messageArray.Append( message );
+			TInt error = messageArray.Append( message );
+			if( error != KErrNone )
+                {
+                LOG1("Failed to append to the array:%d",error);
+                break;
+                }
 			}    
     if( messageArray.Count() )
         {

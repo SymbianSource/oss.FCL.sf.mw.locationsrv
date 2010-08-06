@@ -281,19 +281,19 @@ class COMASuplConnRequestor : public CActive
 			//For trying for once with newly generated HSLP.
 			TBool iTLSAuthenticationFailed;
 			
-			//SUPLSettings
+			//SUPLSettings,Ownership is with the object
 			CSuplSettingsInternal *iSuplSettings;
 			
-			CRepository*            iRepository;
+			CRepository*            iRepository;//Ownership is with the object
 			
 			//Trace Utility
-			COMASuplTrace* iTrace;
+			COMASuplTrace* iTrace; //Ownership is with the object
 			TBool iIsHSLPGenerated;
             TBool iHslpAddrFromImsiUsed;
             
             TInt iLastConnectionError;
             
-            COMASuplFallBackHandler* iFallBackHandler;
+            COMASuplFallBackHandler* iFallBackHandler;//Ownership is with the object
             
             TBool iIsSettingInitilized;
             
