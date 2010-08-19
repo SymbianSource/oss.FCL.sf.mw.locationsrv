@@ -255,10 +255,14 @@ class COMASuplSession : public CSuplSessionBase,
 			* @param aAllowedCapabilities, Capabilities of SET
 			* @param aSessionIdSeed, seed value of session
 			* @param aRequestID, Request Identification number.
+			* @param aIsStaleCellId, indicates if this session is for a stale cell id conversion
+			* @param aLocationId , contains cell id parameters for which position is to be retrieved
+			* @param aPrompt indicates if the user is to be prompted when making location requests
+			* @param aWlanOnly ,request to connect server using wlan connection only using OCC Api's
 			* @return None
 			*/
 			virtual void RunSuplSessionL(TRequestStatus& aStatus, TBool aFirstReq, const TDesC& aHslpAddress, TBool aFallBack, TInt aAllowedCapabilities, 
-										 TInt aSessionIdSeed, TInt aRequestID = 0);
+										 TInt aSessionIdSeed, TInt aRequestID = 0,TBool aIsStaleCellId = EFalse,COMASuplLocationId* aLocationId = NULL,TBool aPrompt = EFalse,TBool aWlanOnly = EFalse);
 										 
 			/**
 			* RunSessionL, Starts the SUPL Sesssion for Terminal Initiated Location Request
@@ -939,6 +943,7 @@ class COMASuplSession : public CSuplSessionBase,
             void StartUsageDialogLaunchL();
             TBool IsEtelNotifySet();
             TBool IsEtelRoamingSet();
+            TBool HasMeLaunchedUsageDialog();
 			TUint GetPortNumUsed();
 	 private:
 	 
@@ -1135,9 +1140,20 @@ class COMASuplSession : public CSuplSessionBase,
             
             COMASuplAsnHandlerBase* iOMASuplAsnHandlerBaseImpl; 
             
+            // Network privacy handle.Ownership is with this object
             CPosNetworkPrivacy* iNetworkPrivacy;
+            //Stale cell id which for which position is to be retrieved.Ownership is with this object
+            COMASuplLocationId* iStaleLocationId;
+			//indicates if this session is for a stale cell id conversion
+            TBool   iIsStaleLocIdPresent;
+			//indicates if the user needs to be prompted when making a location request
+            TBool   iStaleLocIdPrompt;
+            TBool iIhaveLaunchedUsagedialog;
 
             TUint iPortNum;
+            
+            //To indicate WLAN connection for OCC
+            TBool iWlanOnly; 
     };
 
 #endif      // C_COMASUPLSESSION_H

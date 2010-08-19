@@ -61,8 +61,9 @@ enum TSuplIpcId
 	ESuplTerminalSubssnStartPeriodicTriggerWithServer,	
 	ESuplTerminalSubssnNotifyTriggerFired,
 	ESuplTerminalSubssnStopTriggerSession,
-	
-    ESuplSubssnCustomCodesBegin         = ESuplCustomIpcOffset,
+	ESuplTerminalSubssnLocationConversion,
+	ESuplTerminalSubssnCancelLocationConversion,
+    ESuplSubssnCustomCodesBegin         = ESuplCustomIpcOffset
     };
 
 #endif // __EPOS_SUPLTERMINALIPC_H__

@@ -88,6 +88,16 @@ class CSuplConnection: public CActive, public MSoPskKeyHandler
         * @return void *
         */
         IMPORT_C void Connect(TRequestStatus &aStatus);
+        
+        /**
+        * A method that makes Socket Connection.
+        * @since Series 60 3.1 
+        * @return None
+        * @param aPrompt used to show connection prompt using OCC Api's.
+        * @param aWlanOnly used to differentiate connection for GPRS and WLAN using OCC Api's
+        */
+        IMPORT_C void Connect(TRequestStatus &aStatus,TBool aPrompt,TBool aWlanOnly);
+        
 
         IMPORT_C void CloseConnection();
 
@@ -394,6 +404,14 @@ class CSuplConnection: public CActive, public MSoPskKeyHandler
 
         // Number of client connected
         TInt iConnectClients;
+        
+        TBool iPrompt;
+        
+        TBool iWlanOnly;
+        
+       
+        
+        
         
     };
 

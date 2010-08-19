@@ -577,7 +577,7 @@ void COMASUPLProtocolManager::DeInitialize(TRequestStatus& aDeInitRequestStatus)
 	else
 		{
 		iTrace->Trace(_L("COMASUPLProtocolManager::DeInitialize ph1 not present"), KTraceFileName, __LINE__);
-		DeInitilizationCompletedL( KErrNotFound ); //ph1 is not present.
+		TRAP_IGNORE(DeInitilizationCompletedL( KErrNotFound )); //ph1 is not present.
 		}
 	
     }            
@@ -804,6 +804,39 @@ EXPORT_C TInt COMASUPLProtocolManager::GetSUPLMessageVersionL(
 	return GetSuplVersion(aMajorVersion,aReceivedMessage);
 	}
 
+// -----------------------------------------------------------------------------
+// COMASUPLProtocolManager::MakeLocationConversionRequestL
+// 
+// 
+// -----------------------------------------------------------------------------
+//
+
+EXPORT_C void COMASUPLProtocolManager::MakeLocationConversionRequestL( CSuplSessionBase* aSuplSessn,TGeoCellInfo& aCellInfo,TRequestStatus& aStatus )
+    {
+     iTrace->Trace(_L("COMASUPLProtocolManager::MakeLocationConversionRequestL"), KTraceFileName, __LINE__);
+     if(iOMASuplProtocolHandler1)
+        {
+         iTrace->Trace(_L("COMASUPLProtocolManager::MakeLocationConversionRequestL if condition true"), KTraceFileName, __LINE__);
+        COMASUPLProtocolManager* ph1= (COMASUPLProtocolManager*) (iOMASuplProtocolHandler1);
+        ph1->MakeLocationConversionRequestL(aSuplSessn,aCellInfo,aStatus);
+        };
+    }
+
+// -----------------------------------------------------------------------------
+// COMASUPLProtocolManager::CancelLocationConversionRequest
+// 
+// 
+// -----------------------------------------------------------------------------
+//
+
+EXPORT_C void COMASUPLProtocolManager::CancelLocationConversionRequest(CSuplSessionBase* aSuplSession)
+    {
+     if(iOMASuplProtocolHandler1)
+        {
+        COMASUPLProtocolManager* ph1= (COMASUPLProtocolManager*) (iOMASuplProtocolHandler1);
+        ph1->CancelLocationConversionRequest(aSuplSession);
+        };
+    }
 
 // -----------------------------------------------------------------------------
 // COMASUPLProtocolManager::DeInitilizationCompletedL

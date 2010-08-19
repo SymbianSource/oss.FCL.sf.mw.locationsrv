@@ -254,6 +254,32 @@ public:
      */
 	IMPORT_C virtual TInt GetSUPLMessageVersionL(TInt& aMajorVersion, const TDesC8& aReceivedMessage);
 	
+	/**
+     * Function:     CancelLocationConversionRequest
+	 * @since S60 v5.2
+     * @Description: Cancels the location conversion request
+     * @Param:       aSuplSession, session object
+     * @Returns:     None
+     *
+     */
+	
+	IMPORT_C  void CancelLocationConversionRequest(CSuplSessionBase* aSuplSession);
+	    
+	/**
+     * Function:     MakeLocationConversionRequestL
+	 * @since S60 v5.2
+     * @Description: issues the location conversion request
+     * @Param:       aSuplSession, session object
+     * @Param:       aCellInfo, cell information
+     * @Param:       aStatus, request status
+     * @Returns:     None
+     *
+     */
+	
+	IMPORT_C  void MakeLocationConversionRequestL( CSuplSessionBase* aSuplSessn,
+	                                                  TGeoCellInfo& aCellInfo,
+	                                                  TRequestStatus& aStatus );
+	
 protected: // Construction
 	/**
 	 * COMASUPLProtocolManager,Perform the first phase of two phase construction

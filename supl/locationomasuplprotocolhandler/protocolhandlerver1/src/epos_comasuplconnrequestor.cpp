@@ -16,6 +16,7 @@
  */
 
 
+#include <centralrepository.h>
 
 #include "epos_comasuplprotocolmanager1.h"
 #include "epos_csuplcommunicationmanager.h"
@@ -26,6 +27,8 @@
 #include "epos_momasuplconnobserver.h"
 #include "epos_comasupltrace.h"
 #include "epos_comasuplfallbackhandler.h"
+#include "epos_csuplsettingsinternalcrkeys.h"
+
 
 #include "epos_comasupldialogtimer.h"
 _LIT(KTraceFileName,"SUPL_OMA_SESSION::epos_comasuplconnrequestor.cpp");
@@ -50,7 +53,7 @@ COMASuplConnRequestor::COMASuplConnRequestor(CSuplCommunicationManager& aCommMgr
         iObserver( aObserver),    				 						  
         iIapDialogShown(EFalse),
         iIapDlgTimerExpired(EFalse),    				 			            
-        iIsTimeoutDialogTimerStarted(EFalse)
+        iIsTimeoutDialogTimerStarted(EFalse),iPrompt(EFalse),iWlanOnly(EFalse),iIsStaleLocIdPresent(EFalse)
         {
 
         }
@@ -72,7 +75,7 @@ void COMASuplConnRequestor::ConstructL()
     iHslpAddrFromImsiUsed = EFalse;
 
     iFallBackHandler = COMASuplFallBackHandler::NewL(*iSuplSettings);
-
+    iRepository = CRepository::NewL(KCRUidSuplSettings);
     iLastConnectionError = KErrNone;
 
     iCurrentSLPId = KErrNotFound;
@@ -116,6 +119,8 @@ COMASuplConnRequestor::~COMASuplConnRequestor()
     delete iSuplSettings;
     delete iTrace;
     delete iFallBackHandler;
+    delete iRepository;
+        iRepository = NULL;
     }
 
 // -----------------------------------------------------------------------------
@@ -181,6 +186,39 @@ void COMASuplConnRequestor::CreateConnectionL()
 		}
     }
 
+ // -----------------------------------------------------------------------------
+// COMASuplConnRequestor::CreateConnection for OCC
+// -----------------------------------------------------------------------------
+//    
+void COMASuplConnRequestor::CreateConnectionL(TBool aPrompt,TBool aWlanOnly)
+    {
+        TBuf<30> GeoTagServerName;
+        TBuf<128> buffer;
+        iState = EConnecting;  
+       
+        iPrompt = aPrompt;
+        iWlanOnly = aWlanOnly;
+        iIsStaleLocIdPresent = ETrue;
+        iIsTimeoutDialogTimerStarted = EFalse;
+        iDialogTimer->Cancel();
+        
+        TInt err;
+        err = iRepository->Get(KSuplGeoInfoConvServerName, GeoTagServerName);
+        User::LeaveIfError(err);
+        buffer.Copy(_L("Connecting to"));
+        buffer.Append(GeoTagServerName);
+        iTrace->Trace(buffer,KTraceFileName, __LINE__);                 
+        iTls = ETrue;
+        iPskTls = EFalse;
+        iIAPId = 0;
+        
+        
+        iConnection = iCommMgr.CreateConnectionL(GeoTagServerName,iTls,iPskTls,iPort,iIAPId);
+       
+        OpenConnection();
+        
+    }
+
 // -----------------------------------------------------------------------------
 // COMASuplConnRequestor::OpenConnection
 // -----------------------------------------------------------------------------
@@ -230,11 +268,21 @@ void COMASuplConnRequestor::OpenConnection()
 
     if(iIsSettingInitilized)
         {
-        if(iConnection)
+        
+           if(iConnection)
             {
             iState = EConnecting;
-            iConnection->Connect(iStatus);
-            SetActive();
+            if(iIsStaleLocIdPresent)
+                {
+                iTrace->Trace(_L("OpenConnection OCC"),KTraceFileName, __LINE__);
+                iConnection->Connect(iStatus,iPrompt,iWlanOnly);
+                }
+            else
+                {
+                iConnection->Connect(iStatus);
+                }
+           SetActive();
+           
             }
         }
     else
@@ -303,7 +351,17 @@ void COMASuplConnRequestor::RunL()
                 {
                 iHostAddress.Zero();
                 CloseConnection();
-                CreateConnectionL();
+                if(iIsStaleLocIdPresent)
+                    {
+                    iTrace->Trace(_L("Request completed with error..."), KTraceFileName, __LINE__);       
+                    iObserver.OperationCompleteL(iLastConnectionError);
+                    }
+                else
+                    {
+                    iTrace->Trace(_L("Setting API Initilizing Completed..."), KTraceFileName, __LINE__);       
+                    CreateConnectionL();
+                    }
+                
                 }
             else
                 {

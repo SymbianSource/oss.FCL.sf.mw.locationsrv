@@ -242,7 +242,10 @@ TInt COMASuplPosInitState::GenerateMessageL()
 		iVerPresent = ComputeSuplInitVerL();
 		if(iVerPresent)
 			{
-				iLocationIDRequestor->GetLocationID();		
+			if(!iIsStaleCellId) // if this request is for a stale cell id conversion then do not retrieve current location id
+				iLocationIDRequestor->GetLocationID();
+			else
+			    iMsgStateObserver->OperationCompleteL(KErrNone);
 			}
 		else
 			{

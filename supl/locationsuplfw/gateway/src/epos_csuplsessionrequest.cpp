@@ -97,10 +97,12 @@ CSuplSessionRequest* CSuplSessionRequest::NewL(CSuplSessionManager& aSessnMgr, C
 CSuplSessionRequest::~CSuplSessionRequest()
     {
     DEBUG_TRACE("CSuplSessionRequest::~CSuplSessionRequest", __LINE__)
-    iSessnMgr.RemoveFromQueueForReIssueRequest(*this);
+    //iSessnMgr.RemoveFromQueueForReIssueRequest(*this);
     
     if (iParamExtendedFallback)
+		{
         delete iParamExtendedFallback;
+		}
     
 	if (IsActive())      
       	Cancel();
@@ -122,12 +124,16 @@ void CSuplSessionRequest::MakeSuplSessionRequestL(CSuplSessionBase* aSuplSessn, 
 	
 	iSessnMgr.RunSuplSessionL(aSuplSessn, iStatus, aHslpAddress, fallBack, aSetCaps, aReqId, aFirstReq);
 	SetActive();
-	iSessionStarted = ETrue;
 	iParamFallback = ETrue;
 	iParamSuplSessn = aSuplSessn;
 	iParamSetCaps = aSetCaps;
 	iParamReqId = aReqId;
 	iParamFirstReq = aFirstReq;
+    if (iParamExtendedFallback)
+        {
+        delete iParamExtendedFallback;
+        iParamExtendedFallback = NULL;
+        }
 	iParamExtendedQopUsed = EFalse;
     }
 // ---------------------------------------------------------
@@ -147,12 +153,16 @@ void CSuplSessionRequest::MakeSuplSessionRequestL(CSuplSessionBase* aSuplSessn, 
 	iSessnMgr.RunSuplSessionL(aSuplSessn, iStatus, aHslpAddress, fallBack, aSetCaps, aReqId, aQop, aFirstReq);
 	SetActive();
 	
-	iSessionStarted = ETrue;
     iParamFallback = ETrue;
 	iParamSuplSessn = aSuplSessn;
 	iParamSetCaps = aSetCaps;
 	iParamReqId = aReqId;
 	iParamFirstReq = aFirstReq;
+    if (iParamExtendedFallback)
+        {
+        delete iParamExtendedFallback;
+        iParamExtendedFallback = NULL;
+        }
 	iParamQop = aQop;	
 	iParamExtendedQopUsed = ETrue;	
     }
@@ -165,7 +175,6 @@ void CSuplSessionRequest::MakeSuplSessionRequestL(CSuplSessionBase* aSuplSessn,c
     iSessnMgr.RunSuplSessionL(aSuplSessn, iStatus, aHslpAddress, aFallBack, aSetCaps, aReqId, aFirstReq);
 	SetActive();
 	
-	iSessionStarted = ETrue;
     iParamFallback = aFallBack;
 	iParamSuplSessn = aSuplSessn;
 	iParamSetCaps = aSetCaps;
@@ -189,7 +198,6 @@ void CSuplSessionRequest::MakeSuplSessionRequestL(CSuplSessionBase* aSuplSessn,c
     iSessnMgr.RunSuplSessionL(aSuplSessn, iStatus, aHslpAddress, aFallBack, aSetCaps, aReqId, aQop, aFirstReq);
     SetActive();
 	
-	iSessionStarted = ETrue;
     iParamFallback = aFallBack;
 	iParamSuplSessn = aSuplSessn;
 	iParamSetCaps = aSetCaps;
@@ -252,7 +260,6 @@ void CSuplSessionRequest::NotifyServerShutdown()
     if (IsActive())
         {
 		iObserver->CompleteRunSession(KErrServerTerminated);
-		iSessionStarted = EFalse;
         Cancel();
         }
     }
@@ -268,7 +275,6 @@ void CSuplSessionRequest::RunL()
     DEBUG_TRACE("CSuplSessionRequest::RunL", __LINE__)
     TInt err = iStatus.Int();
 	
-	iSessionStarted = EFalse;
 	if(err != KErrNone && iRequestPhase == ESuplSessionRequest)
 		{
 		DEBUG_TRACE("Retrying session", __LINE__)
@@ -311,6 +317,17 @@ void CSuplSessionRequest::RunL()
 	        	iNetObserver->CompleteForwardMessageL(iHandle);
 	        	break;
 	        	}
+				
+			case ESuplLocationConversionRequest:
+			case ESuplCancelLocationConversionRequest:
+            {
+            iRequestPhase = ESuplReqInactive;
+            iObserver->CompleteRunSession(err);
+            break;
+            }
+
+			
+
 
 	        default :
 	            DebugPanic(EPosSuplServerPanicRequestInconsistency);
@@ -483,8 +500,38 @@ void CSuplSessionRequest::CancelTriggerringRequest()
     {
     DEBUG_TRACE("CSuplSessionRequest::CancelTriggerringRequest", __LINE__)
     iRequestPhase = ESuplStopTriggerRequest;
-    iSessnMgr.CancelTriggerringSession(iSuplSessn);	
-	//SetActive();
+    iSessnMgr.CancelTriggerringSession(iSuplSessn); 
+    //SetActive();
+    }
+
+// ---------------------------------------------------------
+// CSuplSessionRequest::MakeLocationConversionRequestL
+//
+// (other items were commented in a header).
+// ---------------------------------------------------------
+//
+void CSuplSessionRequest::MakeLocationConversionRequestL( CSuplSessionBase* aSuplSessn,
+                                                          TGeoCellInfo& aCellInfo )
+    {
+    DEBUG_TRACE("CSuplSessionRequest::MakeLocationConversionRequestL", __LINE__)
+    iRequestPhase = ESuplLocationConversionRequest;
+    iStatus = KRequestPending;
+    iSessnMgr.MakeLocationConversionRequestL(aSuplSessn,aCellInfo,iStatus );
+    SetActive();       
+    }
+
+        
+// ---------------------------------------------------------
+// CSuplSessionRequest::CancelLocationConversionRequest
+//
+// (other items were commented in a header).
+// ---------------------------------------------------------
+//
+void CSuplSessionRequest::CancelLocationConversionRequest()
+    {
+    DEBUG_TRACE("CSuplSessionRequest::CancelLocationConversionRequest", __LINE__)
+    iRequestPhase = ESuplCancelLocationConversionRequest;
+    iSessnMgr.CancelLocationConversionRequest(iSuplSessn); 
     }
     
 //  End of File

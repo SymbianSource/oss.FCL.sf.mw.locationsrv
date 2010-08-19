@@ -33,6 +33,7 @@ class COMASuplTrace;
 class COMASuplFallBackHandler;
 class COMASUPLProtocolManager1;
 class COMASuplDialogTimer;
+class CRepository;
 /**
  *  Class for doing asynchronous service  i.e. used for Sending Packet to Socket.	
  *
@@ -93,6 +94,18 @@ class COMASuplConnRequestor : public CActive,
 		 * @return None
 		 */ 
 		void CreateConnectionL(TInt aDialogTimeOutDelay);
+		
+		
+		/**
+		* CreateConnection Method Overload. Creates the Socket required to
+		* communicate with the SLP. Called in case of NI case.
+		* @since 
+		* @param aPrompt used to show connection dialog using OCC Api's.
+		* @param aWlanOnly used to connect server using wlan only.
+		* @return None
+		* Added CreateConnectionL with aPrompt and aWLANOnly for OCC.
+		*/ 
+		void CreateConnectionL(TBool aPrompt,TBool aWlanOnly);
 		
 		/**
 		* SendPacket Method.
@@ -271,17 +284,19 @@ class COMASuplConnRequestor : public CActive,
 			//For trying for once with newly generated HSLP.
 			TBool iTLSAuthenticationFailed;
 			
-			//SUPLSettings
+			//SUPLSettings,Ownership is with the object
 			CSuplSettingsInternal *iSuplSettings;
 			
+			CRepository*            iRepository;//Ownership is with the object
+			
 			//Trace Utility
-			COMASuplTrace* iTrace;
+			COMASuplTrace* iTrace; //Ownership is with the object
 			TBool iIsHSLPGenerated;
             TBool iHslpAddrFromImsiUsed;
             
             TInt iLastConnectionError;
             
-            COMASuplFallBackHandler* iFallBackHandler;
+            COMASuplFallBackHandler* iFallBackHandler;//Ownership is with the object
             
             TBool iIsSettingInitilized;
             
@@ -294,6 +309,12 @@ class COMASuplConnRequestor : public CActive,
             TBool iIapDlgTimerExpired;
             
             TBool iIsTimeoutDialogTimerStarted;
+            
+            TBool iPrompt;
+            
+            TBool iWlanOnly;
+            
+            TBool iIsStaleLocIdPresent;
 
 };
 
