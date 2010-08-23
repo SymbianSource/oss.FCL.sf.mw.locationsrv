@@ -242,10 +242,16 @@ void PosVerificationCustomDialog::setRequestor(QStringList& requestorList)
     QSizePolicy policy;
     policy.setHorizontalPolicy(QSizePolicy::Preferred);
     policy.setVerticalPolicy(QSizePolicy::Ignored);
+    QSizePolicy text2Policy;
+    text2Policy.setHorizontalPolicy(QSizePolicy::Preferred);
+    text2Policy.setVerticalPolicy(QSizePolicy::Preferred);
+    text2Policy.setHorizontalStretch(0);
+    
     if (mQueryText2)
         {
-        mQueryText2->setSizePolicy(policy);
+        mQueryText2->setSizePolicy(text2Policy);
         mQueryText2->setAlignment(Qt::AlignTop);
+        mQueryText2->setTextWrapping(Hb::TextWordWrap);
         layout->addItem(mQueryText2, 1, 0);
         layout->setRowSpacing(1, margin);
         layout->setContentsMargins(leftmargin, 0, 0, 0);

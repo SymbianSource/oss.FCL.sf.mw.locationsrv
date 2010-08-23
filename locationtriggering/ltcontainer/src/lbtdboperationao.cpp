@@ -58,7 +58,12 @@ void CLbtDbOperationAO::ExecuteQuery(
         }
     
     iView = &aView;
-    iView->Prepare( iDb, TDbQuery(aQuery, EDbCompareFolded) );
+    TInt err =iView->Prepare( iDb, TDbQuery(aQuery, EDbCompareFolded) );
+    if( err != KErrNone )
+ 	   {
+ 	        TRequestStatus* status = &iStatus;
+          User::RequestComplete(status, err);
+     }
     iView->Evaluate(iStatus);
     SetActive();
     iOperation = EDbSqlQuery;

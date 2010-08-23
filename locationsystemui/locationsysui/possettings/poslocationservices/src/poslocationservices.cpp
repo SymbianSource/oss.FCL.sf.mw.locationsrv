@@ -216,7 +216,7 @@ void PosLocationServices::listServices()
                     Qt::ISODate));
 
             service->setContentWidgetData("sec2text", QString(hbTrId(
-                    "txt_loe_list_valid_until_2")).arg(validity));
+                    "txt_loe_list_valid_until_1")).arg(validity));
 
             qDebug() << "Adding service into the group";
             mOperation->appendDataFormItem(service, mGroup);

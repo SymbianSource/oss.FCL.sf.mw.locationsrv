@@ -24,8 +24,6 @@
 #ifdef _DEBUG        
 #define PRINT_MESSAGE
 #endif        
-#define PRINT_MESSAGE
-//#undef PRINT_MESSAGE
 
 	/** 
 	MOMASuplMsgStateObserver Notifies about complaetion of operation with or without error.

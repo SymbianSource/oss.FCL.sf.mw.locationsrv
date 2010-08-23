@@ -88,7 +88,7 @@ void CLbtContainerCompFilter::ProcessContFilter(CLbtContainerTriggerEntry* aEntr
 	TInt i;
 	if(contExtInfo!=NULL)
              	{
-                 if((isFilterPresent>0 && isEntryRequested && iHystRadiusArray.Count()>0) || (iHystRadiusArray.Count()>0 && isFilterPresent==0 ))  
+                 if( iHystRadiusArray.Count()>0)  
                     {
                     isFilterPresent++;
                     isEntryRequested=EFalse;
@@ -104,8 +104,10 @@ void CLbtContainerCompFilter::ProcessContFilter(CLbtContainerTriggerEntry* aEntr
                     }
                      
                     
-                    if((isFilterPresent>0 && isEntryRequested && iTriggerFiredArray.Count()>0) || (iTriggerFiredArray.Count()>0 && isFilterPresent==0 ))  
+                    if((isFilterPresent>0 && isEntryRequested  ) ||  isFilterPresent==0 )  
                         {
+                        	if(iTriggerFiredArray.Count()>0)
+                        		{
                         isFilterPresent++;
                         isEntryRequested=EFalse;
                         for(i=0;i<iTriggerFiredArray.Count();i++)
@@ -117,6 +119,7 @@ void CLbtContainerCompFilter::ProcessContFilter(CLbtContainerTriggerEntry* aEntr
                     		    }
                    		    }
                         }
+                      }
                         
                      if((isFilterPresent>0 && isEntryRequested && iSidArray.Count()>0) || (iSidArray.Count()>0 && isFilterPresent==0 ))  
                         {
