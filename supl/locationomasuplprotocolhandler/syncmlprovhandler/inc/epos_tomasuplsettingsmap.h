@@ -96,6 +96,9 @@ public:
     static TInt Get(const TDesC8& aUri, RChildList& aList, RArray<TPtrC8>& aChildren);
     
     static TInt FileName(const TDesC8& aUri, const TDesC*& aFileName);
+
+private:
+    static void GetL(const TDesC8& aUri, RChildList& aList, RArray<TPtrC8>& aChildren);
     };
 
 

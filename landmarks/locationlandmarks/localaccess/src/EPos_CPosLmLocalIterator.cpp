@@ -86,7 +86,7 @@ void CPosLmLocalIterator::GetItemIdsL(
     aIdArray.ReserveL( aNumOfItems ); // to avoid heap fragmentation
     for (TInt i = aStartIndex; i < aStartIndex + aNumOfItems; i++)
         {
-        aIdArray.Append( iIdArray[i] );
+        aIdArray.AppendL( iIdArray[i] );
         }
     }
 

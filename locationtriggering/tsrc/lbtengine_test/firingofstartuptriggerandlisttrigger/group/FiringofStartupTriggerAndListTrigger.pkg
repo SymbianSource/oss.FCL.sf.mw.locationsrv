@@ -59,6 +59,13 @@
 	"..\data\test2.nme"-"C:\system\data\test2.nme"
 	"..\data\test3.nme"-"C:\system\data\test3.nme"
 	"\epoc32\release\armv5\urel\CreateTest.exe"-"C:\sys\bin\CreateTest.exe" 
+	
+; Sim PSY installation	
+"..\data\epossimulationpsy.dll"-"C:\sys\bin\epossimulationpsy.dll"
+"..\data\epossimulationpsy.RSC"-"C:\resource\plugins\epossimulationpsy.RSC"
+"..\data\default.nme"-"C:\resource\default.nme"
+"..\data\simulationpsy_name.RSC"-"C:\resource\simulationpsy_name.RSC"
+
 ; Embedded SIS 
 ; None
 

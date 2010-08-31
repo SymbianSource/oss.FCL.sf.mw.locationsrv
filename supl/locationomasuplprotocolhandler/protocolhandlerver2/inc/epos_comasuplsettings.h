@@ -96,7 +96,7 @@ public: //Setter Methods
 	* @param aSUPLUsage 
 	* @return None 
 	*/
-    void SetSUPLUsage(CSuplSettings::TSuplSettingsUsage& aSUPLUsage );
+  //  void SetSUPLUsage(CSuplSettings::TSuplSettingsUsage& aSUPLUsage );
 	
 	/**
 	* SetUIActive Method.
@@ -137,7 +137,7 @@ public: //Getter Methods
 	* @param None
 	* @return SUPL Usage
 	*/
-    CSuplSettings::TSuplSettingsUsage SUPLUsage() const;
+  //  CSuplSettings::TSuplSettingsUsage SUPLUsage() const;
 	
 	/**
 	* IAPId Method.
@@ -166,7 +166,7 @@ private:
 	TInt  	 iIAPId;
 
     // SUPL Usage
-    CSuplSettings::TSuplSettingsUsage iSUPLUsage; 
+ //   CSuplSettings::TSuplSettingsUsage iSUPLUsage; 
 	// Flag indicating the activation of settings UI
 	TBool    iSettingsUIActive;
 };

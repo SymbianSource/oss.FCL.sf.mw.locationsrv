@@ -40,9 +40,7 @@ class COMASuplDialogTimer;
  *  @since S60 v3.1
  */
  
-class COMASuplConnRequestor : public CActive, 
-                              public MOMASuplUICompletionObserver,  
-                              public MOMASuplDialogTimeOutNotifier
+class COMASuplConnRequestor : public CActive
 {
 
 	enum TConnState
@@ -172,7 +170,6 @@ class COMASuplConnRequestor : public CActive,
         
         void GetUsedServerAddress(TDes& aHSLPAddressUsed);
         
-        void SettingsUICompletedL(TInt aError);
         void SettingsUsageUICompletedL(TInt /*aError*/) {}
         void SettingsTimeOutUICompletedL(TInt /*aError*/) {}
         TBool ConvertIAPNameToIdL(const TDesC& aIAPName, TUint32& aIAPId);
@@ -220,7 +217,7 @@ class COMASuplConnRequestor : public CActive,
 		 * @param None
 		 * @return None
 		 */
-		virtual void DialogTimerExpiredL();	
+		//virtual void DialogTimerExpiredL();	
   	protected :  // Functions from CActive
       /**
       * From CActive 
@@ -293,15 +290,7 @@ class COMASuplConnRequestor : public CActive,
             
             TInt64 iCurrentSLPId;
             
-            COMASuplDialogTimer* iDialogTimer;
-            
-            TBool iIapDialogShown;
-            
-            TBool iIapDlgTimerExpired;
-            
-            TBool iIsTimeoutDialogTimerStarted;
-			
-			TBool iTriggerSession;
+            TBool iTriggerSession;
 
 };
 

@@ -21,97 +21,19 @@
 #include <platform_paths.hrh>
 
 PRJ_PLATFORMS
-DEFAULT GCCE
-//  Help exports
-#include "../help/group/bld.inf"
+DEFAULT
 
 PRJ_EXPORTS
-// Export Localization files
-../loc/location.loc             MW_LAYER_LOC_EXPORT_PATH(location.loc)
-../loc/locnotprefsettings.loc   MW_LAYER_LOC_EXPORT_PATH(locnotprefsettings.loc)
-../loc/locsuplsettings.loc      MW_LAYER_LOC_EXPORT_PATH(locsuplsettings.loc)
-../loc/locbtnotifier.loc        MW_LAYER_LOC_EXPORT_PATH(locbtnotifier.loc)
-// Export the satellite.loc file
-../loc/Satellite.loc                        MW_LAYER_LOC_EXPORT_PATH(Satellite.loc)
-
-// Export SIS File
-../data/locationsysuistub.sis  /epoc32/data/z/system/install/locationsysuistub.sis
-
-// Export IBY Files
-// Core IBY Files
-../rom/locationsysui.iby               CORE_MW_LAYER_IBY_EXPORT_PATH(locationsysui.iby)
-../rom/locgpsindicatorplugin.iby       CORE_MW_LAYER_IBY_EXPORT_PATH(locgpsindicatorplugin.iby)
-../rom/locnotprefplugin.iby            CORE_MW_LAYER_IBY_EXPORT_PATH(locnotprefplugin.iby)
-
-../rom/locpsysettings.iby              CORE_MW_LAYER_IBY_EXPORT_PATH(locpsysettings.iby)
-../rom/locsettingsuiservice.iby        CORE_MW_LAYER_IBY_EXPORT_PATH(locsettingsuiservice.iby)
-../rom/locsuplsettings.iby             CORE_MW_LAYER_IBY_EXPORT_PATH(locsuplsettings.iby)
-../rom/locverifierdlg.iby              CORE_MW_LAYER_IBY_EXPORT_PATH(locverifierdlg.iby)
-../rom/locbtnotifier.iby               CORE_MW_LAYER_IBY_EXPORT_PATH(locbtnotifier.iby)
-
-// Language IBY Files
-../rom/locationsysui_resources.iby             LANGUAGE_MW_LAYER_IBY_EXPORT_PATH(locationsysui_resources.iby)
-../rom/locgpsindicatorplugin_resources.iby     LANGUAGE_MW_LAYER_IBY_EXPORT_PATH(locgpsindicatorplugin_resources.iby)
-../rom/locnotprefplugin_resources.iby          LANGUAGE_MW_LAYER_IBY_EXPORT_PATH(locnotprefplugin_resources.iby)
-
-../rom/locpsysettings_resources.iby            LANGUAGE_MW_LAYER_IBY_EXPORT_PATH(locpsysettings_resources.iby)
-../rom/locsettingsuiservice_resources.iby      LANGUAGE_MW_LAYER_IBY_EXPORT_PATH(locsettingsuiservice_resources.iby)
-../rom/locsuplsettings_resources.iby           LANGUAGE_MW_LAYER_IBY_EXPORT_PATH(locsuplsettings_resources.iby)
-../rom/locverifierdlg_resources.iby            LANGUAGE_MW_LAYER_IBY_EXPORT_PATH(locverifierdlg_resources.iby)
-../rom/locbtnotifier_resources.iby             LANGUAGE_MW_LAYER_IBY_EXPORT_PATH(locbtnotifier_resources.iby)
-
-// Stub IBY Files
-../rom/locationsystemuistub.iby    CORE_MW_LAYER_IBY_EXPORT_PATH(locationsystemuistub.iby)
 
 // Export Configuration Markup language and Central Repository Mark up language files
 
-../conf/locnotprefplugin.confml        	MW_LAYER_CONFML(locnotprefplugin.confml)  
-../conf/locnotprefplugin_10206910.crml 	MW_LAYER_CRML(locnotprefplugin_10206910.crml)
-../conf/locsuplsettings.confml         	MW_LAYER_CONFML(locsuplsettings.confml)
-../conf/locsuplsettings_1028190A.crml  	MW_LAYER_CRML(locsuplsettings_1028190A.crml)
-../conf/locbtnotifier.confml           	MW_LAYER_CONFML(locbtnotifier.confml)
-../conf/locbtnotifier_2001FCBB.crml    	MW_LAYER_CRML(locbtnotifier_2001FCBB.crml)
 ../conf/loclocalvariation.confml       	MW_LAYER_CONFML(loclocalvariation.confml)
 ../conf/loclocalvariation_20022D83.crml MW_LAYER_CRML(loclocalvariation_20022D83.crml)
 
-PRJ_MMPFILES
-
-// Include Bld.infs
-
-// Location System UI View
-#include "../locsysuiview/group/bld.inf"
-
-// Location System UI Engine
-#include "../locsysuiengine/group/bld.inf"
-
-// Location Settings UI Service
-#include "../locsettingsuiservice/group/bld.inf"
-
-// Positioning Method Settings
-#include "../locpsysettings/group/bld.inf"
-
-// SUPL Settings 
-#include "../locsuplsettingsui/group/bld.inf"
-
-// Location Notation Preferences Settings UI
-#include "../locnotprefplugin/group/bld.inf"
-
-// Location Utils
-#include "../locutils/group/bld.inf"
-
-// Verifier
-#include "../locverifier/group/bld.inf"
-
-//GPS indicator
-#include "../locgpsindicatorplugin/group/bld.inf"
-
-// Location BT Notifiers
-#include "../locbtnotifier/group/bld.inf"
-
-//Satellite Info
-#include "../locblidsatelliteinfo/group/bld.inf"
 
 // Query and Notification
-#include "../queryandnotification/group/bld.inf"
+#include "../queryandnotification/group/bld.inf" 
+
+
 PRJ_TESTMMPFILES
 //  End of File  

@@ -89,7 +89,7 @@ class CSuplConnection: public CActive, public MSoPskKeyHandler
         */
         IMPORT_C void Connect(TRequestStatus &aStatus);
         
-        /**
+       /**
         * A method that makes Socket Connection.
         * @since Series 60 3.1 
         * @return None
@@ -97,6 +97,7 @@ class CSuplConnection: public CActive, public MSoPskKeyHandler
         * @param aWlanOnly used to differentiate connection for GPRS and WLAN using OCC Api's
         */
         IMPORT_C void Connect(TRequestStatus &aStatus,TBool aPrompt,TBool aWlanOnly);
+            
         
 
         IMPORT_C void CloseConnection();
@@ -392,7 +393,7 @@ class CSuplConnection: public CActive, public MSoPskKeyHandler
         TBool iPskTLSUsage;
         
         TBool iStartedListen;
-
+        
         TBool iConnectStarted;
 
         TBool iSendInProgress;

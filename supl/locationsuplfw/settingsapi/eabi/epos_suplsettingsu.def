@@ -116,4 +116,10 @@ EXPORTS
 	_ZTI22CServerExtensionParams @ 115 NONAME
 	_ZTV22CServerExtensionParams @ 116 NONAME
 	_ZN13CSuplSettings17GetDefaultIAPNameER6TDes16 @ 117 NONAME
+	_ZN13CServerParams26SetServerConfigurationTypeEi @ 118 NONAME
+	_ZN13CSuplSettings29GetSuplTriggeredServiceStatusERNS_18TSuplTriggerStatusE @ 119 NONAME
+	_ZN13CSuplSettings29SetSuplTriggeredServiceStatusERKNS_18TSuplTriggerStatusE @ 120 NONAME
+	_ZN14CTriggerParams17SetTriggerEndTimeE5TTime @ 121 NONAME
+	_ZNK13CServerParams26GetServerConfigurationTypeERi @ 122 NONAME
+	_ZNK14CTriggerParams17GetTriggerEndTimeER5TTime @ 123 NONAME
 

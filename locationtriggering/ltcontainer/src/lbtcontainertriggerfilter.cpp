@@ -77,7 +77,11 @@ EXPORT_C CLbtContainerFilter::~CLbtContainerFilter()
 EXPORT_C void CLbtContainerFilter::AddHysteresisRadiusInFilter( 
     TReal aRadius )
     {
-	iHystRadiusArray.Append(aRadius);
+	TInt error = iHystRadiusArray.Append(aRadius);
+	if( error != KErrNone )
+	    {
+        LOG1("Failed to append radius to the array:%d",error);
+	    }
     }
 
 
@@ -114,7 +118,7 @@ EXPORT_C TBool CLbtContainerFilter::IsHysteresisRadiusInFilter(
 EXPORT_C void CLbtContainerFilter::AddRectTrigAreaInFilterL( 
     CLbtExtendedTriggerInfo::TLbtTriggerRectArea aArea )
     {
-	iTriggerRectAreaArray.Append(aArea);
+	iTriggerRectAreaArray.AppendL(aArea);
     }
 
 
@@ -149,7 +153,7 @@ EXPORT_C TBool CLbtContainerFilter::IsRectTriggerAreaInFilter(
 EXPORT_C void CLbtContainerFilter::AddFiredInfoInFilterL( 
     TBool aFired)
     {
-    iTriggerFiredArray.Append(aFired);
+    iTriggerFiredArray.AppendL(aFired);
     }           
    
 // ---------------------------------------------------------------------------
@@ -185,7 +189,7 @@ EXPORT_C TBool CLbtContainerFilter::IsTriggerFiredInfoInFilter(
 EXPORT_C void CLbtContainerFilter::AddOwnerSidInFilterL( 
     TSecureId aSid )
     {
-    iSidArray.Append( aSid );
+    iSidArray.AppendL( aSid );
     }
 
             
@@ -220,7 +224,7 @@ EXPORT_C TBool CLbtContainerFilter::IsOwnerSidInFilter(
 EXPORT_C void CLbtContainerFilter::AddTriggerFireOnCreationInFilterL( 
         TBool aFireOnCreation )
 	{
-	iTriggerFireOnCreationArray.Append( aFireOnCreation );	
+	iTriggerFireOnCreationArray.AppendL( aFireOnCreation );	
 	}
 
 // ---------------------------------------------------------------------------
@@ -338,7 +342,7 @@ EXPORT_C void CLbtContainerFilter::GetTriggerFireOnCreationArrayL(RArray< TBool 
 //    
 EXPORT_C void CLbtContainerFilter::AddStartupProcessInFilterL( TFileName& aFileName )
 	{
-	iStartupProcessArray.Append( aFileName );
+	iStartupProcessArray.AppendL( aFileName );
 	}
 
 // ---------------------------------------------------------------------------
@@ -423,7 +427,7 @@ void CLbtContainerFilter::ConstructL(CLbtContainerFilter* aFilter)
     
     for(i=0;i<hystArray.Count();++i)
     	{
-    	iHystRadiusArray.Append(hystArray[i]);
+    	iHystRadiusArray.AppendL(hystArray[i]);
     	}
     hystArray.Close();
     
@@ -433,7 +437,7 @@ void CLbtContainerFilter::ConstructL(CLbtContainerFilter* aFilter)
     
     for(i=0;i<triggerRectAreaArray.Count();++i)
     	{
-    	iTriggerRectAreaArray.Append(triggerRectAreaArray[i]);
+    	iTriggerRectAreaArray.AppendL(triggerRectAreaArray[i]);
     	}
     triggerRectAreaArray.Close();
     
@@ -443,7 +447,7 @@ void CLbtContainerFilter::ConstructL(CLbtContainerFilter* aFilter)
     
     for(i=0;i<triggerFiredArray.Count();++i)
     	{
-    	iTriggerFiredArray.Append(triggerFiredArray[i]);
+    	iTriggerFiredArray.AppendL(triggerFiredArray[i]);
     	}
     triggerFiredArray.Close();
     
@@ -453,7 +457,7 @@ void CLbtContainerFilter::ConstructL(CLbtContainerFilter* aFilter)
     
     for(i=0;i<sidArray.Count();++i)
     	{
-    	iSidArray.Append(sidArray[i]);
+    	iSidArray.AppendL(sidArray[i]);
     	}
     sidArray.Close();
     
@@ -463,7 +467,7 @@ void CLbtContainerFilter::ConstructL(CLbtContainerFilter* aFilter)
     
     for(i=0;i<triggerFireOnCreationArray.Count();++i)
     	{
-    	iTriggerFireOnCreationArray.Append(triggerFireOnCreationArray[i]);
+    	iTriggerFireOnCreationArray.AppendL(triggerFireOnCreationArray[i]);
     	}
     triggerFireOnCreationArray.Close();
     
@@ -473,7 +477,7 @@ void CLbtContainerFilter::ConstructL(CLbtContainerFilter* aFilter)
     
     for(i=0;i<triggerstartupProcessArray.Count();++i)
     	{
-    	iStartupProcessArray.Append(triggerstartupProcessArray[i]);
+    	iStartupProcessArray.AppendL(triggerstartupProcessArray[i]);
     	}
     triggerstartupProcessArray.Close();
     }

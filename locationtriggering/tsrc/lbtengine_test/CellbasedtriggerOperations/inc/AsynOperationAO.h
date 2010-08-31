@@ -139,7 +139,8 @@
         */
         static CLbtEventObserver* NewL( RLbt& aLbt );
 
-              
+        static CLbtEventObserver* NewL();
+        
         /**
         * Destructor.
         */
@@ -162,7 +163,8 @@
 	    
 	    void HandleCIDChangeL(const CTelephony::TNetworkInfoV1 &aNwInfo);
 	    void StartCidNotification( CActiveSchedulerWait* aWait );
-
+	    void GetCurrentCGIInfo( CTelephony::TNetworkInfoV1& aNwInfo,
+                                CActiveSchedulerWait* aWait);
 
     
     private:
@@ -170,18 +172,23 @@
         /**
         * C++ default constructor.
         */
-    CLbtEventObserver(  );
+	    CLbtEventObserver();
 
         /**
         * By default Symbian 2nd phase constructor is private.
         */
         void ConstructL( RLbt& aLbt );
         
+        /**
+         * By default Symbian 2nd phase constructor is private.
+         */
+         void ConstructL();
+        
     private:
     
         CLbtCidChangeNotifier* iCidchangenotifier; 
         CActiveSchedulerWait* iWait;
-        
+        CTelephony::TNetworkInfoV1* iNetWorkInfo;
        
        
 

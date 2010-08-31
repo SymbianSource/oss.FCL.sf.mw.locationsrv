@@ -42,12 +42,12 @@ void LbtTriggerStoreFactory::CreateTriggerStoresL(RPointerArray<MLbtTriggerStore
     CLbtDbTriggersManager* dbTriggerStore = CLbtDbTriggersManager::NewL();
     CleanupStack::PushL( dbTriggerStore );
     
-    aStoreArray.Append( dbTriggerStore );
+    aStoreArray.AppendL( dbTriggerStore );
     
     CLbtRamTriggersManager* ramTriggerStore = CLbtRamTriggersManager::NewL();
     CleanupStack::PushL( ramTriggerStore );
     
-    aStoreArray.Append( ramTriggerStore );
+    aStoreArray.AppendL( ramTriggerStore );
     
     CleanupStack::Pop( 3, &aStoreArray );
     }

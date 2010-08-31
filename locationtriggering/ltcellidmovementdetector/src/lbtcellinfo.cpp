@@ -83,7 +83,11 @@ void CLbtCellInfo::AddNMRData(RMmCustomAPI::TMmCellInfo& aCellInfo )
             if( !iCellIdArray.Count() ||
 		         iCellIdArray.Find( aCellInfo.iWcdmaCellInfo.iNwkMeasureReport[0].iCellMeasuredResult[0].iCID ) == KErrNotFound )
                 {
-                iCellIdArray.Append( aCellInfo.iWcdmaCellInfo.iNwkMeasureReport[0].iCellMeasuredResult[0].iCID );
+                TInt error = iCellIdArray.Append( aCellInfo.iWcdmaCellInfo.iNwkMeasureReport[0].iCellMeasuredResult[0].iCID );
+                if( error != KErrNone )
+                     {
+                     LOG1("Failed to append cell id into the array:%d",error);
+                     }
                 }
             TWcdmaNMR wcdmaNMR;
             // Only current cell reading are considered for calculation.
@@ -92,7 +96,11 @@ void CLbtCellInfo::AddNMRData(RMmCustomAPI::TMmCellInfo& aCellInfo )
             wcdmaNMR.iCpichRscp = aCellInfo.iWcdmaCellInfo.iNwkMeasureReport[0].iCellMeasuredResult[0].iFddInfo.iCpichRscp;
             wcdmaNMR.iPathloss = aCellInfo.iWcdmaCellInfo.iNwkMeasureReport[0].iCellMeasuredResult[0].iFddInfo.iPathloss;
             
-            iWcdmaNMR.Append( wcdmaNMR );
+            TInt error = iWcdmaNMR.Append( wcdmaNMR );
+            if( error != KErrNone )
+                {
+                LOG1("Failed to append WCDMA NMR info:%d",error);
+                }
             }
         }
     }
@@ -259,7 +267,7 @@ void CLbtCellInfo::ConstructL( RMmCustomAPI::TMmCellInfo& aCellInfo )
                 nmr.BSIC = aCellInfo.iGsmCellInfo.iNmr[i].iBSIC;
                 nmr.ARFCN = aCellInfo.iGsmCellInfo.iNmr[i].iARFCN;
                 nmr.RxLEV = aCellInfo.iGsmCellInfo.iNmr[i].iRxLEV;
-                iGsmNMR.Append( nmr );
+                iGsmNMR.AppendL( nmr );
                 }
             else
                 {

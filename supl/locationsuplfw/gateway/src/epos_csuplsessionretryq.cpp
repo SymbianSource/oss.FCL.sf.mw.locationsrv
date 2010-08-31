@@ -140,8 +140,7 @@ void CSuplSessionRetryQ::SessionEnded()
 	if(iSessionCount == 0 && iSessionRequests.Count() > 0)
 		{
 		DEBUG_TRACE("Re-issuing request straight away", __LINE__)
-		if( !IsActive() )
-		    After(KSmallDelay);
+		After(KSmallDelay);
 		}
 	// If a connection just closed remember the time-stamp so later it can be decided when to re-issue
 	iSomeSessionEnded = ETrue;

@@ -139,6 +139,42 @@ void CCellbasedtriggerOperations::Delete()
 
     }
 
+
+// -----------------------------------------------------------------------------
+// CCellbasedtriggerOperations::GetCurrentCellInfo
+// -----------------------------------------------------------------------------
+void CCellbasedtriggerOperations::GetCurrentCellInfoL( 
+                            RMobilePhone::TMobilePhoneNetworkMode& aNetworkMode,
+                            CTelephony::TNetworkInfoV1& aNwInfo )  
+    {
+    iLog->Log(_L("+GetCurrentCellInfoL"));
+    CLbtEventObserver* notifier= CLbtEventObserver::NewL();
+    CleanupStack::PushL( notifier );
+    CActiveSchedulerWait* wait = new( ELeave ) CActiveSchedulerWait;
+    // Ownership of wait is taken by notifier
+    iLog->Log(_L("+GetCurrentCGIInfo"));
+    notifier->GetCurrentCGIInfo( aNwInfo,wait );
+    iLog->Log(_L("-GetCurrentCGIInfo"));
+    wait->Start();
+    iLog->Log(_L("WaitStart"));
+    switch( aNwInfo.iMode )
+        {
+        case CTelephony::ENetworkModeGsm:
+            aNetworkMode = RMobilePhone::ENetworkModeGsm;
+            break;
+            
+        case CTelephony::ENetworkModeWcdma:
+            aNetworkMode = RMobilePhone::ENetworkModeWcdma;
+            break;
+            
+        default:
+            aNetworkMode = RMobilePhone::ENetworkModeUnknown;
+        }
+            
+    CleanupStack::PopAndDestroy( notifier );
+    iLog->Log(_L("-GetCurrentCellInfoL"));
+    }
+
 // -----------------------------------------------------------------------------
 // CCellbasedtriggerOperations::RunMethodL
 // Run specified method. Contains also table of test mothods and their names.
@@ -6067,24 +6103,23 @@ TInt CCellbasedtriggerOperations::TC_LBT_034_56_testL( CStifItemParser& aItem )
        
     // set condition
     
-    	CActiveSchedulerWait* wait=new(ELeave)CActiveSchedulerWait;
- 	CActiveSchedulerWait* wait2=new(ELeave)CActiveSchedulerWait;
+    CActiveSchedulerWait* wait=new(ELeave)CActiveSchedulerWait;
+    CActiveSchedulerWait* wait2=new(ELeave)CActiveSchedulerWait;
  	CLbtEventObserver* notifier= CLbtEventObserver::NewL( lbt);
 	CleanupStack::PushL( notifier );
     CTriggerFireObserver* notifier2= CTriggerFireObserver::NewL( lbt);
     CleanupStack::PushL( notifier2 );
 	
-	TBuf<4> Networkcountrycode = _L("404");
-    TBuf<8> Networkidentitycode = _L("45");
-    TUint Locationareacode = 1627;
-    TUint CellId = 11681;
-   
-    CLbtGeoCell* Cellarea  = CLbtGeoCell::NewL(RMobilePhone :: ENetworkModeGsm,
-   														Networkcountrycode,
-   														Networkidentitycode,
-   														Locationareacode,
-   														CellId
-   														);
+  
+    RMobilePhone::TMobilePhoneNetworkMode networkMode;
+    CTelephony::TNetworkInfoV1 nwInfo;
+    GetCurrentCellInfoL( networkMode,nwInfo );
+    
+    CLbtGeoCell* Cellarea  = CLbtGeoCell::NewL( networkMode,
+                                                nwInfo.iCountryCode,
+                                                nwInfo.iNetworkId,
+                                                nwInfo.iLocationAreaCode,
+                                                nwInfo.iCellId );
     
     
     // ownership of Cellarea object transferred to the condition object
@@ -6100,14 +6135,12 @@ TInt CCellbasedtriggerOperations::TC_LBT_034_56_testL( CStifItemParser& aItem )
 	trig->SetRequestorL(ReqType,ReqFormat,ReqData);  
     TLbtTriggerId trigId;
            
-    notifier->CreateTriggers( lbt,*trig,trigId,EFalse,wait );
+    notifier->CreateTriggers( lbt,*trig,trigId,ETrue,wait );
     wait->Start( );
     
-    iLog->Log(_L("Trigger Created"));    
-    notifier->StartCidNotification(wait);
-    iLog->Log(_L("Cell id change notification requested"));
+    iLog->Log(_L("Trigger created"));
     notifier2->StartNotification( wait2 );
-  	wait2->Start( );
+    wait2->Start( );
     iLog->Log(_L("Trigger Fired"));
     
     notifier->Cancel();
@@ -6130,7 +6163,7 @@ TInt CCellbasedtriggerOperations::TC_LBT_034_56_testL( CStifItemParser& aItem )
     {
     CLbtGeoCell* cell=NULL;
     	cell= static_cast<CLbtGeoCell*> (area);
-    	if(cell->CellId()==CellId)
+    	if(cell->CellId()==nwInfo.iCellId)
     	    {
     	    CleanupStack::PopAndDestroy( Triginfo );
 		    CleanupStack::PopAndDestroy( notifier2 );
@@ -6164,121 +6197,118 @@ TInt CCellbasedtriggerOperations::TC_LBT_034_56_testL( CStifItemParser& aItem )
     //Firing of CGI based Cellular Session trigger
     TInt CCellbasedtriggerOperations::TC_LBT_034_62_testL( CStifItemParser& /* aItem */ )
     {
-   	
- 	  RLbtServer lbtserver;
- 	 RLbt lbt;
- 	 iLog->Log(_L("Before connecting"));
- 	 User::LeaveIfError( lbtserver.Connect() );
-     CleanupClosePushL( lbtserver );
-     iLog->Log(_L("Connection to RLbtServer Passed "));
- 	 User::LeaveIfError( lbt.Open(lbtserver));
- 	 iLog->Log(_L("Subsession opened "));
- 	 CleanupClosePushL( lbt );
- 
- 
-	  //Construct a startup trigger
-    CLbtSessionTrigger* trig = CLbtSessionTrigger::NewL();
-    
-    //Push to cleanup stack
-    CleanupStack::PushL( trig );
-    iLog->Log(_L("Startup Trigger Entry Created "));
-    
-    // Set Name
-    trig->SetNameL(_L("Trigger1"));
-   
-   
-    // set condition
-    
-    	CActiveSchedulerWait* wait=new(ELeave)CActiveSchedulerWait;
- 	CActiveSchedulerWait* wait2=new(ELeave)CActiveSchedulerWait;
- 	CLbtEventObserver* notifier= CLbtEventObserver::NewL( lbt);
-	CleanupStack::PushL( notifier );
-    CTriggerFireObserver* notifier2= CTriggerFireObserver::NewL( lbt);
-    CleanupStack::PushL( notifier2 );
-	
-	TBuf<4> Networkcountrycode = _L("404");
-    TBuf<8> Networkidentitycode = _L("45");
-    TUint Locationareacode = 1627;
-    TUint CellId = 11681;
-   
-    CLbtGeoCell* Cellarea  = CLbtGeoCell::NewL(RMobilePhone :: ENetworkModeGsm,
-   														Networkcountrycode,
-   														Networkidentitycode,
-   														Locationareacode,
-   														CellId
-   														);
-    
-    
-    // ownership of Cellarea object transferred to the condition object
-    CLbtTriggerConditionArea* condition=CLbtTriggerConditionArea::NewL(
-                                                Cellarea,
-                                                CLbtTriggerConditionArea::EFireOnEnter);
         
-    trig->SetCondition(condition); // ownership transferred to object
-	
-	 //set Requestor     
-    CRequestorBase::TRequestorType ReqType=CRequestorBase::ERequestorUnknown;
-	CRequestorBase::_TRequestorFormat ReqFormat=CRequestorBase::EFormatUnknown;
-	TBuf<KLbtMaxNameLength> ReqData=_L("");
-	trig->SetRequestorL(ReqType,ReqFormat,ReqData);  
-    TLbtTriggerId trigId;
+        RLbtServer lbtserver;
+        RLbt lbt;
+        iLog->Log(_L("Before connecting"));
+        User::LeaveIfError( lbtserver.Connect() );
+        CleanupClosePushL( lbtserver );
+        iLog->Log(_L("Connection to RLbtServer Passed "));
+        User::LeaveIfError( lbt.Open(lbtserver));
+        iLog->Log(_L("Subsession opened "));
+        CleanupClosePushL( lbt );
+    
+    
+         //Construct a startup trigger
+       CLbtSessionTrigger* trig = CLbtSessionTrigger::NewL();
+       
+       //Push to cleanup stack
+       CleanupStack::PushL( trig );
+       iLog->Log(_L("Session Trigger Entry Created "));
+       
+       // Set Name
+       trig->SetNameL(_L("Trigger1"));
+       // set condition
+       
+       CActiveSchedulerWait* wait=new(ELeave)CActiveSchedulerWait;
+       CActiveSchedulerWait* wait2=new(ELeave)CActiveSchedulerWait;
+       CLbtEventObserver* notifier= CLbtEventObserver::NewL( lbt);
+       CleanupStack::PushL( notifier );
+       CTriggerFireObserver* notifier2= CTriggerFireObserver::NewL( lbt);
+       CleanupStack::PushL( notifier2 );
+       
+     
+       RMobilePhone::TMobilePhoneNetworkMode networkMode;
+       CTelephony::TNetworkInfoV1 nwInfo;
+       GetCurrentCellInfoL( networkMode,nwInfo );
+       
+       CLbtGeoCell* Cellarea  = CLbtGeoCell::NewL( networkMode,
+                                                   nwInfo.iCountryCode,
+                                                   nwInfo.iNetworkId,
+                                                   nwInfo.iLocationAreaCode,
+                                                   nwInfo.iCellId );
+       
+       
+       // ownership of Cellarea object transferred to the condition object
+       CLbtTriggerConditionArea* condition=CLbtTriggerConditionArea::NewL(
+                                                   Cellarea,
+                                                   CLbtTriggerConditionArea::EFireOnEnter);
            
-    notifier->CreateTriggers( lbt,*trig,trigId,EFalse,wait );
-    wait->Start( );
-    
-    iLog->Log(_L("Trigger Created"));    
-    notifier->StartCidNotification(wait);
-    iLog->Log(_L("Cell id change notification requested"));
-    notifier2->StartNotification( wait2 );
-  	wait2->Start( );
-    iLog->Log(_L("Trigger Fired"));
-    
-    notifier->Cancel();
-    TLbtTriggerFireInfo FireInfo;
-    FireInfo = notifier2->GetFiredTrigger();
-    
-    CLbtTriggerInfo *Triginfo;
-    iLog->Log(_L("Before GetTriggerLC "));
-    
-    Triginfo = lbt.GetTriggerLC(FireInfo.iTriggerId);
-    CLbtTriggerEntry *TrigEntry = Triginfo->TriggerEntry();
-    
-    //Check Condition of the trigger
-	CLbtTriggerConditionArea* Condition2 = static_cast <CLbtTriggerConditionArea*>(TrigEntry->GetCondition());
-	
-	CLbtGeoAreaBase* area = Condition2->TriggerArea();
-	
-    if(area->Type()==CLbtGeoAreaBase::ECellular)
-    {
-    CLbtGeoCell* cell=NULL;
-    	cell= static_cast<CLbtGeoCell*> (area);
-    	if(cell->CellId()==CellId)
-    	    {
-    	    CleanupStack::PopAndDestroy( Triginfo );
-		      CleanupStack::PopAndDestroy( notifier2 );
-		    CleanupStack::PopAndDestroy( notifier );
-			CleanupStack::PopAndDestroy( trig );
-			CleanupStack::Pop( &lbt );
-			CleanupStack::PopAndDestroy( &lbtserver );
-			//delete wait;
-			//delete wait2;
-    		return KErrNone;	
-    	    }
-    	    else
-    	    {
-    	    CleanupStack::PopAndDestroy( Triginfo );
-		      CleanupStack::PopAndDestroy( notifier2 );
-		    CleanupStack::PopAndDestroy( notifier );
-			CleanupStack::PopAndDestroy( trig );
-			CleanupStack::Pop( &lbt );
-			CleanupStack::PopAndDestroy( &lbtserver );
-			//delete wait;
-			//delete wait2;
-    		return -99;
-    	    }
-    }
-    return KErrNone;
-    }
+       trig->SetCondition(condition); // ownership transferred to object
+        //set Requestor     
+       CRequestorBase::TRequestorType ReqType=CRequestorBase::ERequestorUnknown;
+       CRequestorBase::_TRequestorFormat ReqFormat=CRequestorBase::EFormatUnknown;
+       TBuf<KLbtMaxNameLength> ReqData=_L("");
+       trig->SetRequestorL(ReqType,ReqFormat,ReqData);  
+       TLbtTriggerId trigId;
+              
+       notifier->CreateTriggers( lbt,*trig,trigId,ETrue,wait );
+       wait->Start( );
+
+       notifier2->StartNotification( wait2 );
+       wait2->Start( );
+       iLog->Log(_L("Trigger Fired"));
+       
+       notifier->Cancel();
+       TLbtTriggerFireInfo FireInfo;
+       FireInfo = notifier2->GetFiredTrigger();
+       
+       CLbtTriggerInfo *Triginfo;
+       iLog->Log(_L("Before GetTriggerLC "));
+       
+       Triginfo = lbt.GetTriggerLC(FireInfo.iTriggerId);
+       //Triginfo = lbt.GetTriggerLC(trigId);
+       CLbtTriggerEntry *TrigEntry = Triginfo->TriggerEntry();
+       
+       //Check Condition of the trigger
+       CLbtTriggerConditionArea* Condition2 = static_cast <CLbtTriggerConditionArea*>(TrigEntry->GetCondition());
+       
+       CLbtGeoAreaBase* area = Condition2->TriggerArea();
+       
+       if(area->Type()==CLbtGeoAreaBase::ECellular)
+       {
+       CLbtGeoCell* cell=NULL;
+           cell= static_cast<CLbtGeoCell*> (area);
+           if(cell->CellId()==nwInfo.iCellId)
+               {
+               CleanupStack::PopAndDestroy( Triginfo );
+               CleanupStack::PopAndDestroy( notifier2 );
+               CleanupStack::PopAndDestroy( notifier );
+               CleanupStack::PopAndDestroy( trig );
+               CleanupStack::Pop( &lbt );
+               CleanupStack::PopAndDestroy( &lbtserver );
+           //  //delete wait;
+           //  //delete wait2;
+               return KErrNone;    
+               }
+               else
+               {
+               CleanupStack::PopAndDestroy( Triginfo );
+                 CleanupStack::PopAndDestroy( notifier2 );
+               CleanupStack::PopAndDestroy( notifier );
+               CleanupStack::PopAndDestroy( trig );
+               CleanupStack::Pop( &lbt );
+               CleanupStack::PopAndDestroy( &lbtserver );
+           //  //delete wait;
+           //  //delete wait2;
+               return -99;
+               }
+       }
+       
+       
+       return KErrNone;
+       
+       }
     
     //Test case to check hysteresis condition for cell based triggers
     TInt CCellbasedtriggerOperations::TC_LBT_034_65_testL( CStifItemParser& /* aItem */ )

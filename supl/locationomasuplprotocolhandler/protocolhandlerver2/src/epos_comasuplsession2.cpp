@@ -187,7 +187,7 @@ COMASuplSession::COMASuplSession(RMobilePhone& aMobilePhone ,
 
      if( aIMSI.Length() )
          {
-         iIMSI.Create( aIMSI );    
+         User::LeaveIfError(iIMSI.Create( aIMSI ));    
          }
 
      if(iPosHandler)
@@ -1719,8 +1719,8 @@ EXPORT_C TInt COMASuplSession::GetPosition(TPositionInfo& aSuplPosInfo)
     TOMASuplUtcTime UtcTime;
     TOMASuplPositionEstimate PosEstimate;
     TDateTime TimeStamp;
-    TInt ZoneCode,Zone,altitude, HorizontalAccuracy;
-	TInt AltitudeUncertainty = 0;
+    //coverity[var_decl]
+    TInt ZoneCode,Zone,altitude,AltitudeUncertainty, HorizontalAccuracy;
     TOMASuplAltitudeInfo AltitudeInfo;
     TInt latitude,longitude;
     TOMASuplPositionEstimate::TOMASuplLatitudeSign LatSign;
@@ -1776,6 +1776,7 @@ EXPORT_C TInt COMASuplSession::GetPosition(TPositionInfo& aSuplPosInfo)
     msg.AppendNum(altitude);
     iTrace->Trace(msg,KTraceFileName, __LINE__); 
     msg.Copy(_L("Altitude uncertainty "));
+    //coverity[uninit_use_in_call] 
     msg.AppendNum(AltitudeUncertainty);
     iTrace->Trace(msg,KTraceFileName, __LINE__); 
 
@@ -1904,8 +1905,8 @@ EXPORT_C TInt COMASuplSession::GetPosition(HPositionGenericInfo& aSuplPosInfo )
     TOMASuplUtcTime UtcTime;
     TOMASuplPositionEstimate PosEstimate;
     TDateTime TimeStamp;
-    TInt ZoneCode,Zone,altitude, HorizontalAccuracy;
-	TInt AltitudeUncertainty = 0;
+    //coverity[var_decl]
+    TInt ZoneCode,Zone,altitude,AltitudeUncertainty, HorizontalAccuracy;
     TOMASuplAltitudeInfo AltitudeInfo;
     TInt latitude,longitude;
     TOMASuplPositionEstimate::TOMASuplLatitudeSign LatSign;
@@ -1930,6 +1931,7 @@ EXPORT_C TInt COMASuplSession::GetPosition(HPositionGenericInfo& aSuplPosInfo )
     TReal pwrMjr, pwrMnr, pwrAlt;
             Math::Pow(pwrMjr, 1.1, UncertaintySemiMajor);
             Math::Pow(pwrMnr, 1.1, UncertaintySemiMinor);
+    //coverity[uninit_use] 
     Math::Pow(pwrAlt, 1.070000, AltitudeUncertainty); 
     UncertaintySemiMajorReal = 10 * (pwrMjr -1);
     UncertaintySemiMinorReal = 10 * (pwrMnr -1);
@@ -2177,7 +2179,7 @@ void COMASuplSession::HandleOMASuplMessageL(COMASuplAsnMessageBase* aDecodedAsnM
         iTrace->Trace(msg,KTraceFileName, __LINE__); 
         }
 
-    CSuplSettings::TSuplSettingsUsage usage = iSuplSettings->SUPLUsage();
+        /*CSuplSettings::TSuplSettingsUsage usage = iSuplSettings->SUPLUsage();
 
     if (usage == CSuplSettings::ESuplUsageDisabled)
         {                
@@ -2185,7 +2187,7 @@ void COMASuplSession::HandleOMASuplMessageL(COMASuplAsnMessageBase* aDecodedAsnM
         iTrace->Trace(msg,KTraceFileName, __LINE__); 
         iSessionObserver.TerminateSession(this, KErrGeneral);	
         return;
-        }
+            }*/
 
     COMASuplAsnMessageBase::TSuplMessageType messageType = aDecodedAsnMessage->MessageType();
 
@@ -2197,10 +2199,6 @@ void COMASuplSession::HandleOMASuplMessageL(COMASuplAsnMessageBase* aDecodedAsnM
         {
         CreateCloneMessageL(aDecodedAsnMessage);		
         UpdateSuplSessionIDL();
-		if (iRequestType == ESUPL_NETWORK && messageType == COMASuplAsnMessageBase::ESUPL_INIT)
-			{
-			ServerAddressCheckForSuplInitL();
-			}
  
         iSuplSessionState = ESUPL_INITIALIZED;
         iSuplMsgType = ESUPL_END;
@@ -3624,6 +3622,9 @@ void COMASuplSession::HandleEncodingErrorL(TInt aErr)
                     return;
                     }
                 }
+			//Comment to ignore coverity missing break error
+			//coverity[MISSING_BREAK  :FALSE]
+    		       
             case COMASuplState::ESUPL_POS_INIT:
                 {
                 cancelSendRequestor = EFalse;
@@ -4698,7 +4699,7 @@ void COMASuplSession::TimerExpiredL()
 // COMASuplSession::SettingsUsageUICompletedL
 // 
 // -----------------------------------------------------------------------------
-void COMASuplSession::SettingsUsageUICompletedL(TInt aError)
+/*void COMASuplSession::SettingsUsageUICompletedL(TInt aError)
     {
     iUIFlag = EFalse;
     TBuf<64> msg;	
@@ -4744,7 +4745,7 @@ void COMASuplSession::SettingsUsageUICompletedL(TInt aError)
         iSessionObserver.TerminateSession(this, KErrGeneral);	
         return;
         }
-    }
+	}*/
 
 // -----------------------------------------------------------------------------
 // COMASuplSession::CheckForSuplUsageL
@@ -4754,7 +4755,7 @@ void COMASuplSession::CheckForSuplUsageL()
     {
     iTrace->Trace(_L("COMASuplSession::CheckForSuplUsageL Start"), KTraceFileName, __LINE__); 
 
-    if (iSuplUsage >= 1)
+    /*if (iSuplUsage >= 1)
         {            
         CSuplSettings::TSuplSettingsUsage usage = iSuplSettings->SUPLUsage();
         if (usage == CSuplSettings::ESuplUsageDisabled)
@@ -4763,18 +4764,24 @@ void COMASuplSession::CheckForSuplUsageL()
             iSessionObserver.TerminateSession(this, KErrGeneral);	
             }
         else if (usage == CSuplSettings::ESuplUsageAutomatic)
-            {            
+            { */           
             if (iNwInitError)
                 {
                 iNwInitError = EFalse;                    
                 HandleSuplInitErrorL(iNwInitCompletionCode);                             
                 }                
             else
-                {                    
-                iTrace->Trace(_L("CheckForSuplUsageL, Initializing"), KTraceFileName, __LINE__); 
-                InitializeL(iRequestID); 
-                }
-            }
+            	{
+            		if (iRoaming)                
+                    HandleRoamingCheckCompleteL(KErrNone, EFalse);                    
+                else
+                    {                        
+                    iEtelRoamingCheck = ETrue;
+                    iProtocolManager.CheckForRoaming();
+                    }
+	            //InitializeL(iRequestID); 
+	          	}
+            /*}
 
         else if (usage == CSuplSettings::ESuplUsageHomeAutomatic || usage == CSuplSettings::ESuplUsageAlwaysAsk)
             {
@@ -4788,7 +4795,7 @@ void COMASuplSession::CheckForSuplUsageL()
             }            
         }            
     else
-        InitializeL(iRequestID); 
+	        InitializeL(iRequestID); */
 
     }        
 
@@ -4871,9 +4878,9 @@ void COMASuplSession::HandleRoamingCheckCompleteL(TInt aErrorCode, TBool aHomeNw
         {            
         iUsageHomeNW = aHomeNw;   
         iConnRequestor->UpdateSLPListForHomeUsage(iUsageHomeNW);             
-        CSuplSettings::TSuplSettingsUsage usage = iSuplSettings->SUPLUsage();
+            //CSuplSettings::TSuplSettingsUsage usage = iSuplSettings->SUPLUsage();
 
-        if (usage == CSuplSettings::ESuplUsageAlwaysAsk)
+            /*if (usage == CSuplSettings::ESuplUsageAlwaysAsk)
             {
             TInt err;                
             if (!aHomeNw)
@@ -4935,16 +4942,16 @@ void COMASuplSession::HandleRoamingCheckCompleteL(TInt aErrorCode, TBool aHomeNw
                 HandleSuplErrorL(err);
                 }
 
-            }
-        else if (usage == CSuplSettings::ESuplUsageHomeAutomatic) 
-            {                
-            if (!aHomeNw)
-                {                
-                TInt err;                
+                }*/
+            //else if (usage == CSuplSettings::ESuplUsageHomeAutomatic) 
+            //{                
+            //if (!aHomeNw)
+              //  {                
+                //TInt err = KErrNone;                
                 //if (!iSuplSettings->IsUIActive() )
-                {
-                iTrace->Trace(_L("Invoking LaunchSuplUsageSettingsUI, user is roaming"), KTraceFileName, __LINE__);
-                err = iProtocolManager.LaunchSuplUsageSettingsUI(this, ETrue);        
+                    {
+                    //iTrace->Trace(_L("Invoking LaunchSuplUsageSettingsUI, user is roaming"), KTraceFileName, __LINE__);
+                    //err = iProtocolManager.LaunchSuplUsageSettingsUI(this, ETrue);        
 
                 if(iSuplMsgType == ESUPL_INIT)
                     {
@@ -4983,7 +4990,7 @@ void COMASuplSession::HandleRoamingCheckCompleteL(TInt aErrorCode, TBool aHomeNw
                 }
 
 
-                if(!iSuplSettings->IsUIActive() && KErrNone != err)
+              /*  if(!iSuplSettings->IsUIActive() && KErrNone != err)
                     {
                     SetSuplUsageFlag();                            
                     }
@@ -4991,19 +4998,18 @@ void COMASuplSession::HandleRoamingCheckCompleteL(TInt aErrorCode, TBool aHomeNw
                     {
                     iTrace->Trace(_L("Invoking HandleSuplErrorL"), KTraceFileName, __LINE__);
                     HandleSuplErrorL(err);
-                    }
-                }
-            else            
-                {                
+                    }*/
+                
+                       
+                                
                 if (iNwInitError)
                     {
                     iNwInitError = EFalse;                    
                     HandleSuplInitErrorL(iNwInitCompletionCode);                             
                     }                
                 else
-                    InitializeL(iRequestID); 
-                }                
-            }                
+	                InitializeL(iRequestID); 
+                                                
         }
     else
         {
@@ -5073,7 +5079,7 @@ TBool COMASuplSession::GetSuplUsageFlag()
     return iUsageDialog;
     }        
 
-void COMASuplSession::StartUsageDialogLaunchL()
+/*void COMASuplSession::StartUsageDialogLaunchL()
     {
     iTrace->Trace(_L("COMASuplSession::StartUsageDialogLaunchL"), KTraceFileName, __LINE__);
     ReSetSuplUsageFlag();            
@@ -5239,7 +5245,7 @@ void COMASuplSession::StartUsageDialogLaunchL()
                 InitializeL(iRequestID); 
             }                
         }                
-    }
+    }*/
 
 TBool COMASuplSession::IsEtelNotifySet()
     {
@@ -5279,10 +5285,10 @@ void COMASuplSession::DialogTimerExpiredL()
         iTrace->Trace(_L("Timer Expired for SUPL Dialog"), KTraceFileName, __LINE__); 
 
 
-        if (!iIapDialogShown)
-            iProtocolManager.LaunchSuplDialogTimeoutUI(this);
-        else
-            iIapDlgTimerExpired = ETrue;            
+    //if (!iIapDialogShown)
+	   // iProtocolManager.LaunchSuplDialogTimeoutUI(this);
+   // else
+       // iIapDlgTimerExpired = ETrue;            
 
         }
     return;	
@@ -5292,14 +5298,14 @@ void COMASuplSession::DialogTimerExpiredL()
 // COMASuplSession::SettingsTimeOutUICompletedL
 // 
 // -----------------------------------------------------------------------------
-void COMASuplSession::SettingsTimeOutUICompletedL(TInt aError)
+void COMASuplSession::SettingsTimeOutUICompletedL(TInt /*aError*/)
     {
 
-    TBuf<64> msg;	
-    msg.Copy(_L("SUPL Timeout UI completed with ... "));
-    msg.AppendNum(aError);
-    iTrace->Trace(msg,KTraceFileName, __LINE__); 
-    iSessionObserver.TerminateSession(this, KErrGeneral);	
+	  //  TBuf<64> msg;	
+	  //  msg.Copy(_L("SUPL Timeout UI completed with ... "));
+	  //  msg.AppendNum(aError);
+	  //  iTrace->Trace(msg,KTraceFileName, __LINE__); 
+	  //  iSessionObserver.TerminateSession(this, KErrGeneral);	
     return;
 
     }
@@ -5478,11 +5484,15 @@ void COMASuplSession::RunTriggerSessionL(
 
 void COMASuplSession::GetPeriodicTriggerParams()
     {
-    iTrace->Trace(_L("COMASuplSession::GetPeriodicTriggerParams"), KTraceFileName, __LINE__); 
-    iTriggerParams.Get(iNumFixes, iInterval, iStartTime);
-    iTotalNoOfFixes = iNumFixes;
-    iStartTimeCopy = iStartTime;
-    }        
+    iTrace->Trace(_L("COMASuplSession::GetPeriodicTriggerParams"),
+            KTraceFileName, __LINE__);
+    TInt ret = iTriggerParams.Get(iNumFixes, iInterval, iStartTime);
+    if (KErrNone == ret)
+        {
+        iTotalNoOfFixes = iNumFixes;
+        iStartTimeCopy = iStartTime;
+        }
+    }
 
 void COMASuplSession::StartPeriodicTriggerTimer()
     {
@@ -5613,7 +5623,14 @@ void COMASuplSession::InsertActiveSessionL()
 						}	
 
             CTriggerParams* activeSessionParam = CTriggerParams::NewLC();
+            TTime endTime;
+            endTime.HomeTime();
+            TTimeIntervalSeconds period;
+            period = iNumFixes * iInterval;
+            endTime = endTime + period;
             activeSessionParam->Set(iSETSessionUniqueId,iRequestorName,ETrue,ETrue,CTriggerParams::EPeriodic,requestType,iNumFixes,iInterval);
+            activeSessionParam->SetTriggerEndTime(endTime);
+            
             iTrace->Trace(_L("Session Id : "), KTraceFileName, __LINE__);
             TBuf<64> sessionId;
             sessionId.AppendNum(iSETSessionUniqueId);
@@ -5678,7 +5695,7 @@ void COMASuplSession::LaunchNotifyDialogL()
 				//Inform UI that ,trigger session has started...
 		InsertActiveSessionL();
 		TInt privacyId;
-		iNetworkPrivacy->NotifyLocationRequestL(*iSuplReqInfo, privacyId); 
+		TRAP_IGNORE(iNetworkPrivacy->NotifyLocationRequestL(*iSuplReqInfo, privacyId); )
 		iTrace->Trace(_L(" Calling InsertActiveSessionL"), KTraceFileName, __LINE__);
          
 	}
@@ -5695,11 +5712,13 @@ void COMASuplSession::LaunchNotifyDialogL()
     CTriggerParams::TRequestType requestType;
     TUint64 outstandingTrigger;
     TUint64 interval;
+    TTime endTime;
 
 	HBufC* sessionName = HBufC::NewL( KMaxSessionNameLength );
 	
 		aParamValues->Get(sessionId,sessionName->Des(),notificationPresent,triggerNotificationStatus,
                            triggerType,requestType,outstandingTrigger,interval);
+		aParamValues->GetTriggerEndTime(endTime);                                                            
                            //triggerNotificationStatus = ETrue;
 	
 		UpdateActiveTriggerSession(); //Update UI for trigger info...
@@ -5715,7 +5734,7 @@ void COMASuplSession::LaunchNotifyDialogL()
 				
 				
 				
-    	iNetworkPrivacy->NotifyLocationRequestL(*iSuplReqInfo, iRequestorId);
+    	TRAP_IGNORE(iNetworkPrivacy->NotifyLocationRequestL(*iSuplReqInfo, iRequestorId);)
     	
     }
     

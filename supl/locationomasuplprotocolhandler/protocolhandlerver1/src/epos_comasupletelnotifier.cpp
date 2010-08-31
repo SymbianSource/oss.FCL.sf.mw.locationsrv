@@ -116,12 +116,12 @@ COMASuplETelNotifier::~COMASuplETelNotifier()
 void COMASuplETelNotifier::CheckForRoaming()
     {
 	iTrace->Trace(_L("COMASuplETelNotifier::CheckForRoaming..."),KTraceFileName, __LINE__); 							
-    if( !IsActive() )
+     if( !IsActive() )
     	{
     	iCellMode = EOMASuplCellIdHome;
     	iPhone.GetHomeNetwork( iStatus, iHomeNetworkInfoPkg);
     	SetActive();    
-    	} 
+    	}              
     }  
       
 // -----------------------------------------------------------------------------
@@ -137,7 +137,7 @@ void COMASuplETelNotifier::GetCurrentNetwork()
     	iCellMode = EOMASuplCellIdCurrent;
     	iPhone.GetCurrentNetwork( iStatus, iNetworkInfoPkg, iLocationInfo );
     	SetActive();  
-    	}
+    	}               
     }  
 
 // -----------------------------------------------------------------------------
@@ -153,7 +153,7 @@ void COMASuplETelNotifier::NotifyCurrentNetworkChange()
     	iCellMode = EOMASuplCellIdNotify;
     	iPhone.NotifyCurrentNetworkChange( iStatus, iNetworkInfoPkg, iLocationInfo );
     	SetActive();   
-    	}
+    	}              
     }  
       
 // -----------------------------------------------------------------------------

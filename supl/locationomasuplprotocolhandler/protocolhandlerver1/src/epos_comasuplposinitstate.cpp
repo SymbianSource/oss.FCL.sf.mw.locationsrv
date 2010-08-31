@@ -242,10 +242,7 @@ TInt COMASuplPosInitState::GenerateMessageL()
 		iVerPresent = ComputeSuplInitVerL();
 		if(iVerPresent)
 			{
-			if(!iIsStaleCellId) // if this request is for a stale cell id conversion then do not retrieve current location id
-				iLocationIDRequestor->GetLocationID();
-			else
-			    iMsgStateObserver->OperationCompleteL(KErrNone);
+				iLocationIDRequestor->GetLocationID();		
 			}
 		else
 			{
@@ -387,63 +384,68 @@ TBool COMASuplPosInitState::ComputeSuplInitVerL()
 // (other items were commented in a header).
 // -----------------------------------------------------------------------------
 //
-void COMASuplPosInitState::GetPosParamsL() 
-	{
-	
-	iGenerationStatus = ETrue;
-	
-	// Re-initialize the POS Requestor
-	if(iPosRequestor)
-		iPosRequestor->DestroyList();
-	iPosRequestor->CreateListL();
-	
-	// Create SET capabilities object
-	iCurSetCapabilities = COMASuplSETCapabilities::NewL();
-	
-	// Create the Request Assistance data object
-	iReqAsstData = COMASuplReqAsstData::NewL();
-	
-	// Create Position
-	iPosition = COMASuplPosition::NewL();
+void COMASuplPosInitState::GetPosParamsL()
+    {
 
-	// Create POS Payload
-	iPosPayload = COMASuplPosPayload::NewL();
+    iGenerationStatus = ETrue;
 
-	// Create Velocity
-	iVelocity = COMASuplVelocity::NewL();
-	
+    // Re-initialize the POS Requestor
+    if (iPosRequestor)
+        {
+        iPosRequestor->DestroyList();
+        iPosRequestor->CreateListL();
+        }
 
-	// Append the SUPL POS INIT optional parameters to the list
-	// in POS Requestor
-	iPosRequestor->AppendInfoRequest(iCurSetCapabilities);
-	iPosRequestor->AppendInfoRequest(iReqAsstData);
-	iPosRequestor->AppendInfoRequest(iPosition);
-	iPosRequestor->AppendInfoRequest(iPosPayload);
-	iPosRequestor->AppendInfoRequest(iVelocity);
-	
-	// Set self as Observer to POS Requestor
-	iPosRequestor->SetObserver(this);
-	
-	TBuf<128> msg(_L("Filling iPosMethod in iPosRequestor: "));
-	iTrace->Trace(msg, KTraceFileName, __LINE__); 
-	if(iPosRequestor)
-		{
-		iAllowedCapabilitiesforPOS.SetAllowedCapabilities(EFalse, EFalse, EFalse, EFalse, EFalse, EFalse, EFalse, EFalse);
-		iPosRequestor->SetPosMethodAndAllowedCapabilities (iAllowedCapabilitiesforPOS,iPosMethod ); 
-        if(iHSLPAddress)
+    // Create SET capabilities object
+    iCurSetCapabilities = COMASuplSETCapabilities::NewL();
+
+    // Create the Request Assistance data object
+    iReqAsstData = COMASuplReqAsstData::NewL();
+
+    // Create Position
+    iPosition = COMASuplPosition::NewL();
+
+    // Create POS Payload
+    iPosPayload = COMASuplPosPayload::NewL();
+
+    // Create Velocity
+    iVelocity = COMASuplVelocity::NewL();
+
+    if (iPosRequestor)
+        {
+        // Append the SUPL POS INIT optional parameters to the list
+        // in POS Requestor
+        iPosRequestor->AppendInfoRequest(iCurSetCapabilities);
+        iPosRequestor->AppendInfoRequest(iReqAsstData);
+        iPosRequestor->AppendInfoRequest(iPosition);
+        iPosRequestor->AppendInfoRequest(iPosPayload);
+        iPosRequestor->AppendInfoRequest(iVelocity);
+
+        TBuf<128> msg(_L("Filling iPosMethod in iPosRequestor: "));
+        iTrace->Trace(msg, KTraceFileName, __LINE__);
+
+        // Set self as Observer to POS Requestor
+        //Comment to ignore coverity reverse NULL error
+        //coverity[REVERSE_INULL :FALSE]
+        iPosRequestor->SetObserver(this);
+        iAllowedCapabilitiesforPOS.SetAllowedCapabilities(EFalse, EFalse,
+                EFalse, EFalse, EFalse, EFalse, EFalse, EFalse);
+        iPosRequestor->SetPosMethodAndAllowedCapabilities(
+                iAllowedCapabilitiesforPOS, iPosMethod);
+        if (iHSLPAddress)
             {
-            HBufC* slpAddress = CnvUtfConverter::ConvertToUnicodeFromUtf8L(*iHSLPAddress);
+            HBufC* slpAddress = CnvUtfConverter::ConvertToUnicodeFromUtf8L(
+                    *iHSLPAddress);
             msg.Copy(_L("Filling iHSLPAddress in iPosRequestor: "));
             msg.Append(*slpAddress);
-            iTrace->Trace(msg, KTraceFileName, __LINE__); 
+            iTrace->Trace(msg, KTraceFileName, __LINE__);
             iPosRequestor->SetSLPAddressUsed(*slpAddress);
             }
-		}
-	// Get the information from POS
-	if(iPosRequestor)
-	User::LeaveIfError(iPosRequestor->GetSuplInfoL());
-	
-	}
+        // Get the information from POS
+        User::LeaveIfError(iPosRequestor->GetSuplInfoL());
+        }
+
+    }
 // -----------------------------------------------------------------------------
 // COMASuplPosInitState::OperationCompleteL
 // An observer method that indicates the completion of
@@ -588,8 +590,8 @@ HBufC8* COMASuplPosInitState::EncodeMessageL(TOMASuplVersion &aSuplVersion,
 
 		    iPosRequestor->SetPosMethodAndAllowedCapabilities (iAllowedCapabilitiesforPOS,iPosMethod  ); 
         }
-		
-		OMASuplPosInit->SetSuplPosInit(static_cast<COMASuplSETCapabilities*>(iOldCapabilities->CloneL()),static_cast<COMASuplLocationId*>(iLocationId->CloneL()),iECId);
+		if(iOldCapabilities)
+		    OMASuplPosInit->SetSuplPosInit(static_cast<COMASuplSETCapabilities*>(iOldCapabilities->CloneL()),static_cast<COMASuplLocationId*>(iLocationId->CloneL()),iECId);
 		if(iECId)
 			{
 				OMASuplPosInit->SetECellId(iMmCellInfo);
@@ -608,7 +610,7 @@ HBufC8* COMASuplPosInitState::EncodeMessageL(TOMASuplVersion &aSuplVersion,
 			}
 
 		// Position
-		if(iPosition && iRequestType == COMASuplSession::ESUPL_TERMINAL)
+		if(iPosition)
 			{
 			if(KErrNone == iPosition->Status() && !iIgnorePosData) //if iIgnorePosData is set do not use the pos data
 				{
@@ -745,14 +747,19 @@ void COMASuplPosInitState::ComparisionLocationIDRequestCompletedL(COMASuplLocati
         }
     //if the current Cell id is the same as the Cell id when we made the request for assistance data then use the assistance data
     //and we have not already repeated a request before
-    if(!iRepeatedPosDataFetch && iLocationId->GetCellId() == aLocationId->GetCellId()) 
+    if (!iRepeatedPosDataFetch && iLocationId->GetCellId()
+            == aLocationId->GetCellId())
         {
-        iTrace->Trace(_L("COMASuplPosInitState::ComparisionLocationIDRequestCompletedL Cell Id not changed since making last request, so continuing"), KTraceFileName, __LINE__); 
-        if(iLocationId)
-            delete iLocationId;
+        //deleting locationId before assigning it again
+        delete iLocationId;
+        iLocationId = NULL;
         iLocationId = aLocationId;
-        if(iMsgStateObserver)
-        iMsgStateObserver->OperationCompleteL(aErrorCode);
+
+        iTrace->Trace(
+                _L("COMASuplPosInitState::ComparisionLocationIDRequestCompletedL Cell Id not changed since making last request, so continuing"),
+                KTraceFileName, __LINE__);
+        if (iMsgStateObserver)
+            iMsgStateObserver->OperationCompleteL(aErrorCode);
         }
     else // Cell id has changed since previous request so assistance data may be invalid
         {
@@ -767,32 +774,37 @@ void COMASuplPosInitState::ComparisionLocationIDRequestCompletedL(COMASuplLocati
                 iTrace->Trace(_L("COMASuplPosInitState::ComparisionLocationIDRequestCompletedL toe limit greater than KMaxCellIdChangeToeLimit. getting  pos data again"), KTraceFileName, __LINE__);
                 if(!iRepeatedPosDataFetch)//if cell id changed and we have not already repeated fetching pos data
                     {
-                    iRepeatedPosDataFetch = ETrue;
-                    if(iLocationId)
-                        delete iLocationId;                    
                     iLocationId = aLocationId; //update the location id member for the next request as we are making a request again
-                    iTrace->Trace(_L("COMASuplPosInitState::ComparisionLocationIDRequestCompletedL toe limit greater than KMaxCellIdChangeToeLimit. getting  pos data again"), KTraceFileName, __LINE__);
+                    iRepeatedPosDataFetch = ETrue;
+
+                    iTrace->Trace(
+                            _L("COMASuplPosInitState::ComparisionLocationIDRequestCompletedL toe limit greater than KMaxCellIdChangeToeLimit. getting  pos data again"),
+                            KTraceFileName, __LINE__);
                     GetPosParamsL();
                     }
                 else
                     {
-                    iRepeatedPosDataFetch = EFalse; //reset the status
-                    if(iLocationId)
-                       delete iLocationId;
                     iLocationId = aLocationId;
-                    iTrace->Trace(_L("COMASuplPosInitState::ComparisionLocationIDRequestCompletedL toe limit greater than KMaxCellIdChangeToeLimit. But repeated a pos fetch already so continuing"), KTraceFileName, __LINE__);
-                    iMsgStateObserver->OperationCompleteL(aErrorCode);//use the pos data as it is
+                    iRepeatedPosDataFetch = EFalse; //reset the status
+
+                    iTrace->Trace(
+                            _L("COMASuplPosInitState::ComparisionLocationIDRequestCompletedL toe limit greater than KMaxCellIdChangeToeLimit. But repeated a pos fetch already so continuing"),
+                            KTraceFileName, __LINE__);
+                    if (iMsgStateObserver)
+                        iMsgStateObserver->OperationCompleteL(aErrorCode);//use the pos data as it is
                     }
                 }
             else //ignore the position data
                 {
-                iIgnorePosData = ETrue;
-                iTrace->Trace(_L("COMASuplPosInitState::ComparisionLocationIDRequestCompletedL toe limit less than KMaxCellIdChangeToeLimit. Ignoring pos data"), KTraceFileName, __LINE__);
-                iRepeatedPosDataFetch = EFalse; //reset the status
-                if(iLocationId)
-                	delete iLocationId;
                 iLocationId = aLocationId;
-                iMsgStateObserver->OperationCompleteL(aErrorCode);
+                iIgnorePosData = ETrue;
+                iTrace->Trace(
+                        _L("COMASuplPosInitState::ComparisionLocationIDRequestCompletedL toe limit less than KMaxCellIdChangeToeLimit. Ignoring pos data"),
+                        KTraceFileName, __LINE__);
+                iRepeatedPosDataFetch = EFalse; //reset the status
+
+                if (iMsgStateObserver)
+                    iMsgStateObserver->OperationCompleteL(aErrorCode);
                 }
             }
         }

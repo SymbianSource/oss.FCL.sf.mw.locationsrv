@@ -62,7 +62,7 @@ EXPORT_C HBufC8* PosLandmarkSerialization::PackL( const CPosLandmark& aLandmark 
     //coverity[check_return :FALSE]
     //coverity[unchecked_value :FALSE]
     aLandmark.GetLandmarkName( name );
-    //coverity[check_return :FALSE]
+        //coverity[check_return :FALSE]
     //coverity[unchecked_value :FALSE]
     aLandmark.GetLandmarkDescription( desc );
     header.iIsIconSet = ( KErrNone == 

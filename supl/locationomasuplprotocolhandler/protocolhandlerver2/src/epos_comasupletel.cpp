@@ -12,7 +12,7 @@
 * Contributors:
 *
 * Description:   Implementation of COMASuplEtel Class
-*  Version     : %version: 3 % << Don't touch! Updated by Synergy at check-out.
+*  Version     : %version: 5 % << Don't touch! Updated by Synergy at check-out.
 *
 */
 
@@ -200,168 +200,185 @@ void COMASuplETel::RunL()
 // -----------------------------------------------------------------------------
 //
 void COMASuplETel::HandleLocationIdL()
-	{
-         switch (iNetworkInfo.iMode) 
+    {
+    switch (iNetworkInfo.iMode)
+        {
+        case RMobilePhone::ENetworkModeGsm:
             {
-            case RMobilePhone::ENetworkModeGsm:
-                {
-                // For GSM Cell Information
-                COMASuplLocationId* locationId = COMASuplLocationId::NewL(); 
-                CleanupStack::PushL(locationId);
-     			COMASuplGSMCellInfo* gsmCellInfo = COMASuplGSMCellInfo::NewL();
-     			CleanupStack::PushL(gsmCellInfo);
-                COMASuplLocationId::TOMASuplStatus lStatus = COMASuplLocationId::ECurrent;
-               
-                TInt    MCC=0;
-                TInt64  MNC=0;
-                TUint   LAC, CellId;
-                TLex LexMCC(iNetworkInfo.iCountryCode);
-                TLex LexMNC(iNetworkInfo.iNetworkId);
+            //coverity[alloc_fn]
+            //coverity[assign]
+            // For GSM Cell Information
+            COMASuplLocationId* locationId = COMASuplLocationId::NewL();
+            //coverity[push]
+            CleanupStack::PushL(locationId);
+                        
+            COMASuplGSMCellInfo* gsmCellInfo = COMASuplGSMCellInfo::NewL();
+            CleanupStack::PushL(gsmCellInfo);
+            COMASuplLocationId::TOMASuplStatus lStatus =
+                    COMASuplLocationId::ECurrent;
 
-                LexMCC.Val(MCC);
-                LexMNC.Val(MNC);
-                LAC = iLocationInfo.iLocationAreaCode;
-                CellId = iLocationInfo.iCellId;
-                
-                               
-                gsmCellInfo->SetSuplGSMCellInfo(MNC, MCC,CellId,LAC);                
-                locationId->SetSuplLocationId(gsmCellInfo,lStatus);
-                CleanupStack::Pop(gsmCellInfo);
-                CleanupStack::Pop(locationId); 
-                
-        		#if defined(_DEBUG)  //This is only for logging purpose. 
-				TBuf<128> msg;
-				
-				msg.Copy(_L("It is GSM Network. MCC = "));					
-				msg.AppendNum(MCC);
-				
-				msg.Append(_L(" MNC = "));					
-				msg.AppendNum(MNC);
+            TInt MCC = 0;
+            TInt64 MNC = 0;
+            TUint LAC, CellId;
+            TLex LexMCC(iNetworkInfo.iCountryCode);
+            TLex LexMNC(iNetworkInfo.iNetworkId);
 
+            LexMCC.Val(MCC);
+            LexMNC.Val(MNC);
+            LAC = iLocationInfo.iLocationAreaCode;
+            CellId = iLocationInfo.iCellId;
 
-				msg.Append(_L(" CellId = "));					
-				msg.AppendNum(CellId);
-				
+            gsmCellInfo->SetSuplGSMCellInfo(MNC, MCC, CellId, LAC);
+            locationId->SetSuplLocationId(gsmCellInfo, lStatus);
+            CleanupStack::Pop(gsmCellInfo);
+            //coverity[pop]
+            CleanupStack::Pop(locationId);
 
-				msg.Append(_L(" LAC = "));					
-				msg.AppendNum(LAC);
-				
-				iTrace->Trace(msg,KTraceFileName, __LINE__); 							
-        		#endif
-        		
-				if(iCellMode == EOMASuplCellId)
-				    iObserver.LocationIDRequestCompletedL(locationId,KErrNone);
-				else if(iCellMode == EOMASuplCompareCellId)
-				    iObserver.ComparisionLocationIDRequestCompletedL(locationId,KErrNone);
-                break;                             
-                }                    
-            case RMobilePhone::ENetworkModeWcdma:
-                {
-                // For WCDMA  Cell Information
-                COMASuplLocationId* locationId = COMASuplLocationId::NewL(); 
-                CleanupStack::PushL(locationId);
-     			COMASuplCellInfo* wcdmaCellInfo = COMASuplCellInfo::NewL();
-     			CleanupStack::PushL(wcdmaCellInfo);
-     			
-                COMASuplLocationId::TOMASuplStatus lStatus = COMASuplLocationId::ECurrent;
-                TInt    MCC=0;
-                TInt64  MNC=0;
-                TUint   UC;
-                TLex LexMCC(iNetworkInfo.iCountryCode);
-                TLex LexMNC(iNetworkInfo.iNetworkId);
+#if defined(_DEBUG)  //This is only for logging purpose. 
+            TBuf<128> msg;
 
-                LexMCC.Val(MCC);
-                LexMNC.Val(MNC);
-                UC = iLocationInfo.iCellId;
+            msg.Copy(_L("It is GSM Network. MCC = "));
+            msg.AppendNum(MCC);
 
-                               
-                wcdmaCellInfo->SetSuplCellInfo(MNC, MCC, UC);                
-                locationId->SetSuplLocationId(wcdmaCellInfo,lStatus);
-                CleanupStack::Pop(wcdmaCellInfo);
-                CleanupStack::Pop(locationId);
-                
-           		#if defined(_DEBUG)  //This is only for logging purpose. 
-				TBuf<128> msg;
-				
-				msg.Copy(_L("It is CDMA Network. MCC = "));					
-				msg.AppendNum(MCC);
-				
-				msg.Append(_L(" MNC = "));					
-				msg.AppendNum(MNC);
+            msg.Append(_L(" MNC = "));
+            msg.AppendNum(MNC);
 
+            msg.Append(_L(" CellId = "));
+            msg.AppendNum(CellId);
 
-				msg.Append(_L(" UC = "));					
-				msg.AppendNum(UC);
-				
-				iTrace->Trace(msg,KTraceFileName, __LINE__); 							
-        		#endif
+            msg.Append(_L(" LAC = "));
+            msg.AppendNum(LAC);
 
-				if(iCellMode == EOMASuplCellId)
-				    iObserver.LocationIDRequestCompletedL(locationId,KErrNone);
-				else if(iCellMode == EOMASuplCompareCellId)
-				    iObserver.ComparisionLocationIDRequestCompletedL(locationId,KErrNone);
-                break;                             
-                }                    
-            default:            
-            	{
-            	#if _DEBUG 
-	            	// For GSM Cell Information
-	            	COMASuplLocationId* locationId = COMASuplLocationId::NewL(); 
-                	CleanupStack::PushL(locationId);
-     				COMASuplGSMCellInfo* gsmCellInfo = COMASuplGSMCellInfo::NewL();
-     				CleanupStack::PushL(gsmCellInfo);
-     				
-	                COMASuplLocationId::TOMASuplStatus lStatus = COMASuplLocationId::ECurrent;
-	                TInt    MCC=0;
-	                TInt64  MNC=0;
-	                TUint   LAC, CellId;
-	                TLex LexMCC(iNetworkInfo.iCountryCode);
-	                TLex LexMNC(iNetworkInfo.iNetworkId);
+            iTrace->Trace(msg, KTraceFileName, __LINE__);
+#endif
 
-	                LexMCC.Val(MCC);
-	                LexMNC.Val(MNC);
-	                LAC = iLocationInfo.iLocationAreaCode;
-	                CellId = iLocationInfo.iCellId;
-	                
-	                        
-	           		gsmCellInfo->SetSuplGSMCellInfo(MNC, MCC,CellId,LAC);                
-	                locationId->SetSuplLocationId(gsmCellInfo,lStatus);
-	                CleanupStack::Pop(gsmCellInfo);
-                	CleanupStack::Pop(locationId);  
-                	
-					#if defined(_DEBUG)  //This is only for logging purpose. 
-					TBuf<128> msg;
-					msg.Copy(_L("It is GSM Network. MCC = "));					
-					msg.AppendNum(MCC);
-
-					msg.Append(_L(" MNC = "));					
-					msg.AppendNum(MNC);
-
-					msg.Append(_L(" CellId = "));					
-					msg.AppendNum(CellId);
-
-					msg.Append(_L(" LAC = "));					
-					msg.AppendNum(LAC);
-
-					iTrace->Trace(msg,KTraceFileName, __LINE__); 							
-					
-					#endif
-					if(iCellMode == EOMASuplCellId)
-					    iObserver.LocationIDRequestCompletedL(locationId,KErrNone); 
-					else if(iCellMode == EOMASuplCompareCellId)
-					    iObserver.ComparisionLocationIDRequestCompletedL(locationId,KErrNone);					
-                #else
-                	iTrace->Trace(_L("Error in getting Location Id"),KTraceFileName, __LINE__); 							
-                	if(iCellMode == EOMASuplCellId)
-                	    iObserver.LocationIDRequestCompletedL(NULL,KErrNotSupported); 
-                	else if(iCellMode == EOMASuplCompareCellId)
-                	    iObserver.ComparisionLocationIDRequestCompletedL(NULL,KErrNotSupported);                 	
-                #endif
-                break;        	
-            	}                     
+            if (iCellMode == EOMASuplCellId)
+                iObserver.LocationIDRequestCompletedL(locationId, KErrNone);
+            else if (iCellMode == EOMASuplCompareCellId)
+                iObserver.ComparisionLocationIDRequestCompletedL(locationId,
+                        KErrNone);
+            //coverity[memory_leak]
+            break;
             }
-		
-	}
+        case RMobilePhone::ENetworkModeWcdma:
+            {
+            //coverity[alloc_fn]
+            //coverity[assign]
+            // For WCDMA  Cell Information
+            COMASuplLocationId* locationId = COMASuplLocationId::NewL();
+            //coverity[push]
+            CleanupStack::PushL(locationId);
+         
+            COMASuplCellInfo* wcdmaCellInfo = COMASuplCellInfo::NewL();
+            CleanupStack::PushL(wcdmaCellInfo);
+
+            COMASuplLocationId::TOMASuplStatus lStatus =
+                    COMASuplLocationId::ECurrent;
+            TInt MCC = 0;
+            TInt64 MNC = 0;
+            TUint UC;
+            TLex LexMCC(iNetworkInfo.iCountryCode);
+            TLex LexMNC(iNetworkInfo.iNetworkId);
+
+            LexMCC.Val(MCC);
+            LexMNC.Val(MNC);
+            UC = iLocationInfo.iCellId;
+
+            wcdmaCellInfo->SetSuplCellInfo(MNC, MCC, UC);
+            locationId->SetSuplLocationId(wcdmaCellInfo, lStatus);
+            CleanupStack::Pop(wcdmaCellInfo);
+            //coverity[pop]
+            CleanupStack::Pop(locationId);
+
+#if defined(_DEBUG)  //This is only for logging purpose. 
+            TBuf<128> msg;
+
+            msg.Copy(_L("It is CDMA Network. MCC = "));
+            msg.AppendNum(MCC);
+
+            msg.Append(_L(" MNC = "));
+            msg.AppendNum(MNC);
+
+            msg.Append(_L(" UC = "));
+            msg.AppendNum(UC);
+
+            iTrace->Trace(msg, KTraceFileName, __LINE__);
+#endif
+
+            if (iCellMode == EOMASuplCellId)
+                iObserver.LocationIDRequestCompletedL(locationId, KErrNone);
+            else if (iCellMode == EOMASuplCompareCellId)
+                iObserver.ComparisionLocationIDRequestCompletedL(locationId,
+                        KErrNone);
+            //coverity[memory_leak]
+            break;
+            }
+        default:
+            {
+#if _DEBUG
+            //coverity[alloc_fn]
+            //coverity[assign]
+            // For GSM Cell Information
+            COMASuplLocationId* locationId = COMASuplLocationId::NewL();
+            //coverity[push]
+            CleanupStack::PushL(locationId);
+            COMASuplGSMCellInfo* gsmCellInfo = COMASuplGSMCellInfo::NewL();
+            CleanupStack::PushL(gsmCellInfo);
+
+            COMASuplLocationId::TOMASuplStatus lStatus = COMASuplLocationId::ECurrent;
+            TInt MCC=0;
+            TInt64 MNC=0;
+            TUint LAC, CellId;
+            TLex LexMCC(iNetworkInfo.iCountryCode);
+            TLex LexMNC(iNetworkInfo.iNetworkId);
+
+            LexMCC.Val(MCC);
+            LexMNC.Val(MNC);
+            LAC = iLocationInfo.iLocationAreaCode;
+            CellId = iLocationInfo.iCellId;
+
+            gsmCellInfo->SetSuplGSMCellInfo(MNC, MCC,CellId,LAC);
+            locationId->SetSuplLocationId(gsmCellInfo,lStatus);
+            CleanupStack::Pop(gsmCellInfo);
+            //coverity[pop]
+            CleanupStack::Pop(locationId);
+
+#if defined(_DEBUG)  //This is only for logging purpose. 
+            TBuf<128> msg;
+            msg.Copy(_L("It is GSM Network. MCC = "));
+            msg.AppendNum(MCC);
+
+            msg.Append(_L(" MNC = "));
+            msg.AppendNum(MNC);
+
+            msg.Append(_L(" CellId = "));
+            msg.AppendNum(CellId);
+
+            msg.Append(_L(" LAC = "));
+            msg.AppendNum(LAC);
+
+            iTrace->Trace(msg,KTraceFileName, __LINE__);
+
+#endif
+            if(iCellMode == EOMASuplCellId)
+            iObserver.LocationIDRequestCompletedL(locationId,KErrNone);
+            else if(iCellMode == EOMASuplCompareCellId)
+            iObserver.ComparisionLocationIDRequestCompletedL(locationId,KErrNone);
+#else
+            iTrace->Trace(_L("Error in getting Location Id"), KTraceFileName,
+                    __LINE__);
+            if (iCellMode == EOMASuplCellId)
+                iObserver.LocationIDRequestCompletedL(NULL, KErrNotSupported);
+            else if (iCellMode == EOMASuplCompareCellId)
+                iObserver.ComparisionLocationIDRequestCompletedL(NULL,
+                        KErrNotSupported);
+#endif
+            //coverity[memory_leak]
+            break;
+            }
+        }
+
+    }
 
 // -----------------------------------------------------------------------------
 // COMASuplETel::HandleECellIdL(),
@@ -520,7 +537,7 @@ void COMASuplETel::CopyWCDMAData()
 	 				
 						for(TInt k = 0; k < KOMASUPLMaxTimeSlotIscpAmount; k++ )	 				
 							{
-								iOMASuplwcdmaCellInfo.iNwkMeasureReport[i].iCellMeasuredResult[j].iTddInfo.iTimeslotISCP[k] = iOMASuplwcdmaCellInfo.iNwkMeasureReport[i].iCellMeasuredResult[j].iTddInfo.iTimeslotISCP[k];
+								iOMASuplwcdmaCellInfo.iNwkMeasureReport[i].iCellMeasuredResult[j].iTddInfo.iTimeslotISCP[k] = iCustomWCDMACellInfo.iNwkMeasureReport[i].iCellMeasuredResult[j].iTddInfo.iTimeslotISCP[k];
 							}
 	 					
 	 			}

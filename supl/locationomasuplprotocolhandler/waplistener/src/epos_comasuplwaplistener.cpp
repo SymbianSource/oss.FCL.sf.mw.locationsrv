@@ -309,7 +309,7 @@ TBool COMASuplWapListener::CheckBinaryContentType(CPushMessage* aPushMsg)
 
 #ifdef _DEBUG
 	//Log the received message
-	iTrace->Trace( _L( "Received Binary Content Type is:" ), KTraceFileName, __LINE__ );
+    iTrace->Trace( _L( "Received Binary Content Type is:" ), KTraceFileName, __LINE__ );
     PrintHex(field, __LINE__);
 #endif
 

@@ -17,7 +17,7 @@
 
 
 
-
+#include <e32std.h>
 #include <e32def.h>
 #include "epos_tomasuplsettingsmap.h"
 
@@ -60,55 +60,57 @@ TInt TOMASuplSettingsMap::Map(const TDesC8& aSettingName, TSuplSettingType& supl
     return KErrNone;
     }
 
-
 TInt TOMASuplSettingsMap::Get( const TDesC8& aUri, RChildList& aList, 
                                     RArray<TPtrC8>& aChildren )
     {
-    TInt rc = KErrNone;
+    TRAPD( error,GetL( aUri,aList,aChildren ) );
+    return error;
+    }
 
+void TOMASuplSettingsMap::GetL( const TDesC8& aUri, RChildList& aList, 
+                                    RArray<TPtrC8>& aChildren )
+    {
     if( aUri == KRootFull )
         {
         TSettingMap settingName;       
         settingName.iSettingName.Set( KNameFull );
-        aList.Append(settingName);
-        aChildren.Append( TPtrC8( KName.iBuf, KName.iTypeLength ) );
+        aList.AppendL(settingName);
+        aChildren.AppendL( TPtrC8( KName.iBuf, KName.iTypeLength ) );
         
         TSettingMap settingIapId;		
         settingIapId.iSettingName.Set( KIapIdFull );
-        aList.Append(settingIapId);
-        aChildren.Append( TPtrC8( KIapIdName.iBuf, KIapIdName.iTypeLength ) );
+        aList.AppendL(settingIapId);
+        aChildren.AppendL( TPtrC8( KIapIdName.iBuf, KIapIdName.iTypeLength ) );
         
         TSettingMap settingProviderId;       
         settingProviderId.iSettingName.Set( KProviderIdFull );
-        aList.Append(settingProviderId);
-        aChildren.Append( TPtrC8( KProviderId.iBuf, KProviderId.iTypeLength ) );
+        aList.AppendL(settingProviderId);
+        aChildren.AppendL( TPtrC8( KProviderId.iBuf, KProviderId.iTypeLength ) );
 
         TSettingMap settingSlp;     
         settingSlp.iSettingName.Set( KSlpAddrFull );
-        aList.Append( settingSlp );
-        aChildren.Append( TPtrC8( KSlpAddr.iBuf, KSlpAddr.iTypeLength ) );
+        aList.AppendL( settingSlp );
+        aChildren.AppendL( TPtrC8( KSlpAddr.iBuf, KSlpAddr.iTypeLength ) );
         
         TSettingMap settingToConRef;       
         settingToConRef.iSettingName.Set( KToConRefFull );
-        aList.Append(settingToConRef);
-        aChildren.Append( TPtrC8( KToConRef.iBuf, KToConRef.iTypeLength ) );
+        aList.AppendL(settingToConRef);
+        aChildren.AppendL( TPtrC8( KToConRef.iBuf, KToConRef.iTypeLength ) );
         
         TSettingMap settingConRef;       
         settingConRef.iSettingName.Set( KConRefFull );
-        aList.Append(settingConRef);
-        aChildren.Append( TPtrC8( KConRef.iBuf, KConRef.iTypeLength ) );
+        aList.AppendL(settingConRef);
+        aChildren.AppendL( TPtrC8( KConRef.iBuf, KConRef.iTypeLength ) );
         
         TSettingMap settingAddrType;       
         settingAddrType.iSettingName.Set( KAddrTypeFull );
-        aList.Append(settingAddrType);
-        aChildren.Append( TPtrC8( KAddrType.iBuf, KAddrType.iTypeLength ) );        
+        aList.AppendL(settingAddrType);
+        aChildren.AppendL( TPtrC8( KAddrType.iBuf, KAddrType.iTypeLength ) );        
         }
     else
         {
-        rc = KErrNotFound;	
+        User::Leave( KErrNotFound );	
         }
-
-    return rc;		
     }
 
 

@@ -140,7 +140,7 @@ EXPORT_C void CSuplTrace::Log(
     const TDesC& aTraceLogFile,
     TRefByValue<const TDesC> aFmt, ... )
     {
-    // coverity[var_decl : FALSE]
+    //coverity[var_decl]
     VA_LIST list;
     VA_START( list, aFmt );
 
@@ -151,6 +151,7 @@ EXPORT_C void CSuplTrace::Log(
     	TPtr ptr( buf->Des() );
         _LIT( KPrefix, "[EPos/0x%LX]: ");
         ptr.Format( KPrefix, process.Id().Id() );
+        //coverity[uninit_use_in_call]
 	    ptr.AppendFormatList( aFmt, list );
 	
 	    RDebug::RawPrint( ptr );

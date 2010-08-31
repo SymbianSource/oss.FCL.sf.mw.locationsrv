@@ -44,6 +44,6 @@ PRJ_EXPORTS
 #include "../waplistener/group/bld.inf"
 #include "../syncmlprovhandler/group/bld.inf"
 #include "../provisioninghandler/group/bld.inf"
-#include "../notifier/group/bld.inf"
+//#include "../notifier/group/bld.inf"
 
 // End of File

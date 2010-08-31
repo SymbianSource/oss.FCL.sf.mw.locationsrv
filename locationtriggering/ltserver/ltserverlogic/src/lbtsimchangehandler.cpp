@@ -293,15 +293,26 @@ void CLbtSimChangeHandler::EvaluateTriggers()
                 lex.Assign( cellularArea->NetworkIdentityCode() );
                 lex.Val( trNetworkCode );
                 
+                TInt error;
                 // If the network type,country code and network code of trigger 
                 // matches with current cell reading, add it to invalid trigger array
                 if( trNetworkCode != ctNetworkCode )
                     {
-                    iInvalidTriggers.Append( trigger->Id() );
+                    error = iInvalidTriggers.Append( trigger->Id() );
+                    if( error != KErrNone )
+                        {
+                        LOG1("Failed to append trigger id:%d",error);
+                        return;
+                        }
                     }
                 else if( trNetworkCode == ctNetworkCode  )
                     {
-                    iValidTriggers.Append( trigger->Id() );
+                    error = iValidTriggers.Append( trigger->Id() );
+                    if( error != KErrNone )
+                        {
+                        LOG1("Failed to append trigger id:%d",error);
+                        return;
+                        }
                     }
     			}
     		}

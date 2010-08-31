@@ -40,7 +40,7 @@ public:
 	* @param None.
 	* @return Instance of COMASuplSettings
 	*/
-  IMPORT_C static COMASuplSettings* NewL();
+  IMPORT_C static COMASuplSettings* COMASuplSettings::NewL();
 	
 	/**
 	* ~COMASuplSettings Method, Destructor
@@ -96,7 +96,7 @@ public: //Setter Methods
 	* @param aSUPLUsage 
 	* @return None 
 	*/
-  IMPORT_C void SetSUPLUsage(CSuplSettings::TSuplSettingsUsage& aSUPLUsage );
+  //IMPORT_C void SetSUPLUsage(CSuplSettings::TSuplSettingsUsage& aSUPLUsage );
 	
 	/**
 	* SetUIActive Method.
@@ -137,7 +137,7 @@ public: //Getter Methods
 	* @param None
 	* @return SUPL Usage
 	*/
-  IMPORT_C CSuplSettings::TSuplSettingsUsage SUPLUsage() const;
+  //IMPORT_C CSuplSettings::TSuplSettingsUsage SUPLUsage() const;
 	
 	/**
 	* IAPId Method.
@@ -166,7 +166,7 @@ private:
 	TInt  	 iIAPId;
 
     // SUPL Usage
-    CSuplSettings::TSuplSettingsUsage iSUPLUsage; 
+    //CSuplSettings::TSuplSettingsUsage iSUPLUsage; 
 	// Flag indicating the activation of settings UI
 	TBool    iSettingsUIActive;
 };

@@ -196,13 +196,25 @@ void COMASuplInitilizeRequestor::RunL()
     		        	{
     		        	RBuf HslpFromImsi;
     		        	HslpFromImsi.CreateL(KMaxIPAddressLength);
-						CleanupClosePushL(HslpFromImsi);
-                		iSuplSettings->GenerateHslpAddressFromImsi( HslpFromImsi );
-                		iOMASuplSettings->SetHSLPAddressFromIMSI(HslpFromImsi);
-                	    CleanupStack::PopAndDestroy();
-    		            iState = EInitializationComplete;
+									CleanupClosePushL(HslpFromImsi);
+						
+									//Coverity fix - checking for return code of GenerateHslpAddressFromImsi
+						
+									TInt genError = iSuplSettings->GenerateHslpAddressFromImsi( HslpFromImsi );
+									if(genError != KErrNone)
+						    		{
+                    iTrace->Trace(_L("GenerateHslpAddressFromImsi failed - completing observer"), KTraceFileName, __LINE__);
+										CleanupStack::PopAndDestroy();
+                    iObserver.InitilizationCompletedL( genError );                            
+                    return;
+						    		}
+               		 iOMASuplSettings->SetHSLPAddressFromIMSI(HslpFromImsi);
+                	 CleanupStack::PopAndDestroy();    		            
+                	 iState = EInitializationComplete;             	    
+
     		        	}
-    		            
+						//comment to ignore coverity missing break error
+    		        	//coverity[MISSING_BREAK  :FALSE]
     		        default:
     		        	if( iState != EInitializationComplete && iVariantEnabled )
     		        		{

@@ -277,9 +277,11 @@ public : // From base class, MOMASuplSessionObserver
 	virtual void TerminateSession(CSuplSessionBase *aSession, TInt aErrorCode);
 	
 public: // For setting UI observer    
-	TInt LaunchSettingsUI(MOMASuplUICompletionObserver* aObserver,const TDesC& aForHslp);
-	TInt LaunchSuplUsageSettingsUI(MOMASuplUICompletionObserver* aObserver, TBool aRoaming);
-	TInt LaunchSuplDialogTimeoutUI(MOMASuplUICompletionObserver* aObserver );
+
+	// For setting UI observer    
+	//TInt LaunchSettingsUI(MOMASuplUICompletionObserver* aObserver,const TDesC& aForHslp);
+	//TInt LaunchSuplUsageSettingsUI(MOMASuplUICompletionObserver* aObserver, TBool aRoaming);
+	//TInt LaunchSuplDialogTimeoutUI(MOMASuplUICompletionObserver* aObserver );
 	void UpdateAllSubSessnsInSameSession(TInt aIpcSessionId);
 
 	void SettingsChanged();
@@ -291,7 +293,7 @@ public: // For setting UI observer
 	* @param aError - Error during Launch
 	* @return None
 	*/
-	void SettingsUICompletedL(TInt aError);
+	void SettingsUICompletedL(TInt /*aError*/) {};
 
 	/** 
 	* This callback method is used to notify the client about 
@@ -299,7 +301,7 @@ public: // For setting UI observer
 	* @param aError - Error during Launch
 	* @return None
 	*/
-	void SettingsUsageUICompletedL(TInt aError);
+	void SettingsUsageUICompletedL(TInt /*aError*/) {};
 
 	/** 
 	* This callback method is used to notify the client about 
@@ -307,8 +309,8 @@ public: // For setting UI observer
 	* @param aError - Error during Launch
 	* @return None
 	*/
-	void SettingsTimeOutUICompletedL(TInt aError);
-
+	void SettingsTimeOutUICompletedL(TInt /*aError*/) {};
+	
 public: //From base class MSuplSettingsObserver
 
 	/**
@@ -318,6 +320,14 @@ public: //From base class MSuplSettingsObserver
 	* @return      None
 	*/
     virtual void HandleSuplSettingsChangeL(TSuplSettingsEventType aEvent,TInt aSlpId);                 
+
+	/**
+	* HandleSuplTriggerStatusChangeL,Observeed function, gets called.
+	* @since MCL v10.1
+	* @param       aSuplTriggerStatus,TSuplTriggerStatus, Trigger Status ON or OFF
+	* @return      None
+	*/
+    virtual void HandleSuplTriggerStatusChangeL(CSuplSettings::TSuplTriggerStatus aSuplTriggerStatus);           
 
 public:  // From base class MSuplSessionObserver
 	/**
@@ -477,7 +487,7 @@ private : //For internal use only
      * @param      None. 
      * @return     None.
      */
-    void ReadSuplUsage();
+    //void ReadSuplUsage();
 	
     /**
      * ReadOMASuplConfigurationL, Reads OMA Supl Configuration.

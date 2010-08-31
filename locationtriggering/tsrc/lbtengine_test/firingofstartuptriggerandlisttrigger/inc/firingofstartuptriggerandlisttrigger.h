@@ -28,6 +28,9 @@
 #include <TestScripterInternal.h>
 #include <StifTestModule.h>
 
+// Forward declaration
+class TCoordinate;
+class MProEngEngine;
 
 // CONSTANTS
 //const ?type ?constant_var = ?constant;
@@ -133,10 +136,27 @@ NONSHARABLE_CLASS(CFiringofStartupTriggerAndListTrigger) : public CScriptBase
         * @since ?Series60_version
         */
         void Delete();
+        
+        /**
+         * Set the phone profile to offline mode
+         */
+        void SetProfileToOfflineL();
+        
+        /**
+         * Restore original profile
+         */
+        void RestoreProfileL();
+                
+        /**
+         * Gets current coordinate
+         */
+        void GetCurrentCoordinateL( TCoordinate& aCoordinate );
+            
 
         /**
-        * Test methods are listed below. 
-        */
+         * Enable simulation PSY
+         */
+        void EnableSimPSYL();
 
         /**
         * Example test method.
@@ -202,12 +222,16 @@ NONSHARABLE_CLASS(CFiringofStartupTriggerAndListTrigger) : public CScriptBase
         //?data_declaration;
 
     private:    // Data
-        
-        // ?one_line_short_description_of_data
-        //?data_declaration;
-
-        // Reserved pointer for future extension
-        //TAny* iReserved;
+         /**
+          * Pointer to profile engine
+          * Own.
+          */
+         MProEngEngine* iProEngine;
+         
+         /**
+          * Current profile id
+          */
+         TInt iCurrentProfile;
 
     public:     // Friend classes
         //?friend_class_declaration;

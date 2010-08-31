@@ -329,10 +329,10 @@ void CPosLmNameIndex::DoEvaluateL( TReal32& aProgress )
                 // the original item has been changed
                 item->SetInvalid();
                 }
-            
-			CleanupStack::Pop( name );//ownership of name is transferred in the call to DoInsertL
 			
-			// add new item for this ID
+			CleanupStack::Pop( name );//ownership of name is transferred in the call to DoInsertL	
+				
+            // add new item for this ID
             // here comparison must be done using collation
             CIndexItem* newItem = DoInsertL( id, name ); // takes onwership of name
             newItem->SetValid();
@@ -442,7 +442,7 @@ void CPosLmNameIndex::InsertL( const CPosLandmark& aLandmark )
 void CPosLmNameIndex::InsertL( TPosLmItemId aLmid, const TDesC& aName )
     {
     HBufC* name = aName.AllocLC();
-    CleanupStack::Pop( name );//ownership of name is transferred in the call to UpdateL/InsertL
+    CleanupStack::Pop( name );
     InsertL( aLmid, name );
     }
 
@@ -461,15 +461,14 @@ void CPosLmNameIndex::InsertL( TPosLmItemId aLmid, HBufC* aName )
 //
 CPosLmNameIndex::CIndexItem* CPosLmNameIndex::DoInsertL( TPosLmItemId aLmid, HBufC* aName )
     {
-    CleanupStack::PushL( aName );//ownership of aName is transferred to this class
-	if ( Find( aLmid ) >= 0 ) // finds valid item
+	CleanupStack::PushL( aName );//ownership of aName is transferred to this class
+    if ( Find( aLmid ) >= 0 ) // finds valid item
         {
         User::Leave( KErrAlreadyExists ); // duplicate ID found
         }
     
     CIndexItem* landmark = new (ELeave) CIndexItem( aLmid, aName ); // takes ownership of aName
-    
-	CleanupStack::Pop( aName );
+    CleanupStack::Pop( aName );
 	CleanupStack::PushL( landmark );
     
     TLmIndexNameKey key;
@@ -496,8 +495,8 @@ void CPosLmNameIndex::AppendL( TPosLmItemId aLmid, HBufC* aName )
 	CleanupStack::PushL( aName );
     CIndexItem* landmark = new (ELeave) CIndexItem( aLmid, aName );
     CleanupStack::Pop( aName );
-	
-	CleanupStack::PushL( landmark );
+
+    CleanupStack::PushL( landmark );
     AppendL( landmark );
     CleanupStack::Pop( landmark );
     }
@@ -551,7 +550,7 @@ void CPosLmNameIndex::DoRemove( TInt aIndex )
 void CPosLmNameIndex::UpdateL( TPosLmItemId aId, const TDesC& aName )
     {
     HBufC* name = aName.AllocLC();
-    CleanupStack::Pop( name );//ownership of name is transferred in the call to UpdateL
+	CleanupStack::Pop( name );//ownership of name is transferred in the call to UpdateL
 //coverity[freed_arg : FALSE]
     UpdateL( aId, name );
 //coverity[pass_freed_arg : FALSE]

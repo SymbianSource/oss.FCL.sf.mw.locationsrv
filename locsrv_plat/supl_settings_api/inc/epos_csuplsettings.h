@@ -97,9 +97,28 @@ class CSuplSettings : public CBase
             ESuplUsageHomeAutomatic, 
             /** Indicates that SUPL usage is disabled */ 
             ESuplUsageDisabled 
-            };                
+            };                 
 
-
+		
+        /**
+         * Enumeration to indicate status of SUPL triggered service.  This is used as parameter for 
+         * @ref ChangeSuplTriggerServiceStatus() and @ref GetSuplTriggerServiceStatus() method. Client has to select one of the values from
+	     * this enumeration when changing SUPL triggered service status.  
+	     * For example, if client is changing SUPL triggered service status to ON,it should select ESuplTriggerON. 
+         * If SUPL triggered service status is set to ESuplTriggerON,then any client requesting triggered service will be served by SUPL Framework.
+         * If SUPL triggered service status is set to ESuplTriggerOFF,then client's request for triggered service will fail.
+         * If SUPL triggers are in progress and client sets off triggered service,then all started triggering sessions will get completed with error.
+         *
+         * @since S60 5.2
+         */
+			enum TSuplTriggerStatus
+            {
+            /** Indicates that SUPL triggered service status is ON */ 
+            ESuplTriggerOn = 0, 
+            /** Indicates that SUPL triggered service status is OFF */ 
+            ESuplTriggerOff
+            };      
+                      
     public:  // Constructors and destructor
 
         /**
@@ -110,7 +129,7 @@ class CSuplSettings : public CBase
         */
         IMPORT_C static CSuplSettings* NewL();
 
-        /**
+       /**
         * Two-phased constructor.
         *
         * @since S60 5.1 
@@ -118,7 +137,7 @@ class CSuplSettings : public CBase
         */
         IMPORT_C static CSuplSettings* NewLC();
 
-        /**
+       /**
         * Destructor.
         *
         * @since S60 3.1
@@ -128,7 +147,7 @@ class CSuplSettings : public CBase
 
     protected:
 
-        /**
+       /**
         * C++ default constructor.
         *
         * @since S60 3.1
@@ -136,7 +155,7 @@ class CSuplSettings : public CBase
         */
         CSuplSettings();
 
-        /**
+       /**
         * By default EPOC constructor is private.
         *
         * @since S60 3.1
@@ -146,7 +165,7 @@ class CSuplSettings : public CBase
 
     public: // New functions
 
-        /**
+       /**
         * This method is used to start listening for SUPL setting changes. To
         * listen for changes, the client must implement the
         * @ref MSuplSettingsObserver interface.  Client must allocated memory 
@@ -177,7 +196,7 @@ class CSuplSettings : public CBase
          */
         IMPORT_C void RemoveObserver();
 
-        /**
+       /**
         * This method is used to start listening for SUPL session changes. To
         * listen for changes, the client must implement the
         * @ref MSuplSessionObserver interface.  Client must allocated memory 
@@ -313,35 +332,25 @@ class CSuplSettings : public CBase
     IMPORT_C TInt IsImsiChanged(TBool& aChanged);
     
     /**
-     * This method is used to retrieve SUPL usage from settings storage.  
+     * This method is deprecated.  
      *
-     * @since S60 3.2
+     * @since S60 10.1
      *
-     * @param [OUT] aUsage  will hold, upon successful completion, value indicating 
-     * current SUPL usage 
      * @return one of the following error codes: 
-     *         - KErrNone if SUPL usage retrieved successfully.  
-     *         - KErrNotFound if the SUPL State is not found in SUPL settings
-     *         - KErrUnknown if retrieving SUPL usage from settings storage failed
+     *         - KErrNotSupported  
      */
 
     IMPORT_C TInt GetSuplUsage(TSuplSettingsUsage& aUsage) const;
 
-    /**
-     * This method is used to change SUPL usage.  Using this method, SUPL usage can be 
-     * set to any of the values specified in the enumeration @ref TSuplSettingsUsage 
-     * By default, SUPL usage will be set to always ask. 
+     /**
+     * This method is deprecated.  
      *
-     * @since S60 3.2
+     * @since S60 10.1
      *
-     * @param [IN] aUsage Usage to be set for SUPL usage 
      * @return one of the following error codes: 
-     *         - KErrNone if SUPL usage is changed successfully.  
-     *         - KErrArgument if aUsage field is not in range
-     *         - KErrUnknown if changing SUPL usage in settings storage has failed
+     *         - KErrNotSupported  
      */
     IMPORT_C TInt SetSuplUsage(TSuplSettingsUsage aUsage);
-
     /**
      * This method is used to add new server into settings.  It is client's responsibility
      * to set all the parameters in aParamValues except SLP identification.  After adding
@@ -564,7 +573,7 @@ class CSuplSettings : public CBase
             const TBool aEditFlag 
     ) const;
 
-       /**
+    /**
      * This method is used to retrieve parameter which indicates whether server
      * details are editable or not. 
      *
@@ -884,7 +893,7 @@ class CSuplSettings : public CBase
                                      CTriggerParams*& aParamValues ) const;
           
 
-    /*
+    /**
      * Sets Notification status of particular session
      *
      * @since S60 5.2 
@@ -901,7 +910,7 @@ class CSuplSettings : public CBase
 	            TInt64 aSessionId,
                 TBool aTriggerNotificationStatus
                 );
-	/*
+	/**
 	 * Cancels given ongoing triggering session
 	 *
 	 * @since S60 5.2 
@@ -928,6 +937,30 @@ class CSuplSettings : public CBase
 	 */
 
 	IMPORT_C TInt GetDefaultIAPName(TDes& aIapName);
+    
+	/**
+	 * Changes status of SUPL triggered service. 
+	 *
+	 * @since S60 10.1 
+	 * @param [IN] aSuplTriggerStatus, Indicates the new SUPL triggered service status value
+	 * @capability WriteDeviceData Its required for cenrep write operation.
+	 * @return following error codes
+	 *      - KErrNone if successful
+	 *      otherwise system wide error codes. 
+	 */
+	IMPORT_C TInt SetSuplTriggeredServiceStatus( const TSuplTriggerStatus& aSuplTriggerStatus );
+        
+	/**
+	 * Returns the status of SUPL triggered service.
+	 *
+	 * @since S60 10.1 
+	 * @param [OUT] aSuplTriggerStatus, Gets status of SUPL triggering session either ON or OFF
+	 * @capability ReadDeviceData Its required for cenrep read operation.
+	 * @return following error codes
+	 *      - KErrNone if successful
+	 *      otherwise system wide error codes. 
+	 */
+	IMPORT_C TInt GetSuplTriggeredServiceStatus( TSuplTriggerStatus& aSuplTriggerStatus );
     
     private: // New functions
         

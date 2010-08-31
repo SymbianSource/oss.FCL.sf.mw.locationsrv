@@ -72,7 +72,7 @@ void CPosLmLocalTextSearch::ConstructL(
 
     iAttributes = criteria.AttributesToSearch();
     criteria.GetPositionFieldsToSearchL( iFields );
-    iTextPattern.Append(criteria.Text().AllocL());
+    iTextPattern.AppendL(criteria.Text().AllocL());
 
     // Check if the text should be searched in attributes or in position fields
     // or in both.
@@ -797,7 +797,7 @@ void CPosLmLocalTextSearch::ConstructL(
 	    	}
 	    }
 	    if(!aFound)
-	    	iTextPattern.Append(criteria.Text().AllocL());
+	    	iTextPattern.AppendL(criteria.Text().AllocL());
 	}
 	
 	

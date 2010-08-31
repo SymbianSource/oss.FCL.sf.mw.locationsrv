@@ -40,11 +40,6 @@ PRJ_TESTMMPFILES
 // NOTE: If using ARS requirements .mmp file operation should be done under this.
 // 'abld test build'
 testmnclientlib.mmp
-../mapnavproviderrefapp/group/geocodingrefengine.mmp
-../mapnavproviderrefapp/group/geocodingrefprovider.mmp
-../mapnavproviderrefapp/group/geocodingrefproviderback.mmp
-../mapnavproviderrefapp/group/geocodingrefproviderplugin.mmp
-
 
 PRJ_MMPFILES
 // Specify the .mmp files required for building the important component

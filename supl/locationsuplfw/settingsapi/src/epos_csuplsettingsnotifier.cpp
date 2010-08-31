@@ -90,29 +90,55 @@ void CSuplSettingsNotifier::RunL()
         TReal slpID;
         iRepository->Get(KSuplSettingsDBChangedSLPId, slpID);
         
-
-        MSuplSettingsObserver::TSuplSettingsEventType eventType = (MSuplSettingsObserver::TSuplSettingsEventType)event;
+        MSuplSettingsObserver::TSuplSettingsEventType eventType = MSuplSettingsObserver::ESuplSettingsEventUnspecified;
+        switch(event)
+            {
+            case MSuplSettingsObserver::ESuplSettingsDBAddEvent:
+            case MSuplSettingsObserver::ESuplSettingsDBAddEvent+1 :
+                {
+                eventType = MSuplSettingsObserver::ESuplSettingsDBAddEvent;
+                }
+                break;
+            case MSuplSettingsObserver::ESuplSettingsDBDeleteEvent:
+            case MSuplSettingsObserver::ESuplSettingsDBDeleteEvent+1 :
+                {
+                eventType = MSuplSettingsObserver::ESuplSettingsDBDeleteEvent;
+                }
+                break;
+            case MSuplSettingsObserver::ESuplSettingsDBUpdateEvent:
+            case MSuplSettingsObserver::ESuplSettingsDBUpdateEvent+1 :
+                {
+                eventType = MSuplSettingsObserver::ESuplSettingsDBUpdateEvent;
+                }
+                break;
+            default:                
+                eventType = MSuplSettingsObserver::ESuplSettingsEventUnspecified;
+                break;
+            
+            }
+        
         iObserver.HandleSuplSettingsChangeL(eventType,slpID);
         }
     else
         {
-        TInt usage;
-
-        iRepository->Get(KSuplSettingsUsage, usage);
-
-        if (iUsage != usage) //check if there was a change in the Supl usage value in the cen rep
-            iObserver.HandleSuplSettingsChangeL(MSuplSettingsObserver::ESuplSettingsEventSuplUsageChange);
-        else //else check if any of the other config parameters changed
-            {
             TInt fallBackValue;
             TInt fallBackTimerValue;
             TBuf<KMaxStrlen> imsi;
+            TInt triggerServiceStatus;
+            
             iRepository->Get(KSuplSettingsFallBack,fallBackValue);
             iRepository->Get(KSuplSettingsFallBackTimer,fallBackTimerValue);
             iRepository->Get(KSuplSettingsIMSI,imsi);
+            iRepository->Get(KSuplSettingsTriggerServiceStatus,triggerServiceStatus);
+            
+            if(triggerServiceStatus != iTriggerServiceStatus )
+            {
+            	iObserver.HandleSuplTriggerStatusChangeL((CSuplSettings::TSuplTriggerStatus)triggerServiceStatus);
+            }
+            
             if(fallBackValue != iFallBackValue || fallBackTimerValue != iFallBackTimerValue || imsi.Compare(*iImsi))
                 iObserver.HandleSuplSettingsChangeL(MSuplSettingsObserver::ESuplSettingsEventCommParameterChange);
-            }
+            
         }
     StartListening();
     }
@@ -159,16 +185,15 @@ void CSuplSettingsNotifier::StartListening()
         }
     else
         {
-        TInt usage;
         TBuf<KMaxStrlen> imsi;
-        iRepository->Get(KSuplSettingsUsage, usage);
         iRepository->Get(KSuplSettingsFallBack,iFallBackValue);
         iRepository->Get(KSuplSettingsFallBackTimer,iFallBackTimerValue);
         iRepository->Get(KSuplSettingsIMSI,imsi);
+        iRepository->Get(KSuplSettingsTriggerServiceStatus,iTriggerServiceStatus);
+        
         if(iImsi)
             iImsi->Des() = imsi;
-        iUsage = (CSuplSettings::TSuplSettingsUsage) usage;
-
+        
         // Request for notification for any field change
         iRepository->NotifyRequest(0x00000000, 0x00000000, iStatus);
         }

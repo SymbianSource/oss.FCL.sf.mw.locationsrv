@@ -1,6 +1,0 @@
-EXPORTS
-	?CreateLocationSubSettingsUIL@CLocSysUiEngine@@QAEPAVMLocationUI@@VTUid@@@Z @ 1 NONAME ; class MLocationUI * CLocSysUiEngine::CreateLocationSubSettingsUIL(class TUid)
-	?CreatePositioningSettingsUIL@CLocSysUiEngine@@QAEPAVMLocationUI@@XZ @ 2 NONAME ; class MLocationUI * CLocSysUiEngine::CreatePositioningSettingsUIL(void)
-	?NewL@CLocSysUiEngine@@SAPAV1@AAVCAknViewAppUi@@@Z @ 3 NONAME ; class CLocSysUiEngine * CLocSysUiEngine::NewL(class CAknViewAppUi &)
-	?NewLC@CLocSysUiEngine@@SAPAV1@AAVCAknViewAppUi@@@Z @ 4 NONAME ; class CLocSysUiEngine * CLocSysUiEngine::NewLC(class CAknViewAppUi &)
-

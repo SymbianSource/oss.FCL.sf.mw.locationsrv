@@ -100,8 +100,8 @@ void COMASuplProductConfig::StartProductConfigurationL()
         
         TUint32 key = KProductConfigActualKeysStart;
         
-        iServerAddress.Create(KMaxServerNameLength);
-        iIapName.Create(KMaxServerNameLength);
+        User::LeaveIfError(iServerAddress.Create(KMaxServerNameLength));
+        User::LeaveIfError(iIapName.Create(KMaxServerNameLength));
         
         TBool serverEnabled;
         TBool simChangeRemove;
@@ -155,7 +155,8 @@ void COMASuplProductConfig::StartProductConfigurationL()
                     }
                 if(iServerAddress.Length()!=0)
                     {
-                    err = params->Set(iServerAddress,iIapName,serverEnabled,simChangeRemove,usageInHomeNw,editable);
+                    //last parameter is ETrue since this is a product configured server
+                    err = params->Set(iServerAddress,iIapName,serverEnabled,simChangeRemove,usageInHomeNw,editable,0);//by default product config
                     errCode.AppendNum(err);
                     Trace(_L("params->Set returned:"),KProductConfig, __LINE__);
                     Trace(errCode,KProductConfig, __LINE__);

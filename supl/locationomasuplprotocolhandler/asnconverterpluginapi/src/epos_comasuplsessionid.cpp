@@ -133,10 +133,14 @@ EXPORT_C void COMASuplSessionID::SetSLPSessionID(COMASuplSLPSessionID* aSLPSessi
 EXPORT_C COMASuplSessionID* COMASuplSessionID::CloneL()
     {
     COMASuplSessionID* suplSessionIdToReturn = COMASuplSessionID::NewL();
+    CleanupStack::PushL( suplSessionIdToReturn );
     if(iSETSessionID)
         suplSessionIdToReturn->SetSETSessionID(iSETSessionID->CloneL());
     if(iSLPSessionID)
         suplSessionIdToReturn->SetSLPSessionID(iSLPSessionID->CloneL());
+    
+    CleanupStack::Pop(suplSessionIdToReturn);
+    
     return suplSessionIdToReturn;
     }
 // -----------------------------------------------------------------------------

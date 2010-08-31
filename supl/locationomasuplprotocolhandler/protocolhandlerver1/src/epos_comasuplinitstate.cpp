@@ -257,7 +257,7 @@ TInt COMASuplInitState::MakeGSMNotificationL()
 		// Notify Network Privacy of the request information
 		// Synchronous call 
 		TInt RequestId;
-		iNetworkPrivacy->NotifyLocationRequestL(*suplReqInfo,RequestId);
+		TRAP_IGNORE(iNetworkPrivacy->NotifyLocationRequestL(*suplReqInfo,RequestId);)
 		
 		if(iIsNotificationOnly)
 		{
@@ -304,9 +304,9 @@ TInt COMASuplInitState::MakeGSMVerificationL(CPosNetworkPrivacy::TRequestDecisio
 	if(!clientError)
 		{
 		// Set name of Client
-			
 		if(client)
 			{
+				iTrace->Trace(_L("calling suplReqInfo->SetLCSClientL"), KTraceFileName, __LINE__);
 				suplReqInfo->SetLCSClientL(*client,iIdType);	
 			}
 		
@@ -321,8 +321,12 @@ TInt COMASuplInitState::MakeGSMVerificationL(CPosNetworkPrivacy::TRequestDecisio
 			// what decision the GSM Network will make if the user won't answer before 
 			// a timeout comes in from GSM Network. In this case verification will 
 			// be rejected.
-			iNetworkPrivacy->VerifyLocationRequestL(*suplReqInfo, 
-				iGSMRequestId, *this, aTimeOutStrategy);
+			iTrace->Trace(_L("Calling iNetworkPrivacy->VerifyLocationRequestL"), KTraceFileName, __LINE__); 					
+			
+			
+			TRAP_IGNORE(iNetworkPrivacy->VerifyLocationRequestL(*suplReqInfo, 
+				iGSMRequestId, *this, aTimeOutStrategy);) 					
+				
 	        TBuf<64> msg;
 	        msg.Copy(_L("1.0 Privacy Fw Generated Verification Request id:"));
 	        msg.AppendNum(iGSMRequestId);

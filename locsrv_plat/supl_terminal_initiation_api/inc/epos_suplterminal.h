@@ -1134,6 +1134,15 @@ protected:
 	 *  		- KErrGeneral
 	 */	
 	TInt CheckIfSlpExists(const TDesC& aHslpAddress);
+	
+	/**
+	 * Checks if server  is present in the database or not
+	 * @ return codes
+	 *  		- KErrNone if server is present
+	 *  		- KErrNotFound if server is not present
+	 *  		- KErrGeneral
+	 */	
+	TBool CheckSuplTriggerServiceStatus();
 
 
 protected:

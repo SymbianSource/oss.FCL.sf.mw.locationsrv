@@ -54,6 +54,7 @@ const TInt KServerEnabled = 8;
 const TInt KSimChangeRemove = 32;
 const TInt KUsageInHomeNw = 64;
 const TInt KEditable = 128;
+const TInt KProductConfigured= 256;
 
 //values used to set and retrieve major and minor version numbers from a single int
 const TInt KVersionMinorMask = 255;
@@ -126,6 +127,7 @@ _LIT(KColTriggerType,"TriggerType");
 _LIT(KColRequestType,"RequestType");
 _LIT(KColOutstandingTrigger,"OutstandingTrigger");      
 _LIT(KColInterval,"Interval");
+_LIT(KColEndTime,"EndTime");
 
 _LIT(KColServerId,"ServerId");
 _LIT(KColIap1,"Iap1");
@@ -154,18 +156,16 @@ CSettingsDatabaseHandler* CSettingsDatabaseHandler::NewL()
 // ---------------------------------------------------------------------------
 CSettingsDatabaseHandler::~CSettingsDatabaseHandler()
     {
-    if(iSettingsRep)
-        {
-        delete iSettingsRep;
-        iSettingsRep = NULL;
-        }    
-    if(iSettingsNotifierRep)
-        {
-        delete iSettingsNotifierRep;
-        iSettingsNotifierRep = NULL;
-        }
-    iDb.Close();
-    LogQuery(_L("Deleted Settings DB Handle CLosed"));
+				delete iSettingsRep;
+				iSettingsRep = NULL;
+				
+				delete iSettingsNotifierRep;
+				iSettingsNotifierRep = NULL;
+				
+				Close();
+				
+				LogQuery(_L("Deleted Settings DB Handle CLosed"));
+				
     }
 
 // ---------------------------------------------------------------------------
@@ -272,18 +272,6 @@ void CSettingsDatabaseHandler::CreateOpenSecureDatabaseL(/*const TDesC& aDbFile*
     User::LeaveIfError(err);
     }
  
-// ---------------------------------------------------------------------------
-// CSettingsDatabaseHandler::RemoveDb()
-//
-// 
-// ---------------------------------------------------------------------------
-TInt CSettingsDatabaseHandler::RemoveDb()
-    {
-    Close();
-   // iDbs.DeleteDatabase(KWordDatabase,KSecureUid);
-    return KErrNone;
-    }
-
 // ---------------------------------------------------------------------------
 // CSettingsDatabaseHandler::Close()
 //
@@ -450,10 +438,11 @@ void CSettingsDatabaseHandler::InsertSLPRecordL(const CServerParams* aServParamV
     
     TInt32  netInfoLastUse = 0;
     TInt32  netInfoLastSucess = 0;
-    TBool   serverEnabled,simChangeRemove,usageInHomeNw,editable;
+    TBool   serverEnabled,simChangeRemove,usageInHomeNw,editable,prodConfig;
     
-    TInt ret = 0;
-    ret = aServParamValues->Get(slpId,SLPAddress->Des(),IAPName->Des(),serverEnabled,simChangeRemove,usageInHomeNw,editable);
+    TInt ret = aServParamValues->Get(slpId,SLPAddress->Des(),IAPName->Des(),serverEnabled,simChangeRemove,usageInHomeNw,editable);
+    					 aServParamValues->GetServerConfigurationType(prodConfig); 
+    
     if(ret == KErrNotFound)
         {
         CleanupStack::PopAndDestroy(3); //SLPAddress,IAPName,manuName
@@ -514,6 +503,10 @@ void CSettingsDatabaseHandler::InsertSLPRecordL(const CServerParams* aServParamV
     if(editable)
         {
         OtherProperties |= KEditable;
+        }
+    if(prodConfig)
+        {
+        OtherProperties |= KProductConfigured;
         }
     
     TBuf<KMaxHSLPAddrLen> tempBuf;
@@ -849,10 +842,8 @@ void CSettingsDatabaseHandler::UpdateSLPRecordL(const CServerParams* aParamValue
     
     HBufC* IAPName = HBufC::NewLC( KMaxIAPLen);
     TBool  serverEnabled,simChangeRemove,usageInHomeNw,editable;
-
-
-    TInt ret = 0;
-    ret = aParamValues->Get(slpId,SLPAddress->Des(),IAPName->Des(),serverEnabled,simChangeRemove,usageInHomeNw,editable);
+    
+    TInt ret = aParamValues->Get(slpId,SLPAddress->Des(),IAPName->Des(),serverEnabled,simChangeRemove,usageInHomeNw,editable);
     if(ret == KErrNotFound || slpId == -1 )
         {
         CleanupStack::PopAndDestroy(2); //SLPAddress,IAPName
@@ -908,7 +899,9 @@ void CSettingsDatabaseHandler::UpdateSLPRecordL(const CServerParams* aParamValue
          {
          OtherProperties &= ~KEditable;
          }
-
+     //product configuration flag is not altered here since it should not be modified while updation
+     //and gets set only during addition of a new server through product configuration
+     
      TBuf<KGenericStringLen> tempBuf;
      tempBuf.Copy(*SLPAddress);
      tempBuf.Trim();
@@ -1156,7 +1149,9 @@ void CSettingsDatabaseHandler::UpdateDefaultServerL(const CServerParams* aParamV
         {
         OtherProperties &= ~KEditable;
         }
-
+    //product configuration flag is not altered here since it should not be modified while updation
+    //and gets modified only during addition of a new server
+    
     TBuf<KGenericStringLen> tempBuf;
     tempBuf.Copy(*SLPAddress);
     tempBuf.Trim();
@@ -1691,7 +1686,7 @@ void CSettingsDatabaseHandler::GetAllSLPL(RPointerArray<CServerParams>& aParamVa
     TBool simChangeRemove = EFalse;
     TBool usageInHomeNw = EFalse;
     TBool editable = EFalse;
-
+    TBool prodConfig = ETrue;
 
     TInt columnIndexSLPID = stmt.ColumnIndex(KColSLPId);
     TInt columnIndexSLPAddress = stmt.ColumnIndex(KColSLPAddress);
@@ -1701,6 +1696,7 @@ void CSettingsDatabaseHandler::GetAllSLPL(RPointerArray<CServerParams>& aParamVa
     while((err=stmt.Next())==KSqlAtRow)
         {
         CServerParams *params = CServerParams::NewL();
+        CleanupStack::PushL(params);
         SLPId = stmt.ColumnInt(columnIndexSLPID);
         stmt.ColumnText(columnIndexSLPAddress,ServerAddress);
               
@@ -1715,8 +1711,12 @@ void CSettingsDatabaseHandler::GetAllSLPL(RPointerArray<CServerParams>& aParamVa
         simChangeRemove = otherprops & KSimChangeRemove; 
         usageInHomeNw = otherprops & KUsageInHomeNw; 
         editable = otherprops & KEditable;
+        prodConfig = otherprops & KProductConfigured;
         params->Set(ServerAddress,Iap,serverEnabled,simChangeRemove,usageInHomeNw,editable,SLPId);
-        aParamValues.Append(params);//ownership transferred to RPointerArray
+        params->SetServerConfigurationType(prodConfig);
+        
+        aParamValues.AppendL(params);//ownership transferred to RPointerArray
+        CleanupStack::Pop(params);
         }   
 
     stmt.Close();
@@ -1759,7 +1759,7 @@ void CSettingsDatabaseHandler::GetAllSLPL(RPointerArray<CServerParams>& aParamVa
     TBool simChangeRemove = EFalse;
     TBool usageInHomeNw = EFalse;
     TBool editable = EFalse;
-
+    TBool prodConfig = ETrue;
 
     TInt columnIndexSLPID = stmt.ColumnIndex(KColSLPId);
     TInt columnIndexSLPAddress = stmt.ColumnIndex(KColSLPAddress);
@@ -1769,6 +1769,7 @@ void CSettingsDatabaseHandler::GetAllSLPL(RPointerArray<CServerParams>& aParamVa
     while((err=stmt.Next())==KSqlAtRow)
         {
         CServerParams *params = CServerParams::NewL();
+        CleanupStack::PushL(params);
         SLPId = stmt.ColumnInt(columnIndexSLPID);
         stmt.ColumnText(columnIndexSLPAddress,ServerAddress);
               
@@ -1783,8 +1784,11 @@ void CSettingsDatabaseHandler::GetAllSLPL(RPointerArray<CServerParams>& aParamVa
         simChangeRemove = otherprops & KSimChangeRemove; 
         usageInHomeNw = otherprops & KUsageInHomeNw; 
         editable = otherprops & KEditable;
+        prodConfig = otherprops & KProductConfigured;
         params->Set(ServerAddress,Iap,serverEnabled,simChangeRemove,usageInHomeNw,editable,SLPId);
-        aParamValues.Append(params);//ownership transferred to RPointerArray
+        params->SetServerConfigurationType(prodConfig);
+        aParamValues.AppendL(params);//ownership transferred to RPointerArray
+        CleanupStack::Pop(params);
         }   
 
     stmt.Close();
@@ -2072,6 +2076,7 @@ TInt CSettingsDatabaseHandler::GetSlpInfoFromId(const TInt64 aSlpId,CServerParam
     TBool simChangeRemove = EFalse;
     TBool usageInHomeNw = EFalse;
     TBool editable = EFalse;
+    TBool prodConfig = ETrue;
     
     TInt columnIndexSLPID = stmt.ColumnIndex(KColSLPId);
     TInt columnIndexSLPAddress = stmt.ColumnIndex(KColSLPAddress);
@@ -2093,6 +2098,7 @@ TInt CSettingsDatabaseHandler::GetSlpInfoFromId(const TInt64 aSlpId,CServerParam
         simChangeRemove = otherprops & KSimChangeRemove;
         usageInHomeNw = otherprops & KUsageInHomeNw;
         editable = otherprops & KEditable;
+        prodConfig = otherprops & KProductConfigured;
         //logging
         otherpropbuf.Zero();
         otherpropbuf.AppendNum(otherprops);
@@ -2104,6 +2110,8 @@ TInt CSettingsDatabaseHandler::GetSlpInfoFromId(const TInt64 aSlpId,CServerParam
     stmt.Close();
     
     aParamValues->Set(serverAddress,Iap,serverEnabled,simChangeRemove,usageInHomeNw,editable,SLPId);
+    aParamValues->SetServerConfigurationType(prodConfig);
+    
     return KErrNone;
     }
 // --------------------------------------------------------------------------------------
@@ -2146,6 +2154,7 @@ TInt CSettingsDatabaseHandler::GetSlpInfoFromAddress(const TDesC& aServerAddress
     TBool simChangeRemove = EFalse;
     TBool usageInHomeNw = EFalse;
     TBool editable = EFalse;
+    TBool prodConfig = ETrue;
     
     TInt columnIndexSLPID = stmt.ColumnIndex(KColSLPId);
     TInt columnIndexSLPAddress = stmt.ColumnIndex(KColSLPAddress);
@@ -2167,6 +2176,7 @@ TInt CSettingsDatabaseHandler::GetSlpInfoFromAddress(const TDesC& aServerAddress
         simChangeRemove = otherprops & KSimChangeRemove;
         usageInHomeNw = otherprops & KUsageInHomeNw;
         editable = otherprops & KEditable;
+        prodConfig = otherprops & KProductConfigured;
         //logging
         otherpropbuf.Zero();
         otherpropbuf.AppendNum(otherprops);
@@ -2182,6 +2192,7 @@ TInt CSettingsDatabaseHandler::GetSlpInfoFromAddress(const TDesC& aServerAddress
         return KErrNotFound;
     
     aParamValues->Set(serverAddress,Iap,serverEnabled,simChangeRemove,usageInHomeNw,editable,SLPId);
+    aParamValues->SetServerConfigurationType(prodConfig);
     return KErrNone;
     }
 // ------------------------------------------------------------------------------------
@@ -2218,7 +2229,8 @@ TInt CSettingsDatabaseHandler::GetDefaultServer(CServerParams* aParamValues)
     TBool simChangeRemove = EFalse;
     TBool usageInHomeNw = EFalse;
     TBool editable = EFalse;
-
+    TBool prodConfig = ETrue;
+    
     TInt columnIndexSLPID = stmt.ColumnIndex(KColSLPId);
     TInt columnIndexSLPAddress = stmt.ColumnIndex(KColSLPAddress);
     TInt columnIndexIAP = stmt.ColumnIndex(KColIap);
@@ -2236,6 +2248,7 @@ TInt CSettingsDatabaseHandler::GetDefaultServer(CServerParams* aParamValues)
         simChangeRemove = otherprops & KSimChangeRemove;
         usageInHomeNw = otherprops & KUsageInHomeNw;
         editable = otherprops & KEditable;
+        prodConfig = otherprops & KProductConfigured;
         //logging
         otherpropbuf.Zero();
         otherpropbuf.AppendNum(otherprops);
@@ -2252,6 +2265,7 @@ TInt CSettingsDatabaseHandler::GetDefaultServer(CServerParams* aParamValues)
     stmt.Close();
 
     aParamValues->Set(serverAddress,Iap,serverEnabled,simChangeRemove,usageInHomeNw,editable,SLPId);
+    aParamValues->SetServerConfigurationType(prodConfig);
     return KErrNone;
     }
 // ---------------------------------------------------------------------------
@@ -2546,7 +2560,7 @@ void CSettingsDatabaseHandler::ChangePriorityL(TInt aSlpId,TInt aValue,TBool aDi
         {
         SLPId = stmt.ColumnInt64(columnIndexSLPID);
         if(SLPId != aSlpId)
-            slpIndexArray.Append(stmt.ColumnInt64(columnIndexSLPID));
+            slpIndexArray.AppendL(stmt.ColumnInt64(columnIndexSLPID));
         }
     stmt.Reset(); 
     stmt.Close();
@@ -2717,7 +2731,7 @@ void CSettingsDatabaseHandler::SetPriorityL(TInt aSlpId,TInt aValue)
         {
         SLPId = stmt.ColumnInt64(columnIndexSLPID);
         if(SLPId != aSlpId)
-            slpIndexArray.Append(stmt.ColumnInt64(columnIndexSLPID));
+            slpIndexArray.AppendL(stmt.ColumnInt64(columnIndexSLPID));
         }
     stmt.Reset(); 
     stmt.Close();
@@ -2797,7 +2811,7 @@ void CSettingsDatabaseHandler::NormalizePriorityL()
     //Get all slp ids currently in the database
     while((err=stmt.Next())==KSqlAtRow)
         {
-        slpIdArray.Append(stmt.ColumnInt64(columnIndexSLPID));
+        slpIdArray.AppendL(stmt.ColumnInt64(columnIndexSLPID));
         }
     stmt.Reset();
     
@@ -2914,6 +2928,11 @@ void CSettingsDatabaseHandler::CreateSessionTableL()
 
     iSQLString.Append(KColInterval);
     iSQLString.Append(KDataTypeInteger);
+    iSQLString.Append(KCommaSeparator);
+    
+    iSQLString.Append(KColEndTime);
+    iSQLString.Append(KDataTypeInteger);
+        
     iSQLString.Append(KClosingBracket);
     
     TInt err = iDb.Exec(iSQLString);
@@ -2945,10 +2964,14 @@ void CSettingsDatabaseHandler::InsertSessionRecordL(const CTriggerParams* aSessi
     CTriggerParams::TRequestType requestType;
     TUint64 outstandingTrigger;
     TUint64 interval;
-    
+    TTime endTime;
     TInt ret = aSessionParamValues->Get(sessionId,sessionName->Des(),notificationPresent,triggerNotificationStatus,
                              triggerType,requestType,outstandingTrigger,interval );
+                             
+         aSessionParamValues->GetTriggerEndTime(endTime);
          
+    TInt64 endTimeInt;
+    endTimeInt = endTime.Int64();
     if(ret == KErrNotFound)
         {
         delete sessionName;
@@ -2981,6 +3004,10 @@ void CSettingsDatabaseHandler::InsertSessionRecordL(const CTriggerParams* aSessi
     iSQLString.Append(KCommaSeparator); 
 
     iSQLString.Append(KColInterval);
+    iSQLString.Append(KCommaSeparator);
+    
+    iSQLString.Append(KColEndTime);
+    
     iSQLString.Append(KClosingBracket);
     
     iSQLString.Append(KValues);
@@ -3011,7 +3038,10 @@ void CSettingsDatabaseHandler::InsertSessionRecordL(const CTriggerParams* aSessi
     iSQLString.Append(KCommaSeparator);
     
     iSQLString.AppendNum(interval);
-          
+    iSQLString.Append(KCommaSeparator);
+    
+    iSQLString.AppendNum(endTimeInt);
+    
     iSQLString.Append(KClosingBracket);
 
     delete sessionName;   
@@ -3163,7 +3193,9 @@ void CSettingsDatabaseHandler::GetAllSessionsL(RPointerArray<CTriggerParams>& aP
     TUint64 outstandingTrigger;
     TUint64 interval;
     TBuf<KGenericStringLen> sessionName;
-    
+    TTime endTime;
+    TInt64 endTimeInt;
+        
     TInt columnIndexSessionID = stmt.ColumnIndex(KColSessionId);
     TInt columnIndexSessionName = stmt.ColumnIndex(KColSessionName);
     TInt columnIndexNotificationPresent = stmt.ColumnIndex(KColNotificationPresent);
@@ -3172,12 +3204,14 @@ void CSettingsDatabaseHandler::GetAllSessionsL(RPointerArray<CTriggerParams>& aP
     TInt columnIndexRequestType = stmt.ColumnIndex(KColRequestType);
     TInt columnIndexOutstandingTrigger = stmt.ColumnIndex(KColOutstandingTrigger);
     TInt columnIndexInterval = stmt.ColumnIndex(KColInterval);
+    TInt columnIndexEndTime = stmt.ColumnIndex(KColEndTime);
 
     // Reset client array
     aParamValues.Reset();
     while((err=stmt.Next())==KSqlAtRow)
         {
         CTriggerParams *params = CTriggerParams::NewL();
+        CleanupStack::PushL(params);
         sessionId = stmt.ColumnInt(columnIndexSessionID);
         stmt.ColumnText(columnIndexSessionName,sessionName);
         notificationPresent = stmt.ColumnInt(columnIndexNotificationPresent);
@@ -3186,9 +3220,12 @@ void CSettingsDatabaseHandler::GetAllSessionsL(RPointerArray<CTriggerParams>& aP
         requestType = (CTriggerParams::TRequestType) stmt.ColumnInt(columnIndexRequestType);
         outstandingTrigger = stmt.ColumnInt(columnIndexOutstandingTrigger);
         interval = stmt.ColumnInt(columnIndexInterval);
-        
+        endTimeInt = stmt.ColumnInt64(columnIndexEndTime);
+        endTime = endTimeInt;
         params->Set(sessionId,sessionName,notificationPresent,triggerNotificationStatus,triggerType,requestType,outstandingTrigger,interval);
-        aParamValues.Append(params);//ownership transferred to RPointerArray
+				params->SetTriggerEndTime(endTime);        
+        aParamValues.AppendL(params);//ownership transferred to RPointerArray
+        CleanupStack::Pop(params);
         }   
 
     stmt.Close();
@@ -3237,6 +3274,9 @@ void CSettingsDatabaseHandler::GetSessionL(TInt64 aSessionId,
     TUint64 outstandingTrigger;
     TUint64 interval;
     TBuf<KGenericStringLen> sessionName;
+    TTime endTime;
+    TInt64 endTimeInt;
+    
         
     TInt columnIndexSessionID = stmt.ColumnIndex(KColSessionId);
     TInt columnIndexSessionName = stmt.ColumnIndex(KColSessionName);
@@ -3246,6 +3286,8 @@ void CSettingsDatabaseHandler::GetSessionL(TInt64 aSessionId,
     TInt columnIndexRequestType = stmt.ColumnIndex(KColRequestType);
     TInt columnIndexOutstandingTrigger = stmt.ColumnIndex(KColOutstandingTrigger);
     TInt columnIndexInterval = stmt.ColumnIndex(KColInterval);
+    TInt columnIndexEndTime = stmt.ColumnIndex(KColEndTime);
+    
     while((err=stmt.Next())==KSqlAtRow)
         {
         sessionId = stmt.ColumnInt(columnIndexSessionID);
@@ -3256,8 +3298,10 @@ void CSettingsDatabaseHandler::GetSessionL(TInt64 aSessionId,
         requestType = (CTriggerParams::TRequestType) stmt.ColumnInt(columnIndexRequestType);
         outstandingTrigger = stmt.ColumnInt(columnIndexOutstandingTrigger);
         interval = stmt.ColumnInt(columnIndexInterval);
-                
+        endTimeInt = stmt.ColumnInt64(columnIndexEndTime);
+        endTime = endTimeInt;
         aParamValues->Set(sessionId,sessionName,notificationPresent,triggerNotificationStatus,triggerType,requestType,outstandingTrigger,interval);
+        aParamValues->SetTriggerEndTime(endTime);
         }   
 
     stmt.Close();

@@ -216,7 +216,7 @@ EXPORT_C void PosLmLandmarkHandler::GetAllLandmarkIdsL(
     while ( view.NextL() )
         {
         view.GetL();
-        aLandmarkIds.Append( view.ColUint32(1) );
+        aLandmarkIds.AppendL( view.ColUint32(1) );
         }
 
     CleanupStack::PopAndDestroy(2, sql); //&view

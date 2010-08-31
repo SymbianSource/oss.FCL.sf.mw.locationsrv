@@ -317,8 +317,22 @@ NONSHARABLE_CLASS(CSettingsApi) : public CScriptBase, public MSuplSettingsObserv
         virtual TInt SetTriggerEmptySessionNameL( CStifItemParser& aItem );
         virtual TInt SetTriggerLongSessionNameL( CStifItemParser& aItem );
 
+        TInt ChangeSuplTriggerServiceStatusON();
+            
+
+        TInt ChangeSuplTriggerServiceStatusOFF();
+           
+
+        TInt GetSuplTriggerServiceStatusON();
 
 
+        TInt GetSuplTriggerServiceStatusOFF();
+
+       // TInt CSettingsApi::SetstatusOtherThanAppropriate();
+    public : // from MSuplSettingsObserver
+        virtual void HandleSuplTriggerStatusChangeL(
+                       CSuplSettings::TSuplTriggerStatus aSuplTriggerStatus );
+      
 				   
     public:     // Data
         // ?one_line_short_description_of_data

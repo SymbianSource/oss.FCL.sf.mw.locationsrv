@@ -21,7 +21,15 @@
 
 // INCLUDE FILES
 #include <Stiftestinterface.h>
+#include <MProEngEngine.h>
 #include "firingofstartuptriggerandlisttrigger.h"
+#include <SettingServerClient.h>
+
+
+// Log file
+_LIT( KAdvancedTriggerSupervisionLogFile, "Firing.txt" ); 
+_LIT( KAdvancedTriggerSupervisionLogFileWithTitle, "Firing[%S].txt" );
+
 
 // EXTERNAL DATA STRUCTURES
 //extern  ?external_data;
@@ -82,7 +90,8 @@
 //
 CFiringofStartupTriggerAndListTrigger::CFiringofStartupTriggerAndListTrigger( 
     CTestModuleIf& aTestModuleIf ):
-        CScriptBase( aTestModuleIf )
+        CScriptBase( aTestModuleIf ),
+                iProEngine( NULL )
     {
     }
 
@@ -93,12 +102,44 @@ CFiringofStartupTriggerAndListTrigger::CFiringofStartupTriggerAndListTrigger(
 //
 void CFiringofStartupTriggerAndListTrigger::ConstructL()
     {
+    //Read logger settings to check whether test case name is to be
+    //appended to log file name.
+    RSettingServer settingServer;
+    TInt ret = settingServer.Connect();
+    if(ret != KErrNone)
+        {
+        User::Leave(ret);
+        }
+    // Struct to StifLogger settigs.
+    TLoggerSettings loggerSettings; 
+    // Parse StifLogger defaults from STIF initialization file.
+    ret = settingServer.GetLoggerSettings(loggerSettings);
+    if(ret != KErrNone)
+        {
+        User::Leave(ret);
+        } 
+    // Close Setting server session
+    settingServer.Close();
+
+    TFileName logFileName;
+    
+    if(loggerSettings.iAddTestCaseTitle)
+        {
+        TName title;
+        TestModuleIf().GetTestCaseTitleL(title);
+        logFileName.Format(KAdvancedTriggerSupervisionLogFileWithTitle, &title);
+        }
+    else
+        {
+        logFileName.Copy(KAdvancedTriggerSupervisionLogFile);
+        }
+
     iLog = CStifLogger::NewL( Kt_lbtltapiLogPath, 
                           Kt_lbtltapiLogFile,
                           CStifLogger::ETxt,
                           CStifLogger::EFile,
                           EFalse );
-
+    
     }
 
 // -----------------------------------------------------------------------------
@@ -110,13 +151,10 @@ CFiringofStartupTriggerAndListTrigger* CFiringofStartupTriggerAndListTrigger::Ne
     CTestModuleIf& aTestModuleIf )
     {
     CFiringofStartupTriggerAndListTrigger* self = new (ELeave) CFiringofStartupTriggerAndListTrigger( aTestModuleIf );
-
     CleanupStack::PushL( self );
     self->ConstructL();
     CleanupStack::Pop();
-
     return self;
-
     }
 
 // Destructor
@@ -128,7 +166,8 @@ CFiringofStartupTriggerAndListTrigger::~CFiringofStartupTriggerAndListTrigger()
 
     // Delete logger
     delete iLog; 
-
+    delete iProEngine;
+    iProEngine = NULL;
     }
 
 // ========================== OTHER EXPORTED FUNCTIONS =========================

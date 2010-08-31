@@ -37,6 +37,11 @@
 #include <libc/string.h>     /* for memcpy() etc.        */
 #include <libc/stdlib.h>     /* for _lrotl with VC++     */
 
+#if defined(__GNUC__) || defined(__GNU_LIBRARY__)
+#include <byteswap.h>
+#include <endian.h>
+#endif
+
 #include "sha1.h"
 #include "hmac.h"
 
@@ -208,6 +213,7 @@ void hmac_sha1_data(const unsigned char data[], unsigned long data_len, hmac_ctx
         }
 
         /* pad the key if necessary */
+        //coverity[overrun-local]
         memset(cx->key + cx->klen, 0, IN_BLOCK_LENGTH - cx->klen);
 
         /* xor ipad into key value  */

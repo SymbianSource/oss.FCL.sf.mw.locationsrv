@@ -129,9 +129,13 @@ TInt CLbtCellIdDatabase::GetLocationForCid( TInt32 aCountryCode,
             
             // This entry has been used and should be deleted last compared to 
             // unused entry. This is pushed to the end because we delete 
-            // entry from first when max cap is reached.
-            iCellIdDbArray.Append( iCellIdDbArray[i] );
-            iCellIdDbArray.Remove( i );
+            // entry from first when max cap is reached.Remove operation should be 
+            // performed only if append succeeds
+            TInt error = iCellIdDbArray.Append( iCellIdDbArray[i] );
+            if( error == KErrNone )
+                {
+                iCellIdDbArray.Remove( i );
+                }
             
             return KErrNone;
             }

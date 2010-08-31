@@ -68,6 +68,10 @@ class CSuplNetInitiatedSession : public CObject
 	//	void SetHandle(TInt aHandle);
 		
 		void DestroySession(CSuplSessionManager* aSessionMgr);
+		
+		private:
+			TBool CheckSuplTriggerServiceStatus();
+    
     protected:  // Functions from base classes
 
     private:

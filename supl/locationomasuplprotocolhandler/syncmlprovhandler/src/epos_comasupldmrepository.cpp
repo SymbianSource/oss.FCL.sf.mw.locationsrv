@@ -345,6 +345,7 @@ void COMASuplDMRepository::SaveSettingsL( const TDesC& aValue,TOMASuplSettingsMa
                 CServerParams* paramValues = CServerParams::NewL();
                 CleanupStack::PushL(paramValues);
                 TInt err =  paramValues->Set(*iServerAddress,*iIapName);
+                paramValues->SetServerConfigurationType(EFalse);
                 err = iSettings->AddNewServer(paramValues,iSlpId);
                 if(err == KErrAlreadyExists)
                     {

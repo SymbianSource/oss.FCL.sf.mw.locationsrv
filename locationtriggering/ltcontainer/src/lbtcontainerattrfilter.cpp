@@ -58,7 +58,7 @@ void CLbtContainerAttrFilter::ProcessFilter(CLbtContainerTriggerEntry* aEntry,TI
         TInt i=0;
         if(trigEntry!=NULL)
         	{
-            if((isFilterPresent>0 && isEntryRequested) || (iTriggerStateArray.Count()>0 && isFilterPresent==0))
+            if( iTriggerStateArray.Count()>0 )
             	{
                  isFilterPresent++;
                  for(i=0;i<iTriggerStateArray.Count();i++)
@@ -70,9 +70,11 @@ void CLbtContainerAttrFilter::ProcessFilter(CLbtContainerTriggerEntry* aEntry,TI
                         }
                     }
                 }
-            if( (isFilterPresent>0 && isEntryRequested && iTriggerValidityArray.Count()>0) || 
-                (iTriggerValidityArray.Count()>0 && isFilterPresent==0) )
+            if( (isFilterPresent>0 && isEntryRequested ) || 
+                (isFilterPresent==0) )
                 {
+                	if(iTriggerValidityArray.Count()>0)
+                		{
                 isFilterPresent++;
                 isEntryRequested=EFalse;
                 for(i=0;i<iTriggerValidityArray.Count();i++)
@@ -83,6 +85,7 @@ void CLbtContainerAttrFilter::ProcessFilter(CLbtContainerTriggerEntry* aEntry,TI
                       }                
                    }
                 }
+              }
                    
             if((isFilterPresent>0 && isEntryRequested && iTriggerTypeArray.Count()>0) || (iTriggerTypeArray.Count()>0 && isFilterPresent==0))
                 {

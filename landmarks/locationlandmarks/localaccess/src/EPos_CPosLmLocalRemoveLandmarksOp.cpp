@@ -61,7 +61,7 @@ void CPosLmLocalRemoveLandmarksOp::ConstructL(
     iLandmarkIdArray.ReserveL( aLandmarkIdArray.Count() ); // to avoid heap fragmentation
     for ( TInt i = 0; i < aLandmarkIdArray.Count(); i++ )
         {
-        iLandmarkIdArray.Append( aLandmarkIdArray[i] );
+        iLandmarkIdArray.AppendL( aLandmarkIdArray[i] );
         }
     }
 

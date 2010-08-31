@@ -50,21 +50,48 @@ void CLbtCidChangeNotifier::Start( )
     
     //Make Async call
     iTelephony->NotifyChange(iStatus, CTelephony::ECurrentNetworkInfoChange, iNwInfoPckg);
-    
+    iState = ENotifyNetworkChange;
     }
+
+void CLbtCidChangeNotifier::GetCurrentCGIInfo()
+    {
+    //iStatus = KRequestPending;
+    if(IsActive())
+        {
+        return;
+        }
+        
+    iTelephony->GetCurrentNetworkInfo(iStatus, iNwInfoPckg);
+    SetActive();     
+    iState = ECurrentNetwork;
+    }
+
 void CLbtCidChangeNotifier::DoCancel()
     {
-    //Cancel Async call
-//    	RFileLogger::WriteFormat(KLbtTraceDir, KLbtTraceFile, EFileLoggingModeAppend,_L( "DoCancel before CancelAsync"));
-    iTelephony->CancelAsync(CTelephony::ECurrentNetworkInfoChangeCancel);
-//    	RFileLogger::WriteFormat(KLbtTraceDir, KLbtTraceFile, EFileLoggingModeAppend,_L( "DoCancel After CancelAsync"));
+    switch( iState )
+        {
+        case ECurrentNetwork:
+            iTelephony->CancelAsync(CTelephony::EGetCurrentNetworkInfoCancel);
+            iState = ENone;
+            break;
+            
+        case ENotifyNetworkChange:
+            iTelephony->CancelAsync(CTelephony::ECurrentNetworkInfoChangeCancel);
+            iState = ENone;
+            break;
+            
+        default:
+            break;
+        }
     
     }
+
 CLbtCidChangeNotifier::CLbtCidChangeNotifier(RFileLogger &aLog, MLbtCidChangeObsrvr *aObs) 
                         : CActive( EPriorityStandard ),
                         iNwInfoPckg(iNwInfo),
                         iLog(aLog), 
-                        iObs(aObs)
+                        iObs(aObs),
+                        iState( ENone ) 
                         
     {
     CActiveScheduler::Add( this ); 
@@ -73,14 +100,25 @@ void CLbtCidChangeNotifier::ConstructL()
     {
     //Construct Async Object
     iTelephony = CTelephony::NewL();
-    
     }
     
 void CLbtCidChangeNotifier::RunL()
 	{
-	//iLog.Write(_L("CLbtCidChangeNotifier::RunL"));	
-	iObs->HandleCIDChangeL(iNwInfo);
-	Start();
+    switch( iState )
+        {
+        case ECurrentNetwork:
+            iObs->HandleCIDChangeL(iNwInfo);        
+            iState = ENone;
+            break;
+            
+        case ENotifyNetworkChange:
+            iObs->HandleCIDChangeL(iNwInfo);
+            Start();
+            break;
+            
+        default:
+            break;
+        }
     }
     
     

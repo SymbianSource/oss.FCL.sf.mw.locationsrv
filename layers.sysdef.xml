@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
-<!DOCTYPE SystemDefinition SYSTEM "sysdef_1_4_0.dtd" [
+<!DOCTYPE SystemDefinition SYSTEM "sysdef_1_5_1.dtd" [
   <!ENTITY layer_real_source_path "sf/mw/locationsrv" >
 ]>
 
-<SystemDefinition name="locationsrv" schema="1.4.0">
+<SystemDefinition name="locationsrv" schema="1.5.1">
   <systemModel>
     <layer name="mw_layer">
       <module name="locationsrv">
@@ -12,7 +12,7 @@
       <module name="asnpluginimplementation"> 
      	<unit unitID="lodo.locationsrv.supl.asnpluginimplementation"
        mrp="" bldFile="&layer_real_source_path;/supl/locationomasuplprotocolhandler/asnpluginimplementation/group"
-       filter="dfs_build"  name="lodo_locationsrv_supl_asnpluginimplementation>"  />
+       filter="dfs_build"  name="lodo_locationsrv_supl_asnpluginimplementation"  />
      </module>
      <module name="locationsupllocinfoconverter"> 
      	<unit unitID="lodo.locationsrv.supl.locationsupllocinfoconverter"
@@ -22,8 +22,11 @@
      <module name="asnpluginimplementationver2"> 
      	<unit unitID="lodo.locationsrv.supl.asnpluginimplementationver2"
        mrp="" bldFile="&layer_real_source_path;/supl/locationomasuplprotocolhandler/asnpluginimplementationver2/group"
-       filter="dfs_build"  name="lodo_locationsrv_supl_asnpluginimplementationver2>"  />
+       filter="dfs_build"  name="lodo_locationsrv_supl_asnpluginimplementationver2"  />
      </module>
+     <module name="locationsysui_pro">
+     	<unit unitID="locationsysui.pro" mrp="" bldFile="&layer_real_source_path;/locationsystemui/locationsysui" name="locationsysui_pro" proFile="locsysui.pro" />
+     	</module>
      </layer>
   </systemModel>
 </SystemDefinition>

@@ -35,8 +35,9 @@
 ;RELEASE
 "\Epoc32\release\armv5\urel\settingsapi.dll"-"c:\sys\bin\settingsapi.dll"
 
-;"..\conf\settingsapi_test.cfg"-"c:\testframework\settingsapi_test.cfg"
-;"..\init\testframework.ini"-"c:\testframework\testframework.ini"
+"..\conf\settingsapi_test.cfg"-"c:\testframework\settingsapi_test.cfg"
+"..\init\testframework.ini"-"c:\testframework\testframewor.ini"
+"..\init\log.txt"-"c:\logs\testframework\suplsettings\log.txt"
 
 
 ; End of File
