@@ -1,0 +1,276 @@
+/*
+* Copyright (c) 2002 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*     This is a localisation file for Location subsystem.
+*     A .loc file is the one and only place where the logical strings
+*     to be localised are defined. 
+*  -------------------------------------------------------------------
+*
+*/
+
+
+/**
+ *  Default (implementation English) Resource localisation file.
+ */
+
+//  LOCALISATION STRINGS  
+
+//d:Location application name
+//d:in the App Shell grid
+//l: cell_app_pane_t1
+//r:3.0
+//
+#define qtn_location_grid          		"Location"
+
+//d:Location application name
+//d:in the App Shell list
+//l: list_single_large_graphic_pane_t1
+//r:3.0
+//
+#define qtn_location_list          		"Location"
+
+//d:Title pane text for application's
+//d:positioning methods view
+//l:title_pane_t2/opt9
+//r:3.0
+//
+#define qtn_loc_psy_title 			"Positioning Methods"
+
+//d:Indicates empty positioning methods list
+//l:main_list_empty_pane
+//r:3.0
+//
+#define qtn_loc_no_psys 			"(No methods available for positioning)"
+
+//d:Options menu item for enabling a Positioning method
+//l:list_single_pane_t1_cp2
+//r:3.0
+//
+#define qtn_loc_opt_enable_psy 		"Enable"
+
+
+//d:Options menu item for for disabling a Positioning method
+//l:list_single_pane_t1_cp2
+//r:3.0
+//
+#define qtn_loc_opt_disable_psy 		"Disable"
+
+
+//d:Options menu item to configure a Positioning method
+//l:list_single_pane_t1_cp2
+//r:3.0
+//
+#define qtn_loc_opt_method_settings 		"Method settings"
+
+//d:Heading text of a location request
+//d:in a list query
+//l:heading_pane_t1
+//r:3.0
+//
+#define qtn_loc_request             		"Location request:"
+
+//d:Left softkey for accepting a
+//d:location request
+//l:control_pane_t1/opt7
+//r:3.0
+//
+#define qtn_loc_request_accept      		"Accept"
+
+//d:Right softkey for rejecting a
+//d:location request
+//l:control_pane_t1/opt7
+//r:3.0
+//
+#define qtn_loc_request_reject      		"Reject"
+
+//d:Unknown requester in list query dialog
+//l:list_single_pane_t1_cp2
+//r:3.0
+//
+#define qtn_loc_requester_unknown       	"Unknown requester"
+
+//d:Error text shown when request was rejected due to
+//d:a conflict despite of user's "accept" decision.
+//l:popup_note_window
+//r:3.0
+//
+#define qtn_loc_notification_failure_rejected      	 "Unable to accept the request"
+
+//d:Error text shown when request was accepted due to
+//d:a conflict despite of user's "reject" decision.
+//l:popup_note_window
+//r:3.0
+//
+#define qtn_loc_notification_failure_accepted       "Unable to reject the request"
+
+//d:Heading text for location notification
+//l:heading_pane_t1
+//r:3.0
+//
+#define qtn_loc_notification            		"Location notification:"
+
+//d:Location notification explanation text
+//l: loc_type_pane
+//r:3.0
+//
+#define qtn_loc_notification_accepted       	"The network sent your location to:"
+
+//d:Location request explanation text if
+//d:the default network policy is accept
+//l:loc_type_pane
+//r:3.0
+//
+#define qtn_loc_request_default_accept  	"By default the network will accept this request on your behalf. Requesters:"
+
+//d:Location request explanation text if
+//d:the default network policy is reject
+//l:loc_type_pane
+//r:3.0
+//
+#define qtn_loc_request_default_reject      	"By default the network will reject this request on your behalf. Requesters:"
+
+//d:Location request explanation text if
+//d:the default network policy is not specified
+//l:loc_type_pane
+//r:3.0
+//
+#define qtn_loc_request_default_none        	"Your location was requested by:"
+
+//d:Notification explanation text when network
+//d:made "accept" decision due to timeout
+//l:loc_type_pane
+//r:3.0
+//
+#define qtn_loc_notification_accepted_timeout       "The network accepted this request on your behalf. Your location was sent to:"
+
+//d:Notification explanation text when network
+//d:made "reject" decision due to timeout
+//l:loc_type_pane
+//r:3.0
+//
+#define qtn_loc_notification_rejected_timeout       "The network rejected this request. Your location was not sent to:"
+
+//d:Title for the Location System UI Plugin
+//d:Long string
+//l:title_pane_t2/opt9
+//r:3.1
+//
+#define qtn_loc_pos_settings_title		"Positioning settings"
+
+//d:Caption for the Location System UI Plugin
+//d:Long string
+//l:list_single_large_graphic_pane_t1 
+//r:3.1
+//
+#define qtn_set_folder_positioning		"Positioning"
+
+//d:Caption for Positioning Method Settings
+//d:List box text in Location System UI plugin view.
+//l:list_setting_pane_t1
+//r:3.1
+//
+#define qtn_loc_settings_psys 		"Positioning Methods"
+
+//d:Prompt text for warning the User when he tries to disable
+//d:a PSY that is currently being used
+//l:popup_note_window
+//r:3.2
+//
+#define qtn_loc_query_psy_used "Positioning method is being used. Disable anyway?"
+
+// d:Postioning Settings Application Name
+// d:List box text for Positioning Settings Application used in Location Centre
+// l:list_single_large_graphic_pane_t1_cp2
+// r:5.0
+//
+#define qtn_loc_app_settings      "Positioning settings"
+
+// d: Heading pane text for stylus activated popup.
+// l: heading_sub_pane_t1
+// w:
+// r:5.0
+//
+#define qtn_loc_stylus_title_gps    "GPS"
+
+// d: Single line GPS status text shown on the stylus popup.
+// l: list_single_touch_info_pane_t1
+// w:
+// r:5.0
+//
+#define qtn_loc_stylus_gps_info           "GPS is active"
+
+// d: Link text shown on the stylus popup
+// l: list_single_touch_info_pane_t2/opt1
+// w:
+// r:5.0
+//
+#define qtn_loc_stylus_gps_link          "More Info"
+
+// d: Multiline text, when the link is clicked, shown as info note.
+// l: list_single_touch_info_pane_t1
+// w:
+// r:5.0
+//
+#define qtn_loc_stylus_gps_details       "GPS is a satellite based positioning system, which works best outdoors and away closed areas."
+
+// d: Verification text in popup quesry for the periodic request
+// l: loc_type_pane
+// w:
+// r:9.2b
+//
+#define qtn_loc_request_default          	"Your location will be requested periodically. Do you want to allow?"
+
+// d: Verification text in message quesry for the periodic request - time interval in minutes
+// l: popup_info_list_pane_t1
+// w:
+// r:9.2b
+//
+#define qtn_loc_notification_minutes         	"Your location was sent to %0U. This activity will continue for next %1U minutes"
+
+// d: Verification text in message quesry for the periodic request - time interval in hours
+// l: popup_info_list_pane_t1
+// w:
+// r:9.2b
+//
+#define qtn_loc_notification_hours         	"Your location was sent to %0U. This activity will continue for next %1U hours"
+
+// d: Verification text in message quesry for the periodic request - time interval in hour
+// l: popup_info_list_pane_t1
+// w:
+// r:9.2b
+//
+#define qtn_loc_notification_onehour        	"Your location was sent to %U. This activity will continue for next 1 hour"
+
+// d: Verification text in message quesry for the periodic request - time interval in days
+// l: popup_info_list_pane_t1
+// w:
+// r:9.2b
+//
+#define qtn_loc_notification_days          	"Your location was sent to %0U. This activity will continue for next %1U days"
+
+// d: Verification text in message quesry for the periodic request - time interval in day
+// l: popup_info_list_pane_t1
+// w:
+// r:9.2b
+//
+#define qtn_loc_notification_oneday        	"Your location was sent to %U. This activity will continue for next 1 day"
+
+// d: Link text shown on the message query for viewing the request/Session details
+// l: popup_info_list_pane_t1
+// w:
+// r:9.2b
+//
+#define qtn_loc_notification_service_link     	"Service details"
+
+// End of file

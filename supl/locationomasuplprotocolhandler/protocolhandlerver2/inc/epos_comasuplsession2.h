@@ -229,7 +229,7 @@ class COMASuplSession : public CSuplSessionBase,
             * the completion of UI
             * @return None
             */
-					void SettingsUsageUICompletedL(TInt /*aError*/) {};
+			void SettingsUsageUICompletedL(TInt aError);
 			
             /** 
             * This callback method is used to notify the client about 

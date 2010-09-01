@@ -27,8 +27,8 @@
 #include <StifLogger.h>
 #include <TestScripterInternal.h>
 #include <StifTestModule.h>
-#include <etel3rdparty.h>
-#include <etelmm.h>
+
+
 // CONSTANTS
 //const ?type ?constant_var = ?constant;
 
@@ -138,13 +138,6 @@ NONSHARABLE_CLASS(CCellbasedtriggerOperations) : public CScriptBase
         * @since ?Series60_version
         */
         void Delete();
-        
-        /**
-         * Gets current cell information
-         */
-        void GetCurrentCellInfoL(  
-                RMobilePhone::TMobilePhoneNetworkMode& aNetworkMode,
-                CTelephony::TNetworkInfoV1& aNwInfo );
 
         /**
         * Test methods are listed below. 

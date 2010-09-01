@@ -30,6 +30,7 @@
 #include "epos_sessionmanagerlogging.h"
 #include "epos_csuplsessionmanager.h"
 #include "epos_csuplglobal.h"
+#include "epos_suplgeocellinfo.h"
 
 //#ifdef _DEBUG
 _LIT(KTraceFileName, "SUPL_GW::epos_csuplsessionmanager.cpp");
@@ -467,6 +468,29 @@ void CSuplSessionManager::NotifyTriggerFired(
 		User::RequestComplete(status,KErrNotReady);
 		}	
 	}
+	
+void CSuplSessionManager::ConnectionOpened()
+	{
+	iSessionRetryQ->SessionStarted();	
+	}
+
+void CSuplSessionManager::ConnectionClosed()
+	{
+	iSessionRetryQ->SessionEnded();	
+	}
+
+
+void CSuplSessionManager::QueueForReIssueRequestL(CSuplSessionRequest& aSessionRequest)
+	{
+	iSessionRetryQ->AddToQueueL(aSessionRequest);
+	}
+
+void CSuplSessionManager::RemoveFromQueueForReIssueRequest(CSuplSessionRequest& aSessionRequest)
+	{
+	iSessionRetryQ->RemoveFromQueueL(aSessionRequest);
+	}	
+	
+    
 // ---------------------------------------------------------
 // CSuplSessionManager::MakeLocationConversionRequestL
 //
@@ -511,25 +535,7 @@ void CSuplSessionManager::CancelLocationConversionRequest(CSuplSessionBase *aSes
     if(iProtocolMgr && aSessn)
      iProtocolMgr->CancelLocationConversionRequest(aSessn);
     }
-    
-void CSuplSessionManager::ConnectionOpened()
-	{
-	iSessionRetryQ->SessionStarted();	
-	}
 
-void CSuplSessionManager::ConnectionClosed()
-	{
-	iSessionRetryQ->SessionEnded();	
-	}
 
-void CSuplSessionManager::QueueForReIssueRequestL(CSuplSessionRequest& aSessionRequest)
-	{
-	iSessionRetryQ->AddToQueueL(aSessionRequest);
-	}
-
-void CSuplSessionManager::RemoveFromQueueForReIssueRequest(CSuplSessionRequest& aSessionRequest)
-	{
-	iSessionRetryQ->RemoveFromQueueL(aSessionRequest);
-	}
 
 // End of File

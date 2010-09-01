@@ -1299,17 +1299,22 @@ TInt CUpdateTrigger::ExampleL( CStifItemParser& aItem )
      /***************Another process Creating a trigger************/
      	 iLog->Log(_L("Before Create Trigger"));
      _LIT( KFilename,"CreateTest.exe" );
-     RProcess proc;
-     TInt retVal =proc.Create(KFilename,KNullDesC);
-     TInt triggerId = KLbtNullTriggerId;
-     if(retVal == KErrNone)
-         {
-         proc.Resume();
-         TRequestStatus status = KRequestPending;
-         proc.Rendezvous(status);
-         User::WaitForRequest(status);
-         triggerId = status.Int();
-         }   
+    RProcess proc;
+    TInt retVal =proc.Create(KFilename,KNullDesC);
+    if(retVal == KErrNone)
+	{
+		proc.Resume();
+		TRequestStatus status = KRequestPending;
+		proc.Rendezvous(status);
+		User::WaitForRequest(status);
+	}	
+    iLog->Log(_L("Trigger Created"));
+    TInt triggerId=0;
+    RProperty iProperty;
+    User::LeaveIfError(iProperty.Get(
+        KPSUidTriggerIdInfo, 
+        KLbttesttriggerid, 
+        triggerId));
       
      /***************************End*******************************/
  	     
@@ -1381,15 +1386,20 @@ TInt CUpdateTrigger::ExampleL( CStifItemParser& aItem )
      _LIT( KFilename,"CreateTest.exe" );
     RProcess proc;
     TInt retVal =proc.Create(KFilename,KNullDesC);
-    
     if(retVal == KErrNone)
-        {
+	{
 		proc.Resume();
 		TRequestStatus status = KRequestPending;
 		proc.Rendezvous(status);
 		User::WaitForRequest(status);
-	    }	
+	}	
     iLog->Log(_L("Trigger Created"));
+    TInt triggerId=0;
+    RProperty iProperty;
+    User::LeaveIfError(iProperty.Get(
+        KPSUidTriggerIdInfo, 
+        KLbttesttriggerid, 
+        triggerId));
         
      	  //Construct a session trigger
     CLbtSessionTrigger* trig = CLbtSessionTrigger::NewL();
@@ -1588,7 +1598,7 @@ TInt CUpdateTrigger::ExampleL( CStifItemParser& aItem )
     User::LeaveIfError( lbt.Open( lbtserver ) );
     CleanupClosePushL( lbt );
  	 
-    TRAP_IGNORE(lbt.DeleteTriggersL());
+    lbt.DeleteTriggersL();
     
     	  //Construct a session trigger
     CLbtSessionTrigger* trig = CLbtSessionTrigger::NewL();
@@ -1712,7 +1722,7 @@ TInt CUpdateTrigger::ExampleL( CStifItemParser& aItem )
     CleanupClosePushL( lbtserver );
     User::LeaveIfError( lbt.Open( lbtserver ) );
     CleanupClosePushL( lbt );
- 	TRAP_IGNORE( lbt.DeleteTriggersL() );
+ 	  lbt.DeleteTriggersL();
       	  //Construct a session trigger
     CLbtSessionTrigger* trig = CLbtSessionTrigger::NewL();
     
@@ -5253,17 +5263,22 @@ TInt CUpdateTrigger::ExampleL( CStifItemParser& aItem )
      /***************Another process Creating a trigger************/
      	 iLog->Log(_L("Before Create Trigger"));
      _LIT( KFilename,"CreateTest.exe" );
-     RProcess proc;
-     TInt retVal =proc.Create(KFilename,KNullDesC);
-     TInt triggerId = KLbtNullTriggerId;
-     if(retVal == KErrNone)
-         {
-         proc.Resume();
-         TRequestStatus status = KRequestPending;
-         proc.Rendezvous(status);
-         User::WaitForRequest(status);
-         triggerId = status.Int();
-         }   
+    RProcess proc;
+    TInt retVal =proc.Create(KFilename,KNullDesC);
+    if(retVal == KErrNone)
+	{
+		proc.Resume();
+		TRequestStatus status = KRequestPending;
+		proc.Rendezvous(status);
+		User::WaitForRequest(status);
+	}	
+    iLog->Log(_L("Trigger Created"));
+    TInt triggerId=0;
+    RProperty iProperty;
+    User::LeaveIfError(iProperty.Get(
+        KPSUidTriggerIdInfo, 
+        KLbttesttriggerid, 
+        triggerId));
       
      /***************************End*******************************/
  	 	 TCoordinate coordinate(62.5285,23.9385);

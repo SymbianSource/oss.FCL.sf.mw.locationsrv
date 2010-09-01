@@ -23,7 +23,7 @@
 #endif
 #include <commdbconnpref.h>
 #include <centralrepository.h>
-
+#include <extendedconnpref.h> //For OCC
 #include "epos_csuplserverprivatecrkeys.h"
 #include "epos_csuplconnection.h"
 #include "epos_csuplsocketreader.h"   
@@ -33,7 +33,6 @@
 #include "epos_psktlsusageprivatecrkeys.h"
 #include "epos_suplpskloger.h"
 
-#include <extendedconnpref.h> //For OCC
 const TInt KMaxGBAUsageLength = 4;
 const TInt KMaxVerLength = 4;
 //const TInt KMaxNewPasswordLength =  8;
@@ -320,10 +319,8 @@ CSuplConnection::~CSuplConnection()
     // Cancel Any outstanding request
     Cancel();
 
-    if (iTrace)
-        iTrace->Trace(_L(
-                "CSuplConnection::Destructor...Deleting Socket Reader"),
-                KTraceFileName, __LINE__);
+    iTrace->Trace(_L("CSuplConnection::Destructor...Deleting Socket Reader"),
+            KTraceFileName, __LINE__);
     //Delete the Socket Reader
     delete iSocketReader;
 
@@ -970,12 +967,7 @@ EXPORT_C void CSuplConnection::Connect(TRequestStatus &aStatus)
         {
         aStatus = KRequestPending;
         TRequestStatus *reqStatus = &aStatus;
-        TInt error = iConnArray.Append(reqStatus);
-        if (error != KErrNone)
-            {
-            User::RequestComplete(reqStatus, error);
-            return;
-            }
+        iConnArray.Append(reqStatus);
         }
 
     if (!iConnectStarted)
@@ -991,40 +983,20 @@ EXPORT_C void CSuplConnection::Connect(TRequestStatus &aStatus)
             iConnectStarted = ETrue;
 
 #ifndef __WINS__
-            TExtendedConnPref OCCPrefs;
-            TConnPrefList prefList;
-
-            OCCPrefs.SetForcedRoaming(EFalse); //do not switch networks during an ongoing connection            
-            OCCPrefs.SetNoteBehaviour(TExtendedConnPref::ENoteBehaviourDefault);
-
-            if(iIAPId != -1) //if a IAP was configured
-
-                {
-                iTrace->Trace(_L("CSuplConnection::Connect : IAP configured"), KTraceFileName, __LINE__);
-                OCCPrefs.SetIapId(iIAPId);
-                // since IAP Id is set SNAP purpose should not be set - set to unknown
-                OCCPrefs.SetSnapPurpose(CMManager::ESnapPurposeUnknown);
-                OCCPrefs.SetBearerSet(TExtendedConnPref::EExtendedConnBearerUnknown);
-                }
-            else
-                {
-                OCCPrefs.SetSnapPurpose(CMManager::ESnapPurposeInternet);
-                //WLAN and Cellular Networks allowed for connection
-                OCCPrefs.SetBearerSet(TExtendedConnPref::EExtendedConnBearerWLAN | TExtendedConnPref::EExtendedConnBearerCellular);
-
-                //if SNAP purpose is set IAP Id should be zero - zero by default not explicitly set
-                iTrace->Trace(_L("CSuplConnection::Connect : IAP not configured"), KTraceFileName, __LINE__);
-                }
-
-            TRAP_IGNORE(prefList.AppendL(&OCCPrefs));
+            TCommDbConnPref prefs;
+            prefs.SetDialogPreference(ECommDbDialogPrefDoNotPrompt);
+            prefs.SetDirection(ECommDbConnectionDirectionOutgoing);
+            prefs.SetIapId(iIAPId);
 
             TInt ret = iConnection.Open(iSocketServ);
-            if(ret != KErrNone)
-            iTrace->Trace(_L("RConnection Open returned error"), KTraceFileName, __LINE__);
-
-            iTrace->Trace(_L("RConnection Start Called, State is ERetriveIAP"), KTraceFileName, __LINE__);
+             if( ret != KErrNone )
+                {
+                TRequestStatus* statusPtr = &aStatus;
+                User::RequestComplete( statusPtr,ret );
+                return;
+                }
             // Start an Outgoing Connection with overrides
-            iConnection.Start(prefList,iStatus);
+            iConnection.Start(prefs,iStatus);
             // Set state to ERetriveIAP
             iState = ERetriveIAP;
             SetActive();
@@ -1123,7 +1095,7 @@ EXPORT_C void CSuplConnection::Connect(TRequestStatus &aStatus,
             TInt ret = iConnection.Open(iSocketServ);
             if( ret != KErrNone )
                 {
-                TRequestStatus* statusPtr = &aStatus;
+                TRequestStatus* statusPtr = &iStatus;
                 User::RequestComplete( statusPtr,ret );
                 return;
                 }
@@ -1227,14 +1199,14 @@ EXPORT_C void CSuplConnection::Send(const TDesC8 &aPacket,
         aStatus = KRequestPending;
         CSuplPacketInfo *packetInfo = NULL;
 
-        TRAP(err, packetInfo = CSuplPacketInfo::NewL(aPacket, aStatus);
-                iPktArray.AppendL(packetInfo));
+        TRAP(err, packetInfo = CSuplPacketInfo::NewL(aPacket, aStatus));
         if (err != KErrNone)
             {
             TRequestStatus *reqStatus = &aStatus;
             User::RequestComplete(reqStatus, err);
             return;
             }
+        iPktArray.Append(packetInfo);
         }
 
     else
@@ -1365,7 +1337,6 @@ void CSuplConnection::Connect()
         SetActive();
         }
     }
-
 // -----------------------------------------------------------------------------
 // CSuplConnection::ConnectIAP
 // Makes a socket connection to Network

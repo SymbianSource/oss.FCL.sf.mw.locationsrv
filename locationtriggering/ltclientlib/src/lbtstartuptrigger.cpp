@@ -292,7 +292,7 @@ void CLbtStartupTrigger::DoInternalizeL(RReadStream& aStream)
 	SetManagerUi(managerUid);
 	TInt filenameLen=aStream.ReadInt32L();
 	RBuf fileName;	
-	User::LeaveIfError(fileName.Create(filenameLen));
+	fileName.Create(filenameLen);
 	fileName.CleanupClosePushL( );
 	aStream.ReadL(fileName,filenameLen);
 	TInt secureId=aStream.ReadInt32L();
@@ -303,7 +303,7 @@ void CLbtStartupTrigger::DoInternalizeL(RReadStream& aStream)
 	    {
 	    TInt commandLine = aStream.ReadInt32L();
 	    RBuf commandlineBuffer;	    
-	    User::LeaveIfError(commandlineBuffer.Create( commandLine ));
+	    commandlineBuffer.Create( commandLine );
 	    commandlineBuffer.CleanupClosePushL();
 	    aStream.ReadL(commandlineBuffer,commandLine);
 	    SetCommandLineL( commandlineBuffer );

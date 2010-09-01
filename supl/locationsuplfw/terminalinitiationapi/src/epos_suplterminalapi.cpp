@@ -859,7 +859,7 @@ EXPORT_C TInt RSuplTerminalSubSession::GetSlpList(
 		}
 
 	parValues.ResetAndDestroy();
-    //coverity[deref_ptr_in_call]
+	aParamValues.ResetAndDestroy();
 	TInt error = iSuplStorageSettings->GetAllSlp(parValues); //handle return value...
 	if (error!=KErrNone)
 		{
@@ -905,7 +905,6 @@ EXPORT_C TInt RSuplTerminalSubSession::GetSlpList(
 	delete serverAddress;
 	delete iapName;	
     aParamValues.Close();
-    //coverity[check_after_deref]
 	if (iSuplStorageSettings)
 		{
 		delete iSuplStorageSettings;
@@ -1026,15 +1025,7 @@ EXPORT_C void RSuplTerminalSubSession::StartSuplTriggerSession(
 	{
 	__ASSERT_ALWAYS(SubSessionHandle(), 
 				User::Panic(KSuplClientFault, ESuplServerBadHandle));
-   
-   
-  if(!CheckSuplTriggerServiceStatus()) //To check that triggering service is allowed by user...
-  {
-  	TRequestStatus *status = &aStatus; 
-		User::RequestComplete(status,KErrNotSupported);	
-		return;
-  }
-  
+    
 	if( iSuplService != ESUPL_2_0 )
 		{
 		TRequestStatus *status = &aStatus; 
@@ -1103,13 +1094,6 @@ EXPORT_C void RSuplTerminalSubSession::StartSuplTriggerSession(
 	__ASSERT_ALWAYS(SubSessionHandle(), 
 			User::Panic(KSuplClientFault, ESuplServerBadHandle));
     
-  if(!CheckSuplTriggerServiceStatus()) //To check that triggering service is allowed by user...
-		{
-			TRequestStatus *status = &aStatus; 
-			User::RequestComplete(status,KErrNotSupported);	
-			return;
-		} 
-
 	if( iSuplService != ESUPL_2_0 )
 		{
 		TRequestStatus *status = &aStatus; 
@@ -1209,13 +1193,6 @@ EXPORT_C void RSuplTerminalSubSession::NotifyTriggerFired(
 	__ASSERT_ALWAYS(SubSessionHandle(), 
 			User::Panic(KSuplClientFault, ESuplServerBadHandle));
 
-		if(!CheckSuplTriggerServiceStatus()) //To check that triggering service is allowed by user...
-		{
-		TRequestStatus *status = &aStatus; 
-		User::RequestComplete(status,KErrNotSupported);	
-		return;
-		}
-
 	if( iSuplService != ESUPL_2_0 )
 		{
 		TRequestStatus *status = &aStatus; 
@@ -1254,42 +1231,5 @@ EXPORT_C void RSuplTerminalSubSession::NotifyTriggerFired(
 	
 	SendReceive(ESuplTerminalSubssnNotifyTriggerFired, args, aStatus);
 	}
-
-// ---------------------------------------------------------
-// RSuplTerminalSubSession::CheckSuplTriggerServiceStatus
-//
-// (other items were commented in a header).
-// ---------------------------------------------------------
-//
-TBool RSuplTerminalSubSession::CheckSuplTriggerServiceStatus()
-{
-	
-	delete iSuplStorageSettings;
-	iSuplStorageSettings = NULL;
-	
-	CSuplSettings::TSuplTriggerStatus suplTriggerStatus;
-
-	// create local object iSuplStorageSettings
-	TRAPD(err,iSuplStorageSettings = CSuplSettings::NewL());
-	if(err == KErrNone)
-	{
-			iSuplStorageSettings->GetSuplTriggeredServiceStatus(suplTriggerStatus);
-			delete iSuplStorageSettings;
-			iSuplStorageSettings = NULL;
-
-			if(suplTriggerStatus == CSuplSettings::ESuplTriggerOn)
-			{
-					return ETrue;						
-			}
-			else
-			{
-					return EFalse;	
-			}
-	}		
-	else
-	{
-			return ETrue;
-	}
-}
 
 // end of file

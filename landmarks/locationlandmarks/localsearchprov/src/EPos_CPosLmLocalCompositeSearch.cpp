@@ -385,7 +385,7 @@ void CPosLmLocalCompositeSearch::PrepareSearchL()
         iIdList.ReserveL( PreviousMatches().Count() );
         for ( int i = 0; i < PreviousMatches().Count(); ++i )
             {
-            iIdList.AppendL( PreviousMatches()[i] );
+            iIdList.Append( PreviousMatches()[i] );
             }
         PrepareNextHandlerL( iIdList );
         }
@@ -485,7 +485,7 @@ TInt CPosLmLocalCompositeSearch::CreateAllTextCriteriaL(
 	{
 		if(aCriteria.Argument(i).CriteriaType() == CPosLmSearchCriteria::ECriteriaText)
 		{
-			aSearchTextCriteriaArray.AppendL(&(aCriteria.Argument(i)));
+			aSearchTextCriteriaArray.Append(&(aCriteria.Argument(i)));
 		
 		}
 			

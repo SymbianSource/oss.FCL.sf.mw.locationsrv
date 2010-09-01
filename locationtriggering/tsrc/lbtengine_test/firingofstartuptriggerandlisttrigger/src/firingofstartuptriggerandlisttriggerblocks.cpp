@@ -75,15 +75,7 @@
 //#include <epossimulationpsy.hrh>
 #include "firingofstartuptriggerandlisttrigger.h"
 #include "t_triggerfireobserver.h"
-
-
-#include <EPos_MPosModulesObserver.h> 
-#include <EPos_CPosModuleIdList.h>
-#include <EPos_CPosModules.h>
-#include <EPos_CPosModuleUpdate.h>
-#include <MProEngEngine.h>
-#include <Profile.hrh>
-#include <ProEngFactory.h>
+#include <e32property.h>
 
 // EXTERNAL DATA STRUCTURES
 //extern  ?external_data;
@@ -147,82 +139,6 @@ void CFiringofStartupTriggerAndListTrigger::Delete()
 
     }
 
-void CFiringofStartupTriggerAndListTrigger::EnableSimPSYL() 
-    {
-    CPosModules* db = CPosModules::OpenL();
-    CleanupStack::PushL( db );
-    
-    // List entries
-    CPosModuleIdList* idList = db->ModuleIdListLC();
-    CPosModuleUpdate* updateParams = CPosModuleUpdate::NewLC();
-    
-    // Get the display name and status of each installed positioning plug-in
-    for (TInt i = 0; i < idList->Count(); i++)
-        {
-        // get PSY info
-        TPositionModuleInfo moduleInfo;
-        db->GetModuleInfoL( (*idList)[i], moduleInfo );
-        
-        if ( moduleInfo.IsAvailable() )
-            {
-            // read PSY’s name
-            TBuf<KPositionMaxModuleName> moduleName;
-            moduleInfo.GetModuleName( moduleName );
-            TPositionModuleId id = moduleInfo.ModuleId();
-            
-            updateParams->SetUpdateAvailability( EFalse );
-            db->UpdateModuleL( id, *updateParams );
-            }
-        }
-    TPositionModuleId id2 = {0x101F7A81};
-    updateParams->SetUpdateAvailability( ETrue );
-    db->UpdateModuleL( id2, *updateParams );
-    
-    CleanupStack::PopAndDestroy( updateParams );
-    CleanupStack::PopAndDestroy( idList );
-    CleanupStack::PopAndDestroy( db );
-    }
-
-void CFiringofStartupTriggerAndListTrigger::SetProfileToOfflineL()
-    {
-    if( !iProEngine )
-        iProEngine= ProEngFactory::NewEngineL();
-    // Store current profile id.
-    iCurrentProfile =  iProEngine->ActiveProfileId();
-    // Change the active profile to Off-line
-    iProEngine->SetActiveProfileL( EProfileOffLineId );
-    }
-
-void CFiringofStartupTriggerAndListTrigger::RestoreProfileL()
-    {
-    if( !iProEngine )
-    iProEngine = ProEngFactory::NewEngineL();
-    iProEngine->SetActiveProfileL( iCurrentProfile );
-    }
-
-//------------------------------------------------------------------------------
-//CFiringofStartupTriggerAndListTrigger::GetCurrentCoordinateL
-//------------------------------------------------------------------------------
-void CFiringofStartupTriggerAndListTrigger::GetCurrentCoordinateL( TCoordinate& aCoordinate )
-    {
-    CTriggerFireObserver* notifier= CTriggerFireObserver::NewL();
-    CleanupStack::PushL( notifier );
-    CActiveSchedulerWait* wait = new ( ELeave ) CActiveSchedulerWait;
-    CleanupStack::PushL( wait );
-    
-    TPositionInfo positionInfo;
-    // Ownership of wait is taken by notifier
-    notifier->CurrentPositionL( positionInfo,wait );
-    CleanupStack::Pop( wait );
-    wait->Start();
-    TPosition position;
-    positionInfo.GetPosition( position );
-    aCoordinate.SetCoordinate( position.Latitude(),position.Longitude(),position.Altitude() );
-    CleanupStack::PopAndDestroy( notifier ); 
-    }
-
-
-
 // -----------------------------------------------------------------------------
 // CFiringofStartupTriggerAndListTrigger::RunMethodL
 // Run specified method. Contains also table of test mothods and their names.
@@ -239,47 +155,53 @@ TInt CFiringofStartupTriggerAndListTrigger::RunMethodL(
         // Second is the actual implementation member function. 
      
         ENTRY( "test01", CFiringofStartupTriggerAndListTrigger::TCLBTFW001_testL ),
-        ENTRY( "test02", CFiringofStartupTriggerAndListTrigger::TCLBTFW002_testL ),
-        ENTRY( "test03", CFiringofStartupTriggerAndListTrigger::TCLBTFW003_testL ),
-        ENTRY( "test04", CFiringofStartupTriggerAndListTrigger::TCLBTFW004_testL ),
-        ENTRY( "test05", CFiringofStartupTriggerAndListTrigger::TCLBTFW005_testL ),
-        ENTRY( "test06", CFiringofStartupTriggerAndListTrigger::TCLBTFW006_testL ),
-        ENTRY( "test07", CFiringofStartupTriggerAndListTrigger::TCLBTFW007_testL ),
-        ENTRY( "test08", CFiringofStartupTriggerAndListTrigger::TCLBTFW008_testL ),
-        ENTRY( "test09", CFiringofStartupTriggerAndListTrigger::TCLBTFW009_testL ),
-        ENTRY( "test10", CFiringofStartupTriggerAndListTrigger::TCLBTFW010_testL ),
-        ENTRY( "test11", CFiringofStartupTriggerAndListTrigger::TCLBTFW011_testL ),
-        ENTRY( "test12", CFiringofStartupTriggerAndListTrigger::TCLBTFW012_testL ),
-        ENTRY( "test13", CFiringofStartupTriggerAndListTrigger::TCLBTFW013_testL ),
-        ENTRY( "test14", CFiringofStartupTriggerAndListTrigger::TCLBTFW014_testL ),
-        ENTRY( "test15", CFiringofStartupTriggerAndListTrigger::TCLBTFW015_testL ),
-        
-        ENTRY( "test70", CFiringofStartupTriggerAndListTrigger::TCLBTFW070_testL ),
-        ENTRY( "test71", CFiringofStartupTriggerAndListTrigger::TCLBTFW071_testL ),
-        ENTRY( "test72", CFiringofStartupTriggerAndListTrigger::TCLBTFW072_testL ),
-        ENTRY( "test73", CFiringofStartupTriggerAndListTrigger::TCLBTFW073_testL ),
-        ENTRY( "test74", CFiringofStartupTriggerAndListTrigger::TCLBTFW074_testL ),
-        ENTRY( "test75", CFiringofStartupTriggerAndListTrigger::TCLBTFW075_testL ),
-        ENTRY( "test76", CFiringofStartupTriggerAndListTrigger::TCLBTFW076_testL ),
-        ENTRY( "test77", CFiringofStartupTriggerAndListTrigger::TCLBTFW077_testL ),
-        ENTRY( "test78", CFiringofStartupTriggerAndListTrigger::TCLBTFW078_testL ),
-        ENTRY( "test79", CFiringofStartupTriggerAndListTrigger::TCLBTFW079_testL ),
-        ENTRY( "test80", CFiringofStartupTriggerAndListTrigger::TCLBTFW080_testL ),
-        ENTRY( "test81", CFiringofStartupTriggerAndListTrigger::TCLBTFW081_testL ),
-        ENTRY( "test82", CFiringofStartupTriggerAndListTrigger::TCLBTFW082_testL ),
-        ENTRY( "test83", CFiringofStartupTriggerAndListTrigger::TCLBTFW083_testL ),
-        ENTRY( "test84", CFiringofStartupTriggerAndListTrigger::TCLBTFW084_testL ),
-        ENTRY( "test85", CFiringofStartupTriggerAndListTrigger::TCLBTFW085_testL ),
-        ENTRY( "test86", CFiringofStartupTriggerAndListTrigger::TCLBTFW086_testL ),
-        ENTRY( "test87", CFiringofStartupTriggerAndListTrigger::TCLBTFW087_testL ),
-        ENTRY( "test88", CFiringofStartupTriggerAndListTrigger::TCLBTFW088_testL ),
-        ENTRY( "test89", CFiringofStartupTriggerAndListTrigger::TCLBTFW089_testL ),
-        ENTRY( "test90", CFiringofStartupTriggerAndListTrigger::TCLBTFW090_testL ),
-        ENTRY( "test91", CFiringofStartupTriggerAndListTrigger::TCLBTFW091_testL ),
-        ENTRY( "test92", CFiringofStartupTriggerAndListTrigger::TCLBTFW092_testL ),
-        ENTRY( "test93", CFiringofStartupTriggerAndListTrigger::TCLBTFW093_testL ),
-        ENTRY( "test94", CFiringofStartupTriggerAndListTrigger::TCLBTFW094_testL ),
-        ENTRY( "test95", CFiringofStartupTriggerAndListTrigger::TCLBTFW095_testL ),
+         ENTRY( "test02", CFiringofStartupTriggerAndListTrigger::TCLBTFW002_testL ),
+          ENTRY( "test03", CFiringofStartupTriggerAndListTrigger::TCLBTFW003_testL ),
+           ENTRY( "test04", CFiringofStartupTriggerAndListTrigger::TCLBTFW004_testL ),
+            ENTRY( "test05", CFiringofStartupTriggerAndListTrigger::TCLBTFW005_testL ),
+             ENTRY( "test06", CFiringofStartupTriggerAndListTrigger::TCLBTFW006_testL ),
+              ENTRY( "test07", CFiringofStartupTriggerAndListTrigger::TCLBTFW007_testL ),
+               ENTRY( "test08", CFiringofStartupTriggerAndListTrigger::TCLBTFW008_testL ),
+               ENTRY( "test09", CFiringofStartupTriggerAndListTrigger::TCLBTFW009_testL ),
+               ENTRY( "test10", CFiringofStartupTriggerAndListTrigger::TCLBTFW010_testL ),
+               ENTRY( "test11", CFiringofStartupTriggerAndListTrigger::TCLBTFW011_testL ),
+               ENTRY( "test12", CFiringofStartupTriggerAndListTrigger::TCLBTFW012_testL ),
+               ENTRY( "test13", CFiringofStartupTriggerAndListTrigger::TCLBTFW013_testL ),
+               ENTRY( "test14", CFiringofStartupTriggerAndListTrigger::TCLBTFW014_testL ),
+               ENTRY( "test15", CFiringofStartupTriggerAndListTrigger::TCLBTFW015_testL ),
+               ENTRY( "test16", CFiringofStartupTriggerAndListTrigger::TCLBTFW016_testL ),
+               ENTRY( "test17", CFiringofStartupTriggerAndListTrigger::TCLBTFW017_testL ),
+               ENTRY( "test18", CFiringofStartupTriggerAndListTrigger::TCLBTFW018_testL ),
+               
+               ENTRY( "test70", CFiringofStartupTriggerAndListTrigger::TCLBTFW070_testL ),
+               ENTRY( "test71", CFiringofStartupTriggerAndListTrigger::TCLBTFW071_testL ),
+               ENTRY( "test72", CFiringofStartupTriggerAndListTrigger::TCLBTFW072_testL ),
+               ENTRY( "test73", CFiringofStartupTriggerAndListTrigger::TCLBTFW073_testL ),
+               ENTRY( "test74", CFiringofStartupTriggerAndListTrigger::TCLBTFW074_testL ),
+               ENTRY( "test75", CFiringofStartupTriggerAndListTrigger::TCLBTFW075_testL ),
+               ENTRY( "test76", CFiringofStartupTriggerAndListTrigger::TCLBTFW076_testL ),
+               ENTRY( "test77", CFiringofStartupTriggerAndListTrigger::TCLBTFW077_testL ),
+               ENTRY( "test78", CFiringofStartupTriggerAndListTrigger::TCLBTFW078_testL ),
+               ENTRY( "test79", CFiringofStartupTriggerAndListTrigger::TCLBTFW079_testL ),
+               ENTRY( "test80", CFiringofStartupTriggerAndListTrigger::TCLBTFW080_testL ),
+               ENTRY( "test81", CFiringofStartupTriggerAndListTrigger::TCLBTFW081_testL ),
+               ENTRY( "test82", CFiringofStartupTriggerAndListTrigger::TCLBTFW082_testL ),
+               ENTRY( "test83", CFiringofStartupTriggerAndListTrigger::TCLBTFW083_testL ),
+               ENTRY( "test84", CFiringofStartupTriggerAndListTrigger::TCLBTFW084_testL ),
+               ENTRY( "test85", CFiringofStartupTriggerAndListTrigger::TCLBTFW085_testL ),
+               ENTRY( "test86", CFiringofStartupTriggerAndListTrigger::TCLBTFW086_testL ),
+               ENTRY( "test87", CFiringofStartupTriggerAndListTrigger::TCLBTFW087_testL ),
+               ENTRY( "test88", CFiringofStartupTriggerAndListTrigger::TCLBTFW088_testL ),
+               ENTRY( "test89", CFiringofStartupTriggerAndListTrigger::TCLBTFW089_testL ),
+			   ENTRY( "test90", CFiringofStartupTriggerAndListTrigger::TCLBTFW090_testL ),
+               ENTRY( "test91", CFiringofStartupTriggerAndListTrigger::TCLBTFW091_testL ),
+               ENTRY( "test92", CFiringofStartupTriggerAndListTrigger::TCLBTFW092_testL ),
+               ENTRY( "test93", CFiringofStartupTriggerAndListTrigger::TCLBTFW093_testL ),
+               ENTRY( "test94", CFiringofStartupTriggerAndListTrigger::TCLBTFW094_testL ),
+               ENTRY( "test95", CFiringofStartupTriggerAndListTrigger::TCLBTFW095_testL ),
+				
+
+
         };
 
     const TInt count = sizeof( KFunctions ) / 
@@ -302,14 +224,18 @@ TInt CFiringofStartupTriggerAndListTrigger::TCLBTFW001_testL( CStifItemParser& /
     {
    	
 	iLog->Log(_L("Entering Test1"));
-	_LIT( KSimulationFile,"c:\\system\\data\\simu_move1.sps" );
-	
-     // Set profile to offline mode.This is required to avoid movement detection blocking the 
-     // trigger firing.
-     SetProfileToOfflineL();
-	 // Enable simulation psy
-     EnableSimPSYL();
-  	 RLbtServer lbtserver;
+  _LIT( KSimulationFile,"c:\\system\\data\\simu_move1.sps" );
+ // _LIT( KSimulationFile0,"c:\\system\\data\\simu_move2.sps" );
+	 RPositionServer iLocationServer;
+     RPositioner iPositioner;
+ 	 
+ 	 // Connect to the location server
+    User::LeaveIfError(iLocationServer.Connect());
+
+    // Open the positioner
+    User::LeaveIfError(iPositioner.Open(iLocationServer));//,KPosSimulationPsyImplUid));
+ 	 
+ 	 RLbtServer lbtserver;
  	 RLbt lbt;
  	 iLog->Log(_L("Before connecting"));
  	 User::LeaveIfError( lbtserver.Connect() );
@@ -352,8 +278,8 @@ TInt CFiringofStartupTriggerAndListTrigger::TCLBTFW001_testL( CStifItemParser& /
 	trig->SetRequestorL(ReqType,ReqFormat,ReqData);  
     // set condition
 
-    TCoordinate coordinate;
-    GetCurrentCoordinateL( coordinate );
+    TCoordinate coordinate(62.5285,23.9385);
+   // TCoordinate coordinate(62.4438,23.9385);
     
     CLbtGeoCircle* circle=CLbtGeoCircle::NewL(coordinate,1000);
     CleanupStack::PushL( circle );
@@ -390,7 +316,8 @@ TInt CFiringofStartupTriggerAndListTrigger::TCLBTFW001_testL( CStifItemParser& /
     firePosition.Distance(coordinate,trigDistance);
       //close sim psy
     
-    RestoreProfileL();
+    iPositioner.Close();
+    iLocationServer.Close();
     if( trigDistance<=1000 && FireInfo.iTriggerId==trigId )
     {
     	lbt.DeleteTriggerL(trigId);
@@ -428,13 +355,7 @@ TInt CFiringofStartupTriggerAndListTrigger::TCLBTFW001_testL( CStifItemParser& /
  	 RLbt lbt;
  	  RPositionServer iLocationServer;
      RPositioner iPositioner;
-     
-     // Set profile to offline mode.This is required to avoid movement detection blocking the 
-     // trigger firing.
-     SetProfileToOfflineL();
-     // Enable simulation psy
-     EnableSimPSYL();
-     
+ 	 
  	 // Connect to the location server
     User::LeaveIfError(iLocationServer.Connect());
 
@@ -475,10 +396,9 @@ TInt CFiringofStartupTriggerAndListTrigger::TCLBTFW001_testL( CStifItemParser& /
 	trig->SetRequestorL(ReqType,ReqFormat,ReqData);     
     // set condition
     
-    TCoordinate coordinate;
-    GetCurrentCoordinateL( coordinate );
+    TCoordinate coordinate(62.5285,23.9385);
     
-    CLbtGeoCircle* circle=CLbtGeoCircle::NewL(coordinate,200);
+    CLbtGeoCircle* circle=CLbtGeoCircle::NewL(coordinate,1000);
     CleanupStack::PushL( circle );
     
          
@@ -504,12 +424,10 @@ TInt CFiringofStartupTriggerAndListTrigger::TCLBTFW001_testL( CStifItemParser& /
     
     notifier->StartNotification( wait );
     wait->Start( );
-    iLog->Log(_L("Trigger fired"));
      TLbtTriggerFireInfo FireInfo;
     TReal32 trigDistance;
     TPosition firePosition;
     FireInfo = notifier->GetFiredTrigger();
-    iLog->Log(_L("Trigger fired"));
     FireInfo.iFiredPositionInfo.GetPosition(firePosition);
     firePosition.Distance(coordinate,trigDistance);
     
@@ -517,8 +435,7 @@ TInt CFiringofStartupTriggerAndListTrigger::TCLBTFW001_testL( CStifItemParser& /
     
     iPositioner.Close();
     iLocationServer.Close();
-    RestoreProfileL();
-    if( FireInfo.iTriggerId==trigId )
+    if( trigDistance>=1000 && FireInfo.iTriggerId==trigId )
     {
     	lbt.DeleteTriggerL(trigId);
 	   	CleanupStack::PopAndDestroy( notifier );
@@ -536,7 +453,7 @@ TInt CFiringofStartupTriggerAndListTrigger::TCLBTFW001_testL( CStifItemParser& /
     CleanupStack::Pop( &lbt );
     CleanupStack::PopAndDestroy( &lbtserver );
     delete wait;
-    iLog->Log(_L("Test case passed "));
+    
     return -99; 
     }
 	
@@ -554,12 +471,13 @@ TInt CFiringofStartupTriggerAndListTrigger::TCLBTFW001_testL( CStifItemParser& /
  	  RPositionServer iLocationServer;
      RPositioner iPositioner;
  	 
-     // Set profile to offline mode.This is required to avoid movement detection blocking the 
-     // trigger firing.
-     SetProfileToOfflineL();
-     // Enable simulation psy
-     EnableSimPSYL();
-     
+ 	 // Connect to the location server
+    User::LeaveIfError(iLocationServer.Connect());
+
+    // Open the positioner
+    User::LeaveIfError(iPositioner.Open(iLocationServer));//,KPosSimulationPsyImplUid));
+ 	 
+ 	 
  	 User::LeaveIfError( lbtserver.Connect() );
      CleanupClosePushL( lbtserver );
  	 User::LeaveIfError( lbt.Open( lbtserver ) );
@@ -594,10 +512,9 @@ TInt CFiringofStartupTriggerAndListTrigger::TCLBTFW001_testL( CStifItemParser& /
 	trig->SetRequestorL(ReqType,ReqFormat,ReqData);  
     // set condition
     
-    TCoordinate coordinate;
-    GetCurrentCoordinateL( coordinate );
+    TCoordinate coordinate(62.5285,23.9385);
     
-    CLbtGeoCircle* circle=CLbtGeoCircle::NewL(coordinate,200);
+    CLbtGeoCircle* circle=CLbtGeoCircle::NewL(coordinate,1000);
     CleanupStack::PushL( circle );
     
          
@@ -621,13 +538,15 @@ TInt CFiringofStartupTriggerAndListTrigger::TCLBTFW001_testL( CStifItemParser& /
     notifier->CreateTriggers( lbt,*trig,trigId,ETrue,wait );
     wait->Start( );
     
-    RestoreProfileL();
+   /* notifier->StartNotification( wait );
+    wait->Start( );*/
     
     CleanupStack::PopAndDestroy( notifier );
     CleanupStack::PopAndDestroy( trig );
     CleanupStack::Pop( &lbt );
     CleanupStack::PopAndDestroy( &lbtserver );
     delete wait;
+    User::Exit(0);
     return KErrNone; 
       
     }
@@ -647,12 +566,6 @@ TInt CFiringofStartupTriggerAndListTrigger::TCLBTFW001_testL( CStifItemParser& /
  	 RPositionServer iLocationServer;
      RPositioner iPositioner;
  	 
-     // Set profile to offline mode.This is required to avoid movement detection blocking the 
-     // trigger firing.
-     SetProfileToOfflineL();
-     // Enable simulation psy
-     EnableSimPSYL();
-     
  	 // Connect to the location server
     User::LeaveIfError(iLocationServer.Connect());
 
@@ -692,8 +605,7 @@ TInt CFiringofStartupTriggerAndListTrigger::TCLBTFW001_testL( CStifItemParser& /
 	trig->SetRequestorL(ReqType,ReqFormat,ReqData);     
     // set condition
     
-    TCoordinate coordinate;
-    GetCurrentCoordinateL( coordinate );
+    TCoordinate coordinate(62.5285,23.9385);
     
     CLbtGeoCircle* circle=CLbtGeoCircle::NewL(coordinate,1000);
     CleanupStack::PushL( circle );
@@ -733,8 +645,7 @@ TInt CFiringofStartupTriggerAndListTrigger::TCLBTFW001_testL( CStifItemParser& /
     
     iPositioner.Close();
     iLocationServer.Close();
-    RestoreProfileL();
-    if( FireInfo.iTriggerId==trigId )
+    if( trigDistance<=1000 && FireInfo.iTriggerId==trigId )
     {
     	lbt.DeleteTriggerL(trigId);
 	   	CleanupStack::PopAndDestroy( notifier );
@@ -778,11 +689,6 @@ TInt CFiringofStartupTriggerAndListTrigger::TCLBTFW001_testL( CStifItemParser& /
     // Open the positioner
     User::LeaveIfError(iPositioner.Open(iLocationServer));//,KPosSimulationPsyImplUid));
  	 
-    // Set profile to offline mode.This is required to avoid movement detection blocking the 
-    // trigger firing.
-    SetProfileToOfflineL();
-    // Enable simulation psy
-    EnableSimPSYL();
  	 
  	 User::LeaveIfError( lbtserver.Connect() );
      CleanupClosePushL( lbtserver );
@@ -821,8 +727,7 @@ TInt CFiringofStartupTriggerAndListTrigger::TCLBTFW001_testL( CStifItemParser& /
 	trig->SetRequestorL(ReqType,ReqFormat,ReqData);     
     // set condition
     
-    TCoordinate coordinate;
-    GetCurrentCoordinateL( coordinate );
+    TCoordinate coordinate(62.5285,23.9385);
     
     CLbtGeoCircle* circle=CLbtGeoCircle::NewL(coordinate,1000);
     CleanupStack::PushL( circle );
@@ -858,7 +763,6 @@ TInt CFiringofStartupTriggerAndListTrigger::TCLBTFW001_testL( CStifItemParser& /
   //  User::After(60000000);
   iPositioner.Close();
     iLocationServer.Close();
-    RestoreProfileL();
      if(notifier->iTriggerFireCount> 0)
     {
     CleanupStack::PopAndDestroy( notifier );
@@ -900,11 +804,6 @@ TInt CFiringofStartupTriggerAndListTrigger::TCLBTFW001_testL( CStifItemParser& /
     // Open the positioner
     User::LeaveIfError(iPositioner.Open(iLocationServer));//,KPosSimulationPsyImplUid));
  	 
-    // Set profile to offline mode.This is required to avoid movement detection blocking the 
-    // trigger firing.
-    SetProfileToOfflineL();
-    // Enable simulation psy
-    EnableSimPSYL();
  	 
  	 User::LeaveIfError( lbtserver.Connect() );
      CleanupClosePushL( lbtserver );
@@ -943,8 +842,8 @@ TInt CFiringofStartupTriggerAndListTrigger::TCLBTFW001_testL( CStifItemParser& /
 	trig->SetRequestorL(ReqType,ReqFormat,ReqData);     
     // set condition
     
-    TCoordinate coordinate;
-    GetCurrentCoordinateL( coordinate );
+    TCoordinate coordinate(62.5285,23.9385);
+   // TCoordinate coordinate(62.4438,23.9385);
     
     CLbtGeoCircle* circle=CLbtGeoCircle::NewL(coordinate,1000);
     CleanupStack::PushL( circle );
@@ -981,7 +880,6 @@ TInt CFiringofStartupTriggerAndListTrigger::TCLBTFW001_testL( CStifItemParser& /
     firePosition.Distance(coordinate,trigDistance);
     iPositioner.Close();
     iLocationServer.Close();
-    RestoreProfileL();
     if(trigDistance<=1000 && FireInfo.iTriggerId==trigId )
     {
     
@@ -996,7 +894,7 @@ TInt CFiringofStartupTriggerAndListTrigger::TCLBTFW001_testL( CStifItemParser& /
     }
     else
     {
-    CleanupStack::PopAndDestroy( notifier );
+    	CleanupStack::PopAndDestroy( notifier );
     CleanupStack::PopAndDestroy( trig );
     CleanupStack::Pop( &lbt );
     CleanupStack::PopAndDestroy( &lbtserver );
@@ -1032,12 +930,6 @@ TInt CFiringofStartupTriggerAndListTrigger::TCLBTFW001_testL( CStifItemParser& /
  	 User::LeaveIfError( lbt.Open( lbtserver ) );
  	 CleanupClosePushL( lbt );
  	 
-     // Set profile to offline mode.This is required to avoid movement detection blocking the 
-     // trigger firing.
-     SetProfileToOfflineL();
-     // Enable simulation psy
-     EnableSimPSYL();
- 	 
  	 //Delete all the existing trggers
  	 TRAP_IGNORE(lbt.DeleteTriggersL());
  	
@@ -1065,8 +957,7 @@ TInt CFiringofStartupTriggerAndListTrigger::TCLBTFW001_testL( CStifItemParser& /
 	trig->SetRequestorL(ReqType,ReqFormat,ReqData);     
     // set condition
     
-    TCoordinate coordinate;
-    GetCurrentCoordinateL( coordinate );
+    TCoordinate coordinate(62.5285,23.9385);
     
     CLbtGeoCircle* circle=CLbtGeoCircle::NewL(coordinate,1000);
     CleanupStack::PushL( circle );
@@ -1103,7 +994,6 @@ TInt CFiringofStartupTriggerAndListTrigger::TCLBTFW001_testL( CStifItemParser& /
     firePosition.Distance(coordinate,trigDistance);
     iPositioner.Close();
     iLocationServer.Close();
-    RestoreProfileL();
     if(trigDistance==0 && FireInfo.iTriggerId==trigId )
     {
     
@@ -1153,12 +1043,6 @@ TInt CFiringofStartupTriggerAndListTrigger::TCLBTFW008_testL( CStifItemParser& /
  	 User::LeaveIfError( lbt.Open( lbtserver ) );
  	 CleanupClosePushL( lbt );
  	 
-     // Set profile to offline mode.This is required to avoid movement detection blocking the 
-     // trigger firing.
-     SetProfileToOfflineL();
-     // Enable simulation psy
-     EnableSimPSYL();
-     
  	 //Delete all the existing trggers
  	 TRAP_IGNORE(lbt.DeleteTriggersL());
  	
@@ -1185,8 +1069,7 @@ TInt CFiringofStartupTriggerAndListTrigger::TCLBTFW008_testL( CStifItemParser& /
 	trig->SetRequestorL(ReqType,ReqFormat,ReqData);    
     // set condition
     
-    TCoordinate coordinate;
-    GetCurrentCoordinateL( coordinate );
+    TCoordinate coordinate(62.5285,23.9385);
     coordinate.Move(90,2000);
     CLbtGeoCircle* circle=CLbtGeoCircle::NewL(coordinate,1000);
     CleanupStack::PushL( circle );
@@ -1223,7 +1106,6 @@ TInt CFiringofStartupTriggerAndListTrigger::TCLBTFW008_testL( CStifItemParser& /
     firePosition.Distance(coordinate,trigDistance);
     iPositioner.Close();
     iLocationServer.Close();
-    RestoreProfileL();
     if( trigDistance>=1000 && FireInfo.iTriggerId==trigId )
     {
     
@@ -1270,12 +1152,6 @@ TInt CFiringofStartupTriggerAndListTrigger::TCLBTFW009_testL( CStifItemParser& /
  	 User::LeaveIfError( lbt.Open( lbtserver ) );
  	 CleanupClosePushL( lbt );
  	 
-     // Set profile to offline mode.This is required to avoid movement detection blocking the 
-     // trigger firing.
-     SetProfileToOfflineL();
-     // Enable simulation psy
-     EnableSimPSYL();
- 	 
  	 //Delete all the existing trggers
  	 TRAP_IGNORE(lbt.DeleteTriggersL());
  	
@@ -1302,8 +1178,7 @@ TInt CFiringofStartupTriggerAndListTrigger::TCLBTFW009_testL( CStifItemParser& /
 	trig->SetRequestorL(ReqType,ReqFormat,ReqData);     
     // set condition
     
-    TCoordinate coordinate;
-    GetCurrentCoordinateL( coordinate );
+    TCoordinate coordinate(62.5285,23.9385);
     
     CLbtGeoCircle* circle=CLbtGeoCircle::NewL(coordinate,1000);
     CleanupStack::PushL( circle );
@@ -1338,7 +1213,6 @@ TInt CFiringofStartupTriggerAndListTrigger::TCLBTFW009_testL( CStifItemParser& /
 	wait->Start( );
     iPositioner.Close();
     iLocationServer.Close();
-    RestoreProfileL();
        if(notifier->iTriggerFireCount== 0)
     {
     CleanupStack::PopAndDestroy( notifier );
@@ -1388,11 +1262,6 @@ TInt CFiringofStartupTriggerAndListTrigger::TCLBTFW010_testL( CStifItemParser& /
  	 User::LeaveIfError( lbt.Open( lbtserver ) );
  	 CleanupClosePushL( lbt );
  	 
-     // Set profile to offline mode.This is required to avoid movement detection blocking the 
-     // trigger firing.
-     SetProfileToOfflineL();
-     // Enable simulation psy
-     EnableSimPSYL();
  	 //Delete all the existing trggers
  	 TRAP_IGNORE(lbt.DeleteTriggersL());
  	
@@ -1419,8 +1288,7 @@ TInt CFiringofStartupTriggerAndListTrigger::TCLBTFW010_testL( CStifItemParser& /
 	trig->SetRequestorL(ReqType,ReqFormat,ReqData);     
     // set condition
     
-    TCoordinate coordinate;
-    GetCurrentCoordinateL( coordinate );
+    TCoordinate coordinate(62.5285,23.9385);
     coordinate.Move(90,1100);
     CLbtGeoCircle* circle=CLbtGeoCircle::NewL(coordinate,1000);
     CleanupStack::PushL( circle );
@@ -1453,7 +1321,6 @@ TInt CFiringofStartupTriggerAndListTrigger::TCLBTFW010_testL( CStifItemParser& /
 	wait->Start( );
     iPositioner.Close();
     iLocationServer.Close();
-    RestoreProfileL();
        if(notifier->iTriggerFireCount== 0)
     {
     CleanupStack::PopAndDestroy( notifier );
@@ -1489,8 +1356,7 @@ TInt CFiringofStartupTriggerAndListTrigger::TCLBTFW010_testL( CStifItemParser& /
  	 User::LeaveIfError( lbtserver.Connect() );
      CleanupClosePushL( lbtserver );
  
-    TCoordinate coordinate;
-    GetCurrentCoordinateL( coordinate );
+    TCoordinate coordinate(62.4438,23.9385);
     TestModuleIf().SetExitReason( CTestModuleIf::EPanic, 2);  
     CTriggerFireObserver* notifier= CTriggerFireObserver::NewL( lbt,coordinate );
     CActiveSchedulerWait* wait=new(ELeave)CActiveSchedulerWait;
@@ -1556,8 +1422,7 @@ TInt CFiringofStartupTriggerAndListTrigger::TCLBTFW012_testL( CStifItemParser& /
 	trig->SetRequestorL(ReqType,ReqFormat,ReqData);     
     // set condition
     
-    TCoordinate coordinate;
-    GetCurrentCoordinateL( coordinate );
+    TCoordinate coordinate(62.5285,23.9385);
     
     CLbtGeoCircle* circle=CLbtGeoCircle::NewL(coordinate,1000);
     CleanupStack::PushL( circle );
@@ -1621,11 +1486,6 @@ TInt CFiringofStartupTriggerAndListTrigger::TCLBTFW013_testL( CStifItemParser& /
  	 User::LeaveIfError( lbt.Open( lbtserver ) );
  	 CleanupClosePushL( lbt );
  	 
-     // Set profile to offline mode.This is required to avoid movement detection blocking the 
-     // trigger firing.
-     SetProfileToOfflineL();
-     // Enable simulation psy
-     EnableSimPSYL();
  	 //Delete all the existing trggers
  	 TRAP_IGNORE(lbt.DeleteTriggersL());
  	
@@ -1653,8 +1513,7 @@ TInt CFiringofStartupTriggerAndListTrigger::TCLBTFW013_testL( CStifItemParser& /
 	trig->SetRequestorL(ReqType,ReqFormat,ReqData);     
     // set condition
     
-    TCoordinate coordinate;
-    GetCurrentCoordinateL( coordinate );
+    TCoordinate coordinate(62.5285,23.9385);
     
     CLbtGeoCircle* circle=CLbtGeoCircle::NewL(coordinate,10000);
     CleanupStack::PushL( circle );
@@ -1705,7 +1564,6 @@ TInt CFiringofStartupTriggerAndListTrigger::TCLBTFW013_testL( CStifItemParser& /
  		wait->Start( );
  		iPositioner.Close();
     iLocationServer.Close();
-    RestoreProfileL();
  if(notifier->iTriggerFireCount > 0)
  {
   lbt.DeleteTriggerL(trigId);
@@ -1732,10 +1590,371 @@ TInt CFiringofStartupTriggerAndListTrigger::TCLBTFW013_testL( CStifItemParser& /
       
     }
     
+  // Testing the hysteresis condition for entry type of trigger  
+    
+TInt CFiringofStartupTriggerAndListTrigger::TCLBTFW014_testL( CStifItemParser& /* aItem */ )
+    {
+
+ _LIT( KSimulationFile,"c:\\system\\data\\test1.nme" );
+
+ 	 RLbtServer lbtserver;
+ 	 RLbt lbt;
+ 	 	 RPositionServer iLocationServer;
+     RPositioner iPositioner;
+ 	 
+ 	 // Connect to the location server
+    User::LeaveIfError(iLocationServer.Connect());
+
+    // Open the positioner
+    User::LeaveIfError(iPositioner.Open(iLocationServer));//,KPosSimulationPsyImplUid));
+ 	 
+ 	 
+ 	 User::LeaveIfError( lbtserver.Connect() );
+     CleanupClosePushL( lbtserver );
+     iLog->Log(_L("Connection to RLbtServer Passed "));
+ 	 User::LeaveIfError( lbt.Open( lbtserver ) );
+ 	 iLog->Log(_L("Subsession opened "));
+ 	 CleanupClosePushL( lbt );
+ 	 
+ 	 //Delete all the existing trggers
+ 	 TRAP_IGNORE(lbt.DeleteTriggersL());
+ 	
+ 	 CRepository* repository = CRepository::NewLC(KCRUidSimulationPSY);
+ 	 iLog->Log(_L("Simulation PSY Repository object created"));
+	 User::LeaveIfError(repository->Set(KCRKeySimPSYSimulationFile, KSimulationFile));
+	 iLog->Log(_L("Simulation input file set "));
+	 CleanupStack::PopAndDestroy(repository);
+	 
+	  //Construct a session trigger
+    CLbtStartupTrigger* trig = CLbtStartupTrigger::NewL();
+    
+    //Push to cleanup stack
+    CleanupStack::PushL( trig );
+    iLog->Log(_L("Startup Trigger Entry Created "));
+    
+    // Set Name
+    trig->SetNameL(_L("Trigger1"));
+   // _LIT( KMyTriggerHandlingProcessName, "About.exe");
+    _LIT( KMyTriggerHandlingProcessName, "ConsoleUI.exe");
+    
+    TSecureId secureid;
+    trig->SetProcessId(KMyTriggerHandlingProcessName,secureid);
+    //Set Requestor
+ 	CRequestorBase::TRequestorType ReqType=CRequestorBase::ERequestorUnknown;
+	CRequestorBase::_TRequestorFormat ReqFormat=CRequestorBase::EFormatUnknown;
+	TBuf<KLbtMaxNameLength> ReqData=_L("");
+	trig->SetRequestorL(ReqType,ReqFormat,ReqData);     
+    // set condition
+    
+    TCoordinate coordinate(65.5285,23.9385);
+   // TCoordinate coordinate(62.4438,23.9385);
+    
+    CLbtGeoCircle* circle=CLbtGeoCircle::NewL(coordinate,1000);
+    CleanupStack::PushL( circle );
+    
+         
+    // ownership of circle object transferred to the condition object
+    CLbtTriggerConditionArea* condition=CLbtTriggerConditionArea::NewL(
+                                                circle,
+                                                CLbtTriggerConditionArea::EFireOnEnter);
+        
+    CleanupStack::Pop( circle );
+    
+    trig->SetCondition(condition); // ownership transferred to object
+
+    TLbtTriggerId trigId;
+        
+        
+    CTriggerFireObserver* notifier= CTriggerFireObserver::NewL( lbt,coordinate);
+    CleanupStack::PushL( notifier );
+    
+    CActiveSchedulerWait* wait=new(ELeave)CActiveSchedulerWait;
+        
+    notifier->CreateTriggers( lbt,*trig,trigId,ETrue,wait );
+    wait->Start( );
+    iLog->Log(_L("Trigger Created"));
+    notifier->StartNotification( wait );
+    wait->Start( );
+   // time_t time1,time2;
+   // Time();
+   // notifier->StartNotification( wait );
+   // wait->Start( );
+    
+  //  notifier->StartNotification( wait );
+    wait->Start( );
+    notifier->iWaitStatus = KRequestPending;
+    
+  //  notifier->StartNotification( wait );
+	notifier->After(1000000);
+	wait->Start( );
+    
+    iLog->Log(_L("Trigger Fired"));
+    TLbtTriggerFireInfo FireInfo;
+    TReal32 trigDistance;
+    TPosition firePosition;
+    FireInfo = notifier->GetFiredTrigger();
+    FireInfo.iFiredPositionInfo.GetPosition(firePosition);
+    firePosition.Distance(coordinate,trigDistance);
+    iPositioner.Close();
+    iLocationServer.Close();
+    lbt.DeleteTriggerL(trigId);
+    if(notifier->iTriggerFireCount ==2)
+    {
+    	CleanupStack::PopAndDestroy( notifier );
+    CleanupStack::PopAndDestroy( trig );
+    CleanupStack::Pop( &lbt );
+    CleanupStack::PopAndDestroy( &lbtserver );
+    delete wait;
+    
+    return KErrNone; 
+    }
+    else
+    {
+    	CleanupStack::PopAndDestroy( notifier );
+    CleanupStack::PopAndDestroy( trig );
+    CleanupStack::Pop( &lbt );
+    CleanupStack::PopAndDestroy( &lbtserver );
+    delete wait;
+    
+    return -99; 
+    }
+    }
+    
+    //Testing the hysteresis condition for exit type of trigger
+    
+    TInt CFiringofStartupTriggerAndListTrigger::TCLBTFW015_testL( CStifItemParser& /* aItem */ )
+    {
+
+ _LIT( KSimulationFile,"c:\\system\\data\\test2.nme" );
+	
+ 	 RLbtServer lbtserver;
+ 	 RLbt lbt;
+ 	 	 RPositionServer iLocationServer;
+     RPositioner iPositioner;
+ 	 
+ 	 // Connect to the location server
+    User::LeaveIfError(iLocationServer.Connect());
+
+    // Open the positioner
+    User::LeaveIfError(iPositioner.Open(iLocationServer));//,KPosSimulationPsyImplUid));
+ 	 
+ 	 
+ 	 User::LeaveIfError( lbtserver.Connect() );
+     CleanupClosePushL( lbtserver );
+     iLog->Log(_L("Connection to RLbtServer Passed "));
+ 	 User::LeaveIfError( lbt.Open( lbtserver ) );
+ 	 iLog->Log(_L("Subsession opened "));
+ 	 CleanupClosePushL( lbt );
+ 	 
+ 	 //Delete all the existing trggers
+ 	 TRAP_IGNORE(lbt.DeleteTriggersL());
+ 	
+ 	 CRepository* repository = CRepository::NewLC(KCRUidSimulationPSY);
+ 	 iLog->Log(_L("Simulation PSY Repository object created"));
+	 User::LeaveIfError(repository->Set(KCRKeySimPSYSimulationFile, KSimulationFile));
+	 iLog->Log(_L("Simulation input file set "));
+	 CleanupStack::PopAndDestroy(repository);
+	 
+	  //Construct a session trigger
+    CLbtStartupTrigger* trig = CLbtStartupTrigger::NewL();
+    
+    //Push to cleanup stack
+    CleanupStack::PushL( trig );
+    iLog->Log(_L("Startup Trigger Entry Created "));
+    
+    // Set Name
+    trig->SetNameL(_L("Trigger1"));
+   // _LIT( KMyTriggerHandlingProcessName, "About.exe");
+    _LIT( KMyTriggerHandlingProcessName, "ConsoleUI.exe");
+    
+    TSecureId secureid;
+    trig->SetProcessId(KMyTriggerHandlingProcessName,secureid);
+    //Set Requestor
+ 	CRequestorBase::TRequestorType ReqType=CRequestorBase::ERequestorUnknown;
+	CRequestorBase::_TRequestorFormat ReqFormat=CRequestorBase::EFormatUnknown;
+	TBuf<KLbtMaxNameLength> ReqData=_L("");
+	trig->SetRequestorL(ReqType,ReqFormat,ReqData);     
+    // set condition
+    
+    TCoordinate coordinate(65.5285,23.9385);
+   // TCoordinate coordinate(62.4438,23.9385);
+    
+    CLbtGeoCircle* circle=CLbtGeoCircle::NewL(coordinate,1000);
+    CleanupStack::PushL( circle );
+    
+         
+    // ownership of circle object transferred to the condition object
+    CLbtTriggerConditionArea* condition=CLbtTriggerConditionArea::NewL(
+                                                circle,
+                                                CLbtTriggerConditionArea::EFireOnExit);
+        
+    CleanupStack::Pop( circle );
+    
+    trig->SetCondition(condition); // ownership transferred to object
+
+    TLbtTriggerId trigId;
+        
+        
+    CTriggerFireObserver* notifier= CTriggerFireObserver::NewL( lbt,coordinate);
+    CleanupStack::PushL( notifier );
+    
+    CActiveSchedulerWait* wait=new(ELeave)CActiveSchedulerWait;
+        
+    notifier->CreateTriggers( lbt,*trig,trigId,ETrue,wait );
+    wait->Start( );
+    iLog->Log(_L("Trigger Created"));
+    notifier->StartNotification( wait );
+    wait->Start( );
+  //  notifier->StartNotification( wait );
+    wait->Start( );
+  //  notifier->StartNotification( wait );
+    //  wait->Start( );
+    notifier->iWaitStatus = KRequestPending;
+    
+   // notifier->StartNotification( wait );
+	notifier->After(15000000);
+	wait->Start( );
+    iLog->Log(_L("Trigger Fired"));
+    TLbtTriggerFireInfo FireInfo;
+    TReal32 trigDistance;
+    TPosition firePosition;
+    FireInfo = notifier->GetFiredTrigger();
+    FireInfo.iFiredPositionInfo.GetPosition(firePosition);
+    firePosition.Distance(coordinate,trigDistance);
+    iPositioner.Close();
+    iLocationServer.Close();
+    lbt.DeleteTriggerL(trigId);
+    if( notifier->iTriggerFireCount ==2)
+    {
+    	CleanupStack::PopAndDestroy( notifier );
+    CleanupStack::PopAndDestroy( trig );
+    CleanupStack::Pop( &lbt );
+    CleanupStack::PopAndDestroy( &lbtserver );
+    delete wait;
+    
+    return KErrNone; 
+    }
+    else
+    {
+    	CleanupStack::PopAndDestroy( notifier );
+    CleanupStack::PopAndDestroy( trig );
+    CleanupStack::Pop( &lbt );
+    CleanupStack::PopAndDestroy( &lbtserver );
+    delete wait;
+    
+    return -99; 
+    }
+    }
+    
+    
+    //Registering for trigger fire notification after trigger fires multiple times
+    TInt CFiringofStartupTriggerAndListTrigger::TCLBTFW016_testL( CStifItemParser& /* aItem */ )
+    {
+
+ _LIT( KSimulationFile,"c:\\system\\data\\test3.nme" );
+
+ 	 RLbtServer lbtserver;
+ 	 RLbt lbt;
+ 	 	 RPositionServer iLocationServer;
+     RPositioner iPositioner;
+ 	 
+ 	 // Connect to the location server
+    User::LeaveIfError(iLocationServer.Connect());
+
+    // Open the positioner
+    User::LeaveIfError(iPositioner.Open(iLocationServer));//,KPosSimulationPsyImplUid));
+ 	 
+ 	 
+ 	 User::LeaveIfError( lbtserver.Connect() );
+     CleanupClosePushL( lbtserver );
+     iLog->Log(_L("Connection to RLbtServer Passed "));
+ 	 User::LeaveIfError( lbt.Open( lbtserver ) );
+ 	 iLog->Log(_L("Subsession opened "));
+ 	 CleanupClosePushL( lbt );
+ 	 
+ 	 //Delete all the existing trggers
+ 	 TRAP_IGNORE(lbt.DeleteTriggersL());
+ 	
+ 	 CRepository* repository = CRepository::NewLC(KCRUidSimulationPSY);
+ 	 iLog->Log(_L("Simulation PSY Repository object created"));
+	 User::LeaveIfError(repository->Set(KCRKeySimPSYSimulationFile, KSimulationFile));
+	 iLog->Log(_L("Simulation input file set "));
+	 CleanupStack::PopAndDestroy(repository);
+	 
+	  //Construct a session trigger
+    CLbtStartupTrigger* trig = CLbtStartupTrigger::NewL();
+    
+    //Push to cleanup stack
+    CleanupStack::PushL( trig );
+    iLog->Log(_L("Startup Trigger Entry Created "));
+    
+    // Set Name
+    trig->SetNameL(_L("Trigger1"));
+   // _LIT( KMyTriggerHandlingProcessName, "About.exe");
+    _LIT( KMyTriggerHandlingProcessName, "ConsoleUI.exe");
+    
+    TSecureId secureid;
+    trig->SetProcessId(KMyTriggerHandlingProcessName,secureid);
+    //Set Requestor
+ 	CRequestorBase::TRequestorType ReqType=CRequestorBase::ERequestorUnknown;
+	CRequestorBase::_TRequestorFormat ReqFormat=CRequestorBase::EFormatUnknown;
+	TBuf<KLbtMaxNameLength> ReqData=_L("");
+	trig->SetRequestorL(ReqType,ReqFormat,ReqData);     
+    // set condition
+    
+    TCoordinate coordinate(62.5285,23.9385);
+   // TCoordinate coordinate(62.4438,23.9385);
+    
+    CLbtGeoCircle* circle=CLbtGeoCircle::NewL(coordinate,1000);
+    CleanupStack::PushL( circle );
+    
+         
+    // ownership of circle object transferred to the condition object
+    CLbtTriggerConditionArea* condition=CLbtTriggerConditionArea::NewL(
+                                                circle,
+                                                CLbtTriggerConditionArea::EFireOnEnter);
+        
+    CleanupStack::Pop( circle );
+    
+    trig->SetCondition(condition); // ownership transferred to object
+	
+    TLbtTriggerId trigId;
+        
+        
+    CTriggerFireObserver* notifier= CTriggerFireObserver::NewL( lbt,coordinate);
+    CleanupStack::PushL( notifier );
+    
+    CActiveSchedulerWait* wait=new(ELeave)CActiveSchedulerWait;
+        
+    notifier->CreateTriggers( lbt,*trig,trigId,ETrue,wait );
+    wait->Start( );
+    iLog->Log(_L("Trigger Created"));
+    notifier->After(50000000);
+    notifier->StartNotification(wait);
+    wait->Start( );
+    iLog->Log(_L("Trigger Fired"));
+    TLbtTriggerFireInfo FireInfo;
+    TReal32 trigDistance;
+    TPosition firePosition;
+    FireInfo = notifier->GetFiredTrigger();
+    FireInfo.iFiredPositionInfo.GetPosition(firePosition);
+    firePosition.Distance(coordinate,trigDistance);
+    iPositioner.Close();
+    iLocationServer.Close();
+    
+    	CleanupStack::PopAndDestroy( notifier );
+    CleanupStack::PopAndDestroy( trig );
+    CleanupStack::Pop( &lbt );
+    CleanupStack::PopAndDestroy( &lbtserver );
+    delete wait;
+    
+    return KErrNone; 
+    
+    }
     
    
    //Firing of  startup trigger when trigger handling process not found in the system
-    TInt CFiringofStartupTriggerAndListTrigger::TCLBTFW014_testL( CStifItemParser& /* aItem */ )
+    TInt CFiringofStartupTriggerAndListTrigger::TCLBTFW017_testL( CStifItemParser& /* aItem */ )
     {
 
  _LIT( KSimulationFile,"c:\\system\\data\\simu_move1.sps" );
@@ -1758,12 +1977,6 @@ TInt CFiringofStartupTriggerAndListTrigger::TCLBTFW013_testL( CStifItemParser& /
  	 User::LeaveIfError( lbt.Open( lbtserver ) );
  	 iLog->Log(_L("Subsession opened "));
  	 CleanupClosePushL( lbt );
- 	 
-     // Set profile to offline mode.This is required to avoid movement detection blocking the 
-     // trigger firing.
-     SetProfileToOfflineL();
-     // Enable simulation psy
-     EnableSimPSYL();
  	 
  	 //Delete all the existing trggers
  	 TRAP_IGNORE(lbt.DeleteTriggersL());
@@ -1795,8 +2008,8 @@ TInt CFiringofStartupTriggerAndListTrigger::TCLBTFW013_testL( CStifItemParser& /
        
     // set condition
     
-    TCoordinate coordinate;
-    GetCurrentCoordinateL( coordinate );
+    TCoordinate coordinate(62.5285,23.9385);
+   // TCoordinate coordinate(62.4438,23.9385);
     
     CLbtGeoCircle* circle=CLbtGeoCircle::NewL(coordinate,1000);
     CleanupStack::PushL( circle );
@@ -1833,7 +2046,7 @@ TInt CFiringofStartupTriggerAndListTrigger::TCLBTFW013_testL( CStifItemParser& /
     firePosition.Distance(coordinate,trigDistance);
     iPositioner.Close();
     iLocationServer.Close();
-    RestoreProfileL();
+   
     	CleanupStack::PopAndDestroy( notifier );
     CleanupStack::PopAndDestroy( trig );
     CleanupStack::Pop( &lbt );
@@ -1847,7 +2060,7 @@ TInt CFiringofStartupTriggerAndListTrigger::TCLBTFW013_testL( CStifItemParser& /
     
     //Firing of multiple Entry type startup triggers
 
-TInt CFiringofStartupTriggerAndListTrigger::TCLBTFW015_testL( CStifItemParser& /* aItem */ )
+TInt CFiringofStartupTriggerAndListTrigger::TCLBTFW018_testL( CStifItemParser& /* aItem */ )
     {
 
  _LIT( KSimulationFile,"c:\\system\\data\\simu_move1.sps" );
@@ -1861,12 +2074,6 @@ TInt CFiringofStartupTriggerAndListTrigger::TCLBTFW015_testL( CStifItemParser& /
  	 User::LeaveIfError( lbt.Open( lbtserver ) );
  	 iLog->Log(_L("Subsession opened "));
  	 CleanupClosePushL( lbt );
- 	 
-     // Set profile to offline mode.This is required to avoid movement detection blocking the 
-     // trigger firing.
-     SetProfileToOfflineL();
-     // Enable simulation psy
-     EnableSimPSYL();
  	 
  	 //Delete all the existing trggers
  	 TRAP_IGNORE(lbt.DeleteTriggersL());
@@ -1904,8 +2111,8 @@ TInt CFiringofStartupTriggerAndListTrigger::TCLBTFW015_testL( CStifItemParser& /
 	trig2->SetRequestorL(ReqType,ReqFormat,ReqData);     
     // set condition
 
-    TCoordinate coordinate;
-    GetCurrentCoordinateL( coordinate );
+    TCoordinate coordinate(62.5285,23.9385);
+   // TCoordinate coordinate(62.4438,23.9385);
     
     CLbtGeoCircle* circle=CLbtGeoCircle::NewL(coordinate,1000);
     CleanupStack::PushL( circle );
@@ -1936,15 +2143,13 @@ TInt CFiringofStartupTriggerAndListTrigger::TCLBTFW015_testL( CStifItemParser& /
     notifier->StartNotification( wait );
   	wait->Start( );
     iLog->Log(_L("Triggers Fired"));
-    wait->Start( );
-    iLog->Log(_L("Triggers Fired"));
     TLbtTriggerFireInfo FireInfo;
     TReal32 trigDistance;
     TPosition firePosition;
     FireInfo = notifier->GetFiredTrigger();
     FireInfo.iFiredPositionInfo.GetPosition(firePosition);
     firePosition.Distance(coordinate,trigDistance);
-    RestoreProfileL();
+   
     	CleanupStack::PopAndDestroy( notifier );
     CleanupStack::PopAndDestroy( trig2);
     CleanupStack::Pop( trig1 );
@@ -1957,369 +2162,6 @@ TInt CFiringofStartupTriggerAndListTrigger::TCLBTFW015_testL( CStifItemParser& /
     
     }
    
-
-// Testing the hysteresis condition for entry type of trigger  
-  
-TInt CFiringofStartupTriggerAndListTrigger::TCLBTFW016_testL( CStifItemParser& /* aItem */ )
-  {
-
-_LIT( KSimulationFile,"c:\\system\\data\\test1.nme" );
-
-   RLbtServer lbtserver;
-   RLbt lbt;
-       RPositionServer iLocationServer;
-   RPositioner iPositioner;
-   
-   // Connect to the location server
-  User::LeaveIfError(iLocationServer.Connect());
-
-  // Open the positioner
-  User::LeaveIfError(iPositioner.Open(iLocationServer));//,KPosSimulationPsyImplUid));
-   
-   
-   User::LeaveIfError( lbtserver.Connect() );
-   CleanupClosePushL( lbtserver );
-   iLog->Log(_L("Connection to RLbtServer Passed "));
-   User::LeaveIfError( lbt.Open( lbtserver ) );
-   iLog->Log(_L("Subsession opened "));
-   CleanupClosePushL( lbt );
-   
-   //Delete all the existing trggers
-   TRAP_IGNORE(lbt.DeleteTriggersL());
-  
-   CRepository* repository = CRepository::NewLC(KCRUidSimulationPSY);
-   iLog->Log(_L("Simulation PSY Repository object created"));
-   User::LeaveIfError(repository->Set(KCRKeySimPSYSimulationFile, KSimulationFile));
-   iLog->Log(_L("Simulation input file set "));
-   CleanupStack::PopAndDestroy(repository);
-   
-    //Construct a session trigger
-  CLbtStartupTrigger* trig = CLbtStartupTrigger::NewL();
-  
-  //Push to cleanup stack
-  CleanupStack::PushL( trig );
-  iLog->Log(_L("Startup Trigger Entry Created "));
-  
-  // Set Name
-  trig->SetNameL(_L("Trigger1"));
- // _LIT( KMyTriggerHandlingProcessName, "About.exe");
-  _LIT( KMyTriggerHandlingProcessName, "ConsoleUI.exe");
-  
-  TSecureId secureid;
-  trig->SetProcessId(KMyTriggerHandlingProcessName,secureid);
-  //Set Requestor
-  CRequestorBase::TRequestorType ReqType=CRequestorBase::ERequestorUnknown;
-  CRequestorBase::_TRequestorFormat ReqFormat=CRequestorBase::EFormatUnknown;
-  TBuf<KLbtMaxNameLength> ReqData=_L("");
-  trig->SetRequestorL(ReqType,ReqFormat,ReqData);     
-  // set condition
-  
-  TCoordinate coordinate(65.5285,23.9385);
- // TCoordinate coordinate(62.4438,23.9385);
-  
-  CLbtGeoCircle* circle=CLbtGeoCircle::NewL(coordinate,1000);
-  CleanupStack::PushL( circle );
-  
-       
-  // ownership of circle object transferred to the condition object
-  CLbtTriggerConditionArea* condition=CLbtTriggerConditionArea::NewL(
-                                              circle,
-                                              CLbtTriggerConditionArea::EFireOnEnter);
-      
-  CleanupStack::Pop( circle );
-  
-  trig->SetCondition(condition); // ownership transferred to object
-
-  TLbtTriggerId trigId;
-      
-      
-  CTriggerFireObserver* notifier= CTriggerFireObserver::NewL( lbt,coordinate);
-  CleanupStack::PushL( notifier );
-  
-  CActiveSchedulerWait* wait=new(ELeave)CActiveSchedulerWait;
-      
-  notifier->CreateTriggers( lbt,*trig,trigId,ETrue,wait );
-  wait->Start( );
-  iLog->Log(_L("Trigger Created"));
-  notifier->StartNotification( wait );
-  wait->Start( );
- // time_t time1,time2;
- // Time();
- // notifier->StartNotification( wait );
- // wait->Start( );
-  
-//  notifier->StartNotification( wait );
-  wait->Start( );
-  notifier->iWaitStatus = KRequestPending;
-  
-//  notifier->StartNotification( wait );
-  notifier->After(1000000);
-  wait->Start( );
-  
-  iLog->Log(_L("Trigger Fired"));
-  TLbtTriggerFireInfo FireInfo;
-  TReal32 trigDistance;
-  TPosition firePosition;
-  FireInfo = notifier->GetFiredTrigger();
-  FireInfo.iFiredPositionInfo.GetPosition(firePosition);
-  firePosition.Distance(coordinate,trigDistance);
-  iPositioner.Close();
-  iLocationServer.Close();
-  lbt.DeleteTriggerL(trigId);
-  if(notifier->iTriggerFireCount ==2)
-  {
-      CleanupStack::PopAndDestroy( notifier );
-  CleanupStack::PopAndDestroy( trig );
-  CleanupStack::Pop( &lbt );
-  CleanupStack::PopAndDestroy( &lbtserver );
-  delete wait;
-  
-  return KErrNone; 
-  }
-  else
-  {
-      CleanupStack::PopAndDestroy( notifier );
-  CleanupStack::PopAndDestroy( trig );
-  CleanupStack::Pop( &lbt );
-  CleanupStack::PopAndDestroy( &lbtserver );
-  delete wait;
-  
-  return -99; 
-  }
-  }
-  
-  //Testing the hysteresis condition for exit type of trigger
-  
-  TInt CFiringofStartupTriggerAndListTrigger::TCLBTFW017_testL( CStifItemParser& /* aItem */ )
-  {
-
-_LIT( KSimulationFile,"c:\\system\\data\\test2.nme" );
-  
-   RLbtServer lbtserver;
-   RLbt lbt;
-       RPositionServer iLocationServer;
-   RPositioner iPositioner;
-   
-   // Connect to the location server
-  User::LeaveIfError(iLocationServer.Connect());
-
-  // Open the positioner
-  User::LeaveIfError(iPositioner.Open(iLocationServer));//,KPosSimulationPsyImplUid));
-   
-   
-   User::LeaveIfError( lbtserver.Connect() );
-   CleanupClosePushL( lbtserver );
-   iLog->Log(_L("Connection to RLbtServer Passed "));
-   User::LeaveIfError( lbt.Open( lbtserver ) );
-   iLog->Log(_L("Subsession opened "));
-   CleanupClosePushL( lbt );
-   
-   //Delete all the existing trggers
-   TRAP_IGNORE(lbt.DeleteTriggersL());
-  
-   CRepository* repository = CRepository::NewLC(KCRUidSimulationPSY);
-   iLog->Log(_L("Simulation PSY Repository object created"));
-   User::LeaveIfError(repository->Set(KCRKeySimPSYSimulationFile, KSimulationFile));
-   iLog->Log(_L("Simulation input file set "));
-   CleanupStack::PopAndDestroy(repository);
-   
-    //Construct a session trigger
-  CLbtStartupTrigger* trig = CLbtStartupTrigger::NewL();
-  
-  //Push to cleanup stack
-  CleanupStack::PushL( trig );
-  iLog->Log(_L("Startup Trigger Entry Created "));
-  
-  // Set Name
-  trig->SetNameL(_L("Trigger1"));
- // _LIT( KMyTriggerHandlingProcessName, "About.exe");
-  _LIT( KMyTriggerHandlingProcessName, "ConsoleUI.exe");
-  
-  TSecureId secureid;
-  trig->SetProcessId(KMyTriggerHandlingProcessName,secureid);
-  //Set Requestor
-  CRequestorBase::TRequestorType ReqType=CRequestorBase::ERequestorUnknown;
-  CRequestorBase::_TRequestorFormat ReqFormat=CRequestorBase::EFormatUnknown;
-  TBuf<KLbtMaxNameLength> ReqData=_L("");
-  trig->SetRequestorL(ReqType,ReqFormat,ReqData);     
-  // set condition
-  
-  TCoordinate coordinate(65.5285,23.9385);
- // TCoordinate coordinate(62.4438,23.9385);
-  
-  CLbtGeoCircle* circle=CLbtGeoCircle::NewL(coordinate,1000);
-  CleanupStack::PushL( circle );
-  
-       
-  // ownership of circle object transferred to the condition object
-  CLbtTriggerConditionArea* condition=CLbtTriggerConditionArea::NewL(
-                                              circle,
-                                              CLbtTriggerConditionArea::EFireOnExit);
-      
-  CleanupStack::Pop( circle );
-  
-  trig->SetCondition(condition); // ownership transferred to object
-
-  TLbtTriggerId trigId;
-      
-      
-  CTriggerFireObserver* notifier= CTriggerFireObserver::NewL( lbt,coordinate);
-  CleanupStack::PushL( notifier );
-  
-  CActiveSchedulerWait* wait=new(ELeave)CActiveSchedulerWait;
-      
-  notifier->CreateTriggers( lbt,*trig,trigId,ETrue,wait );
-  wait->Start( );
-  iLog->Log(_L("Trigger Created"));
-  notifier->StartNotification( wait );
-  wait->Start( );
-//  notifier->StartNotification( wait );
-  wait->Start( );
-//  notifier->StartNotification( wait );
-  //  wait->Start( );
-  notifier->iWaitStatus = KRequestPending;
-  
- // notifier->StartNotification( wait );
-  notifier->After(15000000);
-  wait->Start( );
-  iLog->Log(_L("Trigger Fired"));
-  TLbtTriggerFireInfo FireInfo;
-  TReal32 trigDistance;
-  TPosition firePosition;
-  FireInfo = notifier->GetFiredTrigger();
-  FireInfo.iFiredPositionInfo.GetPosition(firePosition);
-  firePosition.Distance(coordinate,trigDistance);
-  iPositioner.Close();
-  iLocationServer.Close();
-  lbt.DeleteTriggerL(trigId);
-  if( notifier->iTriggerFireCount ==2)
-  {
-      CleanupStack::PopAndDestroy( notifier );
-  CleanupStack::PopAndDestroy( trig );
-  CleanupStack::Pop( &lbt );
-  CleanupStack::PopAndDestroy( &lbtserver );
-  delete wait;
-  
-  return KErrNone; 
-  }
-  else
-  {
-      CleanupStack::PopAndDestroy( notifier );
-  CleanupStack::PopAndDestroy( trig );
-  CleanupStack::Pop( &lbt );
-  CleanupStack::PopAndDestroy( &lbtserver );
-  delete wait;
-  
-  return -99; 
-  }
-  }
-  
-  
-  //Registering for trigger fire notification after trigger fires multiple times
-  TInt CFiringofStartupTriggerAndListTrigger::TCLBTFW018_testL( CStifItemParser& /* aItem */ )
-  {
-
-_LIT( KSimulationFile,"c:\\system\\data\\test3.nme" );
-
-   RLbtServer lbtserver;
-   RLbt lbt;
-       RPositionServer iLocationServer;
-   RPositioner iPositioner;
-   
-   // Connect to the location server
-  User::LeaveIfError(iLocationServer.Connect());
-
-  // Open the positioner
-  User::LeaveIfError(iPositioner.Open(iLocationServer));//,KPosSimulationPsyImplUid));
-   
-   
-   User::LeaveIfError( lbtserver.Connect() );
-   CleanupClosePushL( lbtserver );
-   iLog->Log(_L("Connection to RLbtServer Passed "));
-   User::LeaveIfError( lbt.Open( lbtserver ) );
-   iLog->Log(_L("Subsession opened "));
-   CleanupClosePushL( lbt );
-   
-   //Delete all the existing trggers
-   TRAP_IGNORE(lbt.DeleteTriggersL());
-  
-   CRepository* repository = CRepository::NewLC(KCRUidSimulationPSY);
-   iLog->Log(_L("Simulation PSY Repository object created"));
-   User::LeaveIfError(repository->Set(KCRKeySimPSYSimulationFile, KSimulationFile));
-   iLog->Log(_L("Simulation input file set "));
-   CleanupStack::PopAndDestroy(repository);
-   
-    //Construct a session trigger
-  CLbtStartupTrigger* trig = CLbtStartupTrigger::NewL();
-  
-  //Push to cleanup stack
-  CleanupStack::PushL( trig );
-  iLog->Log(_L("Startup Trigger Entry Created "));
-  
-  // Set Name
-  trig->SetNameL(_L("Trigger1"));
- // _LIT( KMyTriggerHandlingProcessName, "About.exe");
-  _LIT( KMyTriggerHandlingProcessName, "ConsoleUI.exe");
-  
-  TSecureId secureid;
-  trig->SetProcessId(KMyTriggerHandlingProcessName,secureid);
-  //Set Requestor
-  CRequestorBase::TRequestorType ReqType=CRequestorBase::ERequestorUnknown;
-  CRequestorBase::_TRequestorFormat ReqFormat=CRequestorBase::EFormatUnknown;
-  TBuf<KLbtMaxNameLength> ReqData=_L("");
-  trig->SetRequestorL(ReqType,ReqFormat,ReqData);     
-  // set condition
-  
-  TCoordinate coordinate(62.5285,23.9385);
- // TCoordinate coordinate(62.4438,23.9385);
-  
-  CLbtGeoCircle* circle=CLbtGeoCircle::NewL(coordinate,1000);
-  CleanupStack::PushL( circle );
-  
-       
-  // ownership of circle object transferred to the condition object
-  CLbtTriggerConditionArea* condition=CLbtTriggerConditionArea::NewL(
-                                              circle,
-                                              CLbtTriggerConditionArea::EFireOnEnter);
-      
-  CleanupStack::Pop( circle );
-  
-  trig->SetCondition(condition); // ownership transferred to object
-  
-  TLbtTriggerId trigId;
-      
-      
-  CTriggerFireObserver* notifier= CTriggerFireObserver::NewL( lbt,coordinate);
-  CleanupStack::PushL( notifier );
-  
-  CActiveSchedulerWait* wait=new(ELeave)CActiveSchedulerWait;
-      
-  notifier->CreateTriggers( lbt,*trig,trigId,ETrue,wait );
-  wait->Start( );
-  iLog->Log(_L("Trigger Created"));
-  notifier->After(50000000);
-  notifier->StartNotification(wait);
-  wait->Start( );
-  iLog->Log(_L("Trigger Fired"));
-  TLbtTriggerFireInfo FireInfo;
-  TReal32 trigDistance;
-  TPosition firePosition;
-  FireInfo = notifier->GetFiredTrigger();
-  FireInfo.iFiredPositionInfo.GetPosition(firePosition);
-  firePosition.Distance(coordinate,trigDistance);
-  iPositioner.Close();
-  iLocationServer.Close();
-  
-      CleanupStack::PopAndDestroy( notifier );
-  CleanupStack::PopAndDestroy( trig );
-  CleanupStack::Pop( &lbt );
-  CleanupStack::PopAndDestroy( &lbtserver );
-  delete wait;
-  
-  return KErrNone; 
-  
-  }
-
    
 
    //List Trigger Test cases
@@ -2342,12 +2184,12 @@ _LIT( KSimulationFile,"c:\\system\\data\\test3.nme" );
  	 /*CRepository* repository = CRepository::NewLC(KCRUidSimulationPSY);
 	 User::LeaveIfError(repository->Set(KCRKeySimPSYSimulationFile, KSimulationFile));
 	 CleanupStack::PopAndDestroy(repository);*/
-    
+	 
 	  //Construct a startup trigger
     CLbtStartupTrigger* trig = CLbtStartupTrigger::NewL();
     
     //Push to cleanup stack
-    CleanupStack::PushL( trig );
+  //  CleanupStack::PushL( trig );
     
     // Set Name
     trig->SetNameL(_L("Trigger1"));
@@ -2388,9 +2230,10 @@ _LIT( KSimulationFile,"c:\\system\\data\\test3.nme" );
     notifier->CreateTriggers( lbt,*trig,trigId,EFalse,wait );
     wait->Start( );
     //User::After(5000000);
-    
+    CLbtTriggerInfo *Triginfo = CLbtTriggerInfo::NewL();
     iLog->Log(_L("Before GetTriggerLC "));
-    CLbtTriggerInfo *Triginfo = lbt.GetTriggerLC(trigId);
+    
+    Triginfo = lbt.GetTriggerLC(trigId);
     iLog->Log(_L("After GetTriggerLC "));
     CLbtStartupTrigger *TrigEntry = static_cast <CLbtStartupTrigger*>(Triginfo->TriggerEntry());
     
@@ -2444,7 +2287,6 @@ _LIT( KSimulationFile,"c:\\system\\data\\test3.nme" );
 	{
 		return -99;
 	}
-	
 	//Check requestors 
     RRequestorStack   aRequestors,aRequestors2 ;
     TrigEntry->GetRequestorsL(aRequestors2);
@@ -2466,9 +2308,6 @@ _LIT( KSimulationFile,"c:\\system\\data\\test3.nme" );
     	}
     
     }
-   aRequestors.ResetAndDestroy();
-   aRequestors2.ResetAndDestroy();
-   
     //Check trigger Id
     trigId2 = TrigEntry->Id();
     if(trigId !=trigId2)
@@ -2504,15 +2343,12 @@ _LIT( KSimulationFile,"c:\\system\\data\\test3.nme" );
     {
     	return -99;
     }*/
-    
     CleanupStack::PopAndDestroy(1 );//list options
     CleanupStack::PopAndDestroy( notifier );
-    CleanupStack::PopAndDestroy( trig );
     CleanupStack::PopAndDestroy( &lbt );
     CleanupStack::PopAndDestroy( &lbtserver );
-    delete wait;
+   // delete wait;
     iLog->Log(_L("Test passed "));
-
     return KErrNone; 
       
     }
@@ -3272,15 +3108,19 @@ _LIT( KSimulationFile,"c:\\system\\data\\test3.nme" );
     _LIT( KFilename,"CreateTest.exe" );
     RProcess proc;
     TInt retVal =proc.Create(KFilename,KNullDesC);
-    TInt triggerId = KLbtNullTriggerId;
     if(retVal == KErrNone)
-        {
+	{
 		proc.Resume();
 		TRequestStatus status = KRequestPending;
 		proc.Rendezvous(status);
 		User::WaitForRequest(status);
-		triggerId = status.Int();
-        }	
+	}	
+    TInt triggerId=0;
+    RProperty iProperty;
+    User::LeaveIfError(iProperty.Get(
+        KPSUidTriggerIdInfo, 
+        KLbttesttriggerid, 
+        triggerId));
     
     TRAPD(error, lbt.GetTriggerLC(triggerId); CleanupStack::PopAndDestroy(  ););
     CleanupStack::PopAndDestroy( &lbt );
@@ -3316,18 +3156,23 @@ _LIT( KSimulationFile,"c:\\system\\data\\test3.nme" );
     lbt.DeleteTriggersL();
  	 iLog->Log(_L("Before Create Trigger"));
      _LIT( KFilename,"CreateTest.exe" );
-     RProcess proc;
-     TInt retVal =proc.Create(KFilename,KNullDesC);
-     TInt triggerId = KLbtNullTriggerId;
-     if(retVal == KErrNone)
-         {
-         proc.Resume();
-         TRequestStatus status = KRequestPending;
-         proc.Rendezvous(status);
-         User::WaitForRequest(status);
-         triggerId = status.Int();
-         }   
-     //create another trigger
+    RProcess proc;
+    TInt retVal =proc.Create(KFilename,KNullDesC);
+    if(retVal == KErrNone)
+	{
+		proc.Resume();
+		TRequestStatus status = KRequestPending;
+		proc.Rendezvous(status);
+		User::WaitForRequest(status);
+	}	
+    iLog->Log(_L("Trigger Created"));
+    TInt triggerId=0;
+    RProperty iProperty;
+    User::LeaveIfError(iProperty.Get(
+        KPSUidTriggerIdInfo, 
+        KLbttesttriggerid, 
+        triggerId));
+    //create another trigger
       //Construct a startup trigger
     CLbtStartupTrigger* trig = CLbtStartupTrigger::NewL();
     
@@ -4326,19 +4171,23 @@ TInt CFiringofStartupTriggerAndListTrigger::TCLBTFW086_testL( CStifItemParser& /
 	TBuf<KLbtMaxNameLength> ReqData=_L("");
 	trig->SetRequestorL(ReqType,ReqFormat,ReqData);  
       _LIT( KFilename,"CreateTest.exe" );
-
     RProcess proc;
     TInt retVal =proc.Create(KFilename,KNullDesC);
-    TInt triggerId = KLbtNullTriggerId;
     if(retVal == KErrNone)
-        {
-        proc.Resume();
-        TRequestStatus status = KRequestPending;
-        proc.Rendezvous(status);
-        User::WaitForRequest(status);
-        triggerId = status.Int();
-        }     
-      
+	{
+		proc.Resume();
+		TRequestStatus status = KRequestPending;
+		proc.Rendezvous(status);
+		User::WaitForRequest(status);
+	}
+		
+    TInt triggerId=0;
+    RProperty iProperty;
+    User::LeaveIfError(iProperty.Get(
+        KPSUidTriggerIdInfo, 
+        KLbttesttriggerid, 
+        triggerId));
+     User::After(5000000);
     RPointerArray < CLbtTriggerInfo > trigInfoList;
     
      CTriggerFireObserver* notifier= CTriggerFireObserver::NewL( lbt,coordinate );
@@ -4421,15 +4270,21 @@ TInt CFiringofStartupTriggerAndListTrigger::TCLBTFW086_testL( CStifItemParser& /
        _LIT( KFilename,"CreateTest.exe" );
     RProcess proc;
     TInt retVal =proc.Create(KFilename,KNullDesC);
-    TInt triggerId = KLbtNullTriggerId;
     if(retVal == KErrNone)
-        {
-        proc.Resume();
-        TRequestStatus status = KRequestPending;
-        proc.Rendezvous(status);
-        User::WaitForRequest(status);
-        triggerId = status.Int();
-        }           
+	{
+		proc.Resume();
+		TRequestStatus status = KRequestPending;
+		proc.Rendezvous(status);
+		User::WaitForRequest(status);
+	}
+	 User::After(5000000);	
+    TInt triggerId=0;
+    RProperty iProperty;
+    User::LeaveIfError(iProperty.Get(
+        KPSUidTriggerIdInfo, 
+        KLbttesttriggerid, 
+        triggerId));
+        
     //create another trigger
       //Construct a startup trigger
     CLbtStartupTrigger* trig = CLbtStartupTrigger::NewL();
@@ -4518,16 +4373,20 @@ TInt CFiringofStartupTriggerAndListTrigger::TCLBTFW086_testL( CStifItemParser& /
     _LIT( KFilename,"CreateTest.exe" );
     RProcess proc;
     TInt retVal =proc.Create(KFilename,KNullDesC);
-    TInt triggerId = KLbtNullTriggerId;
     if(retVal == KErrNone)
-        {
-        proc.Resume();
-        TRequestStatus status = KRequestPending;
-        proc.Rendezvous(status);
-        User::WaitForRequest(status);
-        triggerId = status.Int();
-        }   
-    
+	{
+		proc.Resume();
+		TRequestStatus status = KRequestPending;
+		proc.Rendezvous(status);
+		User::WaitForRequest(status);
+	}
+	 User::After(5000000);	
+    TInt triggerId=0;
+    RProperty iProperty;
+    User::LeaveIfError(iProperty.Get(
+        KPSUidTriggerIdInfo, 
+        KLbttesttriggerid, 
+        triggerId));
     RArray< TLbtTriggerId>  aTriggerIdList;
     
     TRAP_IGNORE(lbt.DeleteTriggersL());

@@ -80,8 +80,6 @@ CSuplSettingsEngine::~CSuplSettingsEngine()
     delete iSettingsDBHandler;
     iSettingsDBHandler = NULL;
     }
-    
-/*
 //-------------------------------------------------------------------------------------
 //CSuplSettingsEngine::LockEngineL()
 //
@@ -119,7 +117,6 @@ TInt CSuplSettingsEngine::UnLockEngine(TBool aWithCommit)
         return KErrNone;
         }
     }
-*/
 
 //-------------------------------------------------------------------------------------
 //CSuplSettingsEngine::Initialize()
@@ -277,6 +274,52 @@ TInt CSuplSettingsEngine::ConnectToEtelL()
 	return KErrNone; 
     }        
 
+/*TInt CSuplSettingsEngine::Set(const TDesC& aHslpAddress, const TDesC&  aIapName, 
+                const TInt aChangedBy)
+    {
+    TInt err;
+        
+    err = iRepository->Set(KSuplSettingsHSLPAddress, aHslpAddress);
+    if (err != KErrNone)
+        return err;
+        
+    err = iRepository->Set(KSuplSettingsIAP, aIapName);
+    if (err != KErrNone)
+        return err;           
+        
+    err = iRepository->Set(KSuplSettingsChangedBy, aChangedBy);
+    if (err != KErrNone)
+        return err;            
+        
+    err = iRepository->Set(KSuplSettingsIMSI, iImsi);
+    if (err != KErrNone)
+        return err;
+        
+    return KErrNone;
+    } 
+
+
+TInt CSuplSettingsEngine::Get(TDes& aHslpAddress, TDes&  aIapName, 
+                TDes& aImsi, TInt& aChangedBy)
+    {    
+    TInt err;            
+
+    err = iRepository->Get(KSuplSettingsHSLPAddress, aHslpAddress);
+    if (err != KErrNone)
+        return err;            
+    err = iRepository->Get(KSuplSettingsIAP, aIapName);
+    if (err != KErrNone)
+        return err;            
+    err = iRepository->Get(KSuplSettingsIMSI, aImsi);
+    if (err != KErrNone)
+        return err;            
+    err = iRepository->Get(KSuplSettingsChangedBy, aChangedBy);
+    if (err != KErrNone)
+        return err;            
+
+    return KErrNone;
+    }
+*/
 //-------------------------------------------------------------------------------------
 //CSuplSettingsEngine::IsInitDone()
 //
@@ -404,6 +447,37 @@ TInt CSuplSettingsEngine::IsImsiChanged(TBool& aChanged)
     return KErrNone;
     }    
 
+//-------------------------------------------------------------------------------------
+//CSuplSettingsEngine::GetSuplUsage()
+//
+//This method is used to retrieve SUPL usage from settings storage.
+//--------------------------------------------------------------------------------------
+TInt CSuplSettingsEngine::GetSuplUsage(TInt& aUsage)
+    {
+    TInt err;            
+
+    err = iRepository->Get(KSuplSettingsUsage, aUsage);
+    if (err != KErrNone)
+        return err;            
+
+    return KErrNone;
+    }        
+
+//-------------------------------------------------------------------------------------
+//CSuplSettingsEngine::SetSuplUsage()
+//
+//This method is used to change SUPL usage.
+//--------------------------------------------------------------------------------------
+TInt CSuplSettingsEngine::SetSuplUsage(const TInt aUsage) 
+    {
+    TInt err;
+
+    err = iRepository->Set(KSuplSettingsUsage, aUsage);
+    if (err != KErrNone)
+        return err;            
+        
+    return KErrNone;
+    }            
 
 /*
  * GetMccLen
@@ -1260,46 +1334,4 @@ TInt  CSuplSettingsEngine::GetDefaultIAPName(TDes& aIapName)
         }
     return err;
     }  
-	
-	//---------------------------------------------------------------------
-// SetSuplTriggeredServiceStatus()
-//
-// Changes status of SUPL triggering service. 
-//---------------------------------------------------------------------    
- TInt CSuplSettingsEngine::SetSuplTriggeredServiceStatus( const CSuplSettings::TSuplTriggerStatus& aSuplTriggerStatus )
-	{
-		TInt val;
-    if( aSuplTriggerStatus == CSuplSettings::ESuplTriggerOff) //Can be casted to enum directly...
-    {
-    		val = 1;
-    }
-    else
-    {
-    		val = 0;
-    }
-    return  iRepository->Set(KSuplSettingsTriggerServiceStatus, val);
-	}   
-	 
-//---------------------------------------------------------------------
-// GetSuplTriggeredServiceStatus()
-//
-// Gets status of SUPL triggering service.SUPL Triggering service can be either ESuplTriggerOn or ESuplTriggerOff
-//---------------------------------------------------------------------    
- TInt CSuplSettingsEngine::GetSuplTriggeredServiceStatus( CSuplSettings::TSuplTriggerStatus& aSuplTriggerStatus )
-	{
-		TInt val;
-    TInt err = iRepository->Get(KSuplSettingsTriggerServiceStatus,val);
-    
-    if( val == 1) //Can be casted to enum directly...
-    {
-    	aSuplTriggerStatus = CSuplSettings::ESuplTriggerOff;
-    }
-    else
-    {
-    		aSuplTriggerStatus = CSuplSettings::ESuplTriggerOn;
-    }
-    
-    return err;
-	}
-	
 //End of File

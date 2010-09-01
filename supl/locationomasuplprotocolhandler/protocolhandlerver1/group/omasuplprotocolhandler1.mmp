@@ -51,7 +51,7 @@ SOURCE      epos_comasuplposstate.cpp
 SOURCE      epos_comasuplinitstate.cpp
 SOURCE      epos_comasuplposrequestor.cpp
 SOURCE	    epos_comasuplecomeventwatcher.cpp
-//SOURCE      epos_comasuplsettingslauncher.cpp
+SOURCE      epos_comasuplsettingslauncher.cpp
 SOURCE      epos_comasupltrace.cpp
 SOURCE      epos_comasupldialogtimer.cpp
 SOURCE      epos_comasuplfallbackhandler.cpp
@@ -83,14 +83,14 @@ LIBRARY euser.lib
 LIBRARY insock.lib
 LIBRARY lbs.lib
 LIBRARY eposnwprv.lib
-//LIBRARY locsettingsuiclient.lib
+LIBRARY locsettingsuiclient.lib
 LIBRARY hash.lib
 LIBRARY bafl.lib  //logging
 LIBRARY flogger.lib
 LIBRARY efsrv.lib 
 LIBRARY aknnotify.lib 
 LIBRARY commonengine.lib 
-//LIBRARY agentdialog.lib
+LIBRARY agentdialog.lib
 
 LIBRARY epossuplprotocolhandlerplugin.lib
 LIBRARY epos_comasuplasnplugin.lib
@@ -98,7 +98,7 @@ LIBRARY eposomasuplposmessageplugin.lib
 LIBRARY epos_suplsettings.lib
 LIBRARY epos_suplterminitiation.lib
 LIBRARY eposomasuplprotocolhandler.lib
-LIBRARY	featmgr.lib
+LIBRARY	featmgr.lib 
 
 #if USE_E_CELL_ID_STUB_FILES
 	LIBRARY estor.lib 

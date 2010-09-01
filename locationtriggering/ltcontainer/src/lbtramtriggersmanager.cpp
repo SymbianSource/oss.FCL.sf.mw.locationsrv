@@ -79,12 +79,7 @@ void CLbtRamTriggersManager::TriggersModified(RArray<TLbtTriggerModifiedInfo>& a
 	 {
 	 for( TInt i = 0;i<iIdArray.Count();i++ )
 		 {
-		 TInt error = aArray.Append(iIdArray[i]);
-		 if( error != KErrNone )
-		     {
-             LOG1("Failed to append modified triggers:%d",error);
-             return;
-		     }
+		 aArray.Append(iIdArray[i]);	
 	     }
 	 iIdArray.Reset();
 	 }	
@@ -176,7 +171,7 @@ void CLbtRamTriggersManager::GetTriggersL( RArray<TLbtTriggerId>& aTriggerIds,
         {
         TLbtTriggerModifiedInfo triggerInfo;
         triggerInfo.iTriggerId = aTriggerIds[i];
-        iIdArray.AppendL( triggerInfo );
+        iIdArray.Append( triggerInfo );
         }
     iIterator = 0;    
     iCurrentOperation = EOperationGetTriggers;
@@ -489,11 +484,7 @@ void CLbtRamTriggersManager::AppendTriggerInfo(CLbtContainerTriggerEntry* aEntry
 		info.iStartupProcess = KNullUid;
 		}
     
-    TInt error = iIdArray.Append(info);
-    if( error != KErrNone )
-        {
-        LOG1("Failed to appenf info to the array:%d",error);
-        }
+    iIdArray.Append(info);
 	}
 
 
@@ -656,7 +647,7 @@ void CLbtRamTriggersManager::HandleUpdateTriggerEventL()
     info.iTriggerId = entry->TriggerEntry()->Id();   
     TSecureId sid = entry->ExtendedTriggerInfo()->OwnerSid();    
     info.iOwner.iUid= (TInt)(sid.iId);
-    iIdArray.AppendL(info);
+    iIdArray.Append(info);
 
     /* contTrigEntry is the trigger entry which is a part of 
      * the container trigger entry retrieved from the tree 
@@ -791,9 +782,7 @@ void CLbtRamTriggersManager::HandleUpdateTriggerEventL()
                             break;
                             }                           
                         }
-                   CleanupStack::PushL( geoAreaToArray );
-                   newHybridArea.AppendL( geoAreaToArray );
-                   CleanupStack::Pop( geoAreaToArray );
+                   newHybridArea.Append( geoAreaToArray );
                    }                
                 // The new hybrid array is ready. Now set the array into the geo area Hybrid
                 containerHybrid->SetHybridArea( newHybridArea );
@@ -1261,7 +1250,7 @@ void CLbtRamTriggersManager::DeleteTriggerL(TLbtTriggerId aTriggerId)
     	MLbtTriggerStore::TLbtTriggerModifiedInfo info;
     	info.iTriggerId = aTriggerId;
     	info.iAreaType = areaType;
-    	iIdArray.AppendL(info);
+    	iIdArray.Append(info);
     	}
     iTriggerIdTree->DeleteFromTreeL(aTriggerId);
     }

@@ -377,9 +377,8 @@ void COMASuplState::StartTimer()
 //
 void COMASuplState::StopTimer()
 	{
-		iTimer->StopTimer();	 		
-		if(iTrace)	
-		    iTrace->Trace(_L("COMASuplState::StopTimer..."), KTraceFileName, __LINE__); 							
+		iTimer->StopTimer();	 			
+		iTrace->Trace(_L("COMASuplState::StopTimer..."), KTraceFileName, __LINE__); 							
 	}
 	
 // -----------------------------------------------------------------------------

@@ -62,7 +62,7 @@ COMASuplVer2SuplInitExtn::COMASuplVer2SuplInitExtn()
 // (other items were commented in a header).
 // -----------------------------------------------------------------------------
 //
-EXPORT_C void COMASuplVer2SuplInitExtn::CloneL(COMASuplVer2SuplInitExtn* aCloneV2Extn)
+void COMASuplVer2SuplInitExtn::CloneL(COMASuplVer2SuplInitExtn* aCloneV2Extn)
     {    
     if(aCloneV2Extn)
         {

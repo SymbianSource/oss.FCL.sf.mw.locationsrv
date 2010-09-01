@@ -137,7 +137,7 @@ void COMASuplETelNotifier::GetCurrentNetwork()
     	iCellMode = EOMASuplCellIdCurrent;
     	iPhone.GetCurrentNetwork( iStatus, iNetworkInfoPkg, iLocationInfo );
     	SetActive();  
-    	}                  
+    	}        
     }  
 
 // -----------------------------------------------------------------------------
@@ -153,7 +153,7 @@ void COMASuplETelNotifier::NotifyCurrentNetworkChange()
     	iCellMode = EOMASuplCellIdNotify;
     	iPhone.NotifyCurrentNetworkChange( iStatus, iNetworkInfoPkg, iLocationInfo );
     	SetActive();   
-    	}                
+    	}       
     }  
       
 // -----------------------------------------------------------------------------

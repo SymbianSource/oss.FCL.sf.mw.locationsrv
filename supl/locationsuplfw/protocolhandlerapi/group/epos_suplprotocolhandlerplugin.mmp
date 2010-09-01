@@ -53,7 +53,7 @@ LIBRARY			securesocket.lib
 LIBRARY			commdb.lib
 LIBRARY         centralrepository.lib extendedconnpref.lib netmeta.lib /*extendedconnpref.lib netmeta.lib Related to custom preference Api's(OCC).*/
 LIBRARY flogger.lib
-
+/* LIBRARY         gba.lib */
 
 //exportunfrozen 
 epocallowdlldata

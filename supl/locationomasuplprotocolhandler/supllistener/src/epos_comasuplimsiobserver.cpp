@@ -211,7 +211,6 @@ void COMASuplIMSIObserver::HandleIMSIChangeL()
         CServerParams* param=CServerParams::NewL();
         CleanupStack::PushL(param);
         User::LeaveIfError(param->Set( hslpaddr,iapn,ETrue,ETrue,ETrue,EFalse ));
-        param->SetServerConfigurationType(EFalse);
         
         // add new server into settings
         TInt64 slpId;

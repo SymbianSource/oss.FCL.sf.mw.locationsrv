@@ -364,16 +364,16 @@ void CLbtDbTriggersManager::HandleTriggerUpdationEventL()
         {
         case EOpStateQuery:
             {
-             
+            iView.FirstL();
             // check if view is empty, return KErrNotFound
-            if( iView.IsEmptyL() || !iView.AtRow() || !iView.FirstL() )
+            if( iView.IsEmptyL() || !iView.AtRow() )
                 {
                 CompleteClientRequest( KErrNotFound );
                 break;
                 }       
             // Start iterating through all the triggers in view            
             iOperationState = EOpStateIterating;
-                       
+            iView.FirstL();
             }
             // Omitting break is intentional
        case EOpStateIterating:
@@ -763,14 +763,14 @@ void CLbtDbTriggersManager::HandleTriggerStateUpdationEventL()
         case EOpStateQuery:
             {
             // check if view is empty, return KErrNotFound
-            if( iView.IsEmptyL() || !iView.FirstL())
+            if( iView.IsEmptyL() )
                 {
                 CompleteClientRequest( KErrNotFound );
                 break;
                 }       
             // Start iterating through all the triggers in view            
             iOperationState = EOpStateIterating;
-           
+            iView.FirstL();
             }
             // Omitting break is intentional
         case EOpStateIterating:
@@ -835,10 +835,8 @@ void CLbtDbTriggersManager::HandleTriggerStateUpdationEventL()
                         }
                     CleanupStack::PopAndDestroy(entry);
                     }       
-                 TBool res =iView.NextL();   
-                 if (!res)
-                 	break;
-              }
+                iView.NextL();       
+                }
             
             if( count >= KStepCount )
                 {
@@ -871,7 +869,7 @@ void CLbtDbTriggersManager::HandleTriggersDeletionEventL()
         case EOpStateQuery:
             {
             // check if view is empty, return KErrNotFound
-            if( iView.IsEmptyL() || !iView.FirstL())
+            if( iView.IsEmptyL() )
                 {
                 CompleteClientRequest( KErrNotFound );
                 break;
@@ -879,8 +877,7 @@ void CLbtDbTriggersManager::HandleTriggersDeletionEventL()
             
             // Start iterating through all the triggers in view            
             iOperationState = EOpStateIterating;
-            
-            
+            iView.FirstL();
             }
             // Omitting break is intentional
         case EOpStateIterating:
@@ -927,10 +924,7 @@ void CLbtDbTriggersManager::HandleTriggersDeletionEventL()
                             }
                         CleanupStack::PopAndDestroy( entry );
                         }
-                    
-                     TBool res = iView.NextL();
-                      if(!res)
-            	         break;
+                    iView.NextL();
                     }                
                 }
 
@@ -988,8 +982,7 @@ void CLbtDbTriggersManager::HandleGetTriggersEventL( )
                 }
             }
 
-        if(!iView.NextL())
-        	break;
+        iView.NextL();
         }
 
     if( count >= KStepCount )
@@ -1269,7 +1262,7 @@ CLbtContainerTriggerEntry* CLbtDbTriggersManager::RetrieveTriggerEntryFromDbL( R
                         }
                     }
                 areaBase->InternalizeL(readStream);
-                areaArray.AppendL(areaBase);
+                areaArray.Append(areaBase);
                 CleanupStack::Pop(1); //areaBase                
                 }
             
@@ -1328,11 +1321,7 @@ void CLbtDbTriggersManager::GetTriggersL( RArray<TLbtTriggerId>& aTriggerIds,
     PrepareViewForTriggersL( aTriggerIds, iView );
  
     // rest of list triggers operation is in the method HandleGetTriggersEventL.
-   if(!iView.FirstL())
-   {
-   	CompleteClientRequest( KErrNotFound );
-	return;
-	}
+    iView.FirstL();
     SelfComplete();
 	}
 
@@ -1406,12 +1395,7 @@ void CLbtDbTriggersManager::ListTriggersL( CLbtContainerListOptions* aFilter,
     PrepareViewForListingL( iView );
     
     // rest of list triggers operation is in the method HandleListTriggersEventL.
-    
-	if(!iView.FirstL())
-   {
-   	CompleteClientRequest( KErrNotFound );
-	return;
-	}
+    iView.FirstL();
     iFilterBase = LbtContainerUtilities::GetContainerFilterFromListOptionsLC(iFilter);
     CleanupStack::Pop(1); // iFilterBase
     
@@ -1523,13 +1507,9 @@ void CLbtDbTriggersManager::RemoveTriggerConditionFromDb( TLbtTriggerId aTrigger
     sql.AppendNum( aTriggerId );
     
     // Execute the query to delete the entry
-    TInt err =iDbOperation->ExecuteSyncQuery( view, sql );
-    if( err != KErrNone )
-    	{
-    		LOG("err");
-    	}
- 	   	view.Close();
-       }
+    iDbOperation->ExecuteSyncQuery( view, sql );
+   	view.Close();
+    }
 
 //---------------------------------------------------------------------------
 // CLbtDbTriggersManager::AddGeoCellIntoDbL
@@ -1779,15 +1759,10 @@ void CLbtDbTriggersManager::UpdateTriggersValidityL( TLbtTriggerDynamicInfo::TLb
 
     iIdArray.Reset();
     RDbView view;
-     CleanupClosePushL( view );
     PrepareViewForTriggersL( aTriggerIds, view );
-    if(!view.FirstL())
-	   {
-	     CompleteClientRequest( KErrNotFound );
-       return;
-	   }
-   
     
+    CleanupClosePushL( view );
+    view.FirstL();
     while(view.AtRow())
         {
         view.GetL();
@@ -1825,7 +1800,7 @@ void CLbtDbTriggersManager::UpdateTriggersValidityL( TLbtTriggerDynamicInfo::TLb
                     TLbtTriggerModifiedInfo info;
                     info.iTriggerId = triggerId;
                     info.iAreaType = static_cast<CLbtGeoAreaBase::TGeoAreaType>(view.ColInt8(ELbtDbTriggerAreaType));;
-                    iIdArray.AppendL(info);
+                    iIdArray.Append(info);
                     
                     if( currentValidity == TLbtTriggerDynamicInfo::EInvalid &&
                         aValidity == TLbtTriggerDynamicInfo::EValid)
@@ -1840,8 +1815,7 @@ void CLbtDbTriggersManager::UpdateTriggersValidityL( TLbtTriggerDynamicInfo::TLb
                     }
                 }
             }
-        if(!view.NextL())
-        	break;
+        view.NextL();
         }
     CleanupStack::PopAndDestroy(); // view
     User::RequestComplete( status, KErrNone );
@@ -1879,12 +1853,7 @@ void CLbtDbTriggersManager::UpdateTriggerFiredStateL( RArray<TLbtTriggerId>& aTr
 
   	TBool found = EFalse;
   	CleanupClosePushL( view );
-  	
-	if(!view.FirstL())
-	{
-	CompleteClientRequest( KErrNotFound );
-    return;
-	}
+  	view.FirstL();
   	while(view.AtRow())
     	{
     	view.GetL();
@@ -1901,10 +1870,8 @@ void CLbtDbTriggersManager::UpdateTriggerFiredStateL( RArray<TLbtTriggerId>& aTr
 	 	    	view.PutL();
 	 	    	}
     		}
-    	if(!view.NextL())
-    		break;
-    			
-    }
+    	view.NextL();
+    	}
     CleanupStack::PopAndDestroy(); //view
 
     TInt error = KErrNone;
@@ -2069,12 +2036,10 @@ void CLbtDbTriggersManager::DeleteTriggerL( TLbtTriggerId aTriggerId )
                 User::Leave(error);
                 }
             CleanupClosePushL(hybridView);
-            if(hybridView.FirstL())
-            	{
+            hybridView.FirstL();
             hybridView.GetL();
             hybridView.DeleteL();
             hybridView.Close();
-              }
             CleanupStack::PopAndDestroy(1); // hybridView            
             break;
             }
@@ -2085,7 +2050,7 @@ void CLbtDbTriggersManager::DeleteTriggerL( TLbtTriggerId aTriggerId )
     	MLbtTriggerStore::TLbtTriggerModifiedInfo info;
     	info.iTriggerId = aTriggerId;
     	info.iAreaType = areaType;
-    	iIdArray.AppendL(info);
+    	iIdArray.Append(info);
     	}
     
     iView.DeleteL();
@@ -2444,11 +2409,7 @@ void CLbtDbTriggersManager::AppendTriggerInfo(CLbtContainerTriggerEntry* aEntry)
 		info.iStartupProcess = KNullUid;
 		}
         
-    TInt error = iIdArray.Append(info);
-    if( error != KErrNone )
-        {
-        LOG1("Failed to appenf info to the array:%d",error);
-        }
+    iIdArray.Append(info);
 	}
 	
 
@@ -2460,12 +2421,7 @@ void CLbtDbTriggersManager::TriggersModified(RArray<TLbtTriggerModifiedInfo>& aA
 	 {
 	 for( TInt i = 0;i<iIdArray.Count();i++ )
 		 {
-		 TInt error = aArray.Append(iIdArray[i]);
-	      if( error != KErrNone )
-             {
-             LOG1("Failed to append modified triggers:%d",error);
-             return;
-             }
+		 aArray.Append(iIdArray[i]);	
 	     }
 	 iIdArray.Reset();
 	 } 
@@ -2624,8 +2580,7 @@ void CLbtDbTriggersManager::HandleListTriggersEventL( )
 	    		}
     		}
 
-    	if(!iView.NextL())
-    		break;
+    	iView.NextL();
     	}
     
     if( count >= KStepCount )

@@ -127,11 +127,7 @@ EXPORT_C TInt TOMASuplNavigationModel::GetSatInfoElement(RArray<TOMASuplSatellit
     		aSatInfo.Reset();
     		for(TInt i = 0; i<noOfElems; i++)
     			{
-    			TInt error = aSatInfo.Append(iSatInfo[i]);
-    			if( error != KErrNone )
-    			    {
-                    return error;
-    			    }
+    			aSatInfo.Append(iSatInfo[i]);		
     			}    		
     		return KErrNone;
     		}

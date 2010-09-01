@@ -166,7 +166,7 @@ void CLbtListAsyncOperation::ConstructL( const RArray<TLbtTriggerId>& aTriggerId
     iClientStatus = &aClientStatus;
     for(TInt i=0;i<aTriggerIds.Count();++i)
     	{
-    	iTriggerIds.AppendL( aTriggerIds[i] );
+    	iTriggerIds.Append( aTriggerIds[i] );
     	}
 	}
 

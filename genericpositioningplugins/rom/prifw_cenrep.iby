@@ -25,5 +25,6 @@
 //data-override=EPOCROOT##epoc32\data\z\private\10202BE9\10282266_s60.cre	 private\10202BE9\10282266.cre
 
 data=EPOCROOT##epoc32\data\z\private\10202BE9\1028224B_s60.cre	 private\10202BE9\1028224B.cre
+data=EPOCROOT##epoc32\data\z\private\10202BE9\10282266_s60.cre	 private\10202BE9\10282266.cre
 
 #endif // __PRIFW_CENREP_IBY__

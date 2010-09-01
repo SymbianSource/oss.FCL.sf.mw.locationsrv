@@ -1,0 +1,89 @@
+/*
+* Copyright (c) 2005 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  This is project specification file for Location System UI 
+*                 view that acts as a plug-in to GS
+*        
+*
+*/
+
+
+// Includes
+#include <platform_paths.hrh> // For the MW_LAYER_SYSTEMINCLUDE
+#include <data_caging_paths.hrh>          //this is needed for RESOURCE_FILES_DIR
+#include "../inc/locsysuiviewuid.hrh"    // For UID3
+
+CAPABILITY          CAP_ECOM_PLUGIN
+TARGET              locsysuiview.dll
+TARGETTYPE          PLUGIN
+UID                 0x10009D8D LOCSYSUIVIEW_UID3
+VENDORID            VID_DEFAULT
+
+SOURCEPATH          ../src
+SOURCE              locsysuiviewimptable.cpp
+SOURCE              locsysuiview.cpp
+SOURCE              locsysuicontainer.cpp
+SOURCE    		    locsysuilbmodel.cpp
+SOURCE 			    locationsettings.cpp
+SOURCE			    locsettingsuiengine.cpp
+SOURCE			    locsettingsuipluginloader.cpp
+SOURCE              locpossettings.cpp
+
+USERINCLUDE         ../inc
+USERINCLUDE         ../data
+USERINCLUDE         ../../inc
+USERINCLUDE			../../../inc
+USERINCLUDE		    ../../../../inc
+
+// System Include Path Definition
+APP_LAYER_SYSTEMINCLUDE
+
+SOURCEPATH          ../data
+
+//ECOM resource definition
+START RESOURCE      10207462.rss
+TARGET              locsysuiview.rsc
+END //  ECOM resource definition
+
+//View resources
+START RESOURCE      locsysuiviewrsc.rss
+HEADER
+TARGETPATH          RESOURCE_FILES_DIR
+LANGUAGE_IDS
+END // AppsPlugin resources
+
+LIBRARY             euser.lib
+LIBRARY             ecom.lib
+LIBRARY             efsrv.lib
+LIBRARY             avkon.lib
+LIBRARY             bafl.lib 
+LIBRARY             cone.lib 
+LIBRARY             eikcoctl.lib 
+LIBRARY             eikctl.lib
+LIBRARY             eikcore.lib 
+LIBRARY             egul.lib                    // CGulIcon
+LIBRARY             aknskins.lib                // AknsUtils.h
+LIBRARY             commonengine.lib            // For RConeResourceLoader
+LIBRARY             fbscli.lib                  // For CFbsBitmap
+LIBRARY             hlplch.lib
+LIBRARY 			featmgr.lib 		        // Feature manager API
+LIBRARY             GSEcomPlugin.lib            // CGSPluginInterface
+
+#if defined(WINS)
+ deffile   ../BWINS/locsysuiview.def
+#elif defined(EABI)
+ deffile   ../eabi/locsysuiview.def
+#endif 
+
+// End of File
+

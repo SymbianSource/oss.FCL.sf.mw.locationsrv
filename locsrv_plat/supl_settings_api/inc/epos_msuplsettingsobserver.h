@@ -24,7 +24,7 @@
 
 //  INCLUDES
 #include <e32base.h>
-#include <epos_csuplsettings.h>
+
 // DATA TYPES
 // CLASS DECLARATION
 
@@ -77,19 +77,6 @@ class MSuplSettingsObserver
         virtual void HandleSuplSettingsChangeL(
                 TSuplSettingsEventType aEvent,TInt aSlpId = -1                        
         ) = 0;
-        
-        /**
-        * Invoked by SUPL settings API when a any client of SUPL Settings API calls CSuplSettings::ChangeSuplTriggerServiceStatus().
-        *
-        * To be able to receive this notification, the observer object must
-        * first be registered by invoking @p CSuplSettings::SetObserverL().
-        *
-        * @param[OUT] TSuplTriggerStatus, Information saying status of Supl trigger service .
-        */
-        virtual void HandleSuplTriggerStatusChangeL(
-                CSuplSettings::TSuplTriggerStatus aSuplTriggerStatus ) = 0;
-        
-        
     };
 
 #endif      // __EPOS_MSUPLSETTINGSOBSERVER_H__  

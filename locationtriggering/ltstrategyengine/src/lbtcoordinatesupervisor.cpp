@@ -1213,11 +1213,8 @@ void CLbtCoOrdinateSupervisor::EstimateSleepInterval()
                 {
                 iNObservedValues.Remove( 0 );
                 }
-            TInt error = iNObservedValues.Append( obsValue );
-            if( error != KErrNone )
-                {
-                LOG1("Failed to append obsValue:%d",error);
-                }
+            iNObservedValues.Append( obsValue );
+            
             TReal num = 0.0;
             TReal den = 0.0;
             TReal obsSpeed = 0.0;

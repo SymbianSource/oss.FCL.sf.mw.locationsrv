@@ -1265,31 +1265,6 @@ class CSuplSettingsEngine : public CBase
     
     TInt SetServerExtensionParams( TInt64 aSlpId,CServerExtensionParams* aServerExtnParams );
     
-  
-    /*
-	 * Changes status of SUPL triggering service. 
-	 *
-	 * @since S60 5.2 
-	 * @param [IN] aSuplTriggerStatus, Indicates that SUPL  triggering service needs to be ON ( ESuplTriggerOn)  or OFF (ESuplTriggerOff)
-	 *
-	 * @return following error codes
-	 *      - KErrNone if successful
-	 *           otherwise system wide error codes. 
-	 */
-	 TInt SetSuplTriggeredServiceStatus( const CSuplSettings::TSuplTriggerStatus& aSuplTriggerStatus );
-        
-    /*
-	 * Gets status of SUPL triggering service.SUPL Triggering service can be either ESuplTriggerOn or ESuplTriggerOff
-	 *
-	 * @since S60 5.2 
-	 * @param [OUT] aSuplTriggerStatus, Gets status of SUPL triggering session either ON or OFF
-	 *
-	 * @return following error codes
-	 *      - KErrNone if successful
-	 *           otherwise system wide error codes. 
-	 */
-	 TInt GetSuplTriggeredServiceStatus( CSuplSettings::TSuplTriggerStatus& aSuplTriggerStatus );
-        
     /**
      * This method is used to read the default configured IAP name from the product config
      * central repository.

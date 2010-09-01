@@ -1,0 +1,33 @@
+/*
+* Copyright (c) 2006 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Contains the UID3 value to be used for the SUPL Settings UI. 
+*                The value is expected to have two specific functions
+*				 1. UID3 for the locsuplsettings.dll ECOM DLL
+*				 2. Implementation UID for the ECOM plugin to LocSysUiEngine
+*
+*/
+
+#ifndef _LOCSUPLSETTINGSUID_HRH_
+#define _LOCSUPLSETTINGSUID_HRH_
+
+// SUPL Settinhs UI UID3
+#define KLOCSUPLSETTINGSUIUID3          0x10275091
+#define KLOCSUPLSERVERUIUID3		0x10275092
+#define KLOCSUPLSESSIONUIUID3		0x10275093
+
+#endif      // _LOCSUPLSETTINGSUID_HRH_
+
+// End of File
+
+

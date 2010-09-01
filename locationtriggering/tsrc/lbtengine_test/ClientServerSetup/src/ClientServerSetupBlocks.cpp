@@ -920,20 +920,26 @@ TInt CClientServerSetup::killLBTServerL( CStifItemParser& aItem )
 	result = findLBTServer.Next(name);
 	
 	if (result == KErrNone)
-        {
-        _LIT(KProcessName,"lbtserver.exe") ;
-        RProcess aProcess;
-        TInt res = aProcess.Open(KProcessName);
-        aProcess.Kill(0);
-        }
+	{
+	//TInt res;
+	_LIT(KProcessName,"lbtserver.exe") ;
+	RProcess aProcess;
+    TInt res = aProcess.Open(KProcessName);
+    aProcess.Kill(0);
 
+//	return KErrNone;
+	}
+	else
+	{
+		
+	}
 	result = findLBTServer.Next(name);
-        if (result == KErrNone)
-        {
-        iLog->Log(_L("server started again"));  	
-        }
+	if (result == KErrNone)
+	{
+	iLog->Log(_L("server started again"));  	
+	}
 	
-    return KErrNone;
+return KErrNone;
     }
     
 

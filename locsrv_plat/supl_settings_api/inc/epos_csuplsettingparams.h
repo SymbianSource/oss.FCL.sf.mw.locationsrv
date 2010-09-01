@@ -48,8 +48,6 @@
  *  - Network & Operator code ( when tried last ).
  *  - Network & Operator code ( when last used successfully).
  *  - Editable ( yes / no).
- *	- Product Configuration - Indicates that server is configured by product team or configured by user. 
- *    
  *
  *  From the abover properties, only following fieds can be changed by SUPL settings client:
  *  - SLP address
@@ -58,7 +56,6 @@
  *  - Remove SLP, when SIM change ( yes / no ).
  *  - Usage in home network ( yes / no ).
  *  - Editable ( yes / no).
- *	- Product Configuration
  * 
  */
 class CServerParams : public CBase 
@@ -118,7 +115,7 @@ public:
      * @param [IN] aSimChangeRemove Inidcates whether this server entry needs to be deleted when SIM changes 
      * @param [IN] aUsageInHomeNw Inidcates whether server can be used in the home network or not 
      * @param [IN] aEditable Inidcates whether this server entry can be edited or not 
-     * @param [IN] aSlpId,Id of server for which client has to modify properties of SLP.
+     *
      * @return following error codes 
      *      - KErrNone if successful
      *      - KErrArgument if any of the argument is not in the specified range or values specified are not reset value
@@ -136,7 +133,7 @@ public:
 
     /**
      * Returns server parameters. 
-     * @param [IN] aSlpId,Id of server for which client has to retrive properties of SLP.
+     *
      * @param [OUT] aServerAddress Server address in string format 
      * @param [OUT] aIapName The Internet Access Point Name refers to the access point which is 
      * used to access the HSLP over the internet.  This can have maximum size of 100 characters.
@@ -144,7 +141,7 @@ public:
      * @param [OUT] aSimChangeRemove Inidcates whether this server entry needs to be deleted when SIM changes 
      * @param [OUT] aUsageInHomeNw Inidcates whether server can be used in the home network or not 
      * @param [OUT] aEditable Inidcates whether this server entry can be edited or not 
-     * 
+     *
      * @return following error codes
      *      - KErrNone if successful
      *      - KErrNotFound if all of the parameters has reset value 
@@ -158,32 +155,6 @@ public:
                 TBool& aUsageInHomeNw,
                 TBool& aEditable
                 ) const;
-                
-
-    /**
-     * Sets server parameters.  
-     * @param [IN] aConfigurationType, Set ETrue to indicates that server is configured by product,
-     * 																 		 EFalse to indicates that server is configured by user
-     *
-     * @return following error codes 
-     *      - KErrNone if successful
-     *			- Otherwise system wide error code
-     */
-	IMPORT_C void SetServerConfigurationType(TBool aProductConfiguration);
-
-
-    /**
-     * Gets server parameters.  
-     * @param [OUT] aConfigurationType, ETrue  indicates that server is configured by product,
-     * 																  EFalse indicates that server is configured by user
-     *
-     * @return following error codes 
-     *      - KErrNone if successful
-     *			- KErrNotFound if server configuration property is not set.
-     */
-	IMPORT_C TInt GetServerConfigurationType(TBool& aProductConfiguration) const;
-
-
 
 private:
     TInt64 iSlpId;
@@ -193,11 +164,9 @@ private:
     TBool iSimChangeRemove;
     TBool iUsageInHomeNw;
     TBool iEditable;
-    TBool iProductConfigured;
     
     //To indicate if the values were set using the Set method 
     TBool iIsValueSet;
-    
 	};
 
 /**
@@ -359,35 +328,7 @@ public:
                       TUint64&  aOutstandingTrigger,
                       TUint64&  aInterval
                     ) const;     
-                    
-/**
-     * Sets trigger parameters. 
-     *
-     * @since S60 5.2
-     * @param [IN]  aEndTime Inidcates end time for triggering session.  This is valid only 
-     * 						 if the trigger type is periodic triggers.
-     * @return following error codes
-     *      - KErrNone if successful
-     *		- KErrNotFound if Session id specified is not running as periodic triggering session.
-     */
-     
-	IMPORT_C void SetTriggerEndTime(const TTime aEndTime);                  
-	
-	/**
-     * Gets trigger parameters. 
-     *
-     * @since S60 5.2
-     * @param [OUT] aEndTime Inidcates end time for triggering session.  This is valid only 
-     * 						 if the trigger type is periodic triggers.
-     * @return following error codes
-     *      - KErrNone if successful
-     *      - KErrArgument if Session id is not in the specified range
-     *			- KErrNotFound if Session id specified is not running as periodic triggering session.
-     */
-     
-	IMPORT_C TInt GetTriggerEndTime(TTime& aEndTime)const ;                  
 
-    
 
 private:
     TInt64 iSessionId;
@@ -398,7 +339,6 @@ private:
     TRequestType iRequestType;
     TUint64 iOutstandingTrigger;
     TUint64 iInterval;
-    TTime   iEndTime;
     //To indicate if the values were set using the Set method 
     TBool iIsValueSet;
     };

@@ -142,7 +142,7 @@ void CPosLmXmlEncoder::AddCategoryForLatestLandmarkL( const CPosLandmarkCategory
         iEncoderStatus == EPosLmInfoAdded,
         Panic(KPosLandmarksClientPanic, EPosLmProtocolBreak));
 
-    iCategories.AppendL( CPosLandmarkCategory::NewL( aCategory ) );
+    iCategories.Append( CPosLandmarkCategory::NewL( aCategory ) );
     }
 
 // -----------------------------------------------------------------------------

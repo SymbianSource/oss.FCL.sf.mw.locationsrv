@@ -1,0 +1,59 @@
+/*
+* Copyright (c) 2005-2006 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Resource structures for Provider Application info
+*  Interface   : Domain/S60, Map and Navigation Provider API
+*
+*/
+
+
+#ifndef MN_SERVICE_INFO_RH
+#define MN_SERVICE_INFO_RH
+
+#include <appinfo.rh>
+
+#include <mnappserviceuids.hrh>
+
+/** @file
+ *  Definition of @ref MN_SERVICE_INFO resource structure.
+ */
+
+ /** @struct MN_SERVICE_INFO
+ *  @brief Map and Navigation Provider Application service info structure.
+ *
+ *  Link to this structure should be put as @p opaque_data field of
+ *  application's SERVICE_INFO struct, which declares one of
+ *  Map and Navigation services (defined in MnAppServiceUids.hrh).
+ *
+ *  <HR>
+ *
+ *  @section flds Fields:
+ *
+ *  @code LONG service_features =0; \endcode
+ *  Bitmap of service feature values, defined in MnAppServices.hrh.
+ *  It defines what Map and Navigation service features are supported by this
+ *  Provider Application. This information is used by Map and Navigation
+ *  AIW Provider to get early service support information without loading
+ *  Provider Application.
+ *
+ *  @ingroup MnProviderAPI
+ *  @since 3.1
+ *  @lib mnservicelib.lib
+ */
+STRUCT MN_SERVICE_INFO
+    {
+    LONG service_features = 0;
+    }
+
+#endif // MN_SERVICE_INFO_RH
+

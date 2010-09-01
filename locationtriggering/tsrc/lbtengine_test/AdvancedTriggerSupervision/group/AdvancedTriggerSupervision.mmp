@@ -56,7 +56,6 @@ LIBRARY         stiftestengine.lib
 LIBRARY         lbt.lib
 LIBRARY         lbs.lib
 LIBRARY         centralrepository.lib 
-LIBRARY         ProfileEngine.lib
 
 LANG            SC
 

@@ -169,7 +169,7 @@ void CLbtUpdateAsyncOperation::ConstructL( TLbtTriggerDynamicInfo::TLbtTriggerVa
     FUNC_ENTER("CLbtUpdateAsyncOperation::ConstructL");
     for(TInt i=0;i<aTriggerIds.Count();++i)
     	{
-    	iTriggerIds.AppendL(aTriggerIds[i]);
+    	iTriggerIds.Append(aTriggerIds[i]);
     	}
     iValidity = aValidity;
     iClientStatus = &aClientStatus;
@@ -190,7 +190,7 @@ void CLbtUpdateAsyncOperation::ConstructL( RArray<TLbtTriggerId>& aTriggerIds,
 	FUNC_ENTER("CLbtUpdateAsyncOperation::ConstructL");
 	for(TInt i=0;i<aTriggerIds.Count();++i)
     	{
-    	iTriggerIds.AppendL(aTriggerIds[i]);
+    	iTriggerIds.Append(aTriggerIds[i]);
     	}
 	iClientStatus = &aClientStatus;
 	iUpdateOpType = aUpdateOpType;

@@ -145,7 +145,7 @@ void CPosLmLocalSearchHandler::SetPreviousMatchesToSearchL(
     iPreviousMatches.ReserveL( aPreviousMatches.Count() );
     for ( TInt i = 0; i < aPreviousMatches.Count(); i++ )
         {
-        iPreviousMatches.AppendL( aPreviousMatches[i] );
+        iPreviousMatches.Append( aPreviousMatches[i] );
         }
     // this allows faster comparisons during search
     // in MatchesPreviousMatches() method
@@ -196,7 +196,7 @@ void CPosLmLocalSearchHandler::GetMatchesL( RArray<TPosLmItemId>& aMatches ) con
     aMatches.ReserveL( iCurrentMatches.Count() );
     for ( TInt i = 0; i < iCurrentMatches.Count(); i++ )
         {
-        aMatches.AppendL( iCurrentMatches[i] );
+        aMatches.Append( iCurrentMatches[i] );
         }
     }
 

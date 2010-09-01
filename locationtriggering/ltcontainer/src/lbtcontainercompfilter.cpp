@@ -88,7 +88,7 @@ void CLbtContainerCompFilter::ProcessContFilter(CLbtContainerTriggerEntry* aEntr
 	TInt i;
 	if(contExtInfo!=NULL)
              	{
-                 if( iHystRadiusArray.Count()>0)  
+                 if((isFilterPresent>0 && isEntryRequested && iHystRadiusArray.Count()>0) || (iHystRadiusArray.Count()>0 && isFilterPresent==0 ))  
                     {
                     isFilterPresent++;
                     isEntryRequested=EFalse;
@@ -104,10 +104,8 @@ void CLbtContainerCompFilter::ProcessContFilter(CLbtContainerTriggerEntry* aEntr
                     }
                      
                     
-                    if((isFilterPresent>0 && isEntryRequested  ) ||  isFilterPresent==0 )  
+                    if((isFilterPresent>0 && isEntryRequested && iTriggerFiredArray.Count()>0) || (iTriggerFiredArray.Count()>0 && isFilterPresent==0 ))  
                         {
-                        	if(iTriggerFiredArray.Count()>0)
-                        		{
                         isFilterPresent++;
                         isEntryRequested=EFalse;
                         for(i=0;i<iTriggerFiredArray.Count();i++)
@@ -119,7 +117,6 @@ void CLbtContainerCompFilter::ProcessContFilter(CLbtContainerTriggerEntry* aEntr
                     		    }
                    		    }
                         }
-                      }
                         
                      if((isFilterPresent>0 && isEntryRequested && iSidArray.Count()>0) || (iSidArray.Count()>0 && isFilterPresent==0 ))  
                         {
@@ -185,25 +182,19 @@ void CLbtContainerCompFilter::RetrieveFilterDataL()
     		    case CLbtTriggerFilterBase::EFilterByAttribute:
     				{
     				CLbtContainerAttrFilter* attrFilter = CLbtContainerAttrFilter::NewL(filter,NULL);
-    				CleanupStack::PushL( attrFilter );
-					iFilterArray.AppendL(attrFilter);
-					CleanupStack::Pop( attrFilter );
+					iFilterArray.Append(attrFilter);
 					break;
     				}
     			case CLbtTriggerFilterBase::EFilterByArea:
     				{
     				CLbtContainerAreaFilter* areaFilter = CLbtContainerAreaFilter::NewL(filter,NULL);
-    				CleanupStack::PushL( areaFilter );
-    				iFilterArray.AppendL(areaFilter);
-    				CleanupStack::Pop( areaFilter );
+    				iFilterArray.Append(areaFilter);
     				break;
     				}
     			case CLbtTriggerFilterBase::EFilterComposite:
     				{
     				CLbtContainerCompFilter* compFilter = CLbtContainerCompFilter::NewL(filter,NULL);
-    				CleanupStack::PushL( compFilter );
-    				iFilterArray.AppendL(compFilter);
-    				CleanupStack::Pop( compFilter );
+    				iFilterArray.Append(compFilter);
     				break;
     				}
         		}

@@ -129,12 +129,7 @@ CSettingsApi::~CSettingsApi()
     delete iScheduler; 
     
     }
-void CSettingsApi::HandleSuplTriggerStatusChangeL(
-               CSuplSettings::TSuplTriggerStatus /* aSuplTriggerStatus */ ) 
-    {
-    iLog->Log(_L("Callback function HandleSuplTriggerStatusChange(); ")) ;
-   // CActiveScheduler::Stop();
-    }
+
 // ========================== OTHER EXPORTED FUNCTIONS =========================
 
 // -----------------------------------------------------------------------------

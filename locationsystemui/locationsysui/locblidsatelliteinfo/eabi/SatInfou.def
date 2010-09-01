@@ -1,0 +1,23 @@
+EXPORTS
+	_ZN16CSatelliteInfoUI22HandleForegroundEventLEi @ 1 NONAME
+	_ZN16CSatelliteInfoUI4NewLEv @ 2 NONAME
+	_ZN16CSatelliteInfoUI9ExecuteLDERK7TDesC16 @ 3 NONAME
+	_ZN16CSatelliteInfoUID0Ev @ 4 NONAME
+	_ZN16CSatelliteInfoUID1Ev @ 5 NONAME
+	_ZN16CSatelliteInfoUID2Ev @ 6 NONAME
+	_ZTI10CSatellite @ 7 NONAME ABSENT ; #<TI>#
+	_ZTI13CSatelliteEng @ 8 NONAME ABSENT ; #<TI>#
+	_ZTI16CSatelliteDialog @ 9 NONAME ABSENT ; #<TI>#
+	_ZTI16CSatelliteInfoUI @ 10 NONAME ; #<TI>#
+	_ZTI17CSatelliteLBModel @ 11 NONAME ABSENT ; #<TI>#
+	_ZTI17CSatelliteListBox @ 12 NONAME ABSENT ; #<TI>#
+	_ZTI20CSatelliteItemDrawer @ 13 NONAME ABSENT ; #<TI>#
+	_ZTV10CSatellite @ 14 NONAME ABSENT ; #<VT>#
+	_ZTV13CSatelliteEng @ 15 NONAME ABSENT ; #<VT>#
+	_ZTV16CSatelliteDialog @ 16 NONAME ABSENT ; #<VT>#
+	_ZTV16CSatelliteInfoUI @ 17 NONAME ; #<VT>#
+	_ZTV17CSatelliteLBModel @ 18 NONAME ABSENT ; #<VT>#
+	_ZTV17CSatelliteListBox @ 19 NONAME ABSENT ; #<VT>#
+	_ZTV20CSatelliteItemDrawer @ 20 NONAME ABSENT ; #<VT>#
+	_ZN16CSatelliteInfoUI13SetLaunchViewENS_14TSatelliteViewE @ 21 NONAME
+

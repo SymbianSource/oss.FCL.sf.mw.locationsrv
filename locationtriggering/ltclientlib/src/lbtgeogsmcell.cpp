@@ -121,11 +121,7 @@ EXPORT_C void CLbtGeoGsmCell::SetBsic( RArray<TInt>& aBsicArray )
     {
     for( TInt i=0;i<aBsicArray.Count();i++ )
         {
-        TInt error = iBsicArray.Append( aBsicArray[i] );
-        if( error != KErrNone )
-            {
-            return;
-            }
+        iBsicArray.Append( aBsicArray[i] );
         }
     }
     
@@ -180,7 +176,7 @@ void CLbtGeoGsmCell::DoInternalizeL(RReadStream& aStream)
     TInt count = aStream.ReadInt32L();
     for( TInt i=0;i<count;i++ )
         {
-        iBsicArray.AppendL( aStream.ReadInt32L() );
+        iBsicArray.Append( aStream.ReadInt32L() );
         }
     }
     

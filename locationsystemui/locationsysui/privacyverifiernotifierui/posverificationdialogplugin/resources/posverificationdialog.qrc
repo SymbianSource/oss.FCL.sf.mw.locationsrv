@@ -1,5 +1,0 @@
-<RCC>
-    <qresource prefix="/xml" >
-        <file alias="posverificationcustomdialog.docml" >posverificationcustomdialog.docml</file>
-    </qresource>
-</RCC>

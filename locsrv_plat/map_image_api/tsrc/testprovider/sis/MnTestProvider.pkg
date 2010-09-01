@@ -1,0 +1,37 @@
+;
+; Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+; All rights reserved.
+; This component and the accompanying materials are made available
+; under the terms of "Eclipse Public License v1.0"
+; which accompanies this distribution, and is available
+; at the URL "http://www.eclipse.org/legal/epl-v10.html".
+;
+; Initial Contributors:
+; Nokia Corporation - initial contribution.
+;
+; Contributors:
+;
+; Description: Package file for map and navigation test provider
+;
+;
+; Stub Installation file for M&N Test Provider App
+;Language - standard language definitions
+&EN
+
+; standard SIS file header
+#{"MnTestProvider"},(0x0313200B),1,2,4
+
+; Localised Vendor name
+%{"Vendor-EN"}
+
+; Unique Vendor name
+:"Vendor"
+
+; Supports S60 v 3.0
+[0x101F7961], 0, 0, 0, {"S60ProductID"}
+
+; Files to install
+"\epoc32\release\ARMV5\UDEB\mntestprovider.exe"-"C:\sys\bin\mntestprovider.exe"
+"\epoc32\data\z\resource\apps\mntestprovider.rsc"-"C:\resource\apps\mntestprovider.rsc"
+"\epoc32\data\z\private\10003a3f\apps\mntestprovider_reg.rsc"-"C:\private\10003a3f\import\apps\mntestprovider_reg.rsc"
+

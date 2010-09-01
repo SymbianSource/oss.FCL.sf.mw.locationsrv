@@ -20,7 +20,7 @@
 
 #include <CWPParameter.h>
 #include <WPAdapterUtil.h>
-//#include <ApUtils.h>
+#include <ApUtils.h>
 
 #include "epos_comasupltrace.h"
 #include "epos_comasuplsettings.h"
@@ -29,11 +29,6 @@
 #include "epos_omasuplprovhandler.pan"
 #include "epos_omasuplprovhandler.hrh"
 #include <epos_omasuplprovhandlerres.rsg>
-
-#include <cmmanagerext.h>
-#include <cmdestinationext.h>
-#include <cmconnectionmethodext.h>
-#include <cmconnectionmethoddef.h>
 
 
 _LIT( KTraceSuplSettings, "epos_comasuplsettings.cpp" );
@@ -151,59 +146,12 @@ void COMASuplSettings::SetCommsDataBase( CCommsDatabase& aCommsDataBase )
 //
 TUint32 COMASuplSettings::IapIdFromWapIdL( TUint32 aWapId ) const
     {
-    /*CApUtils* apUtils = CApUtils::NewLC( *iCommsDb );
+    CApUtils* apUtils = CApUtils::NewLC( *iCommsDb );
     TUint32 iapId = NULL;
     iapId = apUtils->IapIdFromWapIdL( aWapId );
     __ASSERT_ALWAYS( iapId, Panic( SuplAdapterInvalidId ) );
     CleanupStack::PopAndDestroy( apUtils );
     return iapId;
-    return ;*/
-    
-    RCmManagerExt cmManager;
-    cmManager.OpenLC(); // CS:1
-    RArray<TUint32> iapIds;
-    TUint32 iapId( 0 );
-
-    // First get all free IAP ID's.
-    cmManager.ConnectionMethodL( iapIds );
-    CleanupClosePushL( iapIds ); // CS:2
-
-    // Then get IAP ID's from all destinations.
-    RArray<TUint32> destIds;
-    cmManager.AllDestinationsL( destIds );
-    CleanupClosePushL( destIds ); // CS:3
-    TInt destCount = destIds.Count();
-    for ( TInt destIndex = 0; destIndex < destCount; destIndex++ )
-        {
-        RCmDestinationExt dest = cmManager.DestinationL( 
-            destIds[destIndex] );
-        CleanupClosePushL( dest ); // CS:4
-        TInt cmCount = dest.ConnectionMethodCount();
-        for ( TInt cmIndex = 0; cmIndex < cmCount; cmIndex++ )
-            {
-            TUint32 apId = dest.ConnectionMethodL( 
-                cmIndex ).GetIntAttributeL( CMManager::ECmIapId );
-            iapIds.AppendL( apId );
-            }
-        CleanupStack::PopAndDestroy( &dest ); // CS:3
-        }
-    // Finally, go through all connection methods and find correct IAP ID.
-    const TInt cmCount = iapIds.Count();
-    for ( TInt counter = 0; counter < cmCount; counter++ )
-        {
-        TUint32 id = cmManager.GetConnectionMethodInfoIntL( 
-            iapIds[counter], CMManager::ECmWapId );
-        if ( id == aWapId )
-            {
-            iapId = iapIds[counter];
-            // No need to go through rest of IAPs.
-            break;
-            }
-        }
-    // PopAndDestroy destIds, iapIds, cmManager.
-    CleanupStack::PopAndDestroy( 3, &cmManager ); // CS:0
-    return iapId;
-    
     }
 
 

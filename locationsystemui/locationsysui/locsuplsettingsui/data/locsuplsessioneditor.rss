@@ -1,0 +1,310 @@
+/*
+* Copyright (c) 2008 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Contains all the resource definitions for Active 
+* SUPL sessions editor.
+*
+*/
+
+
+// -----------------------------------------------------------------------------
+//   r_suplsession_editor_menu_bar
+//   Define the menu bar of the edit dialog
+// -----------------------------------------------------------------------------
+//
+RESOURCE MENU_BAR r_suplsession_editor_menu_bar
+    {
+    titles 	=
+        {
+        MENU_TITLE	{	menu_pane = r_suplsession_editor_menu_pane; txt=""; }
+        };
+    }
+         
+//------------------------------------------------------------------------------   
+// r_suplsession_editor_menu_pane
+// Menu Items for SUPL Session Editor view
+//------------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_suplsession_editor_menu_pane
+    {
+    items	=
+        {
+        MENU_ITEM	
+        	{	
+        	command = ELocSessionEditorChange; 	txt = qtn_options_change; 	flags = EEikMenuItemAction;
+        	},
+        MENU_ITEM	
+        	{	
+        	command = ELocSessionEditorTerminate; 	txt = qtn_loc_supl_options_terminate; flags = EEikMenuItemSpecific;	
+        	},
+        MENU_ITEM	
+        	{ 	
+        	command = EAknCmdHelp; 				txt = qtn_options_help; 
+        	},
+        // Exit option should use 'EEikCmdExit' instead of 'EEAknCmdExit'
+        // This is to ensure that the Exit command is not handled by the 
+        // ProcessCommandL of CAknView and is transferred to 
+        // CAknViewAppUi::HandleCommandL. This behaviour is necessary 
+        // for proper handling of the Exit command from an App Server's 
+        // perspective.        
+        MENU_ITEM 	
+        	{	
+        	command = EEikCmdExit;  			txt = qtn_options_exit;
+        	}
+        };
+    }
+
+//----------------------------------------------------
+// RESOURCE DIALOG r_suplsession_editor_form_dialog
+// Form dialog to display the details of Active session
+//----------------------------------------------------
+//
+RESOURCE DIALOG r_suplsession_editor_form_dialog
+	{
+    flags 	= 	EEikDialogFlagNoDrag | EEikDialogFlagFillAppClientRect |
+            	EEikDialogFlagNoTitleBar | EEikDialogFlagButtonsRight |
+            	EEikDialogFlagCbaButtons | EEikDialogFlagNoBorder |
+            	EEikDialogFlagWait;
+    buttons = 	r_suplsession_editor_options_nomsk_back;
+    form 	= 	r_suplsession_editor_form;
+	}
+
+//----------------------------------------------------  
+// RESOURCE CBA r_suplsession_editor_options_nomsk_back
+// CBA for SUPL Active sessions editor.
+//----------------------------------------------------
+//   
+RESOURCE CBA r_suplsession_editor_options_nomsk_back
+    {
+    flags 	= 0;
+    buttons = 
+        {
+        CBA_BUTTON 
+            {
+            id 	= EAknSoftkeyOptions; 
+            txt = text_softkey_option;
+            },
+        CBA_BUTTON 
+            {
+            id 	= EAknSoftkeyBack; 
+            txt = text_softkey_back;
+            },
+        CBA_BUTTON
+            {
+            id 	= ELocSessionEditorNoCmd; 
+            txt = "";
+            }
+        };
+    }
+
+//----------------------------------------------------  
+// RESOURCE CBA r_suplsession_editor_options_change_back
+// CBA for SUPL Active sessions editor.
+//----------------------------------------------------
+//   
+RESOURCE CBA r_suplsession_editor_options_change_back
+    {
+    flags 	= 0;
+    buttons = 
+        {
+        CBA_BUTTON 
+            {
+            id 	= EAknSoftkeyOptions; 
+            txt = text_softkey_option;
+            },
+        CBA_BUTTON 
+            {
+            id 	= EAknSoftkeyBack; 
+            txt = text_softkey_back;
+            },
+        CBA_BUTTON
+            {
+            id 	= EAknSoftkeyChange; 
+            txt = qtn_msk_change;
+            }
+        };
+    }
+
+//----------------------------------------------------
+// RESOURCE DIALOG r_suplsession_editor_form
+// Form to view an Active session details
+//----------------------------------------------------
+//
+RESOURCE FORM r_suplsession_editor_form
+    {
+    flags 	=  EEikFormUseDoubleSpacedFormat;
+    items 	=
+        {                
+     	DLG_LINE
+            {
+            type		=	EAknCtPopupFieldText;
+            prompt		=	qtn_loc_supl_trigger_dialog;
+            id			=	ELocSuplSessionNotificationStatus;
+            itemflags 	= 	EEikDlgItemTakesEnterKey | EEikDlgItemOfferAllHotKeys | EEikDlgItemAsLabel;
+           	control 	= 	POPUP_FIELD_TEXT
+               	{
+               	popupfield 	= POPUP_FIELD
+                   	{
+                   	width 	= 50;
+                   	};
+               	textarray 	= r_suplsession_editor_notification_status;
+               	active 		= 0;
+               	};
+            },      
+     	DLG_LINE
+            {
+            type		=	EAknCtPopupFieldText;
+            prompt		=	qtn_loc_supl_trigger_type;
+            id			=	ELocSuplSessionType;
+            itemflags 	= 	EEikDlgItemTakesEnterKey | EEikDlgItemOfferAllHotKeys | EEikDlgItemAsLabel;
+           	control 	= 	POPUP_FIELD_TEXT
+               	{
+               	popupfield 	= POPUP_FIELD
+                   	{
+                   	width 	= 50;
+                   	};
+               	textarray 	= r_suplsession_editor_session_type;
+               	active 		= 0;
+               	};
+            },
+     	DLG_LINE
+            {
+            type		=	EAknCtIntegerEdwin;
+            prompt		=	qtn_loc_supl_trigger_outstanding;
+            id			=	ELocSuplSessionOutstandingTrigger;
+            itemflags 	= 	EEikDlgItemTakesEnterKey | EEikDlgItemOfferAllHotKeys | EEikDlgItemAsLabel;
+            control		=	AVKON_INTEGER_EDWIN 
+                {       
+                min		=	0;
+                max		=	144000;         
+                };
+            },
+        DLG_LINE
+            {
+            type		=	EEikCtEdwin;
+            prompt		=	qtn_loc_supl_trigger_time_period;
+            id			=	ELocSuplSessionTimePeriod;
+            itemflags 	= 	EEikDlgItemTakesEnterKey | EEikDlgItemOfferAllHotKeys;
+            control		=	EDWIN 
+                {
+                flags 		= 	EEikEdwinJustAutoCurEnd | EEikEdwinReadOnly | EEikEdwinResizable | EEikEdwinNoLineOrParaBreaks  ;
+                width		=	16; 
+                maxlength	=	255;
+                lines		=	1;
+                };
+            },
+     	DLG_LINE
+            {
+            type		=	EEikCtEdwin;
+            prompt		=	qtn_loc_supl_trigger_interval;
+            id			=	ELocSuplSessionTriggerInterval;
+            itemflags 	= 	EEikDlgItemTakesEnterKey | EEikDlgItemOfferAllHotKeys | EEikDlgItemAsLabel;
+            control		=	EDWIN 
+                {       
+                flags 		= 	EEikEdwinResizable | EEikEdwinReadOnly | EEikEdwinAvkonDisableCursor | EEikEdwinNoAutoSelection ;
+                maxlength	=	0;
+                lines		=	1;
+                max_view_height_in_lines	=	8;                
+                };
+            }
+   		};
+	}
+    
+//----------------------------------------------------
+// RESOURCE ARRAY r_suplsession_editor_notification_status
+// array for notification status
+//----------------------------------------------------
+//
+RESOURCE ARRAY r_suplsession_editor_notification_status
+    {
+    items 	=
+        {
+        LBUF{ txt = qtn_loc_supl_trigger_dialog_on; },
+        LBUF{ txt = qtn_loc_supl_trigger_dialog_off; }                  
+        };
+    }
+    
+//----------------------------------------------------
+// RESOURCE ARRAY r_suplsession_editor_session_type
+// array for session type
+//----------------------------------------------------
+//
+RESOURCE ARRAY r_suplsession_editor_session_type
+    {
+    items 	=
+        {
+        LBUF{ txt = qtn_loc_supl_peridic_trigger; }                 
+        };
+    }
+
+//------------------------------------------------------------------------------  
+// r_loc_supl_trigger_time_minutes
+// Session viewer unit string - minutes
+//------------------------------------------------------------------------------
+//
+RESOURCE TBUF r_loc_supl_trigger_time_minutes
+    {
+    buf		= qtn_loc_supl_trigger_time_minutes;
+    }  
+
+//------------------------------------------------------------------------------  
+// r_loc_supl_trigger_time_onehour
+// Session viewer unit string - one hour
+//------------------------------------------------------------------------------
+//
+RESOURCE TBUF r_loc_supl_trigger_time_onehour
+    {
+    buf		= qtn_loc_supl_trigger_time_onehour;
+    }  
+
+//------------------------------------------------------------------------------  
+// r_loc_supl_trigger_time_hours
+// Session viewer unit string - hours
+//------------------------------------------------------------------------------
+//
+RESOURCE TBUF r_loc_supl_trigger_time_hours
+    {
+    buf		= qtn_loc_supl_trigger_time_hours;
+    }  
+
+//------------------------------------------------------------------------------  
+// r_loc_supl_trigger_time_oneday
+// Session viewer unit string - one day
+//------------------------------------------------------------------------------
+//
+RESOURCE TBUF r_loc_supl_trigger_time_oneday
+    {
+    buf		= qtn_loc_supl_trigger_time_oneday;
+    }  
+
+//------------------------------------------------------------------------------  
+// r_loc_supl_trigger_time_days
+// Session viewer unit string - days
+//------------------------------------------------------------------------------
+//
+RESOURCE TBUF r_loc_supl_trigger_time_days
+    {
+    buf		= qtn_loc_supl_trigger_time_days;
+    }  
+
+//------------------------------------------------------------------------------  
+// r_loc_services_title_unknown
+// Title text for unnamed session in Viewer
+//------------------------------------------------------------------------------
+//
+RESOURCE TBUF r_loc_services_title_unknown
+    {
+    buf		= qtn_loc_services_title_unknown;
+    }   
+
+// End of File

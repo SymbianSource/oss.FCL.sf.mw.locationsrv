@@ -88,25 +88,24 @@ COMASuplTriggerStartState::COMASuplTriggerStartState(RMobilePhone& aMobilePhone,
 //
 COMASuplTriggerStartState::~COMASuplTriggerStartState()
     {
-    if(iTrace)
-        {
-        iTrace->Trace(_L("COMASuplTriggerStartState::~COMASuplTriggerStartState..."), KTraceFileName, __LINE__); 							
-        iTrace->Trace(_L("deleting iLocationIDRequestor..."), KTraceFileName, __LINE__); 							
-        }
-    delete iLocationIDRequestor;
+    	if(iTrace)
+    		{
+    		iTrace->Trace(_L("COMASuplTriggerStartState::~COMASuplTriggerStartState..."), KTraceFileName, __LINE__); 							
+    		iTrace->Trace(_L("deleting iLocationIDRequestor..."), KTraceFileName, __LINE__); 							
+    	  }
+    	delete iLocationIDRequestor;
+    	
+    	if(iPosRequestor)
+    		iPosRequestor->DestroyList();
+		else    	    	
+            {                
+    	    iTrace->Trace(_L("deleting iSETCapabilities ..."), KTraceFileName, __LINE__); 							
+    		delete iSETCapabilities ;
+            }
 
-    if(iPosRequestor)
-        iPosRequestor->DestroyList();
-    else    	    	
-        {   
-        if(iTrace)
-            iTrace->Trace(_L("deleting iSETCapabilities ..."), KTraceFileName, __LINE__); 							
-        delete iSETCapabilities ;
-        }
 
-    if(iTrace)
-        iTrace->Trace(_L("deleting iAllowedCapabilities ..."), KTraceFileName, __LINE__); 							
-    delete iAllowedCapabilities;
+    	iTrace->Trace(_L("deleting iAllowedCapabilities ..."), KTraceFileName, __LINE__); 							
+    	delete iAllowedCapabilities;
 
     }
 
@@ -261,7 +260,7 @@ HBufC8* COMASuplTriggerStartState::EncodeMessageL(TOMASuplVersion &aSuplVersion,
 							 posProtocolExt.SetTOMASuplVer2ProtocolExt(tempProtocolVersion,posProtocolVersion,posProtocolVersionTia);								
 							 posProtocol2.SetVer2PosProtoExtn(posProtocolExt);
 						}
-			if(iSETCapabilities2)
+			
 			      iSETCapabilities2->SetSETCapabilities(posTechnology2, prefMethod2, posProtocol2);
       
       }
@@ -309,10 +308,9 @@ HBufC8* COMASuplTriggerStartState::EncodeMessageL(TOMASuplVersion &aSuplVersion,
         // Set SET Capability extn
         TOMAVer2SetCapExtn setCapsExtn;
         setCapsExtn.SetServiceCaps(serviceCaps);
-		iTrace->Trace(_L("SetVer2SetCapExtn"), KTraceFileName, __LINE__);
+				iTrace->Trace(_L("SetVer2SetCapExtn"), KTraceFileName, __LINE__);
         // Set SET Capabilities
-		if(iSETCapabilities2)
-		    iSETCapabilities2->SetVer2SetCapExtn(setCapsExtn);
+        iSETCapabilities2->SetVer2SetCapExtn(setCapsExtn);
 
 	    iTrace->Trace(_L("SetSuplTriggeredStart"), KTraceFileName, __LINE__);
 	    
@@ -623,9 +621,8 @@ HBufC8* COMASuplTriggerStartState::EncodeMessageL(TOMASuplVersion &aSuplVersion,
             TOMASuplTriggerParams trgParams;
             TOMASuplPeriodicParams prdParams; 
             TUint fixes, interval, starttime;
-           TInt errorCode= iTriggerParams.Get(fixes, interval, starttime);
-            if(errorCode==KErrNone)
-             {
+            iTriggerParams.Get(fixes, interval, starttime);
+            
 #ifdef PRINT_MESSAGE	
 		    		iTrace->Trace(_L("Periodic Trigger params ..."), KTraceFileName, __LINE__); 							
 	          TBuf<128> buf;
@@ -645,7 +642,6 @@ HBufC8* COMASuplTriggerStartState::EncodeMessageL(TOMASuplVersion &aSuplVersion,
             OMASuplStart->SetTriggerType(COMASuplTriggeredStart::ETOMASuplPeriodicTrigType);
 				    iTrace->Trace(_L("Trigger Type - Periodic ..."), KTraceFileName, __LINE__); 							
 	          OMASuplStart->SetTriggerParams(trgParams);
-	           }
             }
 			
 		iTrace->Trace(_L("Starting Encoding..."), KTraceFileName, __LINE__); 							
@@ -721,9 +717,7 @@ void COMASuplTriggerStartState::LocationIDRequestCompletedL(COMASuplLocationId* 
 			
 		COMASuplGSMCellInfo* cellInfo;
         COMASuplLocationId::TOMASuplStatus status;
-        TInt err =aLocationId->SuplLocationId(cellInfo, status);
-        if(KErrNone != err)
-        	return;
+        aLocationId->SuplLocationId(cellInfo, status);
 
 		TInt refMNC,refMCC,refCI,refLac;
 		cellInfo->SuplGSMCellInfo(refMNC,refMCC,refCI,refLac);
@@ -731,7 +725,10 @@ void COMASuplTriggerStartState::LocationIDRequestCompletedL(COMASuplLocationId* 
         COMASuplGSMCellInfo* cellInfoClone = COMASuplGSMCellInfo::NewL();
         cellInfoClone->SetSuplGSMCellInfo(refMNC,refMCC,refCI,refLac);
 		iLocationId->SetSuplLocationId(cellInfoClone, status);
-				
+		
+		delete aLocationId;
+		aLocationId=NULL;
+		
 		if(iECId)
 			{
 				iTrace->Trace(_L("COMASuplTriggerStartState::LocationIDRequestCompletedL...Retrive E-CellId"), KTraceFileName, __LINE__); 					
@@ -742,8 +739,6 @@ void COMASuplTriggerStartState::LocationIDRequestCompletedL(COMASuplLocationId* 
 			{	
 				GetAssistceDataFromPluginL(aErrorCode);
 			}	
-		delete aLocationId;
-		aLocationId=NULL;
 	}
 
 // -----------------------------------------------------------------------------

@@ -1,0 +1,78 @@
+;
+; Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+; All rights reserved.
+; This component and the accompanying materials are made available
+; under the terms of "Eclipse Public License v1.0"
+; which accompanies this distribution, and is available
+; at the URL "http://www.eclipse.org/legal/epl-v10.html".
+;
+; Initial Contributors:
+; Nokia Corporation - initial contribution.
+;
+; Contributors:
+;
+; Description: Package file for Location System Ui
+;
+;
+; Installation file for Location Centre Application, Client, Server and Utils
+;
+;Languages
+&EN
+;
+; UID is the app's UID
+;
+#{"Location System UI"},(0x10281861),1,0,0,TYPE=SA, RU
+;Series 60 v3.0
+[0x101f7961], 0, 0, 0, {"Series60ProductID"}
+;
+; Localised Vendor name
+%{"Nokia"}
+
+; Unique Vendor name
+:"Nokia"
+
+
+; Location System UI View
+"\epoc32\release\armv5\urel\locsysuiview.dll"               - "!:\sys\bin\locsysuiview.dll"
+"\epoc32\data\z\resource\plugins\locsysuiview.rsc"          - "!:\resource\plugins\locsysuiview.rsc"
+"\epoc32\data\z\resource\locsysuiviewrsc.rsc"               - "!:\resource\locsysuiviewrsc.rsc"
+"\epoc32\data\z\resource\apps\locsysuiview.mif"             - "!:\resource\apps\locsysuiview.mif"
+
+; Location System UI Engine
+"\epoc32\release\armv5\urel\locsysuiengine.dll"             - "!:\sys\bin\locsysuiengine.dll"
+
+; Positioning Settings UI
+"\epoc32\release\armv5\urel\locpsysettingsui.dll"           - "!:\sys\bin\locpsysettingsui.dll"
+"\epoc32\data\z\resource\plugins\locpsysettingsui.rsc"      - "!:\resource\plugins\locpsysettingsui.rsc"
+"\epoc32\data\z\resource\locpsysettingsuiview.rsc"          - "!:\resource\locpsysettingsuiview.rsc"
+"\epoc32\data\z\resource\apps\locpsysettings.mif"           - "!:\resource\apps\locpsysettings.mif"
+"\epoc32\release\armv5\urel\locpsysettingseng.dll"          - "!:\sys\bin\locpsysettingseng.dll"
+
+; SUPL settings UI
+"\epoc32\release\armv5\urel\locsuplsettings.dll"            - "!:\sys\bin\locsuplsettings.dll"
+"\epoc32\data\z\resource\plugins\locsuplsettings.rsc"       - "!:\resource\plugins\locsuplsettings.rsc"
+"\epoc32\data\z\resource\locsuplsettingsui.rsc"             - "!:\resource\locsuplsettingsui.rsc"
+
+; Notation preferences UI
+"\epoc32\release\armv5\urel\locnotprefplugin.dll"           - "!:\sys\bin\locnotprefplugin.dll"
+"\epoc32\data\z\resource\plugins\locnotprefplugin.rsc"      - "!:\resource\plugins\locnotprefplugin.rsc"
+"\epoc32\data\z\resource\locnotprefpluginview.rsc"          - "!:\resource\locnotprefpluginview.rsc"
+
+; Location Settings UI server
+"\epoc32\release\armv5\urel\locsettingsuiserver.exe"                - "!:\sys\bin\locsettingsuiserver.exe"
+"\epoc32\data\z\resource\apps\locsettingsuiserver_aif.mif"         	- "!:\resource\apps\locsettingsuiserver_aif.mif"
+"\epoc32\data\z\resource\apps\locsettingsuiserver.rsc"              - "!:\resource\apps\locsettingsuiserver.rsc"
+"\epoc32\data\Z\private\10003a3f\apps\locsettingsuiserver_reg.rsc"  - "!:\private\10003a3f\import\apps\locsettingsuiserver_reg.rsc"
+
+; Location Settings UI client
+"\epoc32\release\armv5\urel\locsettingsuiclient.dll"        - "!:\sys\bin\locsettingsuiclient.dll"
+
+; Verfier dialogs
+"\epoc32\release\armv5\urel\locnotifierwrapper.dll"         - "!:\sys\bin\locnotifierwrapper.dll"
+"\epoc32\data\z\resource\plugins\locnotifierwrapper.rsc"    - "!:\resource\plugins\locnotifierwrapper.rsc"
+
+"\epoc32\release\armv5\urel\locutils.dll"                   - "!:\sys\bin\locutils.dll"
+"\epoc32\data\z\resource\locutils.rsc"                      - "!:\resource\locutils.rsc"
+
+"\epoc32\release\armv5\urel\locverifierdlg.dll"             - "!:\sys\bin\locverifierdlg.dll"
+"\epoc32\data\z\resource\locverifierdlg.rsc"                - "!:\resource\locverifierdlg.rsc"

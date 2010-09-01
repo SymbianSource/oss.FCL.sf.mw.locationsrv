@@ -47,7 +47,6 @@
 #include "epos_mconnectobserver.h"
 
 const TSecureId KNetworkGatewaySID = 0x10281D46;
-const TSecureId KLocationMonitorSID = 0x102869DF;
 
 // CONSTANTS
 //#ifdef _DEBUG
@@ -265,7 +264,7 @@ CSession2* CSuplServer::NewSessionL(
         }
 
     //if secure id is not equal to KSuplWapSecureId or KSuplWapSecureId, then perform capability check
-    if ((aMessage.SecureId() != KSuplWapSecureId && aMessage.SecureId() != KNetworkGatewaySID && aMessage.SecureId() != KLocationMonitorSID))
+    if ((aMessage.SecureId() != KSuplWapSecureId && aMessage.SecureId() != KNetworkGatewaySID && aMessage.SecureId() != 0x102869DF))
     	{
         if (!aMessage.HasCapability(ECapabilityCommDD))
             {
@@ -323,7 +322,7 @@ CPolicyServer::TCustomResult CSuplServer::CustomSecurityCheckL(
     static _LIT_SECURITY_POLICY_S0(allowSuplWapPolicy, KSuplWapSecureId);
     TBool isSuplWap = allowSuplWapPolicy().CheckPolicy(aMessage); 
     
-    static _LIT_SECURITY_POLICY_S0(allowlocationserverPolicy, KLocationMonitorSID);
+    static _LIT_SECURITY_POLICY_S0(allowlocationserverPolicy, 0x102869DF);
        TBool islocationserver = allowlocationserverPolicy().CheckPolicy(aMessage); 
        
        //Check if the request was made by one of the allowed processes else check for required capability

@@ -30,7 +30,7 @@
 //  INCLUDES
 #include <eiknotapi.h>
 #include <lbs/epos_rposrequestorstack.h>
-#include <lbs/epos_tposqninputdata.h>
+#include <lbs/EPos_TPosQNInputData.h>
 #include <EPos_CPosPrivacyNotifier.h>
 // FORWARD DECLARATIONS
 class CPosRequestHandler;

@@ -21,8 +21,6 @@
 
 // INCLUDE FILES
 #include <Stiftestinterface.h>
-#include <ProEngFactory.h>
-#include <MProEngEngine.h>
 #include "AdvancedTriggerSupervision.h"
 #include <SettingServerClient.h>
 
@@ -133,8 +131,7 @@ void CAdvancedTriggerSupervision::ConstructL()
                           CStifLogger::ETxt,
                           CStifLogger::EFile,
                           EFalse );
-    
-    iProEngine= ProEngFactory::NewEngineL();  
+
     }
 
 // -----------------------------------------------------------------------------
@@ -164,8 +161,7 @@ CAdvancedTriggerSupervision::~CAdvancedTriggerSupervision()
 
     // Delete logger
     delete iLog; 
-    delete iProEngine;
-    iProEngine = NULL;
+
     }
 
 // ========================== OTHER EXPORTED FUNCTIONS =========================

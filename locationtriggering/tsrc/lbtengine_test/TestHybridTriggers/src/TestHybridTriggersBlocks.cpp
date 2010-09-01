@@ -6523,7 +6523,7 @@ TInt CTestHybridTriggers::TC_TestUpdateTrigger4L( CStifItemParser& /* aItem */ )
        CleanupStack::PushL( notifier );
       
                  
-       notifier->CreateTriggers( lbt,*trig,trigId,ETrue,wait );
+       notifier->CreateTriggers( lbt,*trig,trigId,EFalse,wait );
        wait->Start( );
        iLog->Log(_L("Trigger Created"));
        notifier->StartNotification( wait );

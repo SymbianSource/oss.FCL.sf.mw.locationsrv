@@ -36,7 +36,7 @@
 
 
 #include "t_triggerfireobserver.h"	 
-TInt createtriggerL();
+void createtriggerL();
 GLDEF_C	 TInt E32Main()
 	 {
 	 CTrapCleanup* cleanup=CTrapCleanup::New(); // get clean-up stack
@@ -45,16 +45,12 @@ GLDEF_C	 TInt E32Main()
 		   TRAP_IGNORE(CActiveScheduler* scheduler=new(ELeave) CActiveScheduler;CActiveScheduler::Install(scheduler););
 		   
 		}
-	 TInt id = KLbtNullTriggerId;
-	 TRAPD( error,id = createtriggerL() );
-	 if( error == KErrNone )
-	     RProcess::Rendezvous(id);
-	 else
-	     RProcess::Rendezvous(KLbtNullTriggerId);
-     return 0;
-     }
+	 TRAP_IGNORE(createtriggerL());
+	 RProcess::Rendezvous(KErrNone);
+    return 0;
+  }
   
-  TInt createtriggerL()
+  void createtriggerL()
   {
   	RLbtServer lbtserver;
  	 RLbt lbt;
@@ -111,7 +107,32 @@ GLDEF_C	 TInt E32Main()
         
     notifier->CreateTriggers( lbt,*trig,trigId,EFalse,wait );
     wait->Start( );	
+    RProperty property;
+	CleanupClosePushL(property);
+	
+	//Allow all to ready from status information
+	_LIT_SECURITY_POLICY_PASS(EReadPolicyAlwaysPass);
+	//Delete the property if already exists
+	/*
+	 User::LeaveIfError(property.Delete(
+        KPSUidTriggerIdInfo, 
+        KLbttesttriggerid 
+        ));*/
+	
+	// Read policy is always pass and write device data capability
+	// is required to write to the status information P&S key
+	property.Define(KPSUidTriggerIdInfo,
+									   KLbttesttriggerid,
+									   RProperty::EInt,
+									   EReadPolicyAlwaysPass,
+									   TSecurityPolicy(ECapabilityWriteDeviceData) );
+	
 
-    CleanupStack::PopAndDestroy(4,&lbtserver);
-    return trigId;
-    }
+	User::LeaveIfError( property.Attach(KPSUidTriggerIdInfo, 
+										KLbttesttriggerid) );
+										
+	User::LeaveIfError( property.Set(KPSUidTriggerIdInfo, 
+									 KLbttesttriggerid, 
+									 trigId));
+    CleanupStack::PopAndDestroy(5,&lbtserver);
+}

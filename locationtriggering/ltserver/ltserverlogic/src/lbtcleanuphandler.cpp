@@ -501,12 +501,7 @@ void CLbtCleanupItem::AddCleanupItem( const RArray<TLbtTriggerId>& aTriggers, TT
 	iTriggers.Reset();	
 	for(TInt i=0;i<aTriggers.Count();++i)
 		{
-		TInt error = iTriggers.Append( aTriggers[i] );
-		if( error != KErrNone )
-		    {
-            LOG1("Failing to append triggers to the array:%d",error );
-            return;
-		    }
+		iTriggers.Append( aTriggers[i] );
 		}
 	iUTCTime = aUTCTime;
 	}

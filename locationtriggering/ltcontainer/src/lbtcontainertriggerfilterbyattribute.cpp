@@ -168,7 +168,7 @@ EXPORT_C TBool CLbtContainerFilterByAttribute::IsTriggerFiredInfoInFilter(
 EXPORT_C void CLbtContainerFilterByAttribute::AddOwnerSidInFilterL( 
     TSecureId aSid )
     {
-    iSidArray.AppendL( aSid );
+    iSidArray.Append( aSid );
     }
 
             

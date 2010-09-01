@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<api id="5b7cfa5635c14177ccac9df68671b400" dataversion="2.0">
+  <name>Map Image Conversion Plug-In API</name>
+  <description>This API defines ECom interface to be implemented by Provider Applications, which support MapImage services. Its functionality allows to convert image coordinates to world coordinates and vice versa.</description>
+  <type>c++</type>
+  <collection>locationmapnavfw</collection>
+  <libs>
+    <lib name="mnclientlib.lib" />
+  </libs>
+  <release category="platform"/>
+  <attributes>
+     <!-- This indicates wether the api provedes separate html documentation -->
+     <!-- or is the additional documentation generated from headers. -->
+     <!-- If you are unsuere then the value is "no" -->
+     <htmldocprovided>no</htmldocprovided>
+     <adaptation>no</adaptation>
+  </attributes>
+</api>

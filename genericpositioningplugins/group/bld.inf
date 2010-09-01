@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2006-2010 Nokia Corporation and/or its subsidiary(-ies). 
+* Copyright (c) 2006 Nokia Corporation and/or its subsidiary(-ies). 
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -15,12 +15,17 @@
 *
 */
 
-PRJ_PLATFORMS
-WINSCW ARMV5 GCCE
 
-#include "../rom/bld.inf"
+#include <platform_paths.hrh>
+PRJ_PLATFORMS
+DEFAULT GCCE
 
 #include "../locationnpppsy/group/bld.inf"
 #include "../locationsuplpsy/group/bld.inf"
+
+PRJ_EXPORTS
+../cenrep/10282266_s60.cre                      z:/private/10202be9/10282266_s60.cre 
+../cenrep/1028224B_s60.cre                      z:/private/10202be9/1028224B_s60.cre
+../rom/prifw_cenrep.iby                     CORE_MW_LAYER_IBY_EXPORT_PATH(prifw_cenrep.iby)
 
 // End of File

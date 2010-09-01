@@ -751,9 +751,9 @@ void CPosLmLocalAccessSubsession::HandleLandmarksAddedOrUpdatedL( const RMessage
         
         TPtr name( lmBuf->Des() );
         readStream.ReadL( name, nameLen );
-        
+
         CleanupStack::Pop( lmBuf );//ownership of lmBuf is transferred in the call to UpdateL/InsertL
-		if ( aMessage.Int0() == EPosLmServerUpdateLandmarks ) 
+        if ( aMessage.Int0() == EPosLmServerUpdateLandmarks ) 
             {
 //coverity[freed_arg : FALSE]
             index.UpdateL( id, lmBuf );

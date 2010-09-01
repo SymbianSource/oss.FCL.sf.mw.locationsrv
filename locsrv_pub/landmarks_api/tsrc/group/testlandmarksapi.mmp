@@ -68,7 +68,6 @@ SOURCE			testposlmcategoryserialization.cpp
 SYSTEMINCLUDE   /epoc32/include/platform
 SYSTEMINCLUDE   /epoc32/include/mw
 
-
 USERINCLUDE     ../inc 
 
 MW_LAYER_SYSTEMINCLUDE

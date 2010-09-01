@@ -79,7 +79,6 @@ EXPORT_C void COMASuplLocationIdData::SetLocationId(COMASuplLocationIdVer2* aLoc
         }
     iLocationId2 = aLocationId ;
     }
-//coverity[pass_by_value]
 EXPORT_C void COMASuplLocationIdData::SetECellInfo(TOMASuplECellInfo aMmCellInfo)
     {
     iECId = ETrue;
@@ -114,14 +113,12 @@ EXPORT_C TInt COMASuplLocationIdData::GetECellInfo(TOMASuplECellInfo& aMmCellInf
 EXPORT_C COMASuplLocationIdData* COMASuplLocationIdData::CloneL()
     {
     COMASuplLocationIdData* retLocIdData = COMASuplLocationIdData::NewL();
-    CleanupStack::PushL( retLocIdData );
     if(iECId)
         retLocIdData->SetECellInfo(iMmCellInfo);
     retLocIdData->SetServingFlag(iServingFlag);
     retLocIdData->SetTimeStamp(iRelativeTimeStamp);
     if(iLocationId2)
         retLocIdData->SetLocationId(iLocationId2->CloneL());
-    CleanupStack::Pop(retLocIdData);
     return retLocIdData;
     }
 /**
@@ -393,7 +390,9 @@ EXPORT_C COMASuplThirdpartyId* COMASuplThirdpartyId::CloneL()
         {
         case EThirdPartyLogicalName:
             {
-            thirdpartyId->SetLogicalName(*iLogicalName);
+            HBufC16*    logicalName = HBufC16::NewL(iLogicalName->Length());
+            *logicalName = *iLogicalName;
+            thirdpartyId->SetLogicalName(*logicalName);
             }
             break;
         case EThirdPartyMSISDN:
@@ -403,17 +402,23 @@ EXPORT_C COMASuplThirdpartyId* COMASuplThirdpartyId::CloneL()
             break;
         case EThirdPartyEmail:
             {
-            thirdpartyId->SetEmailAddress(*iEMailAddress);
+            HBufC16*    eMailAddress = HBufC16::NewL(iEMailAddress->Length());
+            eMailAddress = iEMailAddress;
+            thirdpartyId->SetEmailAddress(*eMailAddress);
             }
             break;
         case EThirdPartySIPURI:
             {
-            thirdpartyId->SetSipUri(*iSipUri);
+            HBufC8*      sipUri = HBufC8::NewL(iSipUri->Length());
+            *sipUri = *iSipUri;
+            thirdpartyId->SetSipUri(*sipUri);
             }
             break;
         case EThirdPartyIMSPublicId:
             {
-            thirdpartyId->SetIMSPublicId(*iIMSPublicId);
+            HBufC8* iMSPublicId = HBufC8::NewL(iIMSPublicId->Length()); 
+            *iMSPublicId = *iIMSPublicId;
+            thirdpartyId->SetIMSPublicId(*iMSPublicId);
             }
             break;
         case EThirdPartyMin:
@@ -428,7 +433,9 @@ EXPORT_C COMASuplThirdpartyId* COMASuplThirdpartyId::CloneL()
             break;
         case EThirdPartyURI:
             {
-            thirdpartyId->SetURI(*iURI);
+            HBufC8*     uRI = HBufC8::NewL(iURI->Length());
+            *uRI = *iURI;
+            thirdpartyId->SetURI(*uRI);
             }
             break;
         }
@@ -691,14 +698,12 @@ EXPORT_C void COMASuplVer2SuplStartExtn::GetPosition(COMASuplPosition*& aPositio
 EXPORT_C COMASuplVer2SuplStartExtn* COMASuplVer2SuplStartExtn::CloneL()
     {
     COMASuplVer2SuplStartExtn* ver2ExtnToRet = COMASuplVer2SuplStartExtn::NewL();
-    CleanupStack::PushL( ver2ExtnToRet );
     if(iMultipleLocIds)
         ver2ExtnToRet->SetMultipleLocIds(iMultipleLocIds->CloneL());
     if(iPosition)
         ver2ExtnToRet->SetPosition(static_cast <COMASuplPosition*>(iPosition->CloneL()));
     if(iThirdparty)
         ver2ExtnToRet->SetThirdParty(iThirdparty->CloneL());
-    CleanupStack::Pop(ver2ExtnToRet);
     return ver2ExtnToRet;
     }
 // ============================ MEMBER FUNCTIONS of COMASuplStartVer2===============================

@@ -1,0 +1,7 @@
+EXPORTS
+	_Z9LibEntryLR13CTestModuleIf @ 1 NONAME
+	_ZTI14CTestMnMapView @ 2 NONAME ; #<TI>#
+	_ZTI16CTestMnNavigator @ 3 NONAME ; #<TI>#
+	_ZTV14CTestMnMapView @ 4 NONAME ; #<VT>#
+	_ZTV16CTestMnNavigator @ 5 NONAME ; #<VT>#
+

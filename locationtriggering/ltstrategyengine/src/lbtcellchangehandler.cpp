@@ -135,12 +135,7 @@ void CLbtCellChangeHandler::GetNetworkInfo()
 void CLbtCellChangeHandler::SetObserver( MCellChangeObserver* aObserver )
     {
     FUNC_ENTER("CLbtCellChangeHandler::SetObserver");
-    TInt error = iObserverArray.Append( aObserver );
-    if( error != KErrNone )
-        {
-        LOG1("Failed to append observer to the array:%d",error);
-        return;
-        }
+    iObserverArray.Append( aObserver );
     // If cell change handler already has cell information,update it to the observer
     if( iLocArea.iCellId && iLastStatusInfo == KErrNone )
         {

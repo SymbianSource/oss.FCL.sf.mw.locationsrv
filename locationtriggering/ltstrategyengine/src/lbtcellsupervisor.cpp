@@ -135,11 +135,7 @@ void CLbtCellSupervisor::Resume()
                 // If the fired time is non-zero, add it to recently fired trigger list
                 if( strategyData.iFireTime )
                     {
-                    TInt error = iRecentlyFiredTriggerArray.Append( conTrigger );
-					if( error != KErrNone )
-						{
-						LOG1("Failed to append conTrigger into the array:%d",error);
-						}
+                    iRecentlyFiredTriggerArray.Append( conTrigger );
                     }
                 }
             }
@@ -529,11 +525,7 @@ void CLbtCellSupervisor::HandleTriggerFired( CLbtContainerTriggerEntry* aTrigger
     ClearVisitedCellInfo( aStrategyData );
     
     // Append this trigger to recently fired trigger
-    TInt error = iRecentlyFiredTriggerArray.Append( aTrigger );
-	if( error != KErrNone )
-		{
-	    LOG1("Failed to append trigger to the array:%d",error);		
-		}
+    iRecentlyFiredTriggerArray.Append( aTrigger );
 	}
 
 
@@ -618,11 +610,7 @@ void CLbtCellSupervisor::TimeOut()
                 {
                 strategyData.iFireTime = 0;
                 iRecentlyFiredTriggerArray[i]->SetStrategyData( strategyData );
-                TInt error = activatedTriggers.Append( iRecentlyFiredTriggerArray[i] );
-                if( error != KErrNone )
-                    {
-                    LOG1("Failed to append to fired triggers to the array:%d",error);
-                    }
+                activatedTriggers.Append( iRecentlyFiredTriggerArray[i] );
                 iRecentlyFiredTriggerArray.Remove(i);
                 }
             }

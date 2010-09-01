@@ -556,7 +556,7 @@ class COMASuplInitVer2  : public COMASuplInit
 
    	    void ConstructL();        
 
-   	    IMPORT_C COMASuplInitVer2(); 
+   	    COMASuplInitVer2(); 
 
 
    	protected:    // Data

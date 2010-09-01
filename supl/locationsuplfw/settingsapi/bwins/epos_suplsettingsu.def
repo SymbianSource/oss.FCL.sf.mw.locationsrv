@@ -93,10 +93,4 @@ EXPORTS
 	?SetServerExtensionParams@CSuplSettingsInternal@@QAEH_JPAVCServerExtensionParams@@@Z @ 92 NONAME ; int CSuplSettingsInternal::SetServerExtensionParams(long long, class CServerExtensionParams *)
 	?NewLC@CServerExtensionParams@@SAPAV1@XZ @ 93 NONAME ; class CServerExtensionParams * CServerExtensionParams::NewLC(void)
 	?GetDefaultIAPName@CSuplSettings@@QAEHAAVTDes16@@@Z @ 94 NONAME ; int CSuplSettings::GetDefaultIAPName(class TDes16 &)
-	?SetServerConfigurationType@CServerParams@@QAEXH@Z @ 95 NONAME ; void CServerParams::SetServerConfigurationType(int)
-	?GetServerConfigurationType@CServerParams@@QBEHAAH@Z @ 96 NONAME ; int CServerParams::GetServerConfigurationType(int &) const
-	?GetTriggerEndTime@CTriggerParams@@QBEHAAVTTime@@@Z @ 97 NONAME ; int CTriggerParams::GetTriggerEndTime(class TTime &) const
-	?SetSuplTriggeredServiceStatus@CSuplSettings@@QAEHABW4TSuplTriggerStatus@1@@Z @ 98 NONAME ; int CSuplSettings::SetSuplTriggeredServiceStatus(enum CSuplSettings::TSuplTriggerStatus const &)
-	?SetTriggerEndTime@CTriggerParams@@QAEXVTTime@@@Z @ 99 NONAME ; void CTriggerParams::SetTriggerEndTime(class TTime)
-	?GetSuplTriggeredServiceStatus@CSuplSettings@@QAEHAAW4TSuplTriggerStatus@1@@Z @ 100 NONAME ; int CSuplSettings::GetSuplTriggeredServiceStatus(enum CSuplSettings::TSuplTriggerStatus &)
 

@@ -1,0 +1,97 @@
+/*
+* Copyright (c) 2006 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Contains declarations for constants of SUPL Settings UI.
+*                This file can be included in C++ or resource file.
+*
+*/
+
+#ifndef LOCSUPLSETTINGSUI_HRH
+#define LOCSUPLSETTINGSUI_HRH
+
+// Enumeration for command Ids
+
+enum TLocSuplCommandIds
+    {
+	ELocSuplChange = 0x05000,
+	ELocSuplClearSession, 
+	ELocSuplClearSessions, 
+	ELocSuplOpen,
+	ELocSuplMSKChange,
+	ELocSuplMSKOpen,
+	ELocSuplMSKNo,
+    ELocSuplOpenChange,
+
+	//SuplServer Command Ids
+	ELocSuplServerOpen,
+	ELocSuplServerEnable,
+	ELocSuplServerDisable,
+	ELocSuplServerNew,
+	ELocSuplServerDelete,
+	ELocSuplServerPrioritize,
+	ELocSuplServerMSKOpen, 
+	ELocSuplServerMSKEnable,
+	ELocSuplServerMSKDisable,
+	ELocSuplServerMSKNoCmd,
+
+	//Supl Server Editor CommandIds
+	ELocServerEditorEdit,	
+	ELocServerEditorDelete,	
+	ELocServerEditorDisable,	
+	ELocServerEditorEnable,			
+	ELocServerEditorDefine,
+	ELocServerEditorChange,
+	ELocServerEditorRemove,	
+	ELocServerEditorMSKDefine,
+	ELocServerEditorMSKChange,
+	ELocServerEditorNoCmd,
+	
+	//Supl Session Command Ids
+	ELocSuplSessionOpen,
+	ELocSuplSessionTerminate,
+	ELocSuplSessionsTerminate,
+	ELocSuplSessionMSKTerminate,
+	ELocSuplSessionsMSKTerminate,
+	ELocSuplSessionMSKNoCmd,
+
+	//Supl Session Editor CommandIds
+	ELocSessionEditorChange,
+	ELocSessionEditorTerminate,
+	ELocSessionEditorNoCmd
+    };
+    
+/**
+ * Enumeration for Editor controls
+ */
+enum TLocSuplServerEditorFormControls
+    {
+    ELocSuplServerIdServerAddr = 0x6000,
+    ELocSuplServerIdAccessPoint,
+    ELocSuplServerIdUsageInHomeNw    
+    };
+    
+/**
+ * Enumeration for Session Editor controls
+ */
+enum TLocSuplSessionEditorFormControls
+    {
+    ELocSuplSessionNotificationStatus = 0x7000,
+    ELocSuplSessionType,
+    ELocSuplSessionOutstandingTrigger,
+    ELocSuplSessionTimePeriod,
+    ELocSuplSessionTriggerInterval
+    };
+
+#endif      // LOCSUPLSETTINGSUI_HRH
+
+// End of File

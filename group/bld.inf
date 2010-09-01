@@ -21,6 +21,7 @@ WINSCW ARMV5 GCCE
 
 #include "../genericpositioningplugins/group/bld.inf"
 #include "../landmarks/group/bld.inf"
+#include "../locationmapnavfw/group/bld.inf"
 #include "../locationsystemui/group/bld.inf"
 #include "../supl/group/bld.inf"
 #include "../locationtriggering/group/bld.inf"

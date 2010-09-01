@@ -300,7 +300,7 @@ void COMASuplInit::CloneSLPAddressL(const COMASuplInit* aSuplInit)
 	iSLPAddress = NULL;
 	iSLPAddress = COMASuplSLPAddress::NewL();
 	
-	User::LeaveIfError(aSuplInit->SLPAddress(cloneSLPAddress));
+	aSuplInit->SLPAddress(cloneSLPAddress);
 	COMASuplSLPAddress::TSuplSLPAddressType lChoice = cloneSLPAddress->SLPAddressType();
 
 	switch(lChoice)

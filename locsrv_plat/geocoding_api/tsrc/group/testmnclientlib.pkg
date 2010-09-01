@@ -40,8 +40,24 @@
 ; Files to install
 "\epoc32\release\armv5\urel\testmnclientlib.dll"-"C:\sys\bin\testmnclientlib.dll"
 
+"\epoc32\release\armv5\urel\mnrefprovider.exe"-"!:\sys\bin\mnrefprovider.exe"
+"\epoc32\data\z\resource\apps\mnrefprovider.rsc"-"!:\resource\apps\mnrefprovider.rsc"
+"\epoc32\data\z\resource\apps\mnrefprovider.mbm"-"!:\resource\apps\mnrefprovider.mbm"
+"\epoc32\data\z\resource\apps\mnrefprovider.mif"-"!:\resource\apps\mnrefprovider.mif"
+"\epoc32\data\z\private\10003a3f\apps\mnrefprovider_reg.rsc"-"!:\private\10003a3f\import\apps\mnrefprovider_reg.rsc"
+
+"\epoc32\release\armv5\urel\mnrefproviderback.exe"-"!:\sys\bin\mnrefproviderback.exe"
+"\epoc32\data\z\resource\apps\mnrefproviderback.rsc"-"!:\resource\apps\mnrefproviderback.rsc"
+"\epoc32\data\z\private\10003a3f\apps\mnrefproviderback_reg.rsc"-"!:\private\10003a3f\import\apps\mnrefproviderback_reg.rsc"
+
+"\epoc32\release\armv5\urel\mnrefproviderengine.dll"-"!:\sys\bin\mnrefproviderengine.dll"
+"\epoc32\data\z\resource\mnrefproviderengine.rsc"-"!:\resource\mnrefproviderengine.rsc"
+
+"\epoc32\release\armv5\urel\mnrefproviderplugin.dll"-"!:\sys\bin\mnrefproviderplugin.dll"
+"\epoc32\data\z\resource\plugins\mnrefproviderplugin.rsc"-"!:\resource\plugins\mnrefproviderplugin.rsc"
+
 ;refprovider sisx
-"..\data\mnrefprovider_armv5.sisx"-"E:\testing\data\mnrefprovider.sisx"
+;"..\data\mnrefprovider_armv5.sisx"-"E:\testing\data\mnrefprovider.sisx"
 
 "..\conf\testmnclientlib.cfg"-"C:\testframework\testmnclientlib.cfg"
 "..\init\testframework.ini"-"C:\testframework\testframework.ini"

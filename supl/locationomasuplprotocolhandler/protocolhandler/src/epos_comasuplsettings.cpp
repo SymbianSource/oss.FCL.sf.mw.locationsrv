@@ -133,10 +133,10 @@ EXPORT_C TInt COMASuplSettings::IAPId() const
 // 
 // -----------------------------------------------------------------------------
 //
-/*EXPORT_C void COMASuplSettings::SetSUPLUsage(CSuplSettings::TSuplSettingsUsage& aSUPLUsage ) 
+EXPORT_C void COMASuplSettings::SetSUPLUsage(CSuplSettings::TSuplSettingsUsage& aSUPLUsage ) 
 	{
     iSUPLUsage = aSUPLUsage;
-	}*/
+	}
 
 // -----------------------------------------------------------------------------
 // COMASuplSettings::SUPLUsage() 
@@ -144,11 +144,11 @@ EXPORT_C TInt COMASuplSettings::IAPId() const
 // 
 // -----------------------------------------------------------------------------
 //
-/*EXPORT_C CSuplSettings::TSuplSettingsUsage COMASuplSettings::SUPLUsage() const
+EXPORT_C CSuplSettings::TSuplSettingsUsage COMASuplSettings::SUPLUsage() const
 	{
 		return iSUPLUsage;
 	}
-*/
+
 
 // -----------------------------------------------------------------------------
 // COMASuplSettings::SetUIActive

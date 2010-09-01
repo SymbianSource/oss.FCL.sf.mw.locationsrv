@@ -34,6 +34,8 @@
 #include "epos_csuplsettings.h"
 #include "epos_csuplsettingsinternal.h"
 #include "epos_csuplsettingparams.h"
+#include "epos_suplgeocellinfo.h"
+
 
 // CONSTANTS
 //#ifdef _DEBUG
@@ -553,7 +555,8 @@ void CSuplIPCSubSession::CompleteGetServerAddress(const RMessage2& aMessage, TIn
 TInt CSuplIPCSubSession::PackPositionData(const RMessage2& aMessage)
 	{
 	DEBUG_TRACE("CSuplIPCSubSession::PackPositionData", __LINE__)
-    PositionInfo(iPositionBuffer);
+    TPositionInfo& info = PositionInfo(iPositionBuffer);
+ 
     TPtr8 ptrToBuffer = iPositionBuffer->Des();
     return SuplGlobal::Write(aMessage, 0, ptrToBuffer);
     }
@@ -567,8 +570,8 @@ TInt CSuplIPCSubSession::PackPositionData(const RMessage2& aMessage)
 TInt CSuplIPCSubSession::PackServerAddressData(const RMessage2& aMessage)
     {
     DEBUG_TRACE("CSuplIPCSubSession::PackServerAddressData", __LINE__)
-
-    ServerAddress(iPositionBuffer);
+    TDes& info = ServerAddress(iPositionBuffer);
+ 
     TPtr8 ptrToBuffer = iPositionBuffer->Des();
     return SuplGlobal::Write(aMessage, 0, ptrToBuffer);
     }
@@ -584,8 +587,8 @@ TInt CSuplIPCSubSession::PackServerAddressData(const RMessage2& aMessage)
 TInt CSuplIPCSubSession::PackTriggerData(const RMessage2& aMessage)
 	{
 	DEBUG_TRACE("CSuplIPCSubSession::PackTriggerData", __LINE__)
-
-    TriggerInfo(iPositionBuffer);
+    TSuplTriggerFireInfo& info = TriggerInfo(iPositionBuffer);
+ 
     TPtr8 ptrToBuffer = iPositionBuffer->Des();
     return SuplGlobal::Write(aMessage, 2, ptrToBuffer);
     }
@@ -740,6 +743,7 @@ void CSuplIPCSubSession::HandleNotifyTriggerFiredL(const RMessage2& aMessage)
 						
 	CleanupStack::Pop(fireInfoBuf);	    		
 	}
+
 // ---------------------------------------------------------
 // CSuplIPCSubSession::HandleLocationConversionL
 //
@@ -786,5 +790,6 @@ void CSuplIPCSubSession::HandleCancelLocationConversionL(const RMessage2& aMessa
     iSuplSessnReq->CancelLocationConversionRequest();
     SuplGlobal::RequestComplete(aMessage, KErrNone);
     CompleteRunSession(KErrCancel);            
-    }	
+    }
+	
 // End of File

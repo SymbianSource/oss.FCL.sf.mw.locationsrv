@@ -1,0 +1,80 @@
+/*
+* Copyright (c) 2005 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  This is project specification file for Positioning Method
+*				  Settings UI pluging to the Loc Sys UI Engine
+*
+*/
+
+#include <data_caging_paths.hrh>
+#include <bldvariant.hrh>
+#include "../inc/locpsysettingsuiuid.hrh"
+#include <platform_paths.hrh> // For the MW_LAYER_SYSTEMINCLUDE
+
+CAPABILITY    		CAP_ECOM_PLUGIN
+TARGET        		locpsysettingsui.dll
+TARGETTYPE    		PLUGIN
+UID           		0x10009D8D LOCPSYSETTINGSUI_UID3
+VENDORID      		VID_DEFAULT
+
+SOURCEPATH          ../src
+SOURCE        		locpsysettingsui.cpp 
+SOURCE        		locpsysettingsuiimptable.cpp 
+SOURCE				locpsylbmodel.cpp
+SOURCE				locpsysettingsview.cpp
+SOURCE				locpsysettingscontainer.cpp
+
+// System Include
+APP_LAYER_SYSTEMINCLUDE
+
+USERINCLUDE         ../inc
+USERINCLUDE         ../data
+USERINCLUDE         ../../../inc
+USERINCLUDE	    ../../../../inc
+USERINCLUDE         ../../../../../inc
+
+SOURCEPATH          ../data
+
+//ECOM resource definition
+START RESOURCE      10275062.rss // UPDATE THIS
+TARGET              locpsysettingsui.rsc // UPDATE THIS
+END // ECOM resource definition
+
+//View resources
+START RESOURCE      locpsysettingsuiview.rss
+HEADER
+TARGETPATH          RESOURCE_FILES_DIR
+LANGUAGE_IDS
+END // AppsPlugin resources
+
+LIBRARY             euser.lib
+LIBRARY             ecom.lib
+LIBRARY             efsrv.lib
+LIBRARY             avkon.lib
+LIBRARY             bafl.lib 
+LIBRARY             cone.lib 
+LIBRARY             eikcoctl.lib 
+LIBRARY             eikcore.lib 
+LIBRARY				apparc.lib
+LIBRARY				aknicon.lib
+LIBRARY				eikctl.lib
+LIBRARY 			apgrfx.lib
+LIBRARY             commonengine.lib 	// For RConeResourceLoader
+LIBRARY             egul.lib 		 	// CGulIcon
+LIBRARY             aknskins.lib 	 	// AknsUtils.h
+LIBRARY 			featmgr.lib 		// Feature manager API
+LIBRARY 			locpsysettingseng.lib
+LIBRARY 			hlplch.lib
+LIBRARY             lbs.lib             // Location Acquistion API
+
+// End of File

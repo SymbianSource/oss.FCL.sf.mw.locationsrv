@@ -85,7 +85,6 @@ EXPORT_C TInt COMASuplLocationIdVer2::Ver2CellInfo(TOMASuplVer2CellInfoExtn& aTO
 EXPORT_C COMASuplLocationIdVer2* COMASuplLocationIdVer2::CloneL()
     {
     COMASuplLocationIdVer2* retLocationId = COMASuplLocationIdVer2::NewL();
-    CleanupStack::PushL( retLocationId );
     if(iIsV2ExtnSet)
         {
         retLocationId->COMASuplLocationIdVer2::SetVer2CellInfo(iOMASuplVer2CellInfoExtn);
@@ -112,7 +111,6 @@ EXPORT_C COMASuplLocationIdVer2* COMASuplLocationIdVer2::CloneL()
             break;
                     
         }
-    CleanupStack::Pop(retLocationId);
     return retLocationId;
     }
 // -----------------------------------------------------------------------------
@@ -148,8 +146,7 @@ EXPORT_C void TOMASuplReportedLocation::GetLocationEncDescriptor(TOMASuplLocEncD
 // TOMASuplReportedLocation::SetLocationData(TOMASuplLocationData aLocationData)
 // (other items were commented in a header).
 // ---------------------------------------------------------------------------
-
-//coverity[pass_by_value]
+//
 EXPORT_C void TOMASuplReportedLocation::SetLocationData(TOMASuplLocationData aLocationData) 
     {
     iLocationData = aLocationData;

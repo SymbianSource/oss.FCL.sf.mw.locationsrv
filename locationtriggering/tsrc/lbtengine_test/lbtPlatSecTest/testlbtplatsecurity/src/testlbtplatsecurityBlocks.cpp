@@ -1526,12 +1526,6 @@ TInt Ctestlbtplatsecurity::testGetNextTriggerLC(CStifItemParser& /*aItem*/ )
     
     trig->SetCondition(condition); // ownership transferred to object
 
-    //set Requestor     
-    CRequestorBase::TRequestorType ReqType=CRequestorBase::ERequestorUnknown;
-    CRequestorBase::_TRequestorFormat ReqFormat=CRequestorBase::EFormatUnknown;
-    TBuf<KLbtMaxNameLength> ReqData=_L("");
-    trig->SetRequestorL(ReqType,ReqFormat,ReqData);
-
     TLbtTriggerId trigId;
         
         
@@ -1542,7 +1536,6 @@ TInt Ctestlbtplatsecurity::testGetNextTriggerLC(CStifItemParser& /*aItem*/ )
         
     notifier->CreateTriggers( lbt,*trig,trigId,ETrue,wait );
     wait->Start( );
-    User::LeaveIfError( notifier->iStatus.Int());
     
     lbt.CreateGetTriggerIteratorL();
     CLbtTriggerInfo* triggerInfo= NULL;

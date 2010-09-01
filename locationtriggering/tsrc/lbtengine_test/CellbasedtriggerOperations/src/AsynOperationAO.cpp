@@ -286,17 +286,6 @@ void CLbtEventObserver::ConstructL( RLbt& aLbt )
     }
 
 // -----------------------------------------------------------------------------
-// CTriggerFireObserver::ConstructL
-// Symbian 2nd phase constructor can leave.
-// -----------------------------------------------------------------------------
-//
-void CLbtEventObserver::ConstructL()
-    {
-     RFileLogger aLog;
-     iCidchangenotifier=CLbtCidChangeNotifier::NewL(aLog,this);
-    }
-
-// -----------------------------------------------------------------------------
 // CTriggerFireObserver::NewL
 // Two-phased constructor.
 // -----------------------------------------------------------------------------
@@ -313,19 +302,6 @@ CLbtEventObserver* CLbtEventObserver::NewL( RLbt& aLbt)
 
 	    return self;
 
-    }
-
-
-// -----------------------------------------------------------------------------
-// CTriggerFireObserver::NewL
-// -----------------------------------------------------------------------------
-CLbtEventObserver* CLbtEventObserver::NewL()
-    {
-    CLbtEventObserver* self = new (ELeave) CLbtEventObserver();
-    CleanupStack::PushL( self );
-    self->ConstructL();
-    CleanupStack::Pop();
-    return self;
     }
 
 // Destructor
@@ -376,14 +352,6 @@ void CLbtEventObserver::DoCancel( )
 	SetActive( ); 
 }
 
-void CLbtEventObserver::GetCurrentCGIInfo( CTelephony::TNetworkInfoV1& aNwInfo,
-                                           CActiveSchedulerWait* aWait )
-    {
-    iWait=aWait;
-    iNetWorkInfo = &aNwInfo;
-    iCidchangenotifier->GetCurrentCGIInfo();
-    }
-    
 void CLbtEventObserver::HandleCIDChangeL(const CTelephony::TNetworkInfoV1 &aNwInfo)
     { 
 
@@ -392,20 +360,12 @@ void CLbtEventObserver::HandleCIDChangeL(const CTelephony::TNetworkInfoV1 &aNwIn
 //	RFileLogger::WriteFormat(KLbtTraceDir, KLbtTraceFile, EFileLoggingModeAppend,_L( "Network id = %s"),aNwInfo.iNetworkId);
 //	RFileLogger::WriteFormat(KLbtTraceDir, KLbtTraceFile, EFileLoggingModeAppend,_L( "Location Area code= %d"),aNwInfo.iLocationAreaCode);
 	RFileLogger::WriteFormat(KLbtTraceDir, KLbtTraceFile, EFileLoggingModeAppend,_L( "Cell Id= %d"),aNwInfo.iCellId);
-	if( iNetWorkInfo )
-	    {
-        iNetWorkInfo->iMode = aNwInfo.iMode;
-        iNetWorkInfo->iCountryCode = aNwInfo.iCountryCode;
-        iNetWorkInfo->iNetworkId = aNwInfo.iNetworkId;
-        iNetWorkInfo->iLocationAreaCode = aNwInfo.iLocationAreaCode;
-        iNetWorkInfo->iCellId  = aNwInfo.iCellId;
-        iWait->AsyncStop( );
-	    }
+
     }
     
     void CLbtEventObserver::StartCidNotification( CActiveSchedulerWait* aWait )
 	{
-        iNetWorkInfo = NULL;
+	
 	  	iWait=aWait;
 	  	iCidchangenotifier->Start();
 	}

@@ -50,48 +50,21 @@ void CLbtCidChangeNotifier::Start( )
     
     //Make Async call
     iTelephony->NotifyChange(iStatus, CTelephony::ECurrentNetworkInfoChange, iNwInfoPckg);
-    iState = ENotifyNetworkChange;
-    }
-
-void CLbtCidChangeNotifier::GetCurrentCGIInfo()
-    {
-    //iStatus = KRequestPending;
-    if(IsActive())
-        {
-        return;
-        }
-        
-    iTelephony->GetCurrentNetworkInfo(iStatus, iNwInfoPckg);
-    SetActive();     
-    iState = ECurrentNetwork;
-    }
-
-void CLbtCidChangeNotifier::DoCancel()
-    {
-    switch( iState )
-        {
-        case ECurrentNetwork:
-            iTelephony->CancelAsync(CTelephony::EGetCurrentNetworkInfoCancel);
-            iState = ENone;
-            break;
-            
-        case ENotifyNetworkChange:
-            iTelephony->CancelAsync(CTelephony::ECurrentNetworkInfoChangeCancel);
-            iState = ENone;
-            break;
-            
-        default:
-            break;
-        }
     
     }
-
+void CLbtCidChangeNotifier::DoCancel()
+    {
+    //Cancel Async call
+//    	RFileLogger::WriteFormat(KLbtTraceDir, KLbtTraceFile, EFileLoggingModeAppend,_L( "DoCancel before CancelAsync"));
+    iTelephony->CancelAsync(CTelephony::ECurrentNetworkInfoChangeCancel);
+//    	RFileLogger::WriteFormat(KLbtTraceDir, KLbtTraceFile, EFileLoggingModeAppend,_L( "DoCancel After CancelAsync"));
+    
+    }
 CLbtCidChangeNotifier::CLbtCidChangeNotifier(RFileLogger &aLog, MLbtCidChangeObsrvr *aObs) 
                         : CActive( EPriorityStandard ),
                         iNwInfoPckg(iNwInfo),
                         iLog(aLog), 
-                        iObs(aObs),
-                        iState( ENone ) 
+                        iObs(aObs)
                         
     {
     CActiveScheduler::Add( this ); 
@@ -100,25 +73,14 @@ void CLbtCidChangeNotifier::ConstructL()
     {
     //Construct Async Object
     iTelephony = CTelephony::NewL();
+    
     }
     
 void CLbtCidChangeNotifier::RunL()
 	{
-    switch( iState )
-        {
-        case ECurrentNetwork:
-            iObs->HandleCIDChangeL(iNwInfo);        
-            iState = ENone;
-            break;
-            
-        case ENotifyNetworkChange:
-            iObs->HandleCIDChangeL(iNwInfo);
-            Start();
-            break;
-            
-        default:
-            break;
-        }
+	//iLog.Write(_L("CLbtCidChangeNotifier::RunL"));	
+	iObs->HandleCIDChangeL(iNwInfo);
+	Start();
     }
     
     

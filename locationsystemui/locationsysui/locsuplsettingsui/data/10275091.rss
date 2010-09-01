@@ -1,0 +1,57 @@
+/*
+* Copyright (c) 1027 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  ECOM plugin resource file for SUPL Settings UI.
+*
+*
+*/
+
+#include <ecom/registryinfo.rh>
+#include "locsuplsettingsuid.hrh"
+
+#define PLUGINDISPLAYNAME "SUPL Settings"
+/**
+* How to use the resource definition:
+*
+* IMPLEMENTATION_INFO
+*	{
+*	implementation_uid  = <Your implementation UID here>;
+*	version_no          = 1;
+*	display_name        = "<Your plugin name here>";
+*	default_data        = "";
+*	opaque_data         = "";
+*	}
+*/
+RESOURCE REGISTRY_INFO theInfo
+	{
+	dll_uid     = KLOCSUPLSETTINGSUIUID3;
+	interfaces  = 
+		{
+		INTERFACE_INFO
+			{
+			interface_uid   = 0x10275061; // Don't Change
+			implementations = 
+				{
+				IMPLEMENTATION_INFO
+					{
+					implementation_uid  = KLOCSUPLSETTINGSUIUID3;
+					version_no          = 1;
+					display_name        = PLUGINDISPLAYNAME;
+					default_data        = "";
+					opaque_data         = "";					
+					}
+				};
+			}
+		};
+	}
+

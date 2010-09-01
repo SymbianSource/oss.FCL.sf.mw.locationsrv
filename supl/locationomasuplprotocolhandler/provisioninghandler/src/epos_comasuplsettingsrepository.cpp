@@ -112,7 +112,7 @@ void COMASuplSettingsRepository::SaveL( const TDesC& aIAP, const TDesC& aHSLP )
     
     TInt64 slpID;
     
-    paramValues->SetServerConfigurationType(EFalse);
+    
     TInt err = iSettings->AddNewServer(paramValues,slpID);
     if (err == KErrNone || err == KErrAlreadyExists)
     iSettings->SetTopPriority(slpID);

@@ -28,13 +28,14 @@
 #include <epos_suplterminalqop.h>
 #include <epos_suplterminaltrigger.h>
 #include "epos_suplgeocellinfo.h"
+
 // CONSTANT DECLARATIONS
 
 // FORWARD DECLARATIONS
 class MSuplSessionObserver;
 class MNetInitiatedObserver;
-class CSuplSessionBase;
 class CSuplSessionManager;
+class CSuplSessionBase;
 // CLASS DECLARATION
 
 /**
@@ -101,11 +102,12 @@ class CSuplSessionRequest : public CActive
 		void CancelTriggerringRequest();
 		
 		void ProtocolHUnloaded();
+
 		void MakeLocationConversionRequestL( CSuplSessionBase* aSuplSessn,TGeoCellInfo& aCellInfo );
-		        
-		void CancelLocationConversionRequest();
 		
+		void CancelLocationConversionRequest();
 		void ReIssueRequestL();
+		
     protected:  // From CActive
 
         void RunL();
@@ -136,11 +138,11 @@ class CSuplSessionRequest : public CActive
             ESuplStartTriggerRequest,            
             ESuplStopTriggerRequest,
             ESuplTriggerFiredNotifyRequest,
-            ESuplLocationConversionRequest,
-            ESuplCancelLocationConversionRequest,
 			ESuplWaitingToRetrySession,
-			ESuplRetryingSession
-		    };
+			ESuplRetryingSession,
+			ESuplLocationConversionRequest,
+            ESuplCancelLocationConversionRequest
+            };
      
 	 TSuplRequestStage           iRequestPhase;
      HBufC8*                     iPositionBuffer;

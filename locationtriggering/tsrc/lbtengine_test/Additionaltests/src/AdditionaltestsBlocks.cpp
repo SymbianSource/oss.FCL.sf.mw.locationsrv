@@ -2278,6 +2278,8 @@ TInt CAdditionaltests::ExampleL( CStifItemParser& aItem )
     wait->Start( );
     RPointerArray < CLbtTriggerInfo > trigInfoList;
     
+     User::After(5000000);
+   
     //Construct an area filter
     CLbtTriggerFilterByArea* areaFilter1 = 
         CLbtTriggerFilterByArea::NewL();
@@ -4008,16 +4010,21 @@ _LIT( KFilename,"CreateTest.exe" );
        _LIT( KFilename,"CreateTest.exe" );
     RProcess proc;
     TInt retVal =proc.Create(KFilename,KNullDesC);
-    TRequestStatus status = KRequestPending;
-    TInt triggerId = KLbtNullTriggerId;
     if(retVal == KErrNone)
-        {
-        proc.Resume();
-        proc.Rendezvous(status);
-        User::WaitForRequest(status);
-        triggerId = status.Int();
-        }
-    
+	{
+		proc.Resume();
+		TRequestStatus status = KRequestPending;
+		proc.Rendezvous(status);
+		User::WaitForRequest(status);
+	}
+	 User::After(5000000);	
+    TInt triggerId=0;
+    RProperty iProperty;
+    User::LeaveIfError(iProperty.Get(
+        KPSUidTriggerIdInfo, 
+        KLbttesttriggerid, 
+        triggerId));
+        
      //Construct list options
     CLbtListTriggerOptions* listOptions = CLbtListTriggerOptions::NewL();
     CleanupStack::PushL( listOptions );
@@ -4077,19 +4084,22 @@ _LIT( KFilename,"CreateTest.exe" );
     _LIT( KFilename,"CreateTest.exe" );
     RProcess proc;
     TInt retVal =proc.Create(KFilename,KNullDesC);
-
-    TRequestStatus status = KRequestPending;
-    TInt triggerId = KLbtNullTriggerId;
-    
     if(retVal == KErrNone)
-        {
-        proc.Resume();
-        proc.Rendezvous(status);
-        User::WaitForRequest(status);
-        triggerId = status.Int();
-        }
-    
-    //Construct list options
+	{
+		proc.Resume();
+		TRequestStatus status = KRequestPending;
+		proc.Rendezvous(status);
+		User::WaitForRequest(status);
+	}
+	 User::After(5000000);	
+    TInt triggerId=0;
+    RProperty iProperty;
+    User::LeaveIfError(iProperty.Get(
+        KPSUidTriggerIdInfo, 
+        KLbttesttriggerid, 
+        triggerId));
+        
+      //Construct list options
     CLbtListTriggerOptions* listOptions = CLbtListTriggerOptions::NewL();
     CleanupStack::PushL( listOptions );
     //Construct an area filter

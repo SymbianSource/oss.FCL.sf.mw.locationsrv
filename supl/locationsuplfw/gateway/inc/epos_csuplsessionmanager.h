@@ -35,7 +35,6 @@ class CSUPLProtocolManagerBase;
 class CSuplSessionBase;
 class CSuplCommunicationManager;
 
-
 // CLASS DECLARATION
 
 /**
@@ -73,6 +72,7 @@ class CSuplSessionManager : public CBase, MSuplConnectionMonitor
 
 		void QueueForReIssueRequestL(CSuplSessionRequest& aSessionRequest);
 		void RemoveFromQueueForReIssueRequest(CSuplSessionRequest& aSessionRequest);
+
 		void StartTriggerSessionL(
 				CSuplSessionBase* aSuplSession,
 				TRequestStatus& aStatus,
@@ -91,29 +91,17 @@ class CSuplSessionManager : public CBase, MSuplConnectionMonitor
         		TSuplTriggerFireInfo& aFireInfo
         	);
 		
-	   /**
-        * Get SUPL message version.
-        */
 		TInt GetSUPLMessageVersionL(TInt& aMajorVersion, const TDesC8& aReceivedMessage);
-		
-		
-	   /**
-        * Makes location conversion request.
-        */
-		void MakeLocationConversionRequestL( CSuplSessionBase* aSuplSessn,
-		                                             TGeoCellInfo& aCellInfo,
-		                                             TRequestStatus& aStatus
-		                                           );	                                           
-		
-		/**
-		 * Cancels outstanding conversion request.
-		 */
-		void CancelLocationConversionRequest(CSuplSessionBase *aSessn);
-		
-	
+
 		// from MSuplConnectionMonitor
 		void ConnectionOpened();
 		void ConnectionClosed();
+
+		void MakeLocationConversionRequestL( CSuplSessionBase* aSuplSessn,
+		                                     TGeoCellInfo& aCellInfo,
+		                                     TRequestStatus& aStatus
+		                                   );
+		void CancelLocationConversionRequest(CSuplSessionBase *aSessn);
 	
     private:
 

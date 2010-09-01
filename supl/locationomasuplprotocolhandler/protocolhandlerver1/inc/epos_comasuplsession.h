@@ -52,8 +52,6 @@
 
 #include "EPos_CPosNetworkPrivacy.h"
 
-#include <flogger.h>
-
 
 class RMobilePhone;
 class TOMASuplVersion;
@@ -217,21 +215,21 @@ class COMASuplSession : public CSuplSessionBase,
             * @param aError - Error during Launch
             * @return None
             */
-        	void SettingsUICompletedL(TInt aError) ;
+        	void SettingsUICompletedL(TInt aError);
 		
             /** 
             * This callback method is used to notify the client about 
             * the completion of UI
             * @return None
             */
-					void SettingsUsageUICompletedL(TInt /*aError*/) {};
+			void SettingsUsageUICompletedL(TInt aError);
 			
             /** 
             * This callback method is used to notify the client about 
             * the completion of UI 
             * @return None
             */
-					void SettingsTimeOutUICompletedL(TInt aError) ;
+			void SettingsTimeOutUICompletedL(TInt aError);
 			
 	public: 			 
 			/**
@@ -258,7 +256,7 @@ class COMASuplSession : public CSuplSessionBase,
 			* @param aSessionIdSeed, seed value of session
 			* @param aRequestID, Request Identification number.
 			* @param aIsStaleCellId, indicates if this session is for a stale cell id conversion
-			* @param aLocationId , contains cell id parameters for which position is to be retrieved,ownership is transferred to this object
+			* @param aLocationId , contains cell id parameters for which position is to be retrieved
 			* @param aPrompt indicates if the user is to be prompted when making location requests
 			* @param aWlanOnly ,request to connect server using wlan connection only using OCC Api's
 			* @return None
@@ -945,6 +943,7 @@ class COMASuplSession : public CSuplSessionBase,
             void StartUsageDialogLaunchL();
             TBool IsEtelNotifySet();
             TBool IsEtelRoamingSet();
+            TBool HasMeLaunchedUsageDialog();
 			TUint GetPortNumUsed();
 	 private:
 	 
@@ -1073,12 +1072,8 @@ class COMASuplSession : public CSuplSessionBase,
 			
 						
 			TTime iSessionStartTime;
-			TTime iSessionStartTime1;
 			
 			TTime iSessionEndTime;
-			
-			RFileLogger iLogger;
-			
 			//Is POS message is First one or Not.
 			TBool iIsFirstPOSMessage;
 

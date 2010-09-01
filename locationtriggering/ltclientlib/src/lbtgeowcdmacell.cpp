@@ -125,11 +125,7 @@ EXPORT_C void CLbtGeoWcdmaCell::SetWcdmaCellInfo( const TLbtWcdmaCellInfo& aWcdm
     for(TInt i=0;i<aWcdmaCellInfo.iMeasurementResult.Count();++i)
     	{
     	TLbtWcdmaCellInfo::TLbtCellMeasuredResult nmr = aWcdmaCellInfo.iMeasurementResult[i];
-    	TInt error = iCellInfo.iMeasurementResult.Append(nmr);
-    	if( error != KErrNone )
-    	    {
-            return;
-    	    }
+    	iCellInfo.iMeasurementResult.Append(nmr);
     	}    
     }
     
@@ -197,6 +193,6 @@ void CLbtGeoWcdmaCell::DoInternalizeL(RReadStream& aStream)
         TLbtWcdmaCellInfo::TLbtCellMeasuredResult cellMeas;
         cellMeas.iEcNo = aStream.ReadInt16L();
         cellMeas.iRscp = aStream.ReadInt16L();
-        iCellInfo.iMeasurementResult.AppendL(cellMeas);
+        iCellInfo.iMeasurementResult.Append(cellMeas);
         }
     }

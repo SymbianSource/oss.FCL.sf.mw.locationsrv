@@ -50,21 +50,12 @@
         * Two-phased constructor.
         */
         static CTriggerFireObserver* NewL( RLbt& aLbt,TCoordinate& aCoordinate );
-        
-        
-        static CTriggerFireObserver* NewL();
 
         /**
         * Destructor.
         */
         ~CTriggerFireObserver();
         
-        /**
-         * Request for current position
-         */
-        void CurrentPositionL( TPositionInfo& aPositionInfo,
-                              CActiveSchedulerWait* aWait );
-
         
         void TriggerFiredL( const TLbtTriggerFireInfo& aFireInfo );
         
@@ -106,16 +97,11 @@
         * C++ default constructor.
         */
         CTriggerFireObserver( TCoordinate& aCoordinate );
-        
-        
-        CTriggerFireObserver();
 
         /**
         * By default Symbian 2nd phase constructor is private.
         */
         void ConstructL( RLbt& aLbt );
-        
-        void ConstructL();
         
     private:
     
@@ -126,15 +112,8 @@
         
         TLbtTriggerFireInfo iFireInfo;
         
-       /**
-        * Handle to positioner session
-        */
-        RPositionServer iPosServer;
-        
-        /**
-         * Handle to positioner subsession
-         */
-        RPositioner iPositioner;
+      
+       
 
     };
 

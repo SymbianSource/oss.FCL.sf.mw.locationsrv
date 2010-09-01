@@ -125,7 +125,7 @@ EXPORT_C CSuplConnection *CSuplCommunicationManager::CreateConnectionL(const TDe
     if(NULL == (suplConnection = FindConnection(aHostAddress, aPort)))
     	{
     	suplConnection = CSuplConnection::NewL(iSocketServ, aHostAddress, aPort, aIAPId, this);	
-    	iConnArray.AppendL(suplConnection);
+    	iConnArray.Append(suplConnection);
     	iTrace->Trace(_L("CSuplCommunicationManager::CreateConnectionL New Connection Created"), KTraceFileName, __LINE__);
     	iConnMonitor.ConnectionOpened();
     }
@@ -139,7 +139,7 @@ EXPORT_C CSuplConnection *CSuplCommunicationManager::CreateConnectionL(const TDe
     	if(suplConnection->RefCount() >= KMaxSessionPerConn)
     		{
     		suplConnection = CSuplConnection::NewL(iSocketServ, aHostAddress, aPort, aIAPId, this);
-    		iConnArray.AppendL(suplConnection);
+    		iConnArray.Append(suplConnection);
     		iTrace->Trace(_L("CSuplCommunicationManager::CreateConnectionL New Connection Created"), KTraceFileName, __LINE__);
         	iConnMonitor.ConnectionOpened();
     	}
@@ -182,7 +182,7 @@ EXPORT_C CSuplConnection* CSuplCommunicationManager::CreateConnectionL(const TDe
     if(NULL == (suplConnection = FindConnection(aHostAddress, aPort)))
     	{
         suplConnection = CSuplConnection::NewL(iSocketServ, aHostAddress, aPort, aIAPId, aTls, aPskTls, this); 
-        iConnArray.AppendL(suplConnection);
+        iConnArray.Append(suplConnection);
        	iConnMonitor.ConnectionOpened();
         iTrace->Trace(_L("CSuplCommunicationManager::CreateConnectionL New Connection Created"), KTraceFileName, __LINE__);
     	}
@@ -196,11 +196,11 @@ EXPORT_C CSuplConnection* CSuplCommunicationManager::CreateConnectionL(const TDe
         if(suplConnection->RefCount() >= KMaxSessionPerConn)
         	{
             suplConnection = CSuplConnection::NewL(iSocketServ, aHostAddress, aPort, aIAPId, aTls, aPskTls, this);
-            iConnArray.AppendL(suplConnection);
+            iConnArray.Append(suplConnection);
         	iConnMonitor.ConnectionOpened();
             iTrace->Trace(_L("CSuplCommunicationManager::CreateConnectionL New Connection Created"), KTraceFileName, __LINE__);
         	}
-    	}      
+    	}
     
     // Increment the Ref Count
     suplConnection->IncRefCount();

@@ -1,0 +1,18 @@
+EXPORTS
+	_Z5Debug11TRefByValueIK7TDesC16Ez @ 1 NONAME
+	_ZN12LocFileUtils23GetNearestLanguageFileLER3RFsRK4TBufILi256EERS3_ @ 2 NONAME
+	_ZN12LocFileUtils24GetFileWithCorrectDriveLERK4TBufILi256EERS1_ @ 3 NONAME
+	_ZN12LocTextUtils9ClipToFitER6TDes16N12AknTextUtils14TClipDirectionEP24CEikFormattedCellListBoxiii @ 4 NONAME
+	_ZN21CLocPhoneNumberFormat17PhoneNumberGroupLERK7TDesC16 @ 5 NONAME
+	_ZN21CLocPhoneNumberFormat18PhoneNumberFormatLERK7TDesC16R6TDes16N12AknTextUtils14TClipDirectionEP24CEikFormattedCellListBoxiii @ 6 NONAME
+	_ZN21CLocPhoneNumberFormat4NewLEv @ 7 NONAME
+	_ZN26CLocRequestorUtilsResolver14RequestorNameLERK13CPosRequestor @ 8 NONAME
+	_ZN26CLocRequestorUtilsResolver16RequestorIdValidERK13CPosRequestor @ 9 NONAME
+	_ZN26CLocRequestorUtilsResolver17PhoneNumberAsNameERK13CPosRequestor @ 10 NONAME
+	_ZN26CLocRequestorUtilsResolver18ProcessRequestorsLER13RPointerArrayI13CPosRequestorE @ 11 NONAME
+	_ZN26CLocRequestorUtilsResolver4NewLEv @ 12 NONAME
+	_ZTI21CLocPhoneNumberFormat @ 13 NONAME DATA 12 ; #<TI>#
+	_ZTI26CLocRequestorUtilsResolver @ 14 NONAME DATA 48 ; #<TI>#
+	_ZTV21CLocPhoneNumberFormat @ 15 NONAME DATA 20 ; #<VT>#
+	_ZTV26CLocRequestorUtilsResolver @ 16 NONAME DATA 160 ; #<VT>#
+
