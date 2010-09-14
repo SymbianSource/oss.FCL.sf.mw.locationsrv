@@ -392,7 +392,7 @@ class CSuplConnection: public CActive, public MSoPskKeyHandler
         TBool iPskTLSUsage;
         
         TBool iStartedListen;
-
+        
         TBool iConnectStarted;
 
         TBool iSendInProgress;
