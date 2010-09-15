@@ -69,7 +69,7 @@ CLocSUPLServerEditor::CLocSUPLServerEditor(
         					TBool aIsEditable,
                             CLocSUPLSettingsUiEngine&       aEngine,
         					TInt64 aSlpId
-		):iIsEditMode( aIsEditable ), iEngine( aEngine ), iSlpId( aSlpId )
+		):iIsEditMode( aIsEditable ), iEngine( aEngine ), iSlpId( aSlpId ), iIsAccessPointDefined(EFalse)
     {
     if( aIsEditable )
     	{
@@ -184,28 +184,10 @@ void CLocSUPLServerEditor::DynInitMenuPaneL(
 				case ELocSuplServerIdServerAddr:
 					{
 					aMenuPane->SetItemDimmed( ELocServerEditorDefine, 	ETrue );
-		       		aMenuPane->SetItemDimmed( ELocServerEditorChange, 	ETrue );   
 					break;
 					}
 				case ELocSuplServerIdAccessPoint:
 					{
-			       	TInt isIapChanged = EFalse;
-			        CEikEdwin* apSelector = 
-			        			static_cast < CEikEdwin* > ( ControlOrNull( IdOfFocusControl() ) );           
-			        if( apSelector )
-			            {  
-			            if( iIap->Length() > 0 ) 
-			            	isIapChanged = ETrue;
-			            } 
-			            
-			       	if( isIapChanged )
-			       		{
-			       		aMenuPane->SetItemDimmed( ELocServerEditorDefine, 	ETrue );
-			       		}
-			       	else
-			       		{
-			       		aMenuPane->SetItemDimmed( ELocServerEditorChange, 	ETrue );		       		
-			       		}				
 					break;
 					}
 				case ELocSuplServerIdUsageInHomeNw:
@@ -215,8 +197,6 @@ void CLocSUPLServerEditor::DynInitMenuPaneL(
 		        	TBool editableFlag = ETrue;
 		        	if( iSlpId )
 		        		TRAP_IGNORE( iEngine.GetEditableFlagL( iSlpId, editableFlag ) );        				        	
-		        	if( editableFlag == EFalse )					
-						aMenuPane->SetItemDimmed( ELocServerEditorChange, 	ETrue );
 		        	
 					break;
 					}
@@ -254,7 +234,6 @@ void CLocSUPLServerEditor::DynInitMenuPaneL(
         		}
 
 			aMenuPane->SetItemDimmed( ELocServerEditorDefine, 	ETrue );
-       		aMenuPane->SetItemDimmed( ELocServerEditorChange, 	ETrue );		       			    	
        		aMenuPane->SetItemDimmed( ELocServerEditorRemove, 	ETrue );		       			    	
 	    	}	        
         }
@@ -300,27 +279,18 @@ void CLocSUPLServerEditor::ProcessCommandL( TInt aCommandId )
             TRAP_IGNORE( iEngine.SetServerEnabledFlagL( iSlpId, ETrue ) );
             break;
             }
-        case ELocServerEditorDefine:
-            {
-            TRAP_IGNORE( iEngine.LaunchApConfiguratorL( iSlpId, this ) );
-            break;
-            }
-        case ELocServerEditorChange:
         case ELocServerEditorMSKChange:
             {
             CEikEdwin* usageInHomeNWPopupFieldText = (CEikEdwin*) Control(
                     ELocSuplServerIdUsageInHomeNw);
-            if (IdOfFocusControl() == ELocSuplServerIdAccessPoint)
-                {
-                TRAP_IGNORE( iEngine.LaunchApConfiguratorL( iSlpId, this ) );
-                }
-            else
-                {
+            HBufC* string;
+                            string = StringLoader::LoadLC(
+                                    R_LOC_SERVER_USAGEINHOMENETWORK_NO, iCoeEnv);
                 if (iIsNewServer)
                     {
                     TBuf<KMaxUsageTextSize> des;
                     usageInHomeNWPopupFieldText->GetText(des);
-                    if (!des.Compare(KNoUsageInHomeNetork))
+                    if (!des.CompareC(string->Des()))
                         {
                         SetUsageinHomeNetwork(ETrue);
                         }
@@ -337,7 +307,7 @@ void CLocSUPLServerEditor::ProcessCommandL( TInt aCommandId )
                         {
                         TBuf<KMaxUsageTextSize> des;
                         usageInHomeNWPopupFieldText->GetText(des);
-                        if (!des.Compare(KNoUsageInHomeNetork))
+                        if (!des.CompareC(string->Des()))
                             {
                             SetUsageinHomeNetwork(ETrue);
                             }
@@ -346,8 +316,8 @@ void CLocSUPLServerEditor::ProcessCommandL( TInt aCommandId )
                             SetUsageinHomeNetwork(EFalse);
                             }
                         }
+                CleanupStack::PopAndDestroy(string);
                     }
-                }
             break;
             }
         case EAknCmdHelp:
@@ -459,13 +429,6 @@ TBool CLocSUPLServerEditor::OkToExitL( TInt aButtonId )
             retVal = EFalse;
         	break;
         	}
-        case ELocServerEditorMSKDefine:
-        	{
-        	TRAP_IGNORE( iEngine.LaunchApConfiguratorL( iSlpId, this ) );
-            //dont close editor            
-            retVal = EFalse;
-        	break;
-        	}
         case ELocServerEditorMSKChange:
         	{
         	ProcessCommandL( ELocServerEditorMSKChange );
@@ -491,9 +454,11 @@ TBool CLocSUPLServerEditor::OkToExitL( TInt aButtonId )
 				{
             	if( iIsNewServer ) 
             		{
+                    // iap name is always set as KNullDesC since defining the access point is 
+                    // not allowed while creating a new server manually
             		TRAPD( err, iEngine.AddNewServerL(
             								iServerAddress->Des(),
-            								iIap->Des(),
+            								KNullDesC,
             								iUsageInHomeNw ) );
             		if( err == KErrNone )
             			{
@@ -627,7 +592,7 @@ TBool CLocSUPLServerEditor::SaveFormDataL()
         delete apText;
 
         HBufC* apString = StringLoader::LoadL( R_LOC_SERVER_NONE ); 
-        if( apString->Compare( iIap->Des() ) == 0 ) 
+        if (apString->CompareC(iIap->Des()) == 0)
         	{
         	iIap->Des().Copy( KNullDesC );
         	}
@@ -640,15 +605,19 @@ TBool CLocSUPLServerEditor::SaveFormDataL()
     if (usageInHomeNWPopupFieldText)
         {
         TBuf<KMaxUsageTextSize> des;
+        HBufC* string;
+                        string = StringLoader::LoadLC(
+                                R_LOC_SERVER_USAGEINHOMENETWORK_NO, iCoeEnv);
         usageInHomeNWPopupFieldText->GetText(des);
-        if (!des.Compare(KNoUsageInHomeNetork))
-            {
-            iUsageInHomeNw = ETrue;
-            }
-        else
+        if (!des.CompareC(string->Des()))
             {
             iUsageInHomeNw = EFalse;
             }
+        else
+            {
+            iUsageInHomeNw = ETrue;
+            }
+        CleanupStack::PopAndDestroy(string);
         }
 
     if( iServerAddress->Length() > 0 )
@@ -752,9 +721,17 @@ void CLocSUPLServerEditor::HandleResourceChange( TInt aType )
 // -----------------------------------------------------------------------------
 //
 TInt CLocSUPLServerEditor::ExecuteLD()
-    {    
-	return CAknForm::ExecuteLD( R_SUPLSERVER_EDITOR_FORM_DIALOG );    	
+    {
+    if (!iIsAccessPointDefined)
+        {
+        return CAknForm::ExecuteLD(R_SUPLSERVER_EDITOR_FORM_DIALOG_NOAP);
+        }
+    else
+        {
+        return CAknForm::ExecuteLD(R_SUPLSERVER_EDITOR_FORM_DIALOG);
+        }
     }
+
 
 // -----------------------------------------------------------------------------
 // CLocSUPLServerEditor::HandleControlStateChangeL
@@ -808,15 +785,6 @@ void CLocSUPLServerEditor::LoadFormValuesFromDataL()
 	DEBUG( + CLocSUPLServerEditor::LoadFormValuesFromDataL );
    	if( IsEditable() && iIsNewServer ) //if create new server
        	{
-       	CEikEdwin* apSelector = 
-        			static_cast < CEikEdwin* > ( ControlOrNull( ELocSuplServerIdAccessPoint ) );           
-       	if( apSelector )
-            {   
-            HBufC* apString = StringLoader::LoadL( R_LOC_SERVER_NONE );   
-            apSelector->SetTextL( apString );
-            delete apString;
-            }
-        apSelector->DrawNow();
 
         CEikEdwin* usageInHNWPopupFieldText = (CEikEdwin*) Control(
                 ELocSuplServerIdUsageInHomeNw);
@@ -862,7 +830,7 @@ void CLocSUPLServerEditor::LoadFormValuesFromDataL()
 	        {
 	        // Error has occured 
 	        }  
-     	
+      
         CEikEdwin* serverAddress = 
         			static_cast < CEikEdwin* > ( ControlOrNull( ELocSuplServerIdServerAddr ) );           
         if( serverAddress )
@@ -873,31 +841,24 @@ void CLocSUPLServerEditor::LoadFormValuesFromDataL()
         	serverAddress->DrawDeferred();
         	iServerAddress->Des().Copy( hslpAddr->Des() );
             } 
-
-        CEikEdwin* apSelector = 
-        			static_cast < CEikEdwin* > ( ControlOrNull( ELocSuplServerIdAccessPoint ) );           
-        if( apSelector )
-            {   
-            if( iapName->Length() > 0 )
-            	{
-            	apSelector->SetTextL( iapName );
-            	}
-            else
-            	{
-	            HBufC* apString = StringLoader::LoadL( R_LOC_SERVER_NONE ); 
-	            apSelector->SetTextL( apString );
-            	delete apString;
-            	}
-            	            
-        	apSelector->DrawNow();
-        	iIap->Des().Copy( iapName->Des() );
-            } 
-
+        
+            if (iIsAccessPointDefined)
+            {
+            CEikEdwin* apSelector = static_cast<CEikEdwin*> (ControlOrNull(
+                    ELocSuplServerIdAccessPoint));
+            if (apSelector)
+                {
+                apSelector->SetTextL(iapName);
+                apSelector->DrawNow();
+                iIap->Des().Copy(iapName->Des());
+                }
+            }
+       
         CEikEdwin* usageInHNWPopupFieldText = (CEikEdwin*) Control(
                 ELocSuplServerIdUsageInHomeNw);
         if (usageInHNWPopupFieldText)
             {
-            if (usageInHomeNwFlag)
+            if (!usageInHomeNwFlag)
                 SetUsageinHomeNetwork(EFalse);
             else
                 SetUsageinHomeNetwork(ETrue);
@@ -982,22 +943,6 @@ void CLocSUPLServerEditor::HandleMSKCaptionL()
 	       		}
 	       	case ELocSuplServerIdAccessPoint:
 		       	{
-		       	TInt isIapChanged = EFalse;
-		        CEikEdwin* apSelector = 
-		        			static_cast < CEikEdwin* > ( ControlOrNull( IdOfFocusControl() ) );           
-		        if( apSelector && iIap )
-		            {   
-		            if( iIap->Length() > 0 )
-	            		isIapChanged = ETrue;
-		            } 
-		       	if( isIapChanged )
-		       		{
-		       		cba->SetCommandSetL( R_SUPLSERVER_EDITOR_OPTIONS_CHANGE_DONE );
-		       		}
-		       	else
-		       		{
-		       		cba->SetCommandSetL( R_SUPLSERVER_EDITOR_OPTIONS_DEFINE_DONE );		       		
-		       		}
 		       	break;	
 		       	}
 	       	case ELocSuplServerIdUsageInHomeNw:
@@ -1139,10 +1084,12 @@ void CLocSUPLServerEditor::HandleDialogPageEventL(TInt aEventID)
     if (!IsEditable())
         {
         if (focusControl == ELocSuplServerIdUsageInHomeNw
-                || ELocSuplServerIdServerAddr || ELocSuplServerIdAccessPoint)
+                || focusControl == ELocSuplServerIdServerAddr)
             {
             ProcessCommandL(EAknFormCmdEdit);
             }
+        else
+            return;
         }
     else if (aEventID == MEikDialogPageObserver::EDialogPageTapped)
         {
@@ -1150,9 +1097,12 @@ void CLocSUPLServerEditor::HandleDialogPageEventL(TInt aEventID)
             {
             if (usageInHomeNWPopupFieldText)
                 {
+                HBufC* string;
+                string = StringLoader::LoadLC(
+                        R_LOC_SERVER_USAGEINHOMENETWORK_NO, iCoeEnv);
                 TBuf<KMaxUsageTextSize> des;
                 usageInHomeNWPopupFieldText->GetText(des);
-                if (!des.Compare(KNoUsageInHomeNetork))
+                if (!des.CompareC(string->Des()))
                     {
                     SetUsageinHomeNetwork(ETrue);
                     }
@@ -1164,16 +1114,9 @@ void CLocSUPLServerEditor::HandleDialogPageEventL(TInt aEventID)
                     {
                     iIsModified = ETrue;
                     }
+                CleanupStack::PopAndDestroy(string);
                 }
             return;
-            }
-        if (focusControl == ELocSuplServerIdAccessPoint)
-            {
-            if (iapEditor)
-                {
-                //Launch IAP Dialog
-                TRAP_IGNORE( iEngine.LaunchApConfiguratorL( iSlpId, this ) );
-                }
             }
         }DEBUG( -CLocSUPLServerEditor::HandleDialogPageEventL );
     }
@@ -1204,5 +1147,16 @@ void CLocSUPLServerEditor::SetUsageinHomeNetwork(TBool aOnOff)
     usageInHomeNWPopupFieldText->SetTextL(string);
     CleanupStack::PopAndDestroy(string);
     }
+
+// -----------------------------------------------------------------------------
+// CLocSUPLServerEditor::SetAccessPointEnabled
+// 
+// -----------------------------------------------------------------------------
+//
+void CLocSUPLServerEditor::SetAccessPointEnabled (TBool aEnabled)
+    {
+    iIsAccessPointDefined = aEnabled;
+    }
+
 
 // End of file

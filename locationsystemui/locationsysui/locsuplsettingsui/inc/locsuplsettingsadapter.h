@@ -45,17 +45,6 @@ class CLocSUPLSettingsAdapter : public CActive,
                          		public MSuplSessionObserver
     {
     public:
-        /**
-         * SUPL Usage enumerations which display the order of display
-         * in the User interface
-         */
-         enum TLocSuplUsage
-            {
-            ELocSuplAutomatic = 0,
-            ELocSuplAutomaticatHome,
-            ELocSuplAlwaysAsk,
-            ELocSuplDisable
-            };               
     public:
         /**
  		 * Static Two phase contructor that instantiates the CLocSUPLSettingsAdapter
@@ -94,33 +83,6 @@ class CLocSUPLSettingsAdapter : public CActive,
          */
         void CancelInitialize();
         
-        /**
-         * Sets the SUPL Settings usage.
-         *
-         * @param   aIndex   Index of the SUPL settings usage item.
-         */        
-        void SetSuplUsageL( const TLocSuplUsage    aIndex );
-
-        /**
-         * Obtains the SUPL Settings usage.
-         *
-         *  @param   aSuplUsage     SUPL settings usage string.
-         */  
-        void GetSuplUsageL( TDes&    aSuplUsage );
-        
-        /**
-         * Obtains the SUPL usage
-         * 
-         * @return The SUPL usage
-         */
-        TInt GetSuplUsage();
-        
-        /**
-         * Obtains the Supl Settings usage index
-         * 
-         * @return TLocSuplUsage SUPL settings usage index 
-         */
-        TLocSuplUsage GetSuplUsageIndex();
         
 
         /***************************************************************************
@@ -432,16 +394,13 @@ class CLocSUPLSettingsAdapter : public CActive,
 	     * 
 	     */  
 	    void RemoveSessionObserver( );
+	    
+	    /**
+         * Generates IMSI address
+         */
+        void GenerateHslpAddressFromImsi(TDes& aIMSIAddress );
 
 
-    public: // Accessor functions for SUPL settings usage strings
-        const TDesC& Automatic();
-        
-        const TDesC& AutomaticAtHome();
-        
-        const TDesC& AlwaysAsk();
-        
-        const TDesC& Disable();
               	
 	public:
 	
@@ -485,29 +444,6 @@ class CLocSUPLSettingsAdapter : public CActive,
          */
         CSuplSettings*                      iSUPLSettings;
         
-        /**
-         * SUPL settings usage is automatic
-         * Owns
-         */
-        HBufC*                              iAutomatic;
-        
-        /**
-         * SUPL settings usage is automatic in home network
-         * Owns
-         */
-        HBufC*                              iAutomaticatHome;
-        
-        /**
-         * SUPL settings usage needs a user confirmation
-         * Owns
-         */
-        HBufC*                              iAsk;
-        
-        /**
-         * SUPL is disabled.
-         * Owns.
-         */
-        HBufC*                              iDisable;
         
         /**
          * Observer for the specific SUPL session.

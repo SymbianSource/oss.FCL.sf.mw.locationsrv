@@ -107,7 +107,6 @@ NONSHARABLE_CLASS(CSuplSettingsNotifier) :public CActive
         
         TBool iStopObserve;
 
-        CSuplSettings::TSuplSettingsUsage   iUsage;
         
         TInt iFallBackValue;
         TInt iFallBackTimerValue;

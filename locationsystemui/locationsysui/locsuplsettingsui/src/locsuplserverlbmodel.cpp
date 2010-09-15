@@ -23,6 +23,8 @@
 #include <epos_csuplsettings.h>
 #include <epos_csuplsettingparams.h>
 #include <epos_csuplsettingsconstants.h>
+#include <bldvariant.hrh>
+#include <featmgr.h>
 
 // User Include
 #include "locsuplserverlbmodel.h"
@@ -33,6 +35,7 @@
 
 const TInt KMaxConversionBufferLength 	= 0x200;
 const TInt KServerEntryGranularity		= 10;
+const TInt KMaxServerAddressLength = 255;
 
 
 // ========================= MEMBER FUNCTIONS ================================
@@ -204,11 +207,14 @@ void CLocSUPLServerLBModel::AppendSuplServerDetail( TDes& aPtr, TInt aIndex ) co
 //	    
 void CLocSUPLServerLBModel::UpdateSlpIdsL()
 	{
-	DEBUG( + CLocSUPLServerLBModel::CollectSlpIdsL );
+	DEBUG( + CLocSUPLServerLBModel::UpdateSlpIdsL );
 
 	iSlpIdList.Reset();
 	iSlpAddressList.ResetAndDestroy();
 	iEnableFlagList.Reset();
+
+	TBool displayImsiAddress = FeatureManager::FeatureSupported(KFeatureIdFfSuplImsiGeneratedAddressDisplay);
+
 
 	if( iEngine.SlpCount() > 0 )
 		{
@@ -217,11 +223,16 @@ void CLocSUPLServerLBModel::UpdateSlpIdsL()
 		// Get all server entries
 		iEngine.GetAllSlpL( serverList );		
 		
-		for( TInt i = 0; i < serverList.Count() ; i++ )
+		TBuf<KMaxServerAddressLength> imsiAddress;
+		iEngine.GenerateHslpAddressFromImsi(imsiAddress);		
+		
+		TInt serverCount = 	serverList.Count();
+		
+		for( TInt i = 0; i < serverCount ; i++ )
 			{
 		    TInt64 slpId;
-		    HBufC* hslpAddr = HBufC::NewL( KMaxHSLPAddrLen );    
-		    HBufC* iapName 	= HBufC::NewL( KMaxIAPLen );
+		    HBufC* hslpAddr = HBufC::NewLC( KMaxHSLPAddrLen );    
+		    HBufC* iapName 	= HBufC::NewLC( KMaxIAPLen );
 		    TBool enabledFlag, simChangeFlag, usageInHomeNwFlag, editFlag;    
 		    		    
 		    TInt errParams = serverList[i]->Get(
@@ -233,22 +244,27 @@ void CLocSUPLServerLBModel::UpdateSlpIdsL()
 		    							usageInHomeNwFlag, 
 		    							editFlag
 		    						);
+		    						
+		    						
+		   			
 		    if ( errParams != KErrNone )
 		        {
-		        // Error has occured 
-		        }  
-			
+		         	User::Leave(errParams);
+		        }
+		        	       
+			if ( displayImsiAddress || imsiAddress.Compare(hslpAddr->Des()) ) // Flag is true->Show IMSI server too, not otherwise!
+			{
 			iSlpIdList.Append( slpId );
 			iSlpAddressList.Append( hslpAddr->AllocL() );
 			iEnableFlagList.Append( enabledFlag );
+			}
 			
-			delete hslpAddr;
-			delete iapName;
+			CleanupStack::PopAndDestroy(2);
 			}
 		serverList.ResetAndDestroy();
 		serverList.Close();		
 		}	
-	DEBUG( - CLocSUPLServerLBModel::CollectSlpIdsL );
+	DEBUG( - CLocSUPLServerLBModel::UpdateSlpIdsL );
 	}        
     
 // ---------------------------------------------------------------------------

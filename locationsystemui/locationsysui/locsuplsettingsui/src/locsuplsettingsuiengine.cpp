@@ -63,12 +63,9 @@ const TInt KNoofUsageSettings 		= 4;
 //
 CLocSUPLSettingsUiEngine::CLocSUPLSettingsUiEngine( 
                             MLocSUPLSettingsUiEngObserver&      aObserver )
-	: CActive( EPriorityStandard ), 
-	iObserver( aObserver ),
+	: 	iObserver( aObserver ),
 	iConversionBufferPtr( NULL, 0 ),
-	iSettingsBufferPtr( NULL, 0),
-	iCurrentSlpId( -1 ),
-	iEditorObserver( NULL ),
+	iEditorDlg(NULL),
 	iTempAP(-1)
 	{
 	// No implementation
@@ -82,11 +79,7 @@ CLocSUPLSettingsUiEngine::CLocSUPLSettingsUiEngine(
 CLocSUPLSettingsUiEngine::~CLocSUPLSettingsUiEngine()	
     {
 	DEBUG( + CLocSUPLSettingsUiEngine::~CLocSUPLSettingsUiEngine );	
-    Cancel(); 
     
-    // Delete the Confirmation query
-    delete iConfirmQuery;
-    iConfirmQuery = NULL;
     
 	delete iSUPLSettingsAdapter;
 	iSUPLSettingsAdapter = NULL;	
@@ -95,8 +88,6 @@ CLocSUPLSettingsUiEngine::~CLocSUPLSettingsUiEngine()
 	delete iConversionBuffer;
 	iConversionBuffer = NULL;
 	
-	delete iSettingsBuffer;
-	iSettingsBuffer = NULL;
 	
 	// Delete the Error handling utilities
 	delete iTextResolver;
@@ -151,15 +142,12 @@ void CLocSUPLSettingsUiEngine::ConstructL()
     iConversionBuffer = HBufC16::NewL( KMaxBufferLength );
     iConversionBufferPtr.Set( iConversionBuffer->Des() );
     
-    iSettingsBuffer = HBufC::NewL( KMaxBufferLength );
-    iSettingsBufferPtr.Set( iSettingsBuffer->Des());
     
     iTextResolver = CTextResolver::NewL( *( CCoeEnv::Static() ) );
     
     // Create the SUPL Settings API adapter. 
     iSUPLSettingsAdapter = CLocSUPLSettingsAdapter::NewL( *this ); 
     
-    CActiveScheduler::Add( this );
 	DEBUG( - CLocSUPLSettingsUiEngine::ConstructL );	
      
 	}
@@ -177,215 +165,8 @@ void CLocSUPLSettingsUiEngine::Initalize()
 	DEBUG( - CLocSUPLSettingsUiEngine::Initalize );	
     }
             
-void CLocSUPLSettingsUiEngine::SelectConnectionL()
-    {
-	DEBUG( + CLocSUPLSettingsUiEngine::SelectConnectionL );	
-    if( iDialogActive || IsActive() || iConfirmQuery )
-        {
-        User::Leave( KErrInUse );
-        }
-        
-    // In the case of a framework launching SUPL UI, the user is ignorant 
-    // of the action. Hence, a confirmation dialog is popped up to intimate
-    // the user that he needs to configure SUPL settings.
-    
-    iConfirmQuery = CAknGlobalConfirmationQuery::NewL();
 
-    CAknSDData* secondaryData = CAknSDData::NewL( KCatUidLocationSuplSettingsUi,
-                                                  ECmdSuplSettingsMissing,
-                                                  KNullDesC8 );
- 
-    // Send the Confirmation query information to the Secondary display
-    // The ownership of 'secondaryData' is taken up by the Global confirmation query
-    iConfirmQuery->SetSecondaryDisplayData( secondaryData );
-     
-    // Load the SUPL IAP confirmation query prompt text from the resource file
-	HBufC* promptText = StringLoader::LoadL( R_LOC_SUPL_IAP_QUERY );
-		
-	// Display the Confirmation query.  
-    iConfirmQuery->ShowConfirmationQueryL( iStatus,
-                                           *promptText,
-                                           R_AVKON_SOFTKEYS_YES_NO__YES,
-                                           R_QGN_NOTE_QUERY_ANIM );
-                                               
-    SetActive();  
-    delete promptText; //    
-    promptText = NULL;
-	DEBUG( - CLocSUPLSettingsUiEngine::SelectConnectionL );	
-    }
 
-// ---------------------------------------------------------------------------
-// void CLocSUPLSettingsUiEngine::LaunchApConfiguratorL
-// Launches the Access Point Configurator dialog
-//
-// ---------------------------------------------------------------------------
-//
-void CLocSUPLSettingsUiEngine::LaunchApConfiguratorL( TInt64 aSlpId, 
-		MSuplServerEditorObserver* aEditorObserver )
-    {     
-	DEBUG( + CLocSUPLSettingsUiEngine::LaunchApConfiguratorL );	
-	iCurrentSlpId =  aSlpId;
-	iEditorObserver = aEditorObserver;
-
-    if( iDialogActive )
-        {
-        User::Leave( KErrInUse );
-        }
-        
-    // Zeroing the Temporary buffers so that it doesn't contain any
-    // left over value from the previous access
-    iSettingsBufferPtr.Zero();
-    
-    // Obtain the UID for the selected Access point so that the configurator
-    // can be highlighted
-    TUint32 highlightUid( 0 );
-    
-    // if AP value is NULL, or zero, no temp AP, all previous changes have been frozen.
-    TInt32 tempAP = GetTempAPValue();
-    if ( tempAP == -1)
-        {
-        // Obtain the Server address value from the SUPL settings
-        // API. If the value is set then it has to be shown to the user
-        // as the existing value when he tries to configure the UI
-        TRAP_IGNORE( iSUPLSettingsAdapter->GetIapNameL( iCurrentSlpId, iSettingsBufferPtr ) );
-     
-        TRAPD( error, highlightUid = ConvertIAPNameToIdL( iSettingsBufferPtr ) ); 
-        
-        if( error == KErrNotFound )
-            {
-            highlightUid = 0;
-            }
-        }
-    else
-        {
-        highlightUid = tempAP;
-        }
-
- 	CCmApplicationSettingsUi* apHandler =  CCmApplicationSettingsUi::NewLC();
- 	
- 	iDialogActive = ETrue;
-    TBool ret = EFalse;
-    TCmSettingSelection selectionUid;
-    selectionUid.iId = highlightUid;
-    selectionUid.iResult = CMManager::EConnectionMethod ;
-    TBearerFilterArray filter;
-	CleanupClosePushL( filter );
-	
-	// Need access points for bearer type CSD and Packet data only
-	filter.AppendL( KUidCSDBearerType );
-	filter.AppendL( KUidPacketDataBearerType );
-
-	// Run CCmApplicationSettingsUi dialog only for Access points (Connection methods)
-	// selectionUid contains UID to be highlighted, on return it will contain UID of selected CM
-    TRAPD( error, ret = 
-    	apHandler->RunApplicationSettingsL( 
-    			selectionUid , CMManager::EShowConnectionMethods, filter 
-    ) ); // | CMManager::EShowAlwaysAsk
-    
-    iDialogActive = EFalse;  
-    if( error == CMManager::KErrConnectionNotFound )
-        {
-        // No AP defined, Show Note                
-        ShowNoteL();        
-        //User::Leave( error );    
-        }   
-    CleanupStack::PopAndDestroy( &filter );    
-    CleanupStack::PopAndDestroy( apHandler );   
-    
-    if( ret )
-        {
-        SetTempAPValue(selectionUid.iId);
-        RCmManager cmManager;
-		cmManager.OpenLC();
-	
-		RArray< TUint32 > cmArray;
-		HBufC* cmName = NULL;
-		RCmConnectionMethod method;
-		// Get all the CMs into cmArray
-		cmManager.ConnectionMethodL( cmArray, ETrue, EFalse );
-		CleanupClosePushL( cmArray );
-		
-		// Get name of selected CM
-		TInt count = cmArray.Count();
-		for ( TInt i = 0; i < count; i++ )
-		    {
-		    if (selectionUid.iId == cmArray[i] )
-		    	{
-		    	method = cmManager.ConnectionMethodL( cmArray[i] );
-		    	CleanupClosePushL( method );
-		    	cmName = method.GetStringAttributeL( CMManager::ECmName );
-		    	CleanupStack::PushL( cmName );
-		    	iSettingsBufferPtr.Copy( cmName->Des() );
-		    	CleanupStack::PopAndDestroy( cmName );
-		    	CleanupStack::PopAndDestroy( &method );
-		    	break;
-		    	}		    
-		    }
-		CleanupStack::PopAndDestroy( &cmArray );    
-    	CleanupStack::PopAndDestroy( &cmManager );          	
-
-		if( iEditorObserver )
-	       	{
-	       	iEditorObserver->UpdateIapL( iSettingsBufferPtr );		       	
-	       	}
-        }
-           
-	DEBUG( - CLocSUPLSettingsUiEngine::LaunchApConfiguratorL );	
-    }  
-
-// ---------------------------------------------------------------------------
-// void CLocSUPLSettingsUiEngine::LaunchSuplUsageConfiguratorL
-// Launches the SUPL Usage Configurator
-//
-// ---------------------------------------------------------------------------    
-//
-void CLocSUPLSettingsUiEngine::LaunchSuplUsageConfiguratorL()
-    {
-	DEBUG( + CLocSUPLSettingsUiEngine::LaunchSuplUsageConfiguratorL );	
-    if( iDialogActive )
-        {
-        User::Leave( KErrInUse );
-        }
-        
-    // Allocate the descriptor array for Text settings for System
-    // of measurement
-    CDesCArrayFlat* items = new( ELeave ) CDesCArrayFlat( KNoofUsageSettings );
-    CleanupStack::PushL( items );
-
-    // Allocate all the Settings usage string
-    
-    // Append the radio-button list items
-    items->AppendL( iSUPLSettingsAdapter->Automatic() );
-    items->AppendL( iSUPLSettingsAdapter->AutomaticAtHome() );
-    items->AppendL( iSUPLSettingsAdapter->AlwaysAsk() );
-    items->AppendL( iSUPLSettingsAdapter->Disable() );
-      
-    // Obtain the current value for SUPL settings usage
-    // This would be used for setting the default value for 
-    // the text settings page               
-    TInt currentSettings = iSUPLSettingsAdapter->GetSuplUsageIndex();
-        
-    CAknRadioButtonSettingPage* dlg = 
-                        new ( ELeave )CAknRadioButtonSettingPage( R_LOC_SUPLUSAGE_SETTINGS,
-                                                                  currentSettings, 
-                                                                  items );
-    // Settings Outstanding flag is marked True to enable dismissal incase
-    // of a Cancel event                                                                  
-    iDialogActive = ETrue;                                                                  
-    if ( dlg->ExecuteLD( CAknSettingPage::EUpdateWhenChanged ) )
-        {
-        CLocSUPLSettingsAdapter::TLocSuplUsage newValue = 
-                    static_cast<CLocSUPLSettingsAdapter::TLocSuplUsage>( currentSettings );
-                    
-        iSUPLSettingsAdapter->SetSuplUsageL( newValue );
-        }
-    
-    iDialogActive = EFalse;           
-    
-    // Free the items resource
-    CleanupStack::PopAndDestroy( items );   
-	DEBUG( - CLocSUPLSettingsUiEngine::LaunchSuplUsageConfiguratorL );	
-    }
     
 // ---------------------------------------------------------------------------
 // void CLocSUPLSettingsUiEngine::Close
@@ -395,59 +176,14 @@ void CLocSUPLSettingsUiEngine::LaunchSuplUsageConfiguratorL()
 void CLocSUPLSettingsUiEngine::Close()
     {
 	DEBUG( + CLocSUPLSettingsUiEngine::Close );	
-    Cancel();   
     
     // Cancel the Initalization request. This call Cancels if there is an 
     // outstanding request. If not, does nothing
     iSUPLSettingsAdapter->CancelInitialize();
      
-    // If any of the dialogs are active then issue a cancel event on the 
-    // dialogs
-    if( iDialogActive )
-        {
-        TKeyEvent   keyEvent;
-        keyEvent.iCode          = EKeyCBA2;
-        keyEvent.iScanCode      = EStdKeyDevice1;         
-        keyEvent.iModifiers     = EAllModifiers;
-        keyEvent.iRepeats       = 0;
-        CCoeEnv* cCoeEnv = CCoeEnv::Static();
-        
-        // Simulate a Cancel event on the running dialogs. The Simulated event
-        // is for the Left Soft Key.
-        // Ignore the error incase of a leave
-        
-        TRAP_IGNORE( cCoeEnv->SimulateKeyEventL( keyEvent, EEventKey ) );
-        }      
 	DEBUG( - CLocSUPLSettingsUiEngine::Close );	
     }
 
-// ---------------------------------------------------------------------------
-// TPtr16 CLocSUPLSettingsAdapter::GetSuplUsage
-// ---------------------------------------------------------------------------
-//  
-TPtr16 CLocSUPLSettingsUiEngine::GetSuplUsageL()
-    {
-	DEBUG( + CLocSUPLSettingsUiEngine::GetSuplUsageL );	
-    // Zeroing the Temporary buffers so that it doesn't contain any
-    // left over value from the previous access
-    iSettingsBufferPtr.Zero();
-    iConversionBufferPtr.Zero();
-    
-    // Obtain the Settings values from the SUPL settings API
-    iSUPLSettingsAdapter->GetSuplUsageL( iSettingsBufferPtr );
-    iConversionBufferPtr.Copy( iSettingsBufferPtr );
-	DEBUG( - CLocSUPLSettingsUiEngine::GetSuplUsageL );	
-    return iConversionBufferPtr;
-    }
-    
-// ---------------------------------------------------------------------------
-// TInt CLocSUPLSettingsAdapter::GetSuplUsage
-// ---------------------------------------------------------------------------
-//
-TInt CLocSUPLSettingsUiEngine::GetSuplUsage()
-    {
-    return iSUPLSettingsAdapter->GetSuplUsage();
-    }
             				
 // ---------------------------------------------------------------------------
 // void CLocSUPLSettingsUiEngine::HandleSuplSettingsChangeL
@@ -465,56 +201,17 @@ void CLocSUPLSettingsUiEngine::HandleSuplSettingsChangeL(
     }
                                        
 // ---------------------------------------------------------------------------
-// void CLocSUPLSettingsUiEngine::RunL()
-//
-// ---------------------------------------------------------------------------
-//
-void CLocSUPLSettingsUiEngine::RunL()
-    {    
-	DEBUG( + CLocSUPLSettingsUiEngine::RunL );	
-    // If the Confirmation query is present then we have to Pop up the 
-    // IAP Selection dialog based on User Action
-    if( iConfirmQuery )
-        {        
-        // Incase there has been a response from the User then the Key pressed
-        // is present in the iStatus variable 
-        if( EAknSoftkeyYes == iStatus.Int() )
-            {
-	        iObserver.HandleSettingsEventL( 
-	                MLocSUPLSettingsUiEngObserver::EIAPSelectionComplete );                       
-            }
-        else
-            {
-            iObserver.HandleSettingsEventL( 
-                    MLocSUPLSettingsUiEngObserver::EIAPSelectionCancelled );
-            }
-        
-        // Destroy the IAP confirmation query handle    
-        delete iConfirmQuery;
-        iConfirmQuery = NULL;
-        }
-	DEBUG( - CLocSUPLSettingsUiEngine::RunL );	
-    }
-
-// ---------------------------------------------------------------------------
-// void CLocSUPLSettingsUiEngine::DoCancel()
+// void CLocSUPLSettingsUiEngine::GenerateHslpAddressFromImsi()
 //
 // ---------------------------------------------------------------------------
 //    
-void CLocSUPLSettingsUiEngine::DoCancel()    
+void CLocSUPLSettingsUiEngine::GenerateHslpAddressFromImsi(TDes& aIMSIAddress)    
     {
 	DEBUG( + CLocSUPLSettingsUiEngine::DoCancel );	
-    if( iConfirmQuery )
-        {
-        // If the confirmation query is running Cancel the query
-        iConfirmQuery->CancelConfirmationQuery();
-        
-        delete iConfirmQuery;
-        iConfirmQuery = NULL;
-        
-        }
+  iSUPLSettingsAdapter->GenerateHslpAddressFromImsi(aIMSIAddress);
 	DEBUG( - CLocSUPLSettingsUiEngine::DoCancel );	
     }
+
 
 // ---------------------------------------------------------------------------
 // TUint CLocSUPLSettingsUiEngine::ConvertIAPNameToIdL()
@@ -592,33 +289,6 @@ void CLocSUPLSettingsUiEngine::DisplayErrorL( TInt aError )
 	DEBUG( - CLocSUPLSettingsUiEngine::DisplayErrorL );	
     }
     
-// ---------------------------------------------------------------------------
-// void CLocSUPLSettingsUiEngine::ShowNoteL()
-// Displays No access point defined note
-//
-// @param None
-// ---------------------------------------------------------------------------
-//
-TInt CLocSUPLSettingsUiEngine::ShowNoteL()
-    {
-	DEBUG( + CLocSUPLSettingsUiEngine::ShowNoteL );	
-    // Show Info Note "No Access Points Defined"       
-    HBufC* tmp = StringLoader::LoadL( R_LOC_NO_AP_DEFINED );
-    CleanupStack::PushL( tmp );    
-    CAknNoteDialog* dlg =
-        new ( ELeave ) CAknNoteDialog
-                (
-                 REINTERPRET_CAST( CEikDialog**, &dlg ),
-                 CAknNoteDialog::ENoTone,
-                 CAknNoteDialog::EShortTimeout
-                );
-    dlg->PrepareLC( R_GENERAL_NOTE );  
-    dlg->SetTextL( *tmp );
-    TInt retval = dlg->RunLD();
-    CleanupStack::PopAndDestroy( tmp );  // temp    
-	DEBUG( - CLocSUPLSettingsUiEngine::ShowNoteL );	
-    return retval;
-    }
 
 // ---------------------------------------------------------------------------
 // void CLocSUPLSettingsUiEngine::EditServerL()
@@ -630,21 +300,43 @@ TInt CLocSUPLSettingsUiEngine::ShowNoteL()
 //
 void CLocSUPLSettingsUiEngine::EditServerL( TBool iIsEditable, TInt64 aSlpId )
     {
-	DEBUG( + CLocSUPLSettingsUiEngine::EditServerL );		
-	if( iEditorDlg )
-		{		
-		delete iEditorDlg;
-		iEditorDlg = NULL;
-		}
-    iEditorDlg = CLocSUPLServerEditor::NewL( iIsEditable, *this, aSlpId );
-    TInt error = iEditorDlg->ExecuteLD();
-    if ( EEikCmdExit == error )
+    DEBUG( + CLocSUPLSettingsUiEngine::EditServerL );
+    if (iEditorDlg)
         {
-        ( ( CAknViewAppUi* ) CEikonEnv::Static()->EikAppUi())->HandleCommandL( EEikCmdExit );
-        }        
-    iEditorDlg = NULL;                     	
+        delete iEditorDlg;
+        iEditorDlg = NULL;
+        }
+    iEditorDlg = CLocSUPLServerEditor::NewL(iIsEditable, *this, aSlpId);
+    if (aSlpId > 0)
+        {
+        CServerParams *params = CServerParams::NewL();
+        CleanupStack::PushL(params);
+        GetSlpInfoFromIdL(aSlpId, params);
+
+        HBufC* hslpAddr = HBufC::NewLC(KMaxHSLPAddrLen);
+        HBufC* iapName = HBufC::NewLC(KMaxIAPLen);
+        TInt64 slpId;
+        TBool enabledFlag, simChangeFlag, usageInHomeNwFlag, editFlag;
+
+        TInt errParams = params->Get(slpId, hslpAddr->Des(), iapName->Des(),
+                enabledFlag, simChangeFlag, usageInHomeNwFlag, editFlag);
+        if (iapName->Length() > 0)
+            {
+            iEditorDlg->SetAccessPointEnabled(ETrue);
+            }
+
+        CleanupStack::PopAndDestroy(3, params);
+        }
     
-	DEBUG( - CLocSUPLSettingsUiEngine::EditServerL );	
+    TInt error = iEditorDlg->ExecuteLD();
+    if (EEikCmdExit == error)
+        {
+        ((CAknViewAppUi*) CEikonEnv::Static()->EikAppUi())->HandleCommandL(
+                EEikCmdExit);
+        }
+    iEditorDlg = NULL;
+
+    DEBUG( - CLocSUPLSettingsUiEngine::EditServerL );
     }
     
 // ---------------------------------------------------------------------------

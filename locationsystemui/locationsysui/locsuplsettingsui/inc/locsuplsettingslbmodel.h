@@ -45,8 +45,7 @@ class CLocSUPLSettingsLBModel : public CBase,
         */
         enum	TSUPLSettingsItemId        
             {
-            ESUPLSettingsUsage = 0,
-            ESUPLSettingsServersDetail,
+            ESUPLSettingsServersDetail = 0,
             ESUPLSettingsActiveSessions
             };
             	
@@ -112,13 +111,6 @@ class CLocSUPLSettingsLBModel : public CBase,
          */
         void ConstructL();
         
-        /**
-         * Packs the SUPL settings usage to the end of the buffer passed.
-         *
-         * @param aPtr Buffer to which the Supl settings usage point needs to be 
-         *            appended.         
-         */
-        void AppendSuplUsage( TDes16& aPtr ) const;
 
         /**
          * Packs the Server Address to the end of the buffer passed.
@@ -149,11 +141,6 @@ class CLocSUPLSettingsLBModel : public CBase,
          */
         HBufC16*                    iServerDetailTitle;
         
-        /**
-         * Title text for SUPL usage.
-         * Owns.
-         */
-        HBufC16*                    iSuplUsageTitle;
         
         /**
          * SUPL Active Sessions count.
@@ -166,22 +153,12 @@ class CLocSUPLSettingsLBModel : public CBase,
          */
         HBufC16*                    iSuplServerDetail;
         
-        /**
-         * Default SUPL usage.
-         * Owns.
-         */
-        HBufC16*                    iDefaultSuplUsage;
 
         /**
          * Reference the SUPL Settings Engine
          */   
         CLocSUPLSettingsUiEngine&   iEngine;
         
-        /** 
-         * Boolean value to indicate whethere SUPL settings usage
-         * is present.
-         */
-        TBool                       iSuplUsagePresent;
                 
         /**
          * Boolean value to indicate whether SUPL address field

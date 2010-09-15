@@ -292,42 +292,33 @@ void CLocSUPLSettingsView::HandleCommandL(TInt aCommand)
 			ChangeMSKL();
 			break;
 			}        
-        // Handle all the internal view specific commands here
-        case ELocSuplChange:
-        case ELocSuplMSKChange:
-            {
-            // Launch the SUPL Settings usage configurator.
-            // The error code is ignored since the necessary UI 
-            // notification would be convveyed by the Engine
-            TRAP_IGNORE( iEngine.LaunchSuplUsageConfiguratorL() );
-            break;
-            }
+
     	case ELocSuplOpen:
     	case ELocSuplMSKOpen:
             {
             TInt index = SelectedItemIndex();
             switch( index )
     	    {
-		      case 1:
-			    {      
-                // Launch the Supl Server List.
-                // The error code is ignored since the necessary UI 
-                // notification would be convveyed by the Engine
-                iViewLaunched = 1;
-                TRAP_IGNORE( AppUi()->ActivateLocalViewL ( KLocSUPLServerUiViewId ) );
-                break; 
-                }
-             case 2:
-                {
-                TInt sessionCount = iContainer->ActiveSessionCount();
-                if( sessionCount )
-                  {
-                  iViewLaunched = 2;
-                  // Launch the Supl sessions view.
-                  TRAP_IGNORE( AppUi()->ActivateLocalViewL ( KLocSUPLSessionUiViewId ) );
-                  }
-                  break;
-                }
+		      case 0:
+                    {
+                    // Launch the Supl Server List.
+                    // The error code is ignored since the necessary UI 
+                    // notification would be convveyed by the Engine
+                    iViewLaunched = 0;
+                    TRAP_IGNORE( AppUi()->ActivateLocalViewL ( KLocSUPLServerUiViewId ) );
+                    break;
+                    }
+            case 1:
+               {
+                    TInt sessionCount = iContainer->ActiveSessionCount();
+                    if (sessionCount)
+                        {
+                        iViewLaunched = 1;
+                        // Launch the Supl sessions view.
+                        TRAP_IGNORE( AppUi()->ActivateLocalViewL ( KLocSUPLSessionUiViewId ) );
+                        }
+                    break;
+                    }
              default:
 			    break; 
             }
@@ -444,37 +435,27 @@ void CLocSUPLSettingsView::DynInitMenuPaneL( TInt          aResourceId,
 			{
 			case 0:
 				{
-        		//aMenuPane->SetItemDimmed( ELocSuplChange, EFalse );
-	        	//aMenuPane->SetItemDimmed( ELocSuplOpen, ETrue );
+	        	aMenuPane->SetItemDimmed( ELocSuplOpen, EFalse );
 	        	aMenuPane->SetItemDimmed( ELocSuplClearSession, ETrue );
 	        	aMenuPane->SetItemDimmed( ELocSuplClearSessions, ETrue );
 				break;
 				}
 			case 1:
 				{
-        		//aMenuPane->SetItemDimmed( ELocSuplChange, ETrue );
-	        	//aMenuPane->SetItemDimmed( ELocSuplOpen, EFalse );
-	        	aMenuPane->SetItemDimmed( ELocSuplClearSession, ETrue );
-	        	aMenuPane->SetItemDimmed( ELocSuplClearSessions, ETrue );
-				break;
-				}
-			case 2:
-				{
-        		aMenuPane->SetItemDimmed( ELocSuplChange, ETrue );
 				TInt sessionCount = iContainer->ActiveSessionCount();
 				
 				switch( sessionCount )
 					{
 					case 0:
 						{
-	        			//aMenuPane->SetItemDimmed( ELocSuplOpen, ETrue );
+	        			aMenuPane->SetItemDimmed( ELocSuplOpen, ETrue );
 	        			aMenuPane->SetItemDimmed( ELocSuplClearSession, ETrue );
 	        			aMenuPane->SetItemDimmed( ELocSuplClearSessions, ETrue );
 					break;
 						}
 					case 1:
 						{
-	        			//aMenuPane->SetItemDimmed( ELocSuplOpen, EFalse );
+	        			aMenuPane->SetItemDimmed( ELocSuplOpen, EFalse );
 	        			aMenuPane->SetItemDimmed( ELocSuplClearSession, EFalse );
 					aMenuPane->SetItemSpecific(ELocSuplClearSession, ETrue);
 	        			aMenuPane->SetItemDimmed( ELocSuplClearSessions, ETrue );
@@ -482,7 +463,7 @@ void CLocSUPLSettingsView::DynInitMenuPaneL( TInt          aResourceId,
 						}
 					default:
 						{
-	        			//aMenuPane->SetItemDimmed( ELocSuplOpen, EFalse );
+	        			aMenuPane->SetItemDimmed( ELocSuplOpen, EFalse );
 		        		aMenuPane->SetItemDimmed( ELocSuplClearSession, ETrue );
 		        		aMenuPane->SetItemDimmed( ELocSuplClearSessions, EFalse );
 					aMenuPane->SetItemSpecific(ELocSuplClearSessions, ETrue);

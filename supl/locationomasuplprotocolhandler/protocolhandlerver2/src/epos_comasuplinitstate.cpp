@@ -383,8 +383,8 @@ TInt COMASuplInitState::MakeGSMVerificationL(CPosNetworkPrivacy::TRequestDecisio
 			// what decision the GSM Network will make if the user won't answer before 
 			// a timeout comes in from GSM Network. In this case verification will 
 			// be rejected.
-			iNetworkPrivacy->VerifyLocationRequestL(*suplReqInfo, 
-				iGSMRequestId, *this, aTimeOutStrategy);
+			TRAP_IGNORE(iNetworkPrivacy->VerifyLocationRequestL(*suplReqInfo, 
+				iGSMRequestId, *this, aTimeOutStrategy);)
 	        TBuf<64> msg;
 	        msg.Copy(_L("Privacy Fw Generated Verification Request id : "));
 	        msg.AppendNum(iGSMRequestId);

@@ -41,9 +41,7 @@ class CRepository;
  *  @since S60 v3.1
  */
  
-class COMASuplConnRequestor : public CActive, 
-                              public MOMASuplUICompletionObserver,  
-                              public MOMASuplDialogTimeOutNotifier
+class COMASuplConnRequestor : public CActive
 {
 
 	enum TConnState
@@ -185,9 +183,7 @@ class COMASuplConnRequestor : public CActive,
         
         void GetUsedServerAddress(TDes& aHSLPAddressUsed);
         
-        void SettingsUICompletedL(TInt aError);
-        void SettingsUsageUICompletedL(TInt /*aError*/) {}
-        void SettingsTimeOutUICompletedL(TInt /*aError*/) {}
+       
         TBool ConvertIAPNameToIdL(const TDesC& aIAPName, TUint32& aIAPId);
         void UpdateNetInfo(const TTime& aLastTimeUsed,TInt& aMcc,TInt& aMnc,
 							              TInt& aCid,TInt& aLac,TInt& aType,TInt& aErrorCode);
@@ -221,13 +217,7 @@ class COMASuplConnRequestor : public CActive,
 		
 		void SaveAccessPoint(const TDesC& aIapName);
 
-		/**
-		 * Dialog Timeout Notifier Method.
-		 * @since Series 60 9.1 TB
-		 * @param None
-		 * @return None
-		 */
-		virtual void DialogTimerExpiredL();	
+		
   	protected :  // Functions from CActive
       /**
       * From CActive 
@@ -301,15 +291,6 @@ class COMASuplConnRequestor : public CActive,
             TBool iIsSettingInitilized;
             
             TInt64 iCurrentSLPId;
-            
-            COMASuplDialogTimer* iDialogTimer;
-            
-            TBool iIapDialogShown;
-            
-            TBool iIapDlgTimerExpired;
-            
-            TBool iIsTimeoutDialogTimerStarted;
-            
             TBool iPrompt;
             
             TBool iWlanOnly;

@@ -95,15 +95,13 @@ struct TCellIdInfo
 
 class COMASuplSession : public CSuplSessionBase,
 						public MOMASuplConnObserver,
-                        public MOMASuplUICompletionObserver,
 						public MCompleteSelfRequest,
 						public MOMASuplMsgStateObserver,
 						public MOMASuplObserver,
 						public MOMASuplPrivacyObserver,
 						public MOMASuplTimeOutNotifier,
                         public MOMASuplEtelCompletionObserver,
-                        public MOMASuplIapChangeNotifierObserver,
-                        public MOMASuplDialogTimeOutNotifier
+                        public MOMASuplIapChangeNotifierObserver
 {
 
   public:  // Constructors and destructor
@@ -209,27 +207,6 @@ class COMASuplSession : public CSuplSessionBase,
 	        */
 			void GetPositionComplete(TInt aError);
 			
-        	/** 
-            * This callback method is used to notify the client about 
-            * the completion of UI launch
-            * @param aError - Error during Launch
-            * @return None
-            */
-        	void SettingsUICompletedL(TInt aError);
-		
-            /** 
-            * This callback method is used to notify the client about 
-            * the completion of UI
-            * @return None
-            */
-			void SettingsUsageUICompletedL(TInt aError);
-			
-            /** 
-            * This callback method is used to notify the client about 
-            * the completion of UI 
-            * @return None
-            */
-			void SettingsTimeOutUICompletedL(TInt aError);
 			
 	public: 			 
 			/**
@@ -256,7 +233,7 @@ class COMASuplSession : public CSuplSessionBase,
 			* @param aSessionIdSeed, seed value of session
 			* @param aRequestID, Request Identification number.
 			* @param aIsStaleCellId, indicates if this session is for a stale cell id conversion
-			* @param aLocationId , contains cell id parameters for which position is to be retrieved
+			* @param aLocationId , contains cell id parameters for which position is to be retrieved,ownership is transferred to this object
 			* @param aPrompt indicates if the user is to be prompted when making location requests
 			* @param aWlanOnly ,request to connect server using wlan connection only using OCC Api's
 			* @return None
@@ -929,13 +906,7 @@ class COMASuplSession : public CSuplSessionBase,
 			*/
 			virtual void TimerExpiredL();
             
-			/**
-			* Dialog Timeout Notifier Method.
-			* @since Series 60 9.1 TB
-			* @param None
-			* @return None
-			*/
-            virtual void DialogTimerExpiredL();
+			
     public:  // Usage dialog
             void SetSuplUsageFlag();
             void ReSetSuplUsageFlag();
@@ -1090,8 +1061,7 @@ class COMASuplSession : public CSuplSessionBase,
 			
 			//Timeout Timer
 			COMASuplTimeoutTimer* iTimer;
-
-			COMASuplDialogTimer* iDialogTimer;
+	
             //Roaming indicator
             TBool iRoaming;
 

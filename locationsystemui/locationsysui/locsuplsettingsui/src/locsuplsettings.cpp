@@ -543,9 +543,8 @@ void CLocSUPLSettings::LaunchSUPLUiL()
 	            iAppUi.ActivateLocalViewL( iSettingsViewId );               
 	            }
 	        else if( ELocSUPLIAPSelection == iLaunchParams )
-	            {    
-	            // Check if the User intended to Launch IAP Selection 
-	            iSettingsEngine->SelectConnectionL();
+	            {  
+	        // Do nothing,since there is no access point selection
 	            }
 	        else
 	            {

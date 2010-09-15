@@ -125,27 +125,7 @@ TInt COMASuplSettings::IAPId() const
 	return iIAPId;
 }
 
-// -----------------------------------------------------------------------------
-// COMASuplSettings::SetSUPLUsage
-// Sets the SUPL Usage
-// 
-// -----------------------------------------------------------------------------
-//
-void COMASuplSettings::SetSUPLUsage(CSuplSettings::TSuplSettingsUsage& aSUPLUsage ) 
-{
-    iSUPLUsage = aSUPLUsage;
-}
 
-// -----------------------------------------------------------------------------
-// COMASuplSettings::SUPLUsage() 
-// Gets the SUPL Usage
-// 
-// -----------------------------------------------------------------------------
-//
-CSuplSettings::TSuplSettingsUsage COMASuplSettings::SUPLUsage() const
-	{
-		return iSUPLUsage;
-	}
 
 
 // -----------------------------------------------------------------------------

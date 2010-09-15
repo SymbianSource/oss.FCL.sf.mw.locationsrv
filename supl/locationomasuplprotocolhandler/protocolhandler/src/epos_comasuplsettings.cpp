@@ -127,27 +127,6 @@ EXPORT_C TInt COMASuplSettings::IAPId() const
 	return iIAPId;
 	}
 
-// -----------------------------------------------------------------------------
-// COMASuplSettings::SetSUPLUsage
-// Sets the SUPL Usage
-// 
-// -----------------------------------------------------------------------------
-//
-EXPORT_C void COMASuplSettings::SetSUPLUsage(CSuplSettings::TSuplSettingsUsage& aSUPLUsage ) 
-	{
-    iSUPLUsage = aSUPLUsage;
-	}
-
-// -----------------------------------------------------------------------------
-// COMASuplSettings::SUPLUsage() 
-// Gets the SUPL Usage
-// 
-// -----------------------------------------------------------------------------
-//
-EXPORT_C CSuplSettings::TSuplSettingsUsage COMASuplSettings::SUPLUsage() const
-	{
-		return iSUPLUsage;
-	}
 
 
 // -----------------------------------------------------------------------------

@@ -274,52 +274,6 @@ TInt CSuplSettingsEngine::ConnectToEtelL()
 	return KErrNone; 
     }        
 
-/*TInt CSuplSettingsEngine::Set(const TDesC& aHslpAddress, const TDesC&  aIapName, 
-                const TInt aChangedBy)
-    {
-    TInt err;
-        
-    err = iRepository->Set(KSuplSettingsHSLPAddress, aHslpAddress);
-    if (err != KErrNone)
-        return err;
-        
-    err = iRepository->Set(KSuplSettingsIAP, aIapName);
-    if (err != KErrNone)
-        return err;           
-        
-    err = iRepository->Set(KSuplSettingsChangedBy, aChangedBy);
-    if (err != KErrNone)
-        return err;            
-        
-    err = iRepository->Set(KSuplSettingsIMSI, iImsi);
-    if (err != KErrNone)
-        return err;
-        
-    return KErrNone;
-    } 
-
-
-TInt CSuplSettingsEngine::Get(TDes& aHslpAddress, TDes&  aIapName, 
-                TDes& aImsi, TInt& aChangedBy)
-    {    
-    TInt err;            
-
-    err = iRepository->Get(KSuplSettingsHSLPAddress, aHslpAddress);
-    if (err != KErrNone)
-        return err;            
-    err = iRepository->Get(KSuplSettingsIAP, aIapName);
-    if (err != KErrNone)
-        return err;            
-    err = iRepository->Get(KSuplSettingsIMSI, aImsi);
-    if (err != KErrNone)
-        return err;            
-    err = iRepository->Get(KSuplSettingsChangedBy, aChangedBy);
-    if (err != KErrNone)
-        return err;            
-
-    return KErrNone;
-    }
-*/
 //-------------------------------------------------------------------------------------
 //CSuplSettingsEngine::IsInitDone()
 //
@@ -447,37 +401,6 @@ TInt CSuplSettingsEngine::IsImsiChanged(TBool& aChanged)
     return KErrNone;
     }    
 
-//-------------------------------------------------------------------------------------
-//CSuplSettingsEngine::GetSuplUsage()
-//
-//This method is used to retrieve SUPL usage from settings storage.
-//--------------------------------------------------------------------------------------
-TInt CSuplSettingsEngine::GetSuplUsage(TInt& aUsage)
-    {
-    TInt err;            
-
-    err = iRepository->Get(KSuplSettingsUsage, aUsage);
-    if (err != KErrNone)
-        return err;            
-
-    return KErrNone;
-    }        
-
-//-------------------------------------------------------------------------------------
-//CSuplSettingsEngine::SetSuplUsage()
-//
-//This method is used to change SUPL usage.
-//--------------------------------------------------------------------------------------
-TInt CSuplSettingsEngine::SetSuplUsage(const TInt aUsage) 
-    {
-    TInt err;
-
-    err = iRepository->Set(KSuplSettingsUsage, aUsage);
-    if (err != KErrNone)
-        return err;            
-        
-    return KErrNone;
-    }            
 
 /*
  * GetMccLen

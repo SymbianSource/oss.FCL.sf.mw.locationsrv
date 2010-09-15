@@ -68,14 +68,10 @@ CLocSUPLSettingsLBModel::~CLocSUPLSettingsLBModel()
 	delete iServerDetailTitle;
 	iServerDetailTitle = NULL;
 	
-	delete iSuplUsageTitle;
-	iSuplUsageTitle = NULL;
 	
 	delete iSuplServerDetail;
 	iSuplServerDetail = NULL;
 
-	delete iDefaultSuplUsage;
-	iDefaultSuplUsage = NULL;
 	DEBUG( - CLocSUPLSettingsLBModel::~CLocSUPLSettingsLBModel );	
 	}
 	
@@ -148,32 +144,7 @@ void CLocSUPLSettingsLBModel::ConstructL()
     	ptr.Copy( KDefaultServerIPAddress );		       
 	    }
     
-    // Reinitializing the flag value
-    flagValue = 0;
-    TRAPD( error, repository = CRepository::NewL( KCRUidOMASuplConfiguration ) );
-    if ( !error )
-        {
-        error = repository->Get( KOMASuplConfigurationSuplPermissionQueryUsage, flagValue );
-        if ( error || flagValue < 0 )
-            {
-            flagValue = 0;
-            }
-    	delete repository;
-    	repository = NULL;
-        }	
-	    	    
-	// Check for SUPL Setting usage variationing.
-	if( flagValue )
-	    {
-	    iSuplUsagePresent = ETrue;
-	       
-     	// Allocate and set the server ip address title field
-    	iSuplUsageTitle = StringLoader::LoadL( R_LOC_SUPL_USE );
-    	
-    	iDefaultSuplUsage =  StringLoader::LoadL( R_AVKON_SELEC_SETT_VAL_FIELD_NONE );
-    	// Default value can be used for this field as well
-    	// So no need to have another variable.		       
-	    }
+
 	    	
 	DEBUG( - CLocSUPLSettingsLBModel::ConstructL );	
 	}
@@ -189,21 +160,16 @@ CLocSUPLSettingsLBModel::TSUPLSettingsItemId
     CLocSUPLSettingsLBModel::ResolveSettingsItem( TInt aListboxIndex ) const
     {
  	DEBUG( + CLocSUPLSettingsLBModel::ResolveSettingsItem );	
-   	TSUPLSettingsItemId selectedItem = ESUPLSettingsUsage;
+   	TSUPLSettingsItemId selectedItem = ESUPLSettingsServersDetail;
     
     switch ( aListboxIndex )
         {
         case 0:
             {
-            selectedItem = ESUPLSettingsUsage;
-            break;
-            }        
-        case 1:
-            {
             selectedItem = ESUPLSettingsServersDetail;
             break;
             }
-        case 2:
+        case 1:
             {
             selectedItem = ESUPLSettingsActiveSessions;
             break;   
@@ -227,27 +193,15 @@ CLocSUPLSettingsLBModel::TSUPLSettingsItemId
 //
 TInt CLocSUPLSettingsLBModel::MdcaCount() const
 	{
-	DEBUG( + CLocSUPLSettingsLBModel::MdcaCount );	
-	// Initialize the count to 0 
-	TInt itemCount = 0;
-	
-	// Check for SUPL usage.
-	if ( iSuplUsagePresent )
-	    {
-	    itemCount++;
-	    // Check if the usage value is disabled
-	    if ( iEngine.GetSuplUsage() == CSuplSettings::ESuplUsageDisabled )
-	        {
-	        return itemCount;
-	        }
-		// Check for Server address
-		iServerAddressPresent ? itemCount++ : itemCount;	
-	    }
-	itemCount++; // For the third entry "Active sessions"
-	// Check if the SUPL Usage value is Disabled
-	// If that is the case then only SUPL usage will be displayed
-	DEBUG( - CLocSUPLSettingsLBModel::MdcaCount );	
-	return itemCount;
+	DEBUG( + CLocSUPLSettingsLBModel::MdcaCount );
+    // Initialize the count to 0 
+    TInt itemCount = 0;
+
+    // Check for Server address
+    iServerAddressPresent ? itemCount++ : itemCount;
+    itemCount++; // For the third entry "Active sessions"
+    DEBUG( - CLocSUPLSettingsLBModel::MdcaCount );
+    return itemCount;
 	}
 
 // ---------------------------------------------------------------------------
@@ -275,11 +229,6 @@ TPtrC16 CLocSUPLSettingsLBModel::MdcaPoint( TInt aIndex ) const
 	TSUPLSettingsItemId index = ResolveSettingsItem( aIndex );		
 	switch( index )
 	    {
-	    case ESUPLSettingsUsage:
-	        {
-	        AppendSuplUsage( ptr );
-	        break;
-	        }
 	    case ESUPLSettingsServersDetail:
 	        {
 	        AppendSuplServerDetail( ptr );
@@ -303,41 +252,7 @@ TPtrC16 CLocSUPLSettingsLBModel::MdcaPoint( TInt aIndex ) const
 	return iBuffer->Des();
 	}
 
-// ---------------------------------------------------------------------------
-// TPtrC16 CLocSUPLSettingsLBModel::AppendSuplServerDetail()
-// Packs the server address to the end of the buffer passed.
-//
-// @param  aPtr Buffer to which the server address needs to be appended.
-// ---------------------------------------------------------------------------
-//	
-void CLocSUPLSettingsLBModel::AppendSuplUsage( TDes& aPtr ) const
-    {
-	DEBUG( + CLocSUPLSettingsLBModel::AppendSuplUsage );	
-    // Append the Title text
-    aPtr.Append( iSuplUsageTitle->Des() );
-    
-    // Append the second tab
-	aPtr.Append( EKeyTab ); 
-	
-	// Append the third tab
-	aPtr.Append( EKeyTab );
-	
-	// Obtain the SUPL usage from the SUPL Settings Engine. If
-	// the settings is not set then a Not defined value would be 
-	// displayed to the user
-    TPtr16 suplUsagePtr( NULL, 0 );
-    TRAPD( error, suplUsagePtr.Set( iEngine.GetSuplUsageL() ) );         
-    if( error || !suplUsagePtr.Length() )
-        {
-        // Using the same string as SUPL settings AP
-        aPtr.Append( iDefaultSuplUsage->Des() );
-        }
-    else
-        {
-        aPtr.Append( suplUsagePtr );              
-        }    
-	DEBUG( - CLocSUPLSettingsLBModel::AppendSuplUsage );	
-    }    
+
 
 // ---------------------------------------------------------------------------
 // TPtrC16 CLocSUPLSettingsLBModel::AppendSuplServerDetail()
