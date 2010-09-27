@@ -52,7 +52,6 @@ SOURCE      epos_comasuplposstate.cpp
 SOURCE      epos_comasuplinitstate.cpp
 SOURCE      epos_comasuplposrequestor.cpp
 SOURCE	    epos_comasuplecomeventwatcher.cpp
-//SOURCE      epos_comasuplsettingslauncher.cpp
 SOURCE      epos_comasupltrace.cpp
 SOURCE      epos_comasupldialogtimer.cpp
 SOURCE      epos_comasuplfallbackhandler.cpp

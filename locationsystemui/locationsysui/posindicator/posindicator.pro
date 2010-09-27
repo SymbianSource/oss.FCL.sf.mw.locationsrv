@@ -25,6 +25,8 @@ SUBDIRS += posindicatorplugin/posindicator.pro
 DEFINES += BUILD_POSINDICATOR
 
 BLD_INF_RULES.prj_exports += "rom/posindicator.iby CORE_MW_LAYER_IBY_EXPORT_PATH(posindicator.iby)" \
+														 "rom/posindicatorstub.iby CORE_MW_LAYER_IBY_EXPORT_PATH(posindicatorstub.iby)" \														
+														 "data/posindicator_stub.sis /epoc32/data/z/system/install/posindicator_stub.sis" \
                              "posindhelperclientlib/inc/posgeoaddress.h  ./inc/posgeoaddress.h" \
                              "posindhelperclientlib/inc/posindicatorglobal.h ./inc/posindicatorglobal.h" \
                              "posindhelperclientlib/inc/posindicatorinfo.h ./inc/posindicatorinfo.h" \

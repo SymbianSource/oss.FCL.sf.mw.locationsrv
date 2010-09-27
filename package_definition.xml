@@ -84,9 +84,6 @@
    <component id="locationsuplpsy" filter="s60" name="Location SUPL PSY" class="plugin" introduced="^3">
     <unit bldFile="genericpositioningplugins/locationsuplpsy/group"/>
    </component>
-   <component id="genericpositioningplugins_rom" filter="s60" name="Generic Positioning Plugins ROM" class="config">
-    <unit bldFile="genericpositioningplugins/rom"/>
-   </component>
   </collection>
   <collection id="landmarks" name="Landmarks" level="server">
    <component id="locationlandmarks" filter="s60" name="Location Landmarks">

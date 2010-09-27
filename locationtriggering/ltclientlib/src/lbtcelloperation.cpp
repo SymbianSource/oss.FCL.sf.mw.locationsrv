@@ -60,6 +60,7 @@ CLbtCellOperation::CLbtCellOperation(TRequestStatus& aStatus, CLbtGeoAreaBase **
 //
 CLbtCellOperation::~CLbtCellOperation()
     {
+    Cancel();
     iMmApi.Close();
     iMPhone.Close();
     iTelServer.Close();    

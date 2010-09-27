@@ -44,7 +44,7 @@
 #include "epos_comasuplcompleteselfrequestor.h"
 #include "epos_comasuplstate.h"
 #include "epos_omasuplconstants.h"
-#include "epos_comasuplsettingslauncher.h"
+
 #include "epos_momasupltimeoutnotifier.h"
 #include "epos_tomasuplposmethod.h"
 #include "epos_momasupldialogtimeoutnotifier.h"

@@ -31,7 +31,7 @@
 #include "epos_msuplpacketnotifier.h"
 
 #include "epos_momasuplecomeventobserver.h"
-#include "epos_comasuplsettingslauncher.h"
+
 #include "epos_csuplsettingsinternal.h"
 
 #include "epos_comasuplasnbase.h"
@@ -81,7 +81,6 @@ class COMASUPLProtocolManager1 : public COMASUPLProtocolManager,
 								public MSuplEcomEventObserver,
 								public MSuplSettingsObserver,
 								public MOMASuplTimeOutNotifier,
-						        public MOMASuplUISettingsObserver,
                                 public MOMASuplETelNotifierObserver
     {
     
@@ -565,8 +564,6 @@ private: // Data Members
 	//Pos Handler
 	COMASuplPosHandlerBase *iPosHandler;
 
-	// Settings UI Handle
-	COMASuplSettingsLauncher* iSettingsLauncher;
  
    COMASuplETelNotifier* iNotifier;
 

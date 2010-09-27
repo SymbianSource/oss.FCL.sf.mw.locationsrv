@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2010 Nokia Corporation and/or its subsidiary(-ies). 
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies). 
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of "Eclipse Public License v1.0"
@@ -10,18 +10,18 @@
 * Nokia Corporation - initial contribution.
 *
 * Contributors:
-*
-* Description:  The common build file.
+* 
+* Description:
 *
 */
 
-
-#include <platform_paths.hrh>
 PRJ_PLATFORMS
-DEFAULT GCCE
+	DEFAULT
 
-PRJ_EXPORTS
-../cenrep/1028224B_s60.cre                      z:/private/10202be9/1028224B_s60.cre
-prifw_cenrep.iby                     CORE_MW_LAYER_IBY_EXPORT_PATH(prifw_cenrep.iby)
+PRJ_TESTEXPORTS
 
-// End of File
+
+PRJ_TESTMMPFILES
+	LbtUnitTestModule.mmp
+
+//  End of File

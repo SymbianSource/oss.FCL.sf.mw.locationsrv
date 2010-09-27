@@ -56,6 +56,7 @@ PRJ_TESTMMPFILES
 #include "../UpdateTrigger/group/bld.inf"
 #include "../lbtbctest/group/bld.inf"
 #include "../TestHybridTriggers/group/bld.inf"
+#include "../LbtUnitTestModule/group/bld.inf"
 
 PRJ_MMPFILES
 // Specify the .mmp files required for building the important component

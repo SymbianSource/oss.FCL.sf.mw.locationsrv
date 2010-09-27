@@ -140,7 +140,7 @@ EXPORT_C TInt RContactResolverSession::Connect()
     
     TInt error = StartServer();
 
-    if (KErrNone == error)
+    if (KErrNone == error || KErrAlreadyExists == error )
         {
         error = CreateSession(KLocPrivacyServerName, Version(),
                 KDefaultMessageSlots);
@@ -200,7 +200,7 @@ TInt RContactResolverSession::CreateServerProcess()
     if (result != KErrNone)
         {
         server.Close();
-        return KErrNotFound;
+        return result;
         }
 
     server.Rendezvous(status);

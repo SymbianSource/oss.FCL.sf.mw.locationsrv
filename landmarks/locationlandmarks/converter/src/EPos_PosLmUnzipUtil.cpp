@@ -48,13 +48,15 @@ void PosLmUnzipUtil::UnzipFileL(RFs& aFs, TFileName* aFileName)
 	User::LeaveIfError(zipFile->OpenL());
 	fileMembers = zipFile->GetMembersL();
 	CleanupStack::PushL(fileMembers);
-	while (member = fileMembers->NextL()) 
+	member = fileMembers->NextL();
+	while (member) 
 	{
 	//You must take ownership of the member object created for you by NextL()!
 	CleanupStack::PushL(member);
 	ExtractFileL(aFs, member, zipFile, aFileName);
 	
 	CleanupStack::PopAndDestroy(); //member
+	member = fileMembers->NextL();
 	}
 	zipFile->Close();
 	CleanupStack::PopAndDestroy(2); //fileMembers, zipFile

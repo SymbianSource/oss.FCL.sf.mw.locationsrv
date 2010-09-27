@@ -64,7 +64,8 @@ COPY_TESTDATA:
 
 # ???
 RELEASABLES:
-		@echo *** DEBUG: RELEASABLES ${PLATFORM} ${CFG} ${TO_ROOT}
+#		@echo *** DEBUG: RELEASABLES ${PLATFORM} ${CFG} ${TO_ROOT}
+	  @echo
 
 # runs after clean operations
 CLEAN:
@@ -84,6 +85,6 @@ SAVESPACE:
 
 # Generic target. Catches everything else (unknown targets etc.)
 %:
-		@echo *** DEBUG: GENERIC $@ ${PLATFORM} ${CFG} ${TO_ROOT}
-
+#		@echo *** DEBUG: GENERIC $@ ${PLATFORM} ${CFG} ${TO_ROOT}
+	@echo 
 # End of File

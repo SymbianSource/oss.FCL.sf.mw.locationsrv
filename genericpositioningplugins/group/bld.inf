@@ -18,8 +18,6 @@
 PRJ_PLATFORMS
 WINSCW ARMV5 GCCE
 
-#include "../rom/bld.inf"
-
 #include "../locationnpppsy/group/bld.inf"
 #include "../locationsuplpsy/group/bld.inf"
 

@@ -70,7 +70,7 @@ EXPORT_C TInt RLbtServer::Connect()
 		    if( ret != KErrNone )
 		        {
 		        lbtServer.Close();
-		        return KErrNotFound;
+		        return ret;
 		        }
 		    
 		    TRequestStatus status;
@@ -90,11 +90,13 @@ EXPORT_C TInt RLbtServer::Connect()
 
 		    User::WaitForRequest(status);
 		    lbtServer.Close();
+		    ret = status.Int();
 
-		    if( status != KErrNone )
+		    if( !( ret == KErrNone || ret == KErrAlreadyExists ) )
 		        {
-		        return (status.Int());
+		        return ret;
 		        }
+
 		    ret = CreateSession(KLbtServerCoreName, Version(), KDefaultMessageSlots);		    
 		    }
         }

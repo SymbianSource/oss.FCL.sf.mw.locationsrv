@@ -36,7 +36,7 @@ EXPORT_C TLbtWcdmaCellInfo::~TLbtWcdmaCellInfo()
 EXPORT_C CLbtGeoWcdmaCell* CLbtGeoWcdmaCell::NewLC()
     {
     CLbtGeoWcdmaCell* self = CLbtGeoWcdmaCell::NewL();
-    CleanupStack::Pop( self );
+    CleanupStack::PushL( self );
     return self;
     }
     

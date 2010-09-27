@@ -31,7 +31,7 @@ PRJ_TESTMMPFILES
 ../Testprovider/ServerClientLib/group/FT_LmServerClientLibrary.mmp
 ../Testprovider/group/FT_DbManPluginsTest.mmp
 LandMarksTestModule.mmp
-gnumakefile LandmarkTests_gnumakefile.mk
+//gnumakefile LandmarkTests_gnumakefile.mk
 
 PRJ_MMPFILES
 

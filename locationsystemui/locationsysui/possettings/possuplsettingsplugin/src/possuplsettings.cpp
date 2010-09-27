@@ -416,22 +416,8 @@ void PosSuplSettingsPlugin::onDeleteServer()
 
     mDeleteQuery->setTimeout(HbDialog::NoTimeout);
 
-        //set the proper layout for the mDeleteQuery dialog
-        qreal lMargin = 0;
-        qreal rMargin = 0;
-        qreal tMargin = 0;
-        
-        if (mDeleteQuery->style()->parameter("hb-param-margin-gene-left",
-                lMargin) && mDeleteQuery->style()->parameter(
-                "hb-param-margin-gene-right", rMargin)
-                && mDeleteQuery->style()->parameter(
-                        "hb-param-margin-gene-top", tMargin))
-            {
-            HbLabel * heading = new HbLabel(QString(hbTrId(
-                    "txt_loe_info_select_server_to_delete")));
-            heading->setContentsMargins(lMargin, tMargin, rMargin, 0);
-            mDeleteQuery->setHeadingWidget(heading);
-            }
+    mDeleteQuery->setHeadingText(QString(hbTrId(
+            "txt_loe_info_select_server_to_delete")));
 
     // delete the mPrimaryAction before creating it,each time the delete
     // query needs to be popped up

@@ -50,45 +50,16 @@ const TInt KDefaultMessageSlots = 255; //max
 	
 	if( ret == KErrNotFound )
 	    {
-#if defined(__WINSCW__)
-	    StartLbsRootProcess();
-#endif
-	    RProcess posIndHelperServerProcess;
-	    ret = posIndHelperServerProcess.Create(KPosIndHelperSrvName, KNullDesC);
-	    
-	    if( ret != KErrNone )
+	    ret = StartServer();
+	    if( !( ret == KErrNone || ret == KErrAlreadyExists ) )
 	        {
-	        posIndHelperServerProcess.Close();
-	        return KErrNotFound;
-	        }
-	    
-	    TRequestStatus status;
-	    posIndHelperServerProcess.Rendezvous(status);
-	    
-	    if( status != KRequestPending )
-	        {
-	        User::WaitForRequest(status);
-	        posIndHelperServerProcess.Kill(KErrNone);
-	        posIndHelperServerProcess.Close();
-	        return status.Int();
-	        }
-	    else
-	        {
-	        posIndHelperServerProcess.Resume();		        
-	        }
-
-	    User::WaitForRequest(status);
-	    posIndHelperServerProcess.Close();
-
-	    if( status != KErrNone )
-	        {
-	        return (status.Int());
+	        return ret;
 	        }
 	    ret = CreateSession(KPosIndHelperSrvName, Version(), KDefaultMessageSlots);		    
 	    }
    
 	return ret;
-  }
+   }
 	
 // ---------------------------------------------------------
 // RPosIndicatorHelperServer::Close
@@ -117,6 +88,51 @@ const TInt KDefaultMessageSlots = 255; //max
 					KBuildVersionNumber);
 	}
 
+// ---------------------------------------------------------
+// RPosIndicatorHelperServer::StartServer
+//
+// (other items were commented in a header).
+// ---------------------------------------------------------
+//
+TInt RPosIndicatorHelperServer::StartServer()
+    {
+    FUNC("+ RPosIndicatorHelperServer::StartServer");
+
+#if defined(__WINSCW__)
+    StartLbsRootProcess();
+#endif
+
+    RProcess posIndHelperServerProcess;
+    TInt ret = posIndHelperServerProcess.Create(KPosIndHelperSrvName, KNullDesC);
+    
+    if( ret != KErrNone )
+        {
+        posIndHelperServerProcess.Close();
+        return ret;
+        }
+    
+    TRequestStatus status;
+    posIndHelperServerProcess.Rendezvous(status);
+    
+    if( status != KRequestPending )
+        {
+        User::WaitForRequest(status);
+        posIndHelperServerProcess.Kill(KErrNone);
+        posIndHelperServerProcess.Close();
+        return status.Int();
+        }
+    else
+        {
+        posIndHelperServerProcess.Resume();             
+        }
+
+    User::WaitForRequest(status);
+    posIndHelperServerProcess.Close();
+   
+    FUNC("- RPosIndicatorHelperServer::StartServer");
+    return status.Int();
+    }
+ 
 #if defined(__WINSCW__)
 // ---------------------------------------------------------
 // RPosIndicatorHelperServer::Version

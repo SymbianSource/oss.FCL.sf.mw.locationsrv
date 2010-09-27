@@ -366,7 +366,7 @@ void CLbtDbTriggersManager::HandleTriggerUpdationEventL()
             {
              
             // check if view is empty, return KErrNotFound
-            if( iView.IsEmptyL() || !iView.AtRow() || !iView.FirstL() )
+            if( !iView.FirstL() || iView.IsEmptyL() || !iView.AtRow() )
                 {
                 CompleteClientRequest( KErrNotFound );
                 break;

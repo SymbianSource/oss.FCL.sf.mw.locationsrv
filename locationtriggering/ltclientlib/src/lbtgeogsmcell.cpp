@@ -31,7 +31,7 @@
 EXPORT_C CLbtGeoGsmCell* CLbtGeoGsmCell::NewLC()
     {
     CLbtGeoGsmCell* self = CLbtGeoGsmCell::NewL();
-    CleanupStack::Pop( self );
+    CleanupStack::PushL( self );
     return self;
     }
     

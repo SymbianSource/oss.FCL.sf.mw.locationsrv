@@ -82,9 +82,9 @@ QList<CpSettingFormItemData*> PosSettingsPlugin::createSettingFormItemData(
     if (!helper.isFeatureFlagEnabled() && helper.isPositionPsyAvailable())
         {
         CpSettingFormItemData *itemData = new CpSettingFormEntryItemDataImpl<
-                PosSettingsView> (itemDataHelper, hbTrId(
+                PosSettingsView> (CpSettingFormEntryItemData::ListEntryItem, itemDataHelper, hbTrId(
                 "txt_cp_dblist_positioning"), hbTrId(
-                "txt_cp_dblist_positioning_val_change_positioning_s"));
+                "txt_cp_dblist_positioning_val_change_positioning_s"), "qtg_large_maps");
         formItemDataList.append(itemData);
         }
         qDebug() << "- PosSettingsPluginHelper::createSettingFormItemData()";

@@ -71,6 +71,11 @@ public:
      * @return The client side version number.
      */
      TVersion Version() const;   
+     
+     /**
+      * Start pos indicator helper server.
+      */
+     TInt StartServer();
 
 #if defined(__WINSCW__)
     TInt StartLbsRootProcess();

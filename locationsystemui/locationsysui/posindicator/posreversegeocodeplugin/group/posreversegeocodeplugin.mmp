@@ -64,7 +64,6 @@ LIBRARY                 libc.lib
 LIBRARY                 charconv.lib
 LIBRARY                 extendedconnpref.lib
 LIBRARY                 eposlandmarks.lib
-LIBRARY                 extendedconnpref.lib
 LIBRARY                 netmeta.lib
 LIBRARY                 flogger.lib
 PAGED

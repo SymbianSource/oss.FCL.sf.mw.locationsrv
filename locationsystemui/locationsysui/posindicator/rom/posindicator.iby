@@ -40,7 +40,7 @@ ECOM_PLUGIN( posrevgeocodeplugin.dll,posrevgeocodeplugin.rsc )
 // Position indicator plugin
 data=\epoc32\data\z\resource\plugins\indicators\posindicator.qtplugin                  \resource\plugins\indicators\posindicator.qtplugin
 
-// stub sis
-data=DATAZ_\system\install\posindicator_stub.sis					system\install\posindicator_stub.sis
+// stub sis will be added from posindicatorstub.iby
+//data=DATAZ_\system\install\posindicator_stub.sis					system\install\posindicator_stub.sis
 
 #endif // POSITIONINDICATOR_IBY

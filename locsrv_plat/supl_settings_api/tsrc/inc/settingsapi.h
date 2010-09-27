@@ -327,6 +327,11 @@ NONSHARABLE_CLASS(CSettingsApi) : public CScriptBase, public MSuplSettingsObserv
 
 
         TInt GetSuplTriggerServiceStatusOFF();
+        
+        TInt ProductConfiguredServer1();
+        TInt ProductConfiguredServer2();
+        TInt ProductConfiguredServer3();
+        TInt ProductConfiguredServer4();
 
        // TInt CSettingsApi::SetstatusOtherThanAppropriate();
     public : // from MSuplSettingsObserver
@@ -363,6 +368,7 @@ NONSHARABLE_CLASS(CSettingsApi) : public CScriptBase, public MSuplSettingsObserv
         	TInt iTestid;
         	TInt iErrCode;
         	TInt iSlpId;
+        	CStifLogger* iLog;
         	
 };
     
