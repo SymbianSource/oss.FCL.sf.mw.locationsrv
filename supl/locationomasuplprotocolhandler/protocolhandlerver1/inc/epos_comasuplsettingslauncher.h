@@ -151,12 +151,7 @@ class COMASuplSettingsLauncher : public CActive
 	    TBuf8<256>	buffer1;
 	    TBuf8<256>  buffer2;
         TBool iRoaming;
-        
-		/**
-		* IAP Selector Handle
-		*/
-	    RGenConAgentDialogServer    	iIapSelector;
-	    
+    
 		/**
 		* Selected IAP ID
 		*/

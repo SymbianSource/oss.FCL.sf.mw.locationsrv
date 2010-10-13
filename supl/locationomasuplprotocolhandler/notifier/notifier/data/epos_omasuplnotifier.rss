@@ -29,7 +29,7 @@
 #include <avkon.loc>
 
 // User Includes
-#include <sc/epos_omasuplnotifier.loc>
+#include <epos_omasuplnotifier.loc>
 
 //  RESOURCE IDENTIFIER
 NAME SUNO   // 4 Letter Identifier

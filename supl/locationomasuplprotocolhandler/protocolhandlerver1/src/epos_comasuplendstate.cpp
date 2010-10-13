@@ -259,15 +259,10 @@ TBool COMASuplEndState::ComputeSuplEndVerL()
 	{
 		return ETrue;
 	}
-	
+
 	if(iEncodedSuplInit && (iEncodedSuplInit->Length()) > 0 &&
 	iHSLPAddress && iHSLPAddress->Length() > 0)
 	{
-		TBuf<64> serverCheck;
-	serverCheck.Copy(*iHSLPAddress);
-	iTrace->Trace(_L("Server Address for VER : "), KTraceFileName, __LINE__); 
-	iTrace->Trace(serverCheck, KTraceFileName, __LINE__); 
-	
 		TInt blockSize = 64;
 	    TChar ipad = 0x36;
 	    TChar opad = 0x5c;

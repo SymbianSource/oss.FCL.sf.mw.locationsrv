@@ -58,6 +58,17 @@ CLocSUPLSettingsAdapter::~CLocSUPLSettingsAdapter()
     delete iSUPLSettings;
     iSUPLSettings = NULL;
     
+    delete iAutomatic;
+    iAutomatic = NULL;
+    
+    delete iAutomaticatHome;
+    iAutomaticatHome = NULL;
+    
+    delete iAsk;
+    iAsk = NULL;
+    
+    delete iDisable;
+    iDisable = NULL;
 	DEBUG( - CLocSUPLSettingsAdapter::~CLocSUPLSettingsAdapter );	
     } 
 
@@ -99,6 +110,11 @@ void CLocSUPLSettingsAdapter::ConstructL()
     // Set the Observer for SUPL Sessions
     iSUPLSettings->SetSessionObserverL( *this );
     
+    // Load the SUPL settings usage strings
+    iAutomatic 			= StringLoader::LoadL( R_LOC_SUPL_AUTOMATIC );
+    iAutomaticatHome 	= StringLoader::LoadL( R_LOC_SUPL_HOME_AUTOMATIC );
+    iAsk 				= StringLoader::LoadL( R_LOC_SUPL_ASK );
+    iDisable 			= StringLoader::LoadL( R_LOC_SUPL_DISABLED );
     
     CActiveScheduler::Add( this );
 	DEBUG( - CLocSUPLSettingsAdapter::ConstructL );	
@@ -131,7 +147,210 @@ void CLocSUPLSettingsAdapter::CancelInitialize()
     Cancel();
     }
     
+// ---------------------------------------------------------------------------
+// void CLocSUPLSettingsAdapter::SetSuplUsageL
+// ---------------------------------------------------------------------------
+//       
+void CLocSUPLSettingsAdapter::SetSuplUsageL( 
+            const CLocSUPLSettingsAdapter::TLocSuplUsage    aIndex )
+    {
+	DEBUG( + CLocSUPLSettingsAdapter::SetSuplUsageL );	
+    CSuplSettings::TSuplSettingsUsage value = CSuplSettings::ESuplUsageAlwaysAsk;
+    switch ( aIndex )
+        {
+        case ELocSuplAutomatic:
+            {
+            value = CSuplSettings::ESuplUsageAutomatic;
+            break;
+            }
+        case ELocSuplAutomaticatHome:
+            {
+            value = CSuplSettings::ESuplUsageHomeAutomatic;
+            break;
+            }
+        case ELocSuplAlwaysAsk:
+            {
+            value = CSuplSettings::ESuplUsageAlwaysAsk;
+            break;
+            }
+        case ELocSuplDisable:
+            {
+            value = CSuplSettings::ESuplUsageDisabled;
+            break;
+            }
+        default:
+            {
+            User::Leave( KErrNotFound );
+            break;    
+            }
+        }
 
+    // Write back to the SUPL settings API
+    TInt ret = iSUPLSettings->SetSuplUsage( value );            
+            
+    // If the Set failed, then Leave with the corresponding Error code
+    if( ret )
+        {
+        User::Leave ( ret );
+        }
+	DEBUG( - CLocSUPLSettingsAdapter::SetSuplUsageL );	
+    }
+
+// ---------------------------------------------------------------------------
+// void CLocSUPLSettingsAdapter::GetSuplUsageL
+// ---------------------------------------------------------------------------
+//  
+void CLocSUPLSettingsAdapter::GetSuplUsageL( TDes&    aSuplUsage )
+    {
+	DEBUG( + CLocSUPLSettingsAdapter::GetSuplUsageL );	
+    CSuplSettings::TSuplSettingsUsage value = CSuplSettings::ESuplUsageAlwaysAsk;
+    User::LeaveIfError( iSUPLSettings->GetSuplUsage( value ));
+
+    switch ( value )
+        {
+        case CSuplSettings::ESuplUsageAutomatic:
+            {
+            if ( aSuplUsage.MaxLength() < iAutomatic->Des().Length())
+                {
+                User::Leave( KErrNoMemory );
+                }
+            aSuplUsage.Copy( *iAutomatic );
+            break;
+            }
+        case CSuplSettings::ESuplUsageHomeAutomatic:
+            {
+            if ( aSuplUsage.MaxLength() < iAutomaticatHome->Des().Length())
+                {
+                User::Leave( KErrNoMemory );
+                }
+            aSuplUsage.Copy( *iAutomaticatHome );          
+            break;
+            }
+        case CSuplSettings::ESuplUsageAlwaysAsk:
+            {
+            if ( aSuplUsage.MaxLength() < iAsk->Des().Length())
+                {
+                User::Leave( KErrNoMemory );
+                }            
+            aSuplUsage.Copy( *iAsk );
+            break;
+            }
+        case CSuplSettings::ESuplUsageDisabled:
+            {
+            if ( aSuplUsage.MaxLength() < iDisable->Des().Length())
+                {
+                User::Leave( KErrNoMemory );
+                }
+            aSuplUsage.Copy( *iDisable );
+            break;
+            }
+        default:
+            {
+            User::Leave( KErrNotSupported );
+            break;
+            }
+        }
+	DEBUG( - CLocSUPLSettingsAdapter::GetSuplUsageL );	
+    }
+
+// ---------------------------------------------------------------------------
+// TLocSuplUsage CLocSUPLSettingsAdapter::GetSuplUsage
+// ---------------------------------------------------------------------------
+// 
+TInt CLocSUPLSettingsAdapter::GetSuplUsage()
+    {
+	DEBUG( + CLocSUPLSettingsAdapter::GetSuplUsage TInt );	
+    CSuplSettings::TSuplSettingsUsage value = CSuplSettings::ESuplUsageAlwaysAsk;
+    TInt error = iSUPLSettings->GetSuplUsage( value );
+    if ( error )
+        {
+        // If there is an error then return the default value
+        return CSuplSettings::ESuplUsageAlwaysAsk;
+        }
+	DEBUG( - CLocSUPLSettingsAdapter::GetSuplUsage TInt );	
+    return value;
+    }
+
+// ---------------------------------------------------------------------------
+// TLocSuplUsage CLocSUPLSettingsAdapter::GetSuplUsageIndex
+// ---------------------------------------------------------------------------
+// 
+CLocSUPLSettingsAdapter::TLocSuplUsage CLocSUPLSettingsAdapter::GetSuplUsageIndex()
+    {    
+	DEBUG( + CLocSUPLSettingsAdapter::GetSuplUsageIndex );	
+    TLocSuplUsage index = ELocSuplAutomatic;
+    CSuplSettings::TSuplSettingsUsage value = CSuplSettings::ESuplUsageAlwaysAsk;
+    if ( iSUPLSettings->GetSuplUsage( value ))
+        {
+        // If there is an error then return the default value.
+        return index;
+        }
+        
+    switch ( value )
+        {
+        case CSuplSettings::ESuplUsageAutomatic:
+            {
+            index = ELocSuplAutomatic;
+            break;
+            }
+        case CSuplSettings::ESuplUsageHomeAutomatic:
+            {
+            index = ELocSuplAutomaticatHome;         
+            break;
+            }
+        case CSuplSettings::ESuplUsageAlwaysAsk:
+            {
+            index = ELocSuplAlwaysAsk;
+            break;
+            }
+        case CSuplSettings::ESuplUsageDisabled:
+            {
+            index = ELocSuplDisable;
+            break;
+            }
+        default:
+            {
+            break;
+            }
+        }
+    return index;   
+    }
+    
+// ---------------------------------------------------------------------------
+// const TDesC& CLocSUPLSettingsAdapter::Automatic
+// ---------------------------------------------------------------------------
+// 
+const TDesC& CLocSUPLSettingsAdapter::Automatic()
+    {
+    return *iAutomatic;
+    }
+
+// ---------------------------------------------------------------------------
+// const TDesC& CLocSUPLSettingsAdapter::AutomaticAtHome
+// ---------------------------------------------------------------------------
+//
+const TDesC& CLocSUPLSettingsAdapter::AutomaticAtHome()
+    {
+    return *iAutomaticatHome;  
+    }
+
+// ---------------------------------------------------------------------------
+// const TDesC& CLocSUPLSettingsAdapter::AlwaysAsk
+// ---------------------------------------------------------------------------
+//
+const TDesC& CLocSUPLSettingsAdapter::AlwaysAsk()
+    {
+    return *iAsk;   
+    }
+
+// ---------------------------------------------------------------------------
+// const TDesC& CLocSUPLSettingsAdapter::Disable
+// ---------------------------------------------------------------------------
+//
+const TDesC& CLocSUPLSettingsAdapter::Disable()
+    {
+    return *iDisable; 
+    }
                    
 // ---------------------------------------------------------------------------
 // void CLocSUPLSettingsAdapter::HandleSuplSettingsChangeL

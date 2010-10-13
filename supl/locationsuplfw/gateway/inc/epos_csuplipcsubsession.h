@@ -126,19 +126,11 @@ class CSuplIPCSubSession : public CObject,public MSuplSessionObserver
 		void HandlePeriodicTriggerSessionWithServernameL(const RMessage2& aMessage);		
 		void HandleStopTriggerringSessionL(const RMessage2& aMessage);		
 		void HandleNotifyTriggerFiredL(const RMessage2& aMessage);
-		/*
-		 * For GeoTagging
-		 */
-		void HandleLocationConversionL(const RMessage2& aMessage);
-		void HandleCancelLocationConversionL(const RMessage2& aMessage);
 
     private:    // Data
-    	// Supl session handle.Ownership is with this object
     	CSuplSessionBase*		iSuplSession;
-		// Supl session request object.Ownership is with this object
 		CSuplSessionRequest*	iSuplSessnReq;
 		RMessage2               iMessage;
-		// Position buffer.Ownership is with this object
 		HBufC8*                 iPositionBuffer;
 		TInt 					iReqType;
 		RSuplTerminalSubSession::TSuplServiceType iSuplService;

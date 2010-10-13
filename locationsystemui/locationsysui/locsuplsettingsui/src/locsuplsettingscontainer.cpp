@@ -283,7 +283,16 @@ void CLocSUPLSettingsContainer::HandleListBoxEventL( CEikListBox*  /* aListBox *
         case EEventEnterKeyPressed:
         case EEventItemSingleClicked: //case EEventItemDoubleClicked:
             {
-            iSettingsView.HandleCommandL(ELocSuplMSKOpen);
+            // Settings element has been selected. Command has to be issued to
+            // change the settings configuration
+            if ( SelectedItemIndex() == 0 )
+                {
+                iSettingsView.HandleCommandL( ELocSuplMSKChange );
+                }
+            else if ( SelectedItemIndex() == 1 || SelectedItemIndex() == 2 )
+                {
+                iSettingsView.HandleCommandL( ELocSuplMSKOpen );
+                }
             break;	
             }
         default:

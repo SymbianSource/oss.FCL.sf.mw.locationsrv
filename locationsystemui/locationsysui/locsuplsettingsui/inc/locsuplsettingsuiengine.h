@@ -39,6 +39,7 @@ class CTriggerParams;
 class CLocSUPLServerEditor;
 class MSuplServerEditorObserver;
 class MLocSUPLSettingsSessionObserver;
+class CCmApplicationSettingsUi;
 
 // Class Declaration
 /**
@@ -50,7 +51,8 @@ class MLocSUPLSettingsSessionObserver;
  * It further observers the SUPL Settings UI for any changes to the Settings
  * values.
  */
-class CLocSUPLSettingsUiEngine :  public MLocSUPLSettingsAdapterObserver
+class CLocSUPLSettingsUiEngine : public CActive, 
+                                 public MLocSUPLSettingsAdapterObserver
     {
     public:
         /**
@@ -83,7 +85,18 @@ class CLocSUPLSettingsUiEngine :  public MLocSUPLSettingsAdapterObserver
          */
         virtual ~CLocSUPLSettingsUiEngine();
        
+        /** 
+         * Launches the confirmation query to select IAP
+		 *
+		 */
+		void SelectConnectionL();
         
+		/**
+		 * Launches the Access Point Configurator dialog
+		 *
+		 */
+		void LaunchApConfiguratorL( TInt64 aSlpId, 
+				MSuplServerEditorObserver* aEditorObserver );
 		
         /** 
          * Opens the exisitng server with its attributes
@@ -97,12 +110,29 @@ class CLocSUPLSettingsUiEngine :  public MLocSUPLSettingsAdapterObserver
 		 */
 		TInt SlpCount();
 
+		/**
+		 * Launches the SUPL Usage configurator
+		 */
+		void LaunchSuplUsageConfiguratorL();
 		
         /**
 		 * Closes the running Settings UI prematurely.
 		 */
 		void Close();
 		
+        /**
+         * Obtains the SUPL Settings usage.
+         *
+         * @return TPtr16     SUPL settings usage.
+         */  
+        TPtr16 GetSuplUsageL();
+        
+        /**
+         * Obtains the SUPL usage
+         *
+         * @return The SUPL Usage value
+         */
+        TInt   GetSuplUsage();			
 		 
         /**
 		 * Creates a new server entry in Supl Settings.
@@ -288,15 +318,31 @@ class CLocSUPLSettingsUiEngine :  public MLocSUPLSettingsAdapterObserver
         void SetTempAPValue( TUint32 aAccessPoint);
         
         /**
+         * Launches the IAP Dialog
+         */
+        void LaunchIAPDialogL( );
+        
+        /**
          * Generates IMSI address
          */
         void GenerateHslpAddressFromImsi(TDes& aIMSIAddress );
+        
 	public:     		
 		/**
 		 * Inherited from MLocSUPLSettingsAdapterObserver
 		 */
 		void HandleSuplSettingsChangeL( TLocSUPLSettingsEvent aEvent );
 				 
+    protected:
+        /**
+         * Inherited from CActive
+         */
+        void RunL();
+        
+        /**
+         * Inherited from CActive
+         */
+        void DoCancel();
              
     private:
         /**
@@ -319,12 +365,25 @@ class CLocSUPLSettingsUiEngine :  public MLocSUPLSettingsAdapterObserver
         TUint ConvertIAPNameToIdL( const TDesC&      aIAPName );
        
         /**
+         * Updates Access point for ALL SLPs which do not have AP defined.
+         *
+         * @param aAccessPoint Access point
+         */
+        void UpdateMissingIAPL(const TDesC& aAccessPoint );
+       
+        /**
          * Displays an Error note
          *
          * @param aError Error ID
          */
         void DisplayErrorL( TInt aError );
         
+        /**
+         * Displays an Info note
+         *
+         * @param None
+         */
+        TInt ShowNoteL();                               
         
         /**
          * Returns value of last highlighted AP
@@ -343,6 +402,12 @@ class CLocSUPLSettingsUiEngine :  public MLocSUPLSettingsAdapterObserver
          */
         CLocSUPLSettingsAdapter*       	iSUPLSettingsAdapter;
         
+        /**
+         * Flag to denote whether any dialog is currently active
+         * Used in the Cancel method. If there are any requests 
+         * outstanding then they have to be cancelled
+         */
+        TBool                   		iDialogActive;
                         
         /**
          * Temporary Buffer for returning values to the Accessor 
@@ -363,6 +428,10 @@ class CLocSUPLSettingsUiEngine :  public MLocSUPLSettingsAdapterObserver
          */
         HBufC*                  		iSettingsBuffer;
         
+        /**
+         * Pointer to the Settings Buffer
+         */
+        TPtr                    		iSettingsBufferPtr;
         
         /**
          * Standard Text resolver for converting Error codes to 
@@ -381,12 +450,28 @@ class CLocSUPLSettingsUiEngine :  public MLocSUPLSettingsAdapterObserver
          */
         TInt                        	iLaunchParams;
         
+        /**
+         * Akn Global confirmation query
+         * Owns
+         */
+        CAknGlobalConfirmationQuery*    iConfirmQuery;
+        
+        /**
+         * Access point query
+         * Owns
+         */
+        CCmApplicationSettingsUi*    iConnectionMgmtQuery;
 
         /**
          * Flag to denote whether access point selection requested or not
          */
         TBool                   		iRequestIapSelect;
 
+        /**
+         * SUPL Servers SLP ID to get and set the server attributes.
+         * Owns.
+         */
+        TInt64							iCurrentSlpId;
                         
         /**
          * Supl Server Editor 
@@ -394,13 +479,18 @@ class CLocSUPLSettingsUiEngine :  public MLocSUPLSettingsAdapterObserver
          */
         CLocSUPLServerEditor*			iEditorDlg;
 
+        /**
+         * Editor Observer
+         * Owns
+         */
+        MSuplServerEditorObserver*		iEditorObserver;
         
         /*
          * Current highlighted AP
          * Set to -1 if no changes made in edit dialog box, Set to Uid of access 
          * point if changes made 
          */
-        TUint32 iTempAP;
+        TInt iTempAP;
         
     };
     

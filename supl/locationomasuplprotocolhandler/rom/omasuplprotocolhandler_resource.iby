@@ -28,8 +28,8 @@
 
 #ifdef __OMA_SUPL_PLUGINS   
 
-
-
+//Resource file for notifier
+data=DATAZ_\resource\epos_omasuplnotifier.rsc      	    resource\epos_omasuplnotifier.rsc
 #endif  //__OMA_SUPL_PLUGINS 
 
 #endif // OMASUPLPROTOCOLHANDLER_RESOURCE_IBY

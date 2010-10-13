@@ -16,23 +16,21 @@
  */
 
 
-#include <centralrepository.h>
 
 #include "epos_comasuplprotocolmanager1.h"
 #include "epos_csuplcommunicationmanager.h"
 #include "epos_csuplsettingsinternal.h"
-
+#include "epos_csuplsettingparams.h"
 #include "epos_omasuplconstants.h"
 #include "epos_comasuplconnrequestor.h"
 #include "epos_momasuplconnobserver.h"
 #include "epos_comasupltrace.h"
 #include "epos_comasuplfallbackhandler.h"
-#include "epos_csuplsettingsinternalcrkeys.h"
-
 
 #include "epos_comasupldialogtimer.h"
 _LIT(KTraceFileName,"SUPL_OMA_SESSION::epos_comasuplconnrequestor.cpp");
 
+const TInt KStringLength = 100;
 
 
 // ============================ MEMBER FUNCTIONS ===============================
@@ -42,18 +40,17 @@ _LIT(KTraceFileName,"SUPL_OMA_SESSION::epos_comasuplconnrequestor.cpp");
 // C++ constructor can NOT contain any code, that might leave.
 // -----------------------------------------------------------------------------
 //
-COMASuplConnRequestor::COMASuplConnRequestor(CSuplCommunicationManager& aCommMgr,
-        COMASUPLProtocolManager1& aProtoMgr, 
-        TUint aPort, 
-        MOMASuplConnObserver& aObserver):
-        CActive( EPriorityStandard ),
-        iCommMgr(aCommMgr), 
-        iProtocolManager(aProtoMgr),
-        iPort(aPort),
-        iObserver( aObserver),iPrompt(EFalse),iWlanOnly(EFalse),iIsStaleLocIdPresent(EFalse)
-        {
+COMASuplConnRequestor::COMASuplConnRequestor(
+        CSuplCommunicationManager& aCommMgr,
+        COMASUPLProtocolManager1& aProtoMgr, TUint aPort,
+        MOMASuplConnObserver& aObserver) :
+    CActive(EPriorityStandard), iCommMgr(aCommMgr), iProtocolManager(
+            aProtoMgr),iConnection(NULL), iPort(aPort), iObserver(aObserver), iIapDialogShown(
+            EFalse), iIapDlgTimerExpired(EFalse),
+            iIsTimeoutDialogTimerStarted(EFalse)
+    {
 
-        }
+    }
 
 // -----------------------------------------------------------------------------
 // COMASuplConnRequestor::ConstructL
@@ -72,11 +69,12 @@ void COMASuplConnRequestor::ConstructL()
     iHslpAddrFromImsiUsed = EFalse;
 
     iFallBackHandler = COMASuplFallBackHandler::NewL(*iSuplSettings);
-    iRepository = CRepository::NewL(KCRUidSuplSettings);
+
     iLastConnectionError = KErrNone;
 
     iCurrentSLPId = KErrNotFound;
 
+    iDialogTimer = COMASuplDialogTimer::NewL(*this);
     }
 
 // -----------------------------------------------------------------------------
@@ -106,12 +104,15 @@ COMASuplConnRequestor* COMASuplConnRequestor::NewL( CSuplCommunicationManager& a
 COMASuplConnRequestor::~COMASuplConnRequestor()
     {
     Cancel();
-  
+    if(iDialogTimer)
+        {
+        iDialogTimer->Cancel();
+        delete iDialogTimer;
+        iDialogTimer = NULL;
+        }
     delete iSuplSettings;
     delete iTrace;
     delete iFallBackHandler;
-    delete iRepository;
-        iRepository = NULL;
     }
 
 // -----------------------------------------------------------------------------
@@ -135,73 +136,57 @@ void COMASuplConnRequestor::CreateConnectionL()
 		
 		if(errorCode == KErrNone)
 			{
-				TBool ret = ConvertIAPNameToIdL(iapName,iIAPId);
-				if(!ret)
-					{
-						buffer.Copy(_L("No access point configured for "));
-						buffer.Append(iHostAddress);
-						iTrace->Trace(buffer,KTraceFileName, __LINE__); 				
-						buffer.Copy(_L("Calling CreateConnection with no IAP"));
-						iTrace->Trace(buffer,KTraceFileName, __LINE__);
-						iConnection = iCommMgr.CreateConnectionL(iHostAddress,iTls,iPskTls,iPort,-1);
-						OpenConnection();
-						
-					}
-        else
-            {
-            buffer.Copy(_L("Connecting to "));
-            buffer.Append(iHostAddress);
-            iTrace->Trace(buffer,KTraceFileName, __LINE__); 				
-            iConnection = iCommMgr.CreateConnectionL(iHostAddress,iTls,iPskTls,iPort,iIAPId);
-            OpenConnection();
-            }	
-        }
-    else
-        {
-        iHostAddress.Zero();
-        iObserver.OperationCompleteL(errorCode);
-        }
+			TBool ret = ConvertIAPNameToIdL(iapName,iIAPId);
+			if(!ret)
+				{
+					buffer.Copy(_L("No access point configured for "));
+					buffer.Append(iHostAddress);
+					iTrace->Trace(buffer,KTraceFileName, __LINE__); 				
+					if( isIapDialogShown )
+						{
+						TInt err = iProtocolManager.LaunchSettingsUI(this,iHostAddress);
+						if(err != KErrNone)
+							{
+							buffer.Copy(_L("Error in launching UI : "));
+							buffer.AppendNum(err);
+							iTrace->Trace(buffer,KTraceFileName, __LINE__);                 
+							iHostAddress.Zero();
+							iObserver.OperationCompleteL(err);
+							}
+							else
+							iIapDialogShown = ETrue;
+						}
+					
+					
+				}
+			else
+	            {
+	            iIsTimeoutDialogTimerStarted = EFalse;
+	            iDialogTimer->Cancel();
+	            buffer.Copy(_L("Connecting to "));
+	            buffer.Append(iHostAddress);
+	            iTrace->Trace(buffer,KTraceFileName, __LINE__); 				
+	            iConnection = iCommMgr.CreateConnectionL(iHostAddress,iTls,iPskTls,iPort,iIAPId);
+	            OpenConnection();
+	            }	
+			}
+	    else
+	        {
+	        iHostAddress.Zero();
+	        iObserver.OperationCompleteL(errorCode);
+	        }
 		}
-    }
-    
- 
- // -----------------------------------------------------------------------------
-// COMASuplConnRequestor::CreateConnection for OCC
-// -----------------------------------------------------------------------------
-//    
-void COMASuplConnRequestor::CreateConnectionL(TBool aPrompt,TBool aWlanOnly)
-    {
-        TBuf<30> GeoTagServerName;
-        TBuf<128> buffer;
-        iState = EConnecting;  
-       
-        iPrompt = aPrompt;
-        iWlanOnly = aWlanOnly;
-        iIsStaleLocIdPresent = ETrue;
-               
-        TInt err;
-        err = iRepository->Get(KSuplGeoInfoConvServerName, GeoTagServerName);
-        User::LeaveIfError(err);
-        buffer.Copy(_L("Connecting to"));
-        buffer.Append(GeoTagServerName);
-        iTrace->Trace(buffer,KTraceFileName, __LINE__);                 
-        iTls = ETrue;
-        iPskTls = EFalse;
-        iIAPId = 0;
-        
-        
-        iConnection = iCommMgr.CreateConnectionL(GeoTagServerName,iTls,iPskTls,iPort,iIAPId);
-       
-        OpenConnection();
-        
     }
 
 // -----------------------------------------------------------------------------
 // COMASuplConnRequestor::OpenConnection
 // -----------------------------------------------------------------------------
- 
-void COMASuplConnRequestor::CreateConnectionL(TInt /*aDialogTimeOutDelay*/)
+//    
+void COMASuplConnRequestor::CreateConnectionL(TInt aDialogTimeOutDelay)
     {
+    iIsTimeoutDialogTimerStarted = ETrue;
+
+    iDialogTimer->StartTimer(aDialogTimeOutDelay); 
     CreateConnectionL();
     }
 // -----------------------------------------------------------------------------
@@ -245,17 +230,8 @@ void COMASuplConnRequestor::OpenConnection()
         if(iConnection)
             {
             iState = EConnecting;
-            if(iIsStaleLocIdPresent)
-                {
-                iTrace->Trace(_L("OpenConnection OCC"),KTraceFileName, __LINE__);
-                iConnection->Connect(iStatus,iPrompt,iWlanOnly);
-                }
-            else
-                {
-                iConnection->Connect(iStatus);
-                }
-           SetActive();
-           
+            iConnection->Connect(iStatus);
+            SetActive();
             }
         }
     else
@@ -324,17 +300,7 @@ void COMASuplConnRequestor::RunL()
                 {
                 iHostAddress.Zero();
                 CloseConnection();
-                if(iIsStaleLocIdPresent)
-                    {
-                    iTrace->Trace(_L("Request completed with error..."), KTraceFileName, __LINE__);       
-                    iObserver.OperationCompleteL(iLastConnectionError);
-                    }
-                else
-                    {
-                    iTrace->Trace(_L("Setting API Initilizing Completed..."), KTraceFileName, __LINE__);       
-                    CreateConnectionL();
-                    }
-                
+                CreateConnectionL();
                 }
             else
                 {
@@ -429,7 +395,6 @@ void COMASuplConnRequestor::SetIAPID(TInt aIAPID)
 void COMASuplConnRequestor::InitilizeSetting()
     {
     iTrace->Trace(_L("Intilizing Setting API..."), KTraceFileName, __LINE__); 				
-    
     iSuplSettings->Initialize(iStatus);
     SetActive();
     }
@@ -453,13 +418,15 @@ TBool COMASuplConnRequestor::IsHslpAddrFromImsiUsed()
     }	
 
 TUint COMASuplConnRequestor::GetPortNumber()
-	{
-	if(iConnection)
-		return iConnection->GetPortNumberUsed();
-	else 
-		return 0;
-	}
-	
+    {
+    if (iConnection)
+        {
+        return iConnection->GetPortNumberUsed();
+        }
+    else
+        return 0;
+    }
+
 // -----------------------------------------------------------------------------
 // COMASuplConnRequestor::SetDefaultParametersL
 // -----------------------------------------------------------------------------
@@ -507,7 +474,106 @@ TBool COMASuplConnRequestor::ConvertIAPNameToIdL(const TDesC& aIAPName, TUint32&
     return result;
     }
 
+// -----------------------------------------------------------------------------
+// COMASuplConnRequestor::SettingsUICompleted
+// 
+// -----------------------------------------------------------------------------
 
+void COMASuplConnRequestor::SettingsUICompletedL(TInt aError)
+    {
+		TBuf<128> buffer(_L("COMASuplConnRequestor:SettingsUICompleted Error: "));
+    buffer.AppendNum(aError);
+    iTrace->Trace(buffer,KTraceFileName, __LINE__); 
+
+    if (iIsTimeoutDialogTimerStarted)
+        {                
+        iTrace->Trace(_L("COMASuplSession::SettingsUICompleted, stopping timer "), KTraceFileName, __LINE__);
+        iIsTimeoutDialogTimerStarted = EFalse;                    
+        iDialogTimer->StopTimer();
+        }
+    if (iIapDlgTimerExpired)
+        {
+        iIapDlgTimerExpired = EFalse;
+        iIapDialogShown = EFalse;
+        iProtocolManager.LaunchSuplDialogTimeoutUI(this);
+        iObserver.OperationCompleteL(KErrNone);
+        return;
+        }
+    if(aError == KErrNone)
+        {
+        TInt err = KErrGeneral;
+        iTrace->Trace(
+                _L("COMASuplConnRequestor::SettingsUICompletedL KErrNone"),
+                KTraceFileName, __LINE__);
+        TBuf<100> IapName, buffer;
+        CServerParams* params = CServerParams::NewL();
+
+        err = iSuplSettings->GetSlpInfoAddress(iHostAddress, params);
+        iTrace->Trace(_L("iSuplSettings->GetSlpInfoAddress returned : "),
+                KTraceFileName, __LINE__);
+        buffer.AppendNum(err);
+        iTrace->Trace(buffer, KTraceFileName, __LINE__);
+
+        // Fix for ou1cimx#475026 and ou1cimx#471138
+        // When there are no access points defined for any SUPL server, the user is asked to
+        // select the access point only once and same access point is used for the following servers.
+        if (err == KErrNone)
+            {
+            HBufC* aServerAddress = HBufC::NewL(KStringLength);
+            HBufC* aIapName = HBufC::NewL(KStringLength);
+            TInt64 aSlpId;
+            TBool aServerEnabled, aSimChangeRemove, aUsageInHomeNw, aEditable;
+
+            err = params->Get(aSlpId, aServerAddress->Des(), aIapName->Des(),
+                    aServerEnabled, aSimChangeRemove, aUsageInHomeNw,
+                    aEditable);
+
+            iTrace->Trace(_L("params->Get() returned: "), KTraceFileName,
+                    __LINE__);
+            buffer.Zero();
+            buffer.AppendNum(err);
+            iTrace->Trace(buffer, KTraceFileName, __LINE__);
+            IapName.Copy(*aIapName);
+            IapName.LowerCase();
+
+            //converting the iap name to id.
+            ConvertIAPNameToIdL(IapName, iIAPId);
+            //updating the list of SLP with the chosen access point
+            iFallBackHandler->UpdateSLPListWithAccessPoint(IapName);
+
+            delete aServerAddress;
+            delete aIapName;
+            delete params;
+
+            // if the getting the list parameters is success opening the connection with the chosen access point
+            if (err == KErrNone)
+                {
+                buffer.Copy(_L("Connecting to "));
+                buffer.Append(iHostAddress);
+                buffer.Append(_L(" using IAP "));
+                buffer.Append(IapName);
+                iTrace->Trace(buffer, KTraceFileName, __LINE__);
+                iConnection = iCommMgr.CreateConnectionL(iHostAddress, iTls,
+                        iPskTls, iPort, iIAPId);
+                OpenConnection();
+                }
+            else
+                {
+                iObserver.OperationCompleteL(err);
+                }
+            }
+        else
+            {
+            delete params;
+            iObserver.OperationCompleteL(err);
+            }
+        }
+    else
+        {
+        iObserver.OperationCompleteL(aError);
+        }
+
+    }
 
 // -----------------------------------------------------------------------------
 // COMASuplConnRequestor::SaveAccessPoint
@@ -573,5 +639,19 @@ void COMASuplConnRequestor::UpdateSLPListForHomeUsage(TBool aHomeNetwork)
     iFallBackHandler->UpdateSLPListForHomeUsage(aHomeNetwork);
     }
 
+// -----------------------------------------------------------------------------
+// COMASuplConnRequestor::DialogTimerExpiredL
+// Checks whether UI is displayed or not previously
+// 
+// -----------------------------------------------------------------------------
+void COMASuplConnRequestor::DialogTimerExpiredL()
+    {
+    iTrace->Trace(_L("COMASuplConnRequestor:Timer Expired for SUPL IAP Dialog"), KTraceFileName, __LINE__); 
 
+    if (!iIapDialogShown)
+        iProtocolManager.LaunchSuplDialogTimeoutUI(this);
+    else
+        iIapDlgTimerExpired = ETrue;  
+    return; 
+    }
 //  End of File

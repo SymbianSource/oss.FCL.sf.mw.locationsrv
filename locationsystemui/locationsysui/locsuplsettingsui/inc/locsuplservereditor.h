@@ -98,13 +98,7 @@ class CLocSUPLServerEditor :
          * Executes the Dialog
          */
         TInt ExecuteLD();
-        
-        /**
-         * Sets the value of iIsAccessPointDefined based on whether the
-         * access point is preconfigured for a server
-         * @param[in] aEnabled - Value to be set for the variable iIsAccessPointDefined
-         */
-        void SetAccessPointEnabled(TBool aEnabled);
+	
 	public: // from MSuplServerEditorObserver
 	
 	    /*
@@ -288,11 +282,6 @@ class CLocSUPLServerEditor :
 	    	* It determines if form is modified by user
 	    	*/	    
 	    TBool							iIsModified;
-	    
-	    /**
-	     * Determines whether the access point is preconfigured for the server
-	     */
-	    TBool  iIsAccessPointDefined;
     };
 
 #endif // __LOCSUPLSERVER_EDITOR_H__

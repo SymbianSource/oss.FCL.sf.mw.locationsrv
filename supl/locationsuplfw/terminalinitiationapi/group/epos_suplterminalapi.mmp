@@ -33,7 +33,6 @@ SOURCE          epos_suplterminalptrholder.cpp
 SOURCE			epos_suplterminalqop.cpp 
 SOURCE			epos_suplterminalparams.cpp
 SOURCE 			epos_suplterminalperiodictrigger.cpp
-SOURCE 			epos_suplterminalinternal.cpp
 
 USERINCLUDE     ../inc
 USERINCLUDE     ../../../inc

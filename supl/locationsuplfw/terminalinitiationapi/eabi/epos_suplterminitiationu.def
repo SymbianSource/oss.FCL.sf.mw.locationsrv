@@ -68,8 +68,4 @@ EXPORTS
 	_ZTV22CSuplSubSessnPtrHolder @ 67 NONAME
 	_ZTV23RSuplTerminalSubSession @ 68 NONAME
 	_ZN19RSuplTerminalServer7ConnectER14TRequestStatus @ 69 NONAME
-	_ZN21RSuplTerminalInternal24CancelLocationConversionEv @ 70 NONAME
-	_ZN21RSuplTerminalInternal28ConvertAreaInfoToCoordinatesER14TRequestStatusR12TGeoCellInfo @ 71 NONAME
-	_ZN21RSuplTerminalInternalC1Ev @ 72 NONAME
-	_ZN21RSuplTerminalInternalC2Ev @ 73 NONAME
 

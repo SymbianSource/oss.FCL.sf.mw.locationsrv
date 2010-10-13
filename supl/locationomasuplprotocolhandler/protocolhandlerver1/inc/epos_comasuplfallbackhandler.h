@@ -88,6 +88,8 @@ class COMASuplFallBackHandler : public CBase
 		
 		void UpdateSLPListForHomeUsage(TBool aHomeNetwork);
 		
+		void UpdateSLPListWithAccessPoint(const TDesC& aIapName);
+		
 		
 	private : 
 	

@@ -142,8 +142,8 @@ void CSuplServer::ConstructL()
     // Settings
     TInt keyValue;
     TInt err = KErrNone;
-    CRepository* repository = NULL;
-    TRAP(err, repository = CRepository::NewL(KCRUidSuplConfiguration));
+    
+    CRepository* repository = CRepository::NewL(KCRUidSuplConfiguration);
     CleanupStack::PushL(repository);
     
     if (err != KErrNone)
@@ -264,7 +264,7 @@ CSession2* CSuplServer::NewSessionL(
         }
 
     //if secure id is not equal to KSuplWapSecureId or KSuplWapSecureId, then perform capability check
-    if ((aMessage.SecureId() != KSuplWapSecureId && aMessage.SecureId() != KNetworkGatewaySID && aMessage.SecureId() != 0x102869DF))
+    if ((aMessage.SecureId() != KSuplWapSecureId && aMessage.SecureId() != KNetworkGatewaySID))
     	{
         if (!aMessage.HasCapability(ECapabilityCommDD))
             {
@@ -322,11 +322,8 @@ CPolicyServer::TCustomResult CSuplServer::CustomSecurityCheckL(
     static _LIT_SECURITY_POLICY_S0(allowSuplWapPolicy, KSuplWapSecureId);
     TBool isSuplWap = allowSuplWapPolicy().CheckPolicy(aMessage); 
     
-    static _LIT_SECURITY_POLICY_S0(allowlocationserverPolicy, 0x102869DF);
-       TBool islocationserver = allowlocationserverPolicy().CheckPolicy(aMessage); 
-       
-       //Check if the request was made by one of the allowed processes else check for required capability
-       if (!isNetworkGateway && !isSuplWap && !islocationserver)
+    //Check if the request was made by one of the allowed processes else check for required capability
+    if (!isNetworkGateway && !isSuplWap )
         {
         if (!aMessage.HasCapability(ECapabilityCommDD))
             {

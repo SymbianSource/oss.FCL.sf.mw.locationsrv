@@ -26,12 +26,11 @@ const TUint32 KSuplSettingsHSLPAddress = 0x00000001;
 const TUint32 KSuplSettingsFallBack = 0x00000002;
 const TUint32 KSuplSettingsFallBackTimer = 0x00000003;
 const TUint32 KSuplSettingsIMSI = 0x00000004;
-
+const TUint32 KSuplSettingsUsage = 0x00000005;
 const TUint32 KSuplSettingsDBEvent = 0x00000006;
 const TUint32 KSuplSettingsDBChangedSLPId = 0x00000007;
 const TUint32 KSuplSettigsDBPath = 0x00000008;
 const TUint32 KSuplSessionDBEvent = 0x00000009;
 const TUint32 KSuplSessionDBChangedSessionId = 0x0000000A;
-const TUint32 KSuplGeoInfoConvServerName = 0x0000000B;
 
 #endif //SUPLSETTINGSINTERNALCRKEYS_H

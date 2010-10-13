@@ -97,6 +97,7 @@ struct TCellIdInfo
 
 class COMASuplSession : public CSuplSessionBase,
 						public MOMASuplConnObserver,
+                        public MOMASuplUICompletionObserver,
 						public MCompleteSelfRequest,
 						public MOMASuplMsgStateObserver,
 						public MOMASuplObserver,
@@ -215,7 +216,27 @@ class COMASuplSession : public CSuplSessionBase,
 	        */
 			void GetPositionCompleteL(TInt aError);
 			
-
+        	/** 
+            * This callback method is used to notify the client about 
+            * the completion of UI launch
+            * @param aError - Error during Launch
+            * @return None
+            */
+        	void SettingsUICompletedL(TInt aError);
+		
+            /** 
+            * This callback method is used to notify the client about 
+            * the completion of UI
+            * @return None
+            */
+			void SettingsUsageUICompletedL(TInt aError);
+			
+            /** 
+            * This callback method is used to notify the client about 
+            * the completion of UI 
+            * @return None
+            */
+			void SettingsTimeOutUICompletedL(TInt aError);
 			
 	public: 			 
 			/**
@@ -362,6 +383,13 @@ class COMASuplSession : public CSuplSessionBase,
 			*/
 			TInt SuplIpcSessionID();
 
+			/**
+			* UpdateSuplUsage Method.  Updates SUPL usage 
+			* @since S60 v3.2
+			* @param None
+			* @return None
+			*/
+			void UpdateSuplUsage();
 
 			/**
 			* SettingsChanged Method.  Updates flag to indicate that
@@ -1004,8 +1032,10 @@ class COMASuplSession : public CSuplSessionBase,
 			*/
             virtual void DialogTimerExpiredL();
     public:  // Usage dialog
-            
-            
+            void SetSuplUsageFlag();
+            void ReSetSuplUsageFlag();
+            TBool GetSuplUsageFlag();
+            void StartUsageDialogLaunchL();
             TBool IsEtelNotifySet();
             TBool IsEtelRoamingSet();
 			TUint GetPortNumUsed();

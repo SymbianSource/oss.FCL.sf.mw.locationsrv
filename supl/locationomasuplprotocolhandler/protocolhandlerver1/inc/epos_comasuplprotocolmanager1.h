@@ -81,6 +81,7 @@ class COMASUPLProtocolManager1 : public COMASUPLProtocolManager,
 								public MSuplEcomEventObserver,
 								public MSuplSettingsObserver,
 								public MOMASuplTimeOutNotifier,
+						        public MOMASuplUISettingsObserver,
                                 public MOMASuplETelNotifierObserver
     {
     
@@ -271,12 +272,40 @@ public : // From base class, MOMASuplSessionObserver
 	
 public: 
 
-	
+	// For setting UI observer    
+	TInt LaunchSettingsUI(MOMASuplUICompletionObserver* aObserver,const TDesC& aForHslp);
+	TInt LaunchSuplUsageSettingsUI(MOMASuplUICompletionObserver* aObserver, TBool aRoaming);
+	TInt LaunchSuplDialogTimeoutUI(MOMASuplUICompletionObserver* aObserver );
 	void UpdateAllSubSessnsInSameSession(TInt aIpcSessionId);
+	
+	void CancelUiLaunch();
 
 	void SettingsChanged();
 
-	
+	TInt GetLastUsedAccessPoint(TDes& aLastlyUsedAccessPoint,TUint32& iIAPId);
+	/** 
+	* This callback method is used to notify the client about 
+	* the completion of UI launch
+	* @param aError - Error during Launch
+	* @return None
+	*/
+	void SettingsUICompletedL(TInt aError);
+
+	/** 
+	* This callback method is used to notify the client about 
+	* the completion of UI launch
+	* @param aError - Error during Launch
+	* @return None
+	*/
+	void SettingsUsageUICompletedL(TInt aError);
+
+	/** 
+	* This callback method is used to notify the client about 
+	* the completion of UI completion
+	* @param aError - Error during Launch
+	* @return None
+	*/
+	void SettingsTimeOutUICompletedL(TInt aError);
 	
 public: //From base class MSuplSettingsObserver
 
@@ -429,7 +458,13 @@ private : //For internal use only
 	void ProcessInvalidSessionL(COMASuplAsnMessageBase* aDecodedMsg);
 
     
-    
+    /**
+     * ReadSuplUsage, Reads OMA Supl Usage.
+     * @since S60 v3.1u          
+     * @param      None. 
+     * @return     None.
+     */
+    void ReadSuplUsage();
 	
     
     /**
@@ -477,28 +512,6 @@ public:  // MOMASuplETelNotifierObserver
 public:  // COMASUPLProtocolManager
     void SetCommonConfig(COMASuplCommonConfig*& aCommmonConfig);
 
-public:
-    /*
-     * Method used to make conversion request for retrieving position of a location id.
-     * 
-     * @since S60 v5.2
-     * @param aSuplSessn session object on which processing will start,ownership is not transferred
-     * @param aCellInfo contains cell id information and cell id type
-     * @param aStatus On return, the status of the request
-     * 
-     */
-    void MakeLocationConversionRequestL( CSuplSessionBase* aSuplSessn,
-                                                      TGeoCellInfo& aCellInfo,               
-                                                      TRequestStatus& aStatus );
-    /*
-     * Method used to make cancel a conversion request for retrieving position of a location id,,ownership is not transferred.
-     * 
-     * @since S60 v5.2
-     * @param aSuplSessn session object which is to be cancelled
-     * 
-     */
-    void CancelLocationConversionRequest(CSuplSessionBase* aSuplSession);
-    
 private: // Data Members
 
 	//Holds all session objects created by CreateNewSession

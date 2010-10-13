@@ -66,7 +66,8 @@ enum TLocSUPLSettingsParams
     ELocSUPLDefault         = KDefaultParamValue,   // Default Settings View
     ELocSUPLIAPSelection    = 0x00000001,           // IAP Selection dialog
     ELocSUPLStateSelection  = 0x00000002,           // State enable dialog 
-    ELocSuplSettingsPage    = 0x00000010            // SUPL settings page
+    ELocSuplSettingsPage    = 0x00000010,           // SUPL settings page
+    ELocSuplIAPDialog       = 0x00000020            // SUPL IAP dialog
     };
     
  

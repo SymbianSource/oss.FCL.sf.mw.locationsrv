@@ -149,22 +149,8 @@ COMASuplStartState* COMASuplStartState::NewL(RMobilePhone& aMobilePhone,TInt aMs
 //
 TInt COMASuplStartState::GenerateMessageL() 
 	{
-		iTrace->Trace(_L("Start of COMASuplStartState::GenerateMessage"), KTraceFileName, __LINE__);
-		//if no cell stale cell id is available, retrieve current cell id
-		if(!iIsStaleCellId)
-		    {
-		    iTrace->Trace(_L("COMASuplStartState::GenerateMessage stale cell id false"), KTraceFileName, __LINE__);
-		    iLocationIDRequestor->GetLocationID();
-		    iTrace->Trace(_L("COMASuplStartState::GenerateMessage called get location id"), KTraceFileName, __LINE__);
-		    }
-		else // dont retrieve current cell id as cell id was already provided
-		    {
-		    iGenerationStatus = EFalse;
-		    iECId = EFalse;
-		    iTrace->Trace(_L("COMASuplStartState::GenerateMessage stale cell id true"), KTraceFileName, __LINE__);
-		    GetAssistceDataFromPluginL(KErrNone);
-		    }
-		
+		iTrace->Trace(_L("Start of COMASuplStartState::GenerateMessage"), KTraceFileName, __LINE__); 					
+		iLocationIDRequestor->GetLocationID();
 		return KErrNone;
 	}
 	
@@ -1010,15 +996,4 @@ void COMASuplStartState::GetCurrentCellID(TCellIdInfo& aCurrentCellId,TInt& aTyp
 	aCurrentCellId.iMCC = lRefMCC;
 	aCurrentCellId.iLac = lRefLAC;
 	}
-}	
-void COMASuplStartState::SetStaleCellIdToUse(COMASuplLocationId* aLocationId)
-    {
-    if(iLocationId)
-        {
-        delete iLocationId;
-        iLocationId = NULL;
-        }
-    iLocationId = aLocationId;
-    iIsStaleCellId = ETrue;
-    }
-//  End of File
+}	//  End of File

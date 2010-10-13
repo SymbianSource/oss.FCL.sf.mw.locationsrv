@@ -33,7 +33,6 @@ class COMASuplTrace;
 class COMASuplFallBackHandler;
 class COMASUPLProtocolManager1;
 class COMASuplDialogTimer;
-class CRepository;
 /**
  *  Class for doing asynchronous service  i.e. used for Sending Packet to Socket.	
  *
@@ -41,7 +40,9 @@ class CRepository;
  *  @since S60 v3.1
  */
  
-class COMASuplConnRequestor : public CActive
+class COMASuplConnRequestor : public CActive, 
+                              public MOMASuplUICompletionObserver,  
+                              public MOMASuplDialogTimeOutNotifier
 {
 
 	enum TConnState
@@ -92,18 +93,6 @@ class COMASuplConnRequestor : public CActive
 		 * @return None
 		 */ 
 		void CreateConnectionL(TInt aDialogTimeOutDelay);
-		
-		
-		/**
-		* CreateConnection Method Overload. Creates the Socket required to
-		* communicate with the SLP. Called in case of NI case.
-		* @since 
-		* @param aPrompt used to show connection dialog using OCC Api's.
-		* @param aWlanOnly used to connect server using wlan only.
-		* @return None
-		* Added CreateConnectionL with aPrompt and aWLANOnly for OCC.
-		*/ 
-		void CreateConnectionL(TBool aPrompt,TBool aWlanOnly);
 		
 		/**
 		* SendPacket Method.
@@ -183,7 +172,9 @@ class COMASuplConnRequestor : public CActive
         
         void GetUsedServerAddress(TDes& aHSLPAddressUsed);
         
-       
+        void SettingsUICompletedL(TInt aError);
+        void SettingsUsageUICompletedL(TInt /*aError*/) {}
+        void SettingsTimeOutUICompletedL(TInt /*aError*/) {}
         TBool ConvertIAPNameToIdL(const TDesC& aIAPName, TUint32& aIAPId);
         void UpdateNetInfo(const TTime& aLastTimeUsed,TInt& aMcc,TInt& aMnc,
 							              TInt& aCid,TInt& aLac,TInt& aType,TInt& aErrorCode);
@@ -217,7 +208,13 @@ class COMASuplConnRequestor : public CActive
 		
 		void SaveAccessPoint(const TDesC& aIapName);
 
-		
+		/**
+		 * Dialog Timeout Notifier Method.
+		 * @since Series 60 9.1 TB
+		 * @param None
+		 * @return None
+		 */
+		virtual void DialogTimerExpiredL();	
   	protected :  // Functions from CActive
       /**
       * From CActive 
@@ -274,28 +271,29 @@ class COMASuplConnRequestor : public CActive
 			//For trying for once with newly generated HSLP.
 			TBool iTLSAuthenticationFailed;
 			
-			//SUPLSettings,Ownership is with the object
+			//SUPLSettings
 			CSuplSettingsInternal *iSuplSettings;
 			
-			CRepository*            iRepository;//Ownership is with the object
-			
 			//Trace Utility
-			COMASuplTrace* iTrace; //Ownership is with the object
+			COMASuplTrace* iTrace;
 			TBool iIsHSLPGenerated;
             TBool iHslpAddrFromImsiUsed;
             
             TInt iLastConnectionError;
             
-            COMASuplFallBackHandler* iFallBackHandler;//Ownership is with the object
+            COMASuplFallBackHandler* iFallBackHandler;
             
             TBool iIsSettingInitilized;
             
             TInt64 iCurrentSLPId;
-            TBool iPrompt;
             
-            TBool iWlanOnly;
+            COMASuplDialogTimer* iDialogTimer;
             
-            TBool iIsStaleLocIdPresent;
+            TBool iIapDialogShown;
+            
+            TBool iIapDlgTimerExpired;
+            
+            TBool iIsTimeoutDialogTimerStarted;
 
 };
 

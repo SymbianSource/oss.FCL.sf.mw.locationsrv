@@ -72,7 +72,7 @@ LIBRARY euser.lib
 LIBRARY insock.lib
 LIBRARY lbs.lib
 LIBRARY eposnwprv.lib
-
+LIBRARY locsettingsuiclient.lib
 LIBRARY hash.lib
 LIBRARY bafl.lib  //logging
 LIBRARY flogger.lib

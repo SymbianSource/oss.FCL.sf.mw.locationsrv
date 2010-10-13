@@ -64,7 +64,9 @@ ECOM_PLUGIN(epos_omasuplwaplistener.dll,epos_omasuplwaplistener.rsc)
 ECOM_PLUGIN(epos_omasuplsyncmldm.dll,epos_omasuplsyncmldm.rsc)
 #endif	// __SYNCML_DM
 
-
+// Notifier
+ECOM_PLUGIN(epos_omasuplnotifierplugin.dll,epos_omasuplnotifierplugin.rsc)
+file=ABI_DIR\BUILD_DIR\epos_omasuplnotifier.dll   SHARED_LIB_DIR\epos_omasuplnotifier.dll
 // Storage Db Backup Registration File
 data=DATAZ_\private\1027509E\backup_registration.xml    \private\1027509E\backup_registration.xml
 #endif //__OMA_SUPL_PLUGINS   

@@ -97,7 +97,7 @@ CSuplSessionRequest* CSuplSessionRequest::NewL(CSuplSessionManager& aSessnMgr, C
 CSuplSessionRequest::~CSuplSessionRequest()
     {
     DEBUG_TRACE("CSuplSessionRequest::~CSuplSessionRequest", __LINE__)
-    //iSessnMgr.RemoveFromQueueForReIssueRequest(*this);
+    iSessnMgr.RemoveFromQueueForReIssueRequest(*this);
     
     if (iParamExtendedFallback)
 		{
@@ -317,17 +317,6 @@ void CSuplSessionRequest::RunL()
 	        	iNetObserver->CompleteForwardMessageL(iHandle);
 	        	break;
 	        	}
-				
-			case ESuplLocationConversionRequest:
-			case ESuplCancelLocationConversionRequest:
-            {
-            iRequestPhase = ESuplReqInactive;
-            iObserver->CompleteRunSession(err);
-            break;
-            }
-
-			
-
 
 	        default :
 	            DebugPanic(EPosSuplServerPanicRequestInconsistency);
@@ -500,38 +489,8 @@ void CSuplSessionRequest::CancelTriggerringRequest()
     {
     DEBUG_TRACE("CSuplSessionRequest::CancelTriggerringRequest", __LINE__)
     iRequestPhase = ESuplStopTriggerRequest;
-    iSessnMgr.CancelTriggerringSession(iSuplSessn); 
-    //SetActive();
-    }
-
-// ---------------------------------------------------------
-// CSuplSessionRequest::MakeLocationConversionRequestL
-//
-// (other items were commented in a header).
-// ---------------------------------------------------------
-//
-void CSuplSessionRequest::MakeLocationConversionRequestL( CSuplSessionBase* aSuplSessn,
-                                                          TGeoCellInfo& aCellInfo )
-    {
-    DEBUG_TRACE("CSuplSessionRequest::MakeLocationConversionRequestL", __LINE__)
-    iRequestPhase = ESuplLocationConversionRequest;
-    iStatus = KRequestPending;
-    iSessnMgr.MakeLocationConversionRequestL(aSuplSessn,aCellInfo,iStatus );
-    SetActive();       
-    }
-
-        
-// ---------------------------------------------------------
-// CSuplSessionRequest::CancelLocationConversionRequest
-//
-// (other items were commented in a header).
-// ---------------------------------------------------------
-//
-void CSuplSessionRequest::CancelLocationConversionRequest()
-    {
-    DEBUG_TRACE("CSuplSessionRequest::CancelLocationConversionRequest", __LINE__)
-    iRequestPhase = ESuplCancelLocationConversionRequest;
-    iSessnMgr.CancelLocationConversionRequest(iSuplSessn); 
+    iSessnMgr.CancelTriggerringSession(iSuplSessn);	
+	//SetActive();
     }
     
 //  End of File

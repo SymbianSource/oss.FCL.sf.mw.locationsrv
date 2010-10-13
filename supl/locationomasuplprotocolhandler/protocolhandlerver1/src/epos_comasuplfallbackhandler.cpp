@@ -804,6 +804,31 @@ void COMASuplFallBackHandler::UpdateSLPListForHomeUsage(TBool aHomeNetwork)
 }
 
 // -----------------------------------------------------------------------------
+// COMASuplFallBackHandler::UpdateSLPListWithAccessPoint
+// -----------------------------------------------------------------------------
+//    
+void COMASuplFallBackHandler::UpdateSLPListWithAccessPoint(const TDesC& aIapName)
+{
+		iTrace->Trace(_L("UpdateSLPListWithAccessPoint Start"),KTraceFileName, __LINE__); 	
+	
+				TInt TotalServers = iSLPList->Count();	
+				TInt cnt = 0;
+				while( cnt < TotalServers )
+				{
+					if (((*iSLPList)[cnt].iIapName.Length() == 0)) ;
+					{
+						(*iSLPList)[cnt].iIapName.Copy(aIapName);
+					}
+					cnt++;
+				}
+				
+		iTrace->Trace(_L("UpdateSLPListWithAccessPoint End"),KTraceFileName, __LINE__);
+			
+		PrintSLPList();
+		
+}
+
+// -----------------------------------------------------------------------------
 // COMASuplFallBackHandler::GetFirstEnabledSLPL
 // -----------------------------------------------------------------------------
 //    

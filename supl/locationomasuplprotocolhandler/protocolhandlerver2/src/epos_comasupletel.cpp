@@ -12,7 +12,7 @@
 * Contributors:
 *
 * Description:   Implementation of COMASuplEtel Class
-*  Version     : %version: 3.1.1 % << Don't touch! Updated by Synergy at check-out.
+*  Version     : %version: 3 % << Don't touch! Updated by Synergy at check-out.
 *
 */
 
@@ -520,7 +520,7 @@ void COMASuplETel::CopyWCDMAData()
 	 				
 						for(TInt k = 0; k < KOMASUPLMaxTimeSlotIscpAmount; k++ )	 				
 							{
-								iOMASuplwcdmaCellInfo.iNwkMeasureReport[i].iCellMeasuredResult[j].iTddInfo.iTimeslotISCP[k] = iCustomWCDMACellInfo.iNwkMeasureReport[i].iCellMeasuredResult[j].iTddInfo.iTimeslotISCP[k];
+								iOMASuplwcdmaCellInfo.iNwkMeasureReport[i].iCellMeasuredResult[j].iTddInfo.iTimeslotISCP[k] = iOMASuplwcdmaCellInfo.iNwkMeasureReport[i].iCellMeasuredResult[j].iTddInfo.iTimeslotISCP[k];
 							}
 	 					
 	 			}

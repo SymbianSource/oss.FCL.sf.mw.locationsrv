@@ -25,7 +25,6 @@
 #include <lbspositioninfo.h>
 #include <epos_suplterminal.h>
 #include <epos_suplterminaltrigger.h>
-#include <epos_suplgeocellinfo.h>
 #include "epos_csuplecomeventwatcher.h"
 #include "epos_csuplsessionretryq.h"
 #include "epos_csuplcommunicationmanager.h"
@@ -96,12 +95,6 @@ class CSuplSessionManager : public CBase, MSuplConnectionMonitor
 		// from MSuplConnectionMonitor
 		void ConnectionOpened();
 		void ConnectionClosed();
-
-		void MakeLocationConversionRequestL( CSuplSessionBase* aSuplSessn,
-		                                     TGeoCellInfo& aCellInfo,
-		                                     TRequestStatus& aStatus
-		                                   );
-		void CancelLocationConversionRequest(CSuplSessionBase *aSessn);
 	
     private:
 

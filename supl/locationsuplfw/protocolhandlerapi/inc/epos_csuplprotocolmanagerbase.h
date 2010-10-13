@@ -29,7 +29,6 @@
 //Forword Declarations
 class CSuplSessionBase;
 class CSuplCommunicationManager;
-class TGeoCellInfo;
 
 
 /**
@@ -375,35 +374,6 @@ public:
      */
     virtual TInt GetSUPLMessageVersionL(TInt& aMajorVersion, const TDesC8& aReceivedMessage);
     
-    /**
-     * Function:     MakeLocationConversionRequestL
-     *
-     * @Description: Makes Location conversion request
-     *
-     * @Param:       aSuplSessn,session object on which processing will start
-     *
-     * @Param:       aCellInfo,cell information which needs to be converted to geo-coordinates
-     *
-     * @Param:       aStatus, On return, the status of the request
-     * @Returns:     returns None
-     */
-     
-     virtual void MakeLocationConversionRequestL( CSuplSessionBase* aSuplSessn,
-                                                  TGeoCellInfo& aCellInfo,
-                                                  TRequestStatus& aStatus ) = 0;
-        
-    
-     /**
-      * Function:     CancelLocationConversionRequest
-      *
-      * @Description: Cancels the conversion Request
-      *
-      * @Param:       Session Object
-      *
-      * @Returns:     None
-      */
-      
-      virtual void CancelLocationConversionRequest(CSuplSessionBase* aSuplSession) = 0;
     
 
 				 

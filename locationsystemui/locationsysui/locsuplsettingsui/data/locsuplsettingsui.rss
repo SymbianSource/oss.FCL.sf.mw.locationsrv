@@ -43,6 +43,15 @@ RESOURCE RSS_SIGNATURE
 	{
 	}
 
+//----------------------------------------------------
+// r_loc_supl_iap_query
+// Confirmation Query prompt text for SUPL Settings
+//----------------------------------------------------
+//
+RESOURCE TBUF r_loc_supl_iap_query
+    {
+    buf = qtn_loc_supl_iap_query;
+    }
     
 //----------------------------------------------------
 // r_suplsettings_caption
@@ -174,12 +183,12 @@ RESOURCE MENU_PANE r_suplsettings_menu
     {
     items		=
         {
-            MENU_ITEM 
-                        { 
-                        command = ELocSuplOpen; 
-                        txt     = qtn_loc_supl_options_open; 
-                        flags = EEikMenuItemAction;
-                        },
+        MENU_ITEM 
+            { 
+            command = ELocSuplChange; 
+            txt 	= qtn_loc_server_options_change; 
+            flags = EEikMenuItemAction;
+            },
         MENU_ITEM
             {
             command = ELocSuplClearSession;
@@ -221,7 +230,16 @@ RESOURCE TBUF r_suplview_title
     buf = qtn_loc_supl_title;
     }
     
-
+//------------------------------------------------------------------------------  
+// r_loc_supl_use
+// List settings item description for SUPL settings usage.
+//------------------------------------------------------------------------------
+//
+RESOURCE TBUF r_loc_supl_use
+    {
+    buf = qtn_loc_supl_server_use;
+    }
+    
 //------------------------------------------------------------------------------   
 // r_loc_supl_server_detail
 // List settings item caption for multiple SUPL servers
@@ -262,6 +280,76 @@ RESOURCE TBUF r_loc_supl_multiple_services
     buf = qtn_loc_supl_multiple_services;
     } 
 
+//------------------------------------------------------------------------------
+// r_loc_supl_usage_settings
+// Settings page for manipulating SUPL settings usage.
+//------------------------------------------------------------------------------
+//
+RESOURCE AVKON_SETTING_PAGE r_loc_suplusage_settings
+    { 
+    label 				= 	qtn_loc_supl_lbl_server_use;
+    softkey_resource 	= 	R_AVKON_SOFTKEYS_CANCEL;
+    type 				= 	EAknSetListBox;
+    editor_resource_id 	= 	r_loc_suplusage_settings_listbox;
+    }
+
+//------------------------------------------------------------------------------
+// r_loc_suplusage_settings_listbox 
+// Set Settings text
+//------------------------------------------------------------------------------
+//
+RESOURCE LISTBOX r_loc_suplusage_settings_listbox 
+    {
+    flags	= EEikListBoxMultipleSelection;
+    }
+    
+//------------------------------------------------------------------------------ 
+// r_loc_supl_automatic
+// Settings Item for SUPL usage
+// This value denotes that SUPL would be used automatically when the user is in his
+// home network. When the user is roaming he would be prompted with a query for
+// using SUPL.
+//------------------------------------------------------------------------------
+//
+RESOURCE TBUF r_loc_supl_automatic
+    {
+    buf = qtn_loc_supl_automatic;
+    }
+
+//------------------------------------------------------------------------------ 
+// r_loc_supl_automatic
+// Settings Item for SUPL usage
+// This value denotes that SUPL would be used automatically when the user is in his
+// home network. When the user is roaming he would be prompted with a query for
+// using SUPL.
+//------------------------------------------------------------------------------
+//
+RESOURCE TBUF r_loc_supl_home_automatic
+    {
+    buf = qtn_loc_supl_home_automatic;
+    }
+    
+//------------------------------------------------------------------------------
+// r_loc_supl_ask
+// Settings Item for SUPL usage
+// This value denotes that the user would always be prompted before using SUPL.
+//------------------------------------------------------------------------------
+//
+RESOURCE TBUF r_loc_supl_ask
+    {
+    buf = qtn_loc_supl_ask;
+    }  
+
+//------------------------------------------------------------------------------  
+// r_loc_supl_disabled
+// Settings Item for SUPL usage
+// This value denotes that SUPL would not be used at all.
+//------------------------------------------------------------------------------
+//
+RESOURCE TBUF r_loc_supl_disabled
+    {
+    buf = qtn_loc_supl_disabled;
+    }
 
 //------------------------------------------------------------------------------   
 // r_loc_supl_server_detail_title
@@ -313,7 +401,43 @@ RESOURCE TBUF r_loc_server_iap
     buf = qtn_loc_server_iap;
     }   
 
-           
+//------------------------------------------------------------------------------  
+// r_loc_no_ap_defined
+// No IAP defined text
+//------------------------------------------------------------------------------
+//
+RESOURCE TBUF r_loc_no_ap_defined
+    {
+    buf		= qtn_netw_info_no_iap_defined;
+    }  
+
+//------------------------------------------------------------------------------  
+// r_general_note
+// Note to be displayed when no IAPs are defined
+//------------------------------------------------------------------------------
+//    
+RESOURCE DIALOG r_general_note
+    {
+    flags	=	EEikDialogFlagNoDrag | EEikDialogFlagNoTitleBar |
+          		EEikDialogFlagCbaButtons | EEikDialogFlagWait;
+    buttons	=	R_AVKON_SOFTKEYS_EMPTY;
+    items	=
+        {
+        DLG_LINE
+            {
+            type	=	EAknCtNote;
+            id 		= EGeneralNote;
+            control	= AVKON_NOTE
+                {
+                layout 			= EGeneralLayout;
+                singular_label 	= "";
+                plural_label 	= "";
+                animation 		= R_QGN_NOTE_INFO_ANIM;
+                };
+            }
+        };
+    }
+                     
 //------------------------------------------------------------------------------
 // r_suplsettings_server_view
 // SUPL Settings Server view

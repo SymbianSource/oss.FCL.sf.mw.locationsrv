@@ -92,7 +92,6 @@ COMASuplSettingsLauncher::~COMASuplSettingsLauncher()
     delete iSettingsLauncher;	
     iNotifier.Close();
     delete iTrace;
-    iIapSelector.Close();
     }
 
 
@@ -101,10 +100,7 @@ void COMASuplSettingsLauncher::ConstructL()
     iTrace = COMASuplTrace::NewL();	
     iTrace->Trace(_L("COMASuplSettingsLauncher::ConstructL"), KTraceFileName, __LINE__);             
     iSettingsLauncher = CLocSettingsUiClient::NewL();
-	User::LeaveIfError(iNotifier.Connect());
-	    // Establish a connection to the RGenConAgentDialogServer
-    User::LeaveIfError( iIapSelector.Connect());
-    
+    User::LeaveIfError(iNotifier.Connect());
     }
 
 // -----------------------------------------------------------------------------
@@ -122,14 +118,21 @@ TInt COMASuplSettingsLauncher::LaunchSettings()
         {
         return KErrInUse;
         }
-   
-	TRAPD(error,iSettingsLauncher->LaunchSettingsUiL( TUid::Uid( KLocSUPLSettingsUID ),
-													  ELocSUPLIAPSelection,
-													  iStatus ));
-
-	iDialogType = ESUPLYesNoDialog;
-	SetActive();
-	
+    TRAPD(error,iSettingsLauncher->LaunchSettingsUiL( TUid::Uid( KLocSUPLSettingsUID ),
+                    ELocSUPLIAPSelection,
+                    iStatus ));
+    if (error != KErrNone)
+        {
+        iCallback.SettingsUICompletedL(error);
+        }
+    else
+        {
+        iDialogType = ESUPLYesNoDialog;
+        if (!IsActive())
+            {
+            SetActive();
+            }
+        }
     return error;
     }
 
@@ -292,26 +295,36 @@ TInt COMASuplSettingsLauncher::LaunchIAPDialog()
         
 	iDialogType = ESUPLIAPDialog;   
 
-    TConnectionPrefs    prefs; // filtering conditions for the access points list
-    prefs.iRank         = 1;
-    prefs.iDirection    = ECommDbConnectionDirectionOutgoing;
-    prefs.iBearerSet    = KUidCSDBearerType | KUidPacketDataBearerType;
+    
    
     // Launch the IAP Selector 
     iStatus = KRequestPending;
-    iIapSelector.IapConnection( iSelectedIap, prefs, iStatus );
-    SetActive();
-		return KErrNone;
-	}
-	
-	
-TInt COMASuplSettingsLauncher::GetIAPName(TDes& aIAPName,TUint32& aIAPId)	
-	{
-	    TRAPD( error, ConvertIAPIdtoNameL( iSelectedIap,aIAPName ));
-	    aIAPId = iSelectedIap;
-		return error;
-	}
-	
+    
+    
+    TRAPD(error, iSettingsLauncher->LaunchSettingsUiL( TUid::Uid( KLocSUPLSettingsUID ),
+                    ELocSuplIAPDialog,
+                    iStatus );)
+    if(error != KErrNone)
+        {
+        iCallback.SettingsUICompletedL(error);
+        }
+    else
+        {
+        if (!IsActive())
+            {
+            SetActive();
+            }
+        }
+    return error;
+    }
+
+TInt COMASuplSettingsLauncher::GetIAPName(TDes& aIAPName, TUint32& aIAPId)
+    {
+    TRAPD( error, ConvertIAPIdtoNameL( iSelectedIap,aIAPName ));
+    aIAPId = iSelectedIap;
+    return error;
+    }
+
 // ---------------------------------------------------------------------------
 // TUint CLocSUPLSettingsUiEngine::ConvertIAPIdtoNameL()
 // Convert IAP ID to IAP Name. If a valid name exists for the IAP Id

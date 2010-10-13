@@ -235,20 +235,35 @@ EXPORT_C TInt CSuplSettings::IsImsiChanged(TBool& aChanged)
 //-------------------------------------------------------------------------------------
 //CSuplSettings::GetSuplUsage()
 //
-//Deprecated Since S60 5.2. 
+//This method is used to retrieve SUPL usage from settings storage. 
 //--------------------------------------------------------------------------------------
-EXPORT_C TInt CSuplSettings::GetSuplUsage(TSuplSettingsUsage& /* aUsage */ ) const
+EXPORT_C TInt CSuplSettings::GetSuplUsage(TSuplSettingsUsage& aUsage) const
     {
-    return KErrNotSupported;            
+    TInt usage, ret;            
+    ret = iSettingsEngine->GetSuplUsage(usage);
+    
+    if (ret == KErrNone)
+        {
+        aUsage = (TSuplSettingsUsage)usage;
+        return KErrNone;        
+        }            
+    else
+        return ret;            
     }            
 //-------------------------------------------------------------------------------------
 //CSuplSettings::SetSuplUsage()
 //
-//Deprecated Since S60 5.2.
+//This method is used to change SUPL usage.
 //--------------------------------------------------------------------------------------
-EXPORT_C TInt CSuplSettings::SetSuplUsage(const TSuplSettingsUsage /* aUsage */ ) 
+EXPORT_C TInt CSuplSettings::SetSuplUsage(const TSuplSettingsUsage aUsage) 
     {
-    return KErrNotSupported;   
+    TInt usage = aUsage;            
+
+    if (usage < CSuplSettings::ESuplUsageAlwaysAsk ||
+        usage > CSuplSettings::ESuplUsageDisabled)                    
+        return KErrArgument;
+
+    return iSettingsEngine->SetSuplUsage(aUsage);
     }          
 //-------------------------------------------------------------------------------------
 //CSuplSettings::AddNewServer()
@@ -259,7 +274,6 @@ EXPORT_C TInt CSuplSettings::AddNewServer( const CServerParams* aParamValues, TI
     {
     if(aParamValues == NULL)
         return KErrGeneral;
-        
     return iSettingsEngine->AddNewServer(aParamValues,aSlpId );  
     }
 

@@ -81,6 +81,7 @@ class COMASUPLProtocolManager2 : public COMASUPLProtocolManager,
 								public MOMASuplSessionObserver,
 								public MSuplSettingsObserver,
 								public MOMASuplTimeOutNotifier,
+						    	public MOMASuplUISettingsObserver,
                 				public MOMASuplETelNotifierObserver,
                 				public MSuplSessionObserver
     {
@@ -275,14 +276,39 @@ public : // From base class, MOMASuplSessionObserver
 	*/
 	virtual void TerminateSession(CSuplSessionBase *aSession, TInt aErrorCode);
 	
-public: 
-	
+public: // For setting UI observer    
+	TInt LaunchSettingsUI(MOMASuplUICompletionObserver* aObserver,const TDesC& aForHslp);
+	TInt LaunchSuplUsageSettingsUI(MOMASuplUICompletionObserver* aObserver, TBool aRoaming);
+	TInt LaunchSuplDialogTimeoutUI(MOMASuplUICompletionObserver* aObserver );
 	void UpdateAllSubSessnsInSameSession(TInt aIpcSessionId);
 
 	void SettingsChanged();
 
-	
-	
+	TInt GetLastUsedAccessPoint(TDes& aLastlyUsedAccessPoint,TUint32& iIAPId);
+	/** 
+	* This callback method is used to notify the client about 
+	* the completion of UI launch
+	* @param aError - Error during Launch
+	* @return None
+	*/
+	void SettingsUICompletedL(TInt aError);
+
+	/** 
+	* This callback method is used to notify the client about 
+	* the completion of UI launch
+	* @param aError - Error during Launch
+	* @return None
+	*/
+	void SettingsUsageUICompletedL(TInt aError);
+
+	/** 
+	* This callback method is used to notify the client about 
+	* the completion of UI completion
+	* @param aError - Error during Launch
+	* @return None
+	*/
+	void SettingsTimeOutUICompletedL(TInt aError);
+
 public: //From base class MSuplSettingsObserver
 
 	/**
@@ -445,7 +471,13 @@ private : //For internal use only
      */
 	void ReadOMASuplSettingsL();
 	
-    
+    /**
+     * ReadSuplUsage, Reads OMA Supl Usage.
+     * @since S60 v3.1u          
+     * @param      None. 
+     * @return     None.
+     */
+    void ReadSuplUsage();
 	
     /**
      * ReadOMASuplConfigurationL, Reads OMA Supl Configuration.
@@ -471,7 +503,7 @@ private : //For internal use only
 
 	
 	TInt GetNetworkModeL();
-    
+    void CheckOutstandingUsageUIRequestsL();
     
 	/**
 	* LoadOMASUPLPluginsL, Loads supl protocolhandler plugins

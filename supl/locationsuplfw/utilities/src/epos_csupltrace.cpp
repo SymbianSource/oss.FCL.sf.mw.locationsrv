@@ -140,7 +140,6 @@ EXPORT_C void CSuplTrace::Log(
     const TDesC& aTraceLogFile,
     TRefByValue<const TDesC> aFmt, ... )
     {
-    // coverity[var_decl : FALSE]
     VA_LIST list;
     VA_START( list, aFmt );
 

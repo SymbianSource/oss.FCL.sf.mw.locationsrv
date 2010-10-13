@@ -108,17 +108,6 @@ class COMASuplStartState : public COMASuplState,
 			* @return None
 			*/
 			void SetQop(TSuplTerminalQop& aQop);
-			
-			/*
-			 * SetStaleCellIdToUse Method is used to set the Stale Cell id to use in case of
-			 *                     retrieving position for an already retrieved cell id.
-			 *                     For example : in case of Geo Tagged Images 
-			 * @since S60 v5.2
-			 * @param aLocationId This is the locatiod id parameter containing the stale cell id
-			 * @return None                     
-			 */
-
-	            void SetStaleCellIdToUse(COMASuplLocationId* aLocationId);
 	
 	public: //MOMASuplETelObserver
 	
@@ -295,9 +284,6 @@ public:
 			TOMASuplECellInfo iMmCellInfo;
 			
 			COMASuplAsnHandlerBase* iOMASuplAsnHandlerBase;
-			
-			//Indicates whether we need to create start message with Stale Cell Id
-			TBool iIsStaleCellId;
 
 };
 

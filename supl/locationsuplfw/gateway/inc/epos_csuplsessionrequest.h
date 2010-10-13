@@ -27,7 +27,6 @@
 #include <lbspositioninfo.h>
 #include <epos_suplterminalqop.h>
 #include <epos_suplterminaltrigger.h>
-#include "epos_suplgeocellinfo.h"
 
 // CONSTANT DECLARATIONS
 
@@ -102,10 +101,6 @@ class CSuplSessionRequest : public CActive
 		void CancelTriggerringRequest();
 		
 		void ProtocolHUnloaded();
-
-		void MakeLocationConversionRequestL( CSuplSessionBase* aSuplSessn,TGeoCellInfo& aCellInfo );
-		
-		void CancelLocationConversionRequest();
 		void ReIssueRequestL();
 		
     protected:  // From CActive
@@ -139,9 +134,7 @@ class CSuplSessionRequest : public CActive
             ESuplStopTriggerRequest,
             ESuplTriggerFiredNotifyRequest,
 			ESuplWaitingToRetrySession,
-			ESuplRetryingSession,
-			ESuplLocationConversionRequest,
-            ESuplCancelLocationConversionRequest
+			ESuplRetryingSession
             };
      
 	 TSuplRequestStage           iRequestPhase;

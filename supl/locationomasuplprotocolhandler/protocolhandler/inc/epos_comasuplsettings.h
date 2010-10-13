@@ -90,7 +90,13 @@ public: //Setter Methods
 	*/
   IMPORT_C void SetIAPId(TInt aIAPId);
 
-	
+	/**
+	* SetSUPLUsage Method.
+	* @since S60 v3.2
+	* @param aSUPLUsage 
+	* @return None 
+	*/
+  IMPORT_C void SetSUPLUsage(CSuplSettings::TSuplSettingsUsage& aSUPLUsage );
 	
 	/**
 	* SetUIActive Method.
@@ -125,7 +131,13 @@ public: //Getter Methods
 	*/
   IMPORT_C TInt IAPId() const;
 
-
+	/**
+	* SUPL Usage Method.
+	* @since S60 v3.2
+	* @param None
+	* @return SUPL Usage
+	*/
+  IMPORT_C CSuplSettings::TSuplSettingsUsage SUPLUsage() const;
 	
 	/**
 	* IAPId Method.
@@ -153,7 +165,8 @@ private:
 	// IAP Id 
 	TInt  	 iIAPId;
 
-   
+    // SUPL Usage
+    CSuplSettings::TSuplSettingsUsage iSUPLUsage; 
 	// Flag indicating the activation of settings UI
 	TBool    iSettingsUIActive;
 };
