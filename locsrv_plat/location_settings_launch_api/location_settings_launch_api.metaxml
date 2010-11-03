@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<api id="3e0e4e01430744753c90e5086b2f8db4" dataversion="2.0">
+  <name>Location Settings Launch API</name>
+  <description>Provides the interface for directly launching the Location Settings main view or any of it's sub settings view.</description>
+  <type>c++</type>
+  <collection>locationsystemui</collection>
+  <libs>
+    <lib name="locsettingsuiclient.lib" />
+  </libs>
+  <release category="platform"/>
+  <attributes>
+     <!-- This indicates wether the api provedes separate html documentation -->
+     <!-- or is the additional documentation generated from headers. -->
+     <!-- If you are unsuere then the value is "no" -->
+     <htmldocprovided>no</htmldocprovided>
+     <adaptation>no</adaptation>
+  </attributes>
+</api>

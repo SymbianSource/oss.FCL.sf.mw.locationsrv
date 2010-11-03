@@ -1,0 +1,32 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: IBY file for Location Positioning Settings
+*
+*/
+#ifndef __LOCPSYSETTINGS_IBY__
+#define __LOCPSYSETTINGS_IBY__
+
+#if  defined(__LOCATIONSYSUI) && defined(__LOCATIONFRAMEWORKCORE)
+
+	// Position Method Settings LocSysUi ECOM Plugin
+  ECOM_PLUGIN(locpsysettingsui.dll,10275062.rsc)
+
+	SCALABLE_IMAGE(APP_BITMAP_DIR,APP_BITMAP_DIR,locpsysettings)
+
+	//LocationSystemUI GS Plugin Engine
+	file=ABI_DIR\BUILD_DIR\locpsysettingseng.dll   SHARED_LIB_DIR\locpsysettingseng.dll
+
+#endif // (__LOCATIONSYSUI) && (__LOCATIONFRAMEWORKCORE)
+
+#endif

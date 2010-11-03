@@ -1,0 +1,160 @@
+ARM Linker, RVCT2.2 [Build 593]
+
+================================================================================
+
+Image Symbol Table
+
+    Local Symbols
+
+    Symbol Name                              Value     Ov Type        Size  Object(Section)
+
+    [Anonymous Symbol]                       0x00000000   Number         0  drtaeabi{000a0000}-184.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  mnrefproviderengine{000a0000}-43.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  mnclientlib{000a0000}-97.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  scppnwdl{000a0000}-3.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  mnrefproviderengine{000a0000}-44.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  mnrefproviderengine{000a0000}-12.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  drtaeabi{000a0000}-158.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  drtaeabi{000a0000}-147.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  mnrefproviderengine{000a0000}-16.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  mnclientlib{000a0000}-101.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  euser{000a0000}-208.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  mnrefproviderengine{000a0000}-21.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  euser{000a0000}-654.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  euser{000a0000}-2123.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  mnclientlib{000a0000}-100.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  euser{000a0000}-205.o ABSOLUTE
+    M:/epoc32/build/compsupp/c_18558cc638e6e874/drtaeabi_dll/armv5/udeb\VtblExports.s 0x00000000   Number         0  VtblExports.o ABSOLUTE
+    M:\\sf\\os\\kernelhwsrv\\kernel\\eka\\compsupp\\rvct2_2\\ucppinit_aeabi.cpp 0x00000000   Number         0  ucppinit_aeabi.o ABSOLUTE
+    M:\sf\os\kernelhwsrv\kernel\eka\compsupp\rvct2_2\ucppinit_aeabi.cpp 0x00000000   Number         0  ucppinit_aeabi.o ABSOLUTE
+    \EPOC32\BUILD\sf\app\location\group\MNREFENGINE\ARMV5\VtblExports.s 0x00000000   Number         0  VtblExports.o ABSOLUTE
+    \EPOC32\BUILD\sf\app\location\mapnavproviderrefapp\group\MNREFPROVIDERPLUGIN\ARMV5\urel\MnRefProviderPlugin{000a0000}.s 0x00000000   Number         0  MnRefProviderPlugin{000a0000}.exp ABSOLUTE
+    \EPOC32\BUILD\sf\mw\locationsrv\group\MNCLIENTLIB\ARMV5\VtblExports.s 0x00000000   Number         0  VtblExports.o ABSOLUTE
+    \EPOC32\BUILD\sf\os\kernelhwsrv\kernel\eka\euser\EDLL\ARMV6_ABIV1\urel\uc_dll_.cpp 0x00000000   Number         0  uc_dll_.o ABSOLUTE
+    \EPOC32\BUILD\sf\os\kernelhwsrv\kernel\eka\euser\EUSER\ARMV5\VtblExports.s 0x00000000   Number         0  VtblExports.o ABSOLUTE
+    \EPOC32\BUILD\sf\os\lbs\locationmgmt\locationadmin\group\LBSAPIVARIANT2\ARMV5\VtblExports.s 0x00000000   Number         0  VtblExports.o ABSOLUTE
+    \\EPOC32\\BUILD\\sf\\os\\kernelhwsrv\\kernel\\eka\\euser\\EDLL\\ARMV6_ABIV1\\urel\\uc_dll_.cpp 0x00000000   Number         0  uc_dll_.o ABSOLUTE
+    \sf\app\location\mapnavproviderrefapp\src\mnrefproviderplugin.cpp 0x00000000   Number         0  MnRefProviderPlugin.in ABSOLUTE
+    \sf\app\location\mapnavproviderrefapp\src\mnrpcoordconverter.cpp 0x00000000   Number         0  MnRefProviderPlugin.in ABSOLUTE
+    \sf\os\kernelhwsrv\kernel\eka\euser\epoc\arm\uc_dll.cpp 0x00000000   Number         0  uc_dll.o ABSOLUTE
+    .emb_text                                0x00008000   Section       40  uc_dll_.o(.emb_text)
+    .emb_text                                0x00008028   Section       72  ucppinit_aeabi.o(.emb_text)
+    skip                                     0x0000803c   ARM Code       0  ucppinit_aeabi.o(.emb_text)
+    loop                                     0x0000804c   ARM Code       0  ucppinit_aeabi.o(.emb_text)
+    fpinit                                   0x00008064   Data           0  ucppinit_aeabi.o(.emb_text)
+    base                                     0x00008068   Data           0  ucppinit_aeabi.o(.emb_text)
+    limit                                    0x0000806c   Data           0  ucppinit_aeabi.o(.emb_text)
+    .text                                    0x00008070   Section       12  MnRefProviderPlugin.in(.text)
+    .text                                    0x0000807c   Section      232  MnRefProviderPlugin.in(.text)
+    .text                                    0x00008164   Section       40  uc_dll.o(.text)
+    .text.clean                              0x0000818c   Section       10  MnRefProviderPlugin.in(.text.clean)
+    ExportTable                              0x00008198   Section       12  MnRefProviderPlugin{000a0000}.exp(ExportTable)
+    StubCode                                 0x000081a4   Section        8  euser{000a0000}-205.o(StubCode)
+    theImportedSymbol                        0x000081a8   Data           0  euser{000a0000}-205.o(StubCode)
+    StubCode                                 0x000081ac   Section        8  euser{000a0000}-208.o(StubCode)
+    theImportedSymbol                        0x000081b0   Data           0  euser{000a0000}-208.o(StubCode)
+    StubCode                                 0x000081b4   Section        8  euser{000a0000}-2123.o(StubCode)
+    theImportedSymbol                        0x000081b8   Data           0  euser{000a0000}-2123.o(StubCode)
+    StubCode                                 0x000081bc   Section        8  euser{000a0000}-654.o(StubCode)
+    theImportedSymbol                        0x000081c0   Data           0  euser{000a0000}-654.o(StubCode)
+    StubCode                                 0x000081c4   Section        8  mnclientlib{000a0000}-100.o(StubCode)
+    theImportedSymbol                        0x000081c8   Data           0  mnclientlib{000a0000}-100.o(StubCode)
+    StubCode                                 0x000081cc   Section        8  mnclientlib{000a0000}-101.o(StubCode)
+    theImportedSymbol                        0x000081d0   Data           0  mnclientlib{000a0000}-101.o(StubCode)
+    StubCode                                 0x000081d4   Section        8  mnclientlib{000a0000}-97.o(StubCode)
+    theImportedSymbol                        0x000081d8   Data           0  mnclientlib{000a0000}-97.o(StubCode)
+    StubCode                                 0x000081dc   Section        8  mnrefproviderengine{000a0000}-12.o(StubCode)
+    theImportedSymbol                        0x000081e0   Data           0  mnrefproviderengine{000a0000}-12.o(StubCode)
+    StubCode                                 0x000081e4   Section        8  mnrefproviderengine{000a0000}-16.o(StubCode)
+    theImportedSymbol                        0x000081e8   Data           0  mnrefproviderengine{000a0000}-16.o(StubCode)
+    StubCode                                 0x000081ec   Section        8  mnrefproviderengine{000a0000}-21.o(StubCode)
+    theImportedSymbol                        0x000081f0   Data           0  mnrefproviderengine{000a0000}-21.o(StubCode)
+    StubCode                                 0x000081f4   Section        8  mnrefproviderengine{000a0000}-43.o(StubCode)
+    theImportedSymbol                        0x000081f8   Data           0  mnrefproviderengine{000a0000}-43.o(StubCode)
+    StubCode                                 0x000081fc   Section        8  mnrefproviderengine{000a0000}-44.o(StubCode)
+    theImportedSymbol                        0x00008200   Data           0  mnrefproviderengine{000a0000}-44.o(StubCode)
+    StubCode                                 0x00008204   Section        8  drtaeabi{000a0000}-147.o(StubCode)
+    theImportedSymbol                        0x00008208   Data           0  drtaeabi{000a0000}-147.o(StubCode)
+    StubCode                                 0x0000820c   Section        8  drtaeabi{000a0000}-158.o(StubCode)
+    theImportedSymbol                        0x00008210   Data           0  drtaeabi{000a0000}-158.o(StubCode)
+    StubCode                                 0x00008214   Section        8  drtaeabi{000a0000}-184.o(StubCode)
+    theImportedSymbol                        0x00008218   Data           0  drtaeabi{000a0000}-184.o(StubCode)
+    StubCode                                 0x0000821c   Section        8  scppnwdl{000a0000}-3.o(StubCode)
+    theImportedSymbol                        0x00008220   Data           0  scppnwdl{000a0000}-3.o(StubCode)
+    .extab._ZN19CMnrpCoordConverterD1Ev      0x00008224   Data           0  MnRefProviderPlugin.in(.ARM.extab)
+    .constdata$1                             0x00008234   Data           0  MnRefProviderPlugin.in(.constdata)
+    ImplementationTable                      0x00008234   Data           8  MnRefProviderPlugin.in(.constdata)
+    .constdata                               0x00008234   Section        8  MnRefProviderPlugin.in(.constdata)
+    .constdata__ZTI19CMnrpCoordConverter     0x0000823c   Section       12  MnRefProviderPlugin.in(.constdata__ZTI19CMnrpCoordConverter)
+    .constdata__ZTS19CMnrpCoordConverter     0x00008248   Section       22  MnRefProviderPlugin.in(.constdata__ZTS19CMnrpCoordConverter)
+    .constdata__ZTV19CMnrpCoordConverter     0x00008260   Section       28  MnRefProviderPlugin.in(.constdata__ZTV19CMnrpCoordConverter)
+    .ARM.exidx                               0x0000827c   Section        8  ucppinit_aeabi.o(.ARM.exidx)
+
+    Global Symbols
+
+    Symbol Name                              Value     Ov Type        Size  Object(Section)
+
+    BuildAttributes$$THUMB_ISAv3$ARM_ISAv6$M$E$P$PE$A:L22$X:L11$S22$IEEE1$IW$USESV6$~STKCKD$USESV7$~SHL$OSPACE$IEEEJ$EBA8$UX$REQ8$PRES8$EABIv2 0x00000000   Number         0  anon$$obj.o ABSOLUTE
+    #<DLL>drtaeabi{000a0000}.dll#<\DLL>93     - Undefined Reference
+    #<DLL>drtaeabi{000a0000}.dll#<\DLL>9e     - Undefined Reference
+    #<DLL>drtaeabi{000a0000}.dll#<\DLL>b8     - Undefined Reference
+    #<DLL>euser{000a0000}[100039e5].dll#<\DLL>28e  - Undefined Reference
+    #<DLL>euser{000a0000}[100039e5].dll#<\DLL>84b  - Undefined Reference
+    #<DLL>euser{000a0000}[100039e5].dll#<\DLL>cd  - Undefined Reference
+    #<DLL>euser{000a0000}[100039e5].dll#<\DLL>d0  - Undefined Reference
+    #<DLL>mnclientlib{000a0000}[10206902].dll#<\DLL>61  - Undefined Reference
+    #<DLL>mnclientlib{000a0000}[10206902].dll#<\DLL>64  - Undefined Reference
+    #<DLL>mnclientlib{000a0000}[10206902].dll#<\DLL>65  - Undefined Reference
+    #<DLL>mnrefproviderengine{000a0000}[03132015].dll#<\DLL>10  - Undefined Reference
+    #<DLL>mnrefproviderengine{000a0000}[03132015].dll#<\DLL>15  - Undefined Reference
+    #<DLL>mnrefproviderengine{000a0000}[03132015].dll#<\DLL>2b  - Undefined Reference
+    #<DLL>mnrefproviderengine{000a0000}[03132015].dll#<\DLL>2c  - Undefined Reference
+    #<DLL>mnrefproviderengine{000a0000}[03132015].dll#<\DLL>c  - Undefined Reference
+    #<DLL>scppnwdl{000a0000}.dll#<\DLL>3      - Undefined Reference
+    SHT$$INIT_ARRAY$$Base                     - Undefined Weak Reference
+    SHT$$INIT_ARRAY$$Limit                    - Undefined Weak Reference
+    typeinfo for CMnCoordinateConverterBase   - Undefined Reference
+    vtable for __cxxabiv1::__si_class_type_info  - Undefined Reference
+    _fp_init                                  - Undefined Weak Reference
+    run_static_dtors                          - Undefined Weak Reference
+    Image$$ER_RO$$Base                       0x00008000   Number         0  anon$$obj.o(linker$$defined$$symbols)
+    _E32Dll                                  0x00008000   ARM Code      40  uc_dll_.o(.emb_text)
+    Symbian$$CPP$$Exception$$Descriptor      0x00008014   Data           0  uc_dll_.o(.emb_text)
+    __cpp_initialize__aeabi_                 0x00008028   ARM Code      72  ucppinit_aeabi.o(.emb_text)
+    ImplementationGroupProxy(int&)           0x00008071   Thumb Code     8  MnRefProviderPlugin.in(.text)
+    std::nothrow                             0x00008071   Thumb Code     0  ucppinit_aeabi.o(.emb_text)
+    CMnrpCoordConverter::CMnrpCoordConverter() 0x0000807d   Thumb Code    12  MnRefProviderPlugin.in(.text)
+    CMnrpCoordConverter::CMnrpCoordConverter__sub_object() 0x0000807d   Thumb Code     0  MnRefProviderPlugin.in(.text)
+    CMnrpCoordConverter::NewL()              0x00008089   Thumb Code    38  MnRefProviderPlugin.in(.text)
+    CMnrpCoordConverter::~CMnrpCoordConverter() 0x000080af   Thumb Code    40  MnRefProviderPlugin.in(.text)
+    CMnrpCoordConverter::~CMnrpCoordConverter__sub_object() 0x000080af   Thumb Code     0  MnRefProviderPlugin.in(.text)
+    CMnrpCoordConverter::~CMnrpCoordConverter__deallocating() 0x000080d7   Thumb Code    16  MnRefProviderPlugin.in(.text)
+    CMnrpCoordConverter::GetImageCoordinate(const TCoordinate&, TPoint&) 0x000080e7   Thumb Code    62  MnRefProviderPlugin.in(.text)
+    CMnrpCoordConverter::GetWorldCoordinate(const TPoint&, TCoordinate&) 0x00008125   Thumb Code    60  MnRefProviderPlugin.in(.text)
+    _E32Dll_Body                             0x00008165   Thumb Code    34  uc_dll.o(.text)
+    __DLL_Export_Table__                     0x00008198   ARM Code       0  MnRefProviderPlugin{000a0000}.exp(ExportTable)
+    DLL##ExportTableSize                     0x0000819c   Data           0  MnRefProviderPlugin{000a0000}.exp(ExportTable)
+    DLL##ExportTable                         0x000081a0   Data           0  MnRefProviderPlugin{000a0000}.exp(ExportTable)
+    CleanupStack::Pop()                      0x000081a4   ARM Code       0  euser{000a0000}-205.o(StubCode)
+    CleanupStack::PushL(CBase*)              0x000081ac   ARM Code       0  euser{000a0000}-208.o(StubCode)
+    CBase::Extension_(unsigned, void*&, void*) 0x000081b4   ARM Code       0  euser{000a0000}-2123.o(StubCode)
+    User::AllocZL(int)                       0x000081bc   ARM Code       0  euser{000a0000}-654.o(StubCode)
+    CMnCoordinateConverterBase::~CMnCoordinateConverterBase__sub_object() 0x000081c4   ARM Code       0  mnclientlib{000a0000}-100.o(StubCode)
+    CMnCoordinateConverterBase::MapImageParams() const 0x000081cc   ARM Code       0  mnclientlib{000a0000}-101.o(StubCode)
+    CMnCoordinateConverterBase::CMnCoordinateConverterBase__sub_object() 0x000081d4   ARM Code       0  mnclientlib{000a0000}-97.o(StubCode)
+    CMnrpEngine::NewL()                      0x000081dc   ARM Code       0  mnrefproviderengine{000a0000}-12.o(StubCode)
+    CMnrpMapModel::UpdateModel(const TMnMapImageParams&) 0x000081e4   ARM Code       0  mnrefproviderengine{000a0000}-16.o(StubCode)
+    CMnrpMapModel::NewL(CMnrpEngine&)        0x000081ec   ARM Code       0  mnrefproviderengine{000a0000}-21.o(StubCode)
+    CMnrpMapModel::AbsoluteToScreen(TCoordinate) const 0x000081f4   ARM Code       0  mnrefproviderengine{000a0000}-43.o(StubCode)
+    CMnrpMapModel::ScreenToAbsolute(TPoint) const 0x000081fc   ARM Code       0  mnrefproviderengine{000a0000}-44.o(StubCode)
+    __aeabi_memcpy4                          0x00008204   ARM Code       0  drtaeabi{000a0000}-147.o(StubCode)
+    __aeabi_unwind_cpp_pr0                   0x0000820c   ARM Code       0  drtaeabi{000a0000}-158.o(StubCode)
+    __cxa_end_cleanup                        0x00008214   ARM Code       0  drtaeabi{000a0000}-184.o(StubCode)
+    operator delete (void*)                  0x0000821c   ARM Code       0  scppnwdl{000a0000}-3.o(StubCode)
+    typeinfo for CMnrpCoordConverter         0x0000823c   Data          12  MnRefProviderPlugin.in(.constdata__ZTI19CMnrpCoordConverter)
+    typeinfo name for CMnrpCoordConverter    0x00008248   Data          22  MnRefProviderPlugin.in(.constdata__ZTS19CMnrpCoordConverter)
+    vtable for CMnrpCoordConverter           0x00008260   Data          28  MnRefProviderPlugin.in(.constdata__ZTV19CMnrpCoordConverter)
+    .ARM.exidx$$Base                         0x0000827c   Number         0  ucppinit_aeabi.o(.ARM.exidx)
+    .ARM.exidx$$Limit                        0x000082b4   Number         0  uc_dll.o(.ARM.exidx)
+    Image$$ER_RO$$Limit                      0x000082b4   Number         0  anon$$obj.o(linker$$defined$$symbols)
+

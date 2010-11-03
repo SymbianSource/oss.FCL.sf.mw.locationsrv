@@ -1,0 +1,34 @@
+<ContextSourceSettings>
+
+		<!--BTGpsPsy PS Keys   -->
+		<!--PubSub Uid of BT GPS PSY Events - KPsUidBluetoothGpsPsy = { 0x101FE999 }  -->
+		<!--BTGpsPsy PS Key - KBluetoothGpsPsyBatteryState = 0x03  -->
+    <PSContextSourcePlugIn mapper="int" category="0x101FE999" key="0x03" 
+    	capability="ReadDeviceData" 
+    	source="Location" type="BtGpsPsy.Status" passthrough="false">
+        <IntMapping psvalue="-1" contextvalue="EBatteryStateNA"/>
+		    <IntMapping psvalue="0" contextvalue="EBatteryStateNormal"/>
+		    <IntMapping psvalue="1" contextvalue="EBatteryStateLow"/>
+		    <IntMapping psvalue="2" contextvalue="EBatteryStateFull"/>
+    </PSContextSourcePlugIn>  
+    
+    <!--BTGpsPsy PS Key - KBluetoothGpsPsyExtAntennaState = 0x04  -->
+    <PSContextSourcePlugIn mapper="int" category="0x101FE999" key="0x04" 
+    	capability="ReadDeviceData" 
+    	source="Location" type="BtGpsPsy.Status" passthrough="false">
+        <IntMapping psvalue="-1" contextvalue="EExtAntennaNA"/>
+		    <IntMapping psvalue="0" contextvalue="EExtAntennaOff"/>
+		    <IntMapping psvalue="1" contextvalue="EExtAntennaOn"/>
+    </PSContextSourcePlugIn>  
+    
+    <!--BTGpsPsy PS Key - KBluetoothGpsPsyExtPowerState = 0x05  -->
+    <PSContextSourcePlugIn mapper="int" category="0x101FE999" key="0x05" 
+    	capability="ReadDeviceData" 
+    	source="Location" type="BtGpsPsy.Status" passthrough="false">   	
+        <IntMapping psvalue="-1" contextvalue="EExtPowerNA"/>
+		    <IntMapping psvalue="0" contextvalue="EExtPowerOff"/>
+		    <IntMapping psvalue="1" contextvalue="EExtPowerOn"/>
+    </PSContextSourcePlugIn>    
+        
+</ContextSourceSettings>
+

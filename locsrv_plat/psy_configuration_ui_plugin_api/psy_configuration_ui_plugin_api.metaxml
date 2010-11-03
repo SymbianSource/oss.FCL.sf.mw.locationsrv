@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<api id="645a03f53c58d52243e93ccdd2ed24c9" dataversion="2.0">
+  <name>PSY Configuration UI Plug-in API</name>
+  <description>Provides the interface to plug-in PSY specific configuration UIs into the Location System UI subsystem.</description>
+  <type>c++</type>
+  <collection>locationsystemui</collection>
+  <libs>
+  </libs>
+  <release category="platform"/>
+  <attributes>
+     <!-- This indicates wether the api provedes separate html documentation -->
+     <!-- or is the additional documentation generated from headers. -->
+     <!-- If you are unsuere then the value is "no" -->
+     <htmldocprovided>no</htmldocprovided>
+     <adaptation>no</adaptation>
+  </attributes>
+</api>

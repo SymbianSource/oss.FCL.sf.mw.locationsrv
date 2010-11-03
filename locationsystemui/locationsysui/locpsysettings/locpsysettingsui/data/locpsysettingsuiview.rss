@@ -1,0 +1,329 @@
+/*
+* Copyright (c) 2002,2005 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Contains all the resource definitions for the Positioning
+*		     Method Settings UI
+*
+*/
+
+
+//  RESOURCE IDENTIFIER
+
+NAME    LPSY // 4 Letter Identifier
+
+//  INCLUDES
+
+#include    <data_caging_paths_strings.hrh>
+#include    <bldvariant.hrh>
+#include    <avkon.rh>
+#include    <avkon.rsg>
+#include    <avkon.mbg>
+#include    <EIKCORE.rsg>
+#include    <eikon.rh>
+#include    <eikon.rsg>
+#include    <avkon.loc>
+#include 		<location.loc>
+#include 	"locpsysettingsui.hrh"
+
+//  RESOURCE DEFINITIONS 
+
+RESOURCE RSS_SIGNATURE 
+	{
+	}
+	
+//----------------------------------------------------
+// r_possettingsui_caption
+// 
+// Caption for Positioning Method Settings
+//----------------------------------------------------
+//
+RESOURCE TBUF r_possettingsui_caption
+    {
+    buf = qtn_loc_settings_psys;
+    }
+    
+
+//------------------------------------------------------------------------------
+//   
+//    LOCATION_INTARRAY
+//    Items array
+//
+//------------------------------------------------------------------------------
+//
+STRUCT LOCATION_INTARRAY
+    {
+    LONG items[];
+    }
+
+
+//------------------------------------------------------------------------------
+//   
+//    r_location_hotkeys
+//    Hot keys.
+//
+//------------------------------------------------------------------------------
+//
+RESOURCE HOTKEYS r_location_hotkeys
+    {
+    control=
+        {
+        // None
+        };
+    }
+
+
+//------------------------------------------------------------------------------
+//   
+//    r_location_home_view
+//    Home view
+//
+//------------------------------------------------------------------------------
+//
+RESOURCE AVKON_VIEW r_location_home_view
+    {    
+    menubar=r_location_menubar_home_view;
+    cba=r_location_options_selection_back;
+    }
+    
+//----------------------------------------------------
+//   
+//    r_location_options_selection_back
+//    CBA for PSY Settings UI view.
+//
+//----------------------------------------------------
+//   
+RESOURCE CBA r_location_options_selection_back
+    {
+    flags = 0;
+    buttons = 
+        {
+        CBA_BUTTON 
+            {
+            id = EAknSoftkeyOptions; 
+            txt = text_softkey_option;
+            },
+        CBA_BUTTON 
+            {
+            id = EAknSoftkeyBack; 
+            txt = text_softkey_back;
+            },
+        CBA_BUTTON
+            {
+            id = EAknSoftkeyContextOptions; 
+            txt = text_softkey_option;
+            }
+        };
+    }
+    
+//----------------------------------------------------
+//   
+//    r_location_options_empty_back
+//    CBA for PSY Settings UI view.
+//
+//----------------------------------------------------
+//
+RESOURCE CBA r_location_options_empty_back
+    {
+    flags = 0;
+    buttons = 
+        {
+        CBA_BUTTON 
+            {
+            id = EAknSoftkeyOptions; 
+            txt = text_softkey_option;
+            },
+        CBA_BUTTON 
+            {
+            id = EAknSoftkeyBack; 
+            txt = text_softkey_back;
+            },
+        CBA_BUTTON
+            {
+            id = ELocCmdNone;
+            }
+        };
+    }
+
+//------------------------------------------------------------------------------
+//   
+//    r_location_menubar_home_view
+//    Menu bar of home view
+//
+//------------------------------------------------------------------------------
+//
+RESOURCE MENU_BAR r_location_menubar_home_view
+    {
+    titles=
+        {
+        MENU_TITLE { menu_pane=r_location_app_menu; txt=""; },
+        MENU_TITLE { menu_pane=r_location_home_view_menu; txt=""; }
+        };
+    }
+
+//------------------------------------------------------------------------------
+//   
+//    r_location_context_menubar
+//    Context specific menu bar inhome view
+//
+//------------------------------------------------------------------------------
+//
+RESOURCE MENU_BAR r_location_context_menubar_home_view
+    {
+    titles =
+        {
+        MENU_TITLE { menu_pane=r_location_home_view_menu; txt=""; }
+        };
+    }
+
+//------------------------------------------------------------------------------
+//   
+//    r_location_home_view_menu
+//    Home view menu
+//
+//------------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_location_home_view_menu
+    {
+    items=
+        {
+        MENU_ITEM { command=ELocCmdEnablePsy; txt = qtn_loc_opt_enable_psy;flags = EEikMenuItemAction; },
+        MENU_ITEM { command=ELocCmdDisablePsy; txt = qtn_loc_opt_disable_psy;flags = EEikMenuItemAction; },
+        MENU_ITEM { command=ELocCmdConfigurePsy; txt = qtn_loc_opt_method_settings;flags = EEikMenuItemAction; }
+        };
+    }
+
+//------------------------------------------------------------------------------
+//   
+//    r_loc_psy_methods_list_empty
+//    Empty positioning methods listbox text
+//
+//------------------------------------------------------------------------------
+//
+RESOURCE TBUF r_loc_psy_methods_list_empty
+    {
+    buf=qtn_loc_no_psys;
+    }
+
+//------------------------------------------------------------------------------
+//   
+//    r_location_app_menu
+//    Location application menu
+//
+//------------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_location_app_menu
+    {
+    items=
+        {
+        MENU_ITEM 
+            {            
+            command = EAknCmdHelp;
+            txt = qtn_options_help; 
+            },
+        MENU_ITEM 
+           { 
+           // Exit option should use 'EEikCmdExit' instead of 'EEAknCmdExit'
+           // This is to ensure that the Exit command is not handled by the 
+           // ProcessCommandL of CAknView and is transferred to 
+           // CAknViewAppUi::HandleCommandL. This behaviour is necessary 
+           // for proper handling of the Exit command from an App Server's 
+           // perspective.
+           command = EEikCmdExit; 
+           txt = qtn_options_exit;
+           }
+        };
+    }
+    
+//------------------------------------------------------------------------------
+//   
+//    r_loc_main_title
+//    Title for application's main view (Positioning methods view)
+//
+//------------------------------------------------------------------------------
+//
+RESOURCE TBUF r_loc_main_title
+    {
+    buf = qtn_loc_psy_title;
+    }
+
+//------------------------------------------------------------------------------
+//   
+//    r_location_psy_listbox
+//    Listbox resource for application's main view (Positioning methods view)
+//
+//------------------------------------------------------------------------------
+//
+RESOURCE LISTBOX r_location_psy_listbox
+	{
+    flags = EAknListBoxSelectionList;
+	}
+
+//----------------------------------------------------
+//   
+//    r_psyquery_softkeys_yes_yes_no
+//    CBA for PSY Settings confirmation query.
+//
+//----------------------------------------------------
+//   
+RESOURCE CBA r_psyquery_softkeys_yes_yes_no
+    {
+    flags = 0;
+    buttons = 
+        {
+        CBA_BUTTON 
+            {
+            id = EAknSoftkeyYes; 
+            txt = text_softkey_yes;
+            },
+        CBA_BUTTON
+            {
+            id = EAknSoftkeyNo; 
+            txt = text_softkey_no;
+            },
+       CBA_BUTTON 
+            {
+            id = EAknSoftkeyYes; 
+            txt = text_softkey_yes;
+            }
+        };
+    }
+
+//----------------------------------------------------
+//   
+//    r_psydisable_config_query
+//    Confirmation Query prompt for PSY disabling
+//
+//----------------------------------------------------
+//
+RESOURCE DIALOG r_psydisable_config_query
+	{
+	flags = EAknGeneralQueryFlags;
+	buttons = r_psyquery_softkeys_yes_yes_no;
+	items =
+		{
+		DLG_LINE
+			{
+			type = EAknCtQuery;
+			id = EGeneralQuery;
+			control = AVKON_CONFIRMATION_QUERY
+				{
+				layout = EConfirmationQueryLayout;
+				label = qtn_loc_query_psy_used;
+				};
+			}
+		};
+	}
+	
+// End of File
+
+

@@ -1,0 +1,38 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: Image description file for project locationmapnavfw
+*
+*/
+#ifndef __MapNavFramework_IBY__
+#define __MapNavFramework_IBY__
+
+#include <bldvariant.hrh>
+
+///////////////////////////////////
+// *** Map and Navigation FW *** //
+///////////////////////////////////
+
+// Library
+file=ABI_DIR\BUILD_DIR\mnclientlib.dll                   SHARED_LIB_DIR\mnclientlib.dll
+file=ABI_DIR\BUILD_DIR\mnservicelib.dll                 SHARED_LIB_DIR\mnservicelib.dll
+
+#ifdef __MAP_AND_NAVIGATION_AIW_PROVIDER
+
+// AIW Provider
+ECOM_PLUGIN(mnaiwprovider.dll, mnaiwprovider.rsc)
+
+#endif // __MAP_AND_NAVIGATION_AIW_PROVIDER
+
+#endif // __MapNavFramework_IBY__
+

@@ -1,0 +1,14 @@
+EXPORTS
+	?ClipToFit@LocTextUtils@@SAHAAVTDes16@@W4TClipDirection@AknTextUtils@@PAVCEikFormattedCellListBox@@HHH@Z @ 1 NONAME ; int LocTextUtils::ClipToFit(class TDes16 &, enum AknTextUtils::TClipDirection, class CEikFormattedCellListBox *, int, int, int)
+	?Debug@@YAXV?$TRefByValue@$$CBVTDesC16@@@@ZZ @ 2 NONAME ; void Debug(class TRefByValue<class TDesC16 const >, ...)
+	?GetFileWithCorrectDriveL@LocFileUtils@@SAXABV?$TBuf@$0BAA@@@AAV2@@Z @ 3 NONAME ; void LocFileUtils::GetFileWithCorrectDriveL(class TBuf<256> const &, class TBuf<256> &)
+	?GetNearestLanguageFileL@LocFileUtils@@SAXAAVRFs@@ABV?$TBuf@$0BAA@@@AAV3@@Z @ 4 NONAME ; void LocFileUtils::GetNearestLanguageFileL(class RFs &, class TBuf<256> const &, class TBuf<256> &)
+	?NewL@CLocPhoneNumberFormat@@SAPAV1@XZ @ 5 NONAME ; class CLocPhoneNumberFormat * CLocPhoneNumberFormat::NewL(void)
+	?NewL@CLocRequestorUtilsResolver@@SAPAV1@XZ @ 6 NONAME ; class CLocRequestorUtilsResolver * CLocRequestorUtilsResolver::NewL(void)
+	?PhoneNumberAsName@CLocRequestorUtilsResolver@@SAHABVCPosRequestor@@@Z @ 7 NONAME ; int CLocRequestorUtilsResolver::PhoneNumberAsName(class CPosRequestor const &)
+	?PhoneNumberFormatL@CLocPhoneNumberFormat@@QAE?AW4TFormatResult@@ABVTDesC16@@AAVTDes16@@W4TClipDirection@AknTextUtils@@PAVCEikFormattedCellListBox@@HHH@Z @ 8 NONAME ; enum TFormatResult CLocPhoneNumberFormat::PhoneNumberFormatL(class TDesC16 const &, class TDes16 &, enum AknTextUtils::TClipDirection, class CEikFormattedCellListBox *, int, int, int)
+	?PhoneNumberGroupL@CLocPhoneNumberFormat@@QAEPAVHBufC16@@ABVTDesC16@@@Z @ 9 NONAME ; class HBufC16 * CLocPhoneNumberFormat::PhoneNumberGroupL(class TDesC16 const &)
+	?ProcessRequestorsL@CLocRequestorUtilsResolver@@QAEXAAV?$RPointerArray@VCPosRequestor@@@@@Z @ 10 NONAME ; void CLocRequestorUtilsResolver::ProcessRequestorsL(class RPointerArray<class CPosRequestor> &)
+	?RequestorIdValid@CLocRequestorUtilsResolver@@SAHABVCPosRequestor@@@Z @ 11 NONAME ; int CLocRequestorUtilsResolver::RequestorIdValid(class CPosRequestor const &)
+	?RequestorNameL@CLocRequestorUtilsResolver@@QAEPAVHBufC16@@ABVCPosRequestor@@@Z @ 12 NONAME ; class HBufC16 * CLocRequestorUtilsResolver::RequestorNameL(class CPosRequestor const &)
+

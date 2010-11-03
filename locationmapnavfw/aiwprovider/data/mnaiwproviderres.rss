@@ -1,0 +1,158 @@
+/*
+* Copyright (c) 2005 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Resource definitions for Map and Navigation AIW Provider
+*
+*/
+
+
+#include <eikon.rh>
+#include <avkon.rsg>
+#include <avkon.rh>
+
+NAME MNAP
+RESOURCE RSS_SIGNATURE { }
+RESOURCE TBUF { buf=""; }
+
+#include "mnaiwmenus.hrh"
+#include <mnaiwprovider.loc>
+
+// ---------------------------------------------------------------------------
+// r_mn_aiwmenu_showonmap
+// Show on map AIW menu item
+// ---------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_mn_aiwmenu_show_on_map
+	{
+	items =
+		{
+		MENU_ITEM 
+		    { 
+		    command = EMnAiwMenuCmdShowOnMap;
+		    txt = qtn_mnn_option_show_on_map; 
+		    }
+		};
+	}
+
+// ---------------------------------------------------------------------------
+// r_mn_aiwmenu_navigateto
+// Navigate To AIW menu item
+// ---------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_mn_aiwmenu_navigate_to
+	{
+	items =
+		{
+		MENU_ITEM 
+		    { 
+		    command = EMnAiwMenuCmdNavigateTo;
+		    txt = qtn_mnn_option_navigate_to; 
+		    }
+		};
+	}
+
+// ---------------------------------------------------------------------------
+// r_mn_aiwmenu_selectfrommap
+// Select From Map AIW menu item
+// ---------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_mn_aiwmenu_select_from_map
+	{
+	items =
+		{
+		MENU_ITEM 
+		    { 
+		    command = EMnAiwMenuCmdSelectFromMap;
+		    txt = qtn_mnn_option_select_from_map; 
+		    }
+		};
+	}
+
+// ---------------------------------------------------------------------------
+// r_mn_option_fetch_coordinates
+// Retrieve coordinates AIW menu item
+// ---------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_mn_aiwmenu_fetch_coordinates
+    {
+	items =
+		{
+		MENU_ITEM 
+		    { 
+		    command = EMnAiwMenuCmdFetchCoordinates;
+            txt = qtn_mnn_option_fetch_coordinates;
+		    }
+		};
+    }
+
+// ---------------------------------------------------------------------------
+// r_mn_option_fetch_address
+// Retrieve address AIW menu item
+// ---------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_mn_aiwmenu_fetch_address    
+    {
+	items =
+		{
+		MENU_ITEM 
+		    { 
+		    command = EMnAiwMenuCmdFetchAddress;
+            txt = qtn_mnn_option_fetch_address;
+		    }
+		};
+    }
+
+// ---------------------------------------------------------------------------
+// r_mn_error_no_provider
+// No provider was able to serve for selected service
+// ---------------------------------------------------------------------------
+//
+RESOURCE TBUF r_mn_error_no_provider
+    {
+    buf = qtn_mnn_error_no_provider;
+    }
+
+// ---------------------------------------------------------------------------
+// r_mn_error_service_unavailable
+// Service is not available or failed in selected provider
+// ---------------------------------------------------------------------------
+//
+RESOURCE TBUF r_mn_error_service_unavailable
+    {
+    buf = qtn_mnn_service_unavailable_error;
+    }
+
+// ---------------------------------------------------------------------------
+// r_mn_provider_list_query
+// Provider selection query dialog
+// ---------------------------------------------------------------------------
+//
+RESOURCE AVKON_LIST_QUERY r_mn_provider_list_query
+    {
+    flags = EGeneralQueryFlags;
+    softkeys = R_AVKON_SOFTKEYS_OK_CANCEL;
+    items =
+        {
+        AVKON_LIST_QUERY_DLG_LINE
+            {
+            control = AVKON_LIST_QUERY_CONTROL
+                {
+                listtype = EAknCtSinglePopupMenuListBox;
+                listbox = AVKON_LIST_QUERY_LIST
+                    {
+                    };
+                heading = qtn_mnn_select_provider_query;
+                };
+            }
+        };
+    }

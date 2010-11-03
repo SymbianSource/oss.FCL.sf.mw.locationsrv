@@ -1,0 +1,427 @@
+/*
+* Copyright (c) 2008 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  Contains all the resource definitions for SUPL Settings UI.
+*
+*/
+
+
+/*
+#include <data_caging_paths_strings.hrh>
+#include <bldvariant.hrh>
+#include <eikcore.rsg>
+#include <eikon.rh>
+#include <eikon.rsg>
+#include <avkon.rh>
+#include <avkon.rsg>
+#include <avkon.mbg>
+#include <avkon.loc>
+#include <avkon.hrh>
+
+#include <locsuplsettings.loc>
+*/
+// -----------------------------------------------------------------------------
+//   r_suplserver_editor_menu_bar
+//   Define the menu bar of the edit dialog
+// -----------------------------------------------------------------------------
+//
+RESOURCE MENU_BAR r_suplserver_editor_menu_bar
+    {
+    titles 	=
+        {
+        MENU_TITLE	{	menu_pane = r_suplserver_editor_menu_pane; txt=""; }
+        };
+    }
+         
+//------------------------------------------------------------------------------   
+// r_suplserver_editor_menu_pane
+// Menu Items for SUPL Server Editor view
+//------------------------------------------------------------------------------
+//
+RESOURCE MENU_PANE r_suplserver_editor_menu_pane
+    {
+    items	=
+        {
+        MENU_ITEM	
+        	{	
+        	command = ELocServerEditorDelete; 	txt = qtn_loc_detail_options_delete; 	flags = EEikMenuItemSpecific;
+        	},
+        MENU_ITEM	
+        	{	
+        	command = ELocServerEditorDisable; 	txt = qtn_loc_detail_options_disable; flags = EEikMenuItemSpecific;
+        	},
+        MENU_ITEM	
+        	{	
+        	command = ELocServerEditorEnable; 	txt = qtn_loc_detail_options_enable; 	flags = EEikMenuItemSpecific;
+        	},
+        MENU_ITEM	
+        	{	
+        	command = ELocServerEditorDefine; 	txt = qtn_loc_server_options_define;
+        	},
+        MENU_ITEM	
+        	{	
+        	command = ELocServerEditorRemove; 	txt = qtn_loc_detail_options_delete; 	flags = EEikMenuItemSpecific;
+        	},
+        MENU_ITEM	
+        	{ 	
+        	command = EAknCmdHelp; 				txt = qtn_options_help;
+        	},
+        // Exit option should use 'EEikCmdExit' instead of 'EEAknCmdExit'
+        // This is to ensure that the Exit command is not handled by the 
+        // ProcessCommandL of CAknView and is transferred to 
+        // CAknViewAppUi::HandleCommandL. This behaviour is necessary 
+        // for proper handling of the Exit command from an App Server's 
+        // perspective.        
+        MENU_ITEM 	
+        	{	
+        	command = EEikCmdExit;  			txt = qtn_options_exit;
+        	}
+        };
+    }
+
+//----------------------------------------------------
+// RESOURCE DIALOG r_suplserver_editor_form_dialog
+// Form dialog to create an event
+//----------------------------------------------------
+//
+RESOURCE DIALOG r_suplserver_editor_form_dialog
+	{
+    flags 	= 	EEikDialogFlagNoDrag | EEikDialogFlagFillAppClientRect |
+            	EEikDialogFlagNoTitleBar | EEikDialogFlagButtonsRight |
+            	EEikDialogFlagCbaButtons | EEikDialogFlagNoBorder |
+            	EEikDialogFlagWait;
+    buttons = 	r_suplserver_editor_options_edit_back;
+    form 	= 	r_suplserver_editor_form;
+	}
+
+//----------------------------------------------------
+// RESOURCE DIALOG r_suplserver_editor_form_dialog_noap
+// Form dialog to create an event
+//----------------------------------------------------
+//
+RESOURCE DIALOG r_suplserver_editor_form_dialog_noap
+    {
+    flags   =   EEikDialogFlagNoDrag | EEikDialogFlagFillAppClientRect |
+                EEikDialogFlagNoTitleBar | EEikDialogFlagButtonsRight |
+                EEikDialogFlagCbaButtons | EEikDialogFlagNoBorder |
+                EEikDialogFlagWait;
+    buttons =   r_suplserver_editor_options_edit_back;
+    form    =   r_suplserver_editor_form_noap;
+    }
+
+//----------------------------------------------------  
+// RESOURCE CBA r_suplserver_editor_options_nomsk_back
+// CBA for SUPL Settings UI view.
+//----------------------------------------------------
+//   
+RESOURCE CBA r_suplserver_editor_options_nomsk_back
+    {
+    flags 	= 0;
+    buttons = 
+        {
+        CBA_BUTTON 
+            {
+            id 	= EAknSoftkeyOptions; 
+            txt = text_softkey_option;
+            },
+        CBA_BUTTON 
+            {
+            id 	= EAknSoftkeyBack; 
+            txt = text_softkey_back;
+            },
+        CBA_BUTTON
+            {
+            id 	= ELocServerEditorNoCmd; 
+            txt = "";
+            }
+        };
+    }
+
+//----------------------------------------------------  
+// RESOURCE CBA r_suplserver_editor_options_edit_back
+// CBA for SUPL Settings UI view.
+//----------------------------------------------------
+//   
+RESOURCE CBA r_suplserver_editor_options_edit_back
+    {
+    flags 	= 0;
+    buttons = 
+        {
+        CBA_BUTTON 
+            {
+            id 	= EAknSoftkeyOptions; 
+            txt = text_softkey_option;
+            },
+        CBA_BUTTON 
+            {
+            id 	= EAknSoftkeyBack; 
+            txt = text_softkey_back;
+            },
+        CBA_BUTTON
+            {
+            id 	= EAknFormCmdEdit; 
+            txt = qtn_msk_edit;
+            }
+        };
+    }
+
+//----------------------------------------------------
+// RESOURCE DIALOG r_suplserver_editor_form
+// Form to create/view a slp entry
+//----------------------------------------------------
+//
+RESOURCE FORM r_suplserver_editor_form
+    {
+    flags 	=  EEikFormUseDoubleSpacedFormat;
+    items 	=
+        {
+        DLG_LINE
+            {
+            type		=	EEikCtEdwin;
+            prompt		=	qtn_loc_server_address_name;
+            id			=	ELocSuplServerIdServerAddr;
+            itemflags 	= 	EEikDlgItemTakesEnterKey | EEikDlgItemOfferAllHotKeys;
+            control		=	EDWIN 
+                {
+                flags 		= 	EEikEdwinJustAutoCurEnd | EEikEdwinResizable | EEikEdwinNoLineOrParaBreaks  ;
+                width		=	16; 
+                maxlength	=	255;
+                lines		=	10;
+                };
+            },
+     	DLG_LINE
+            {
+            type		=	EEikCtEdwin;
+            prompt		=	qtn_loc_server_iap;
+            id			=	ELocSuplServerIdAccessPoint;
+            itemflags 	= 	EEikDlgItemTakesEnterKey | EEikDlgItemOfferAllHotKeys | EEikDlgItemAsLabel | EEikEdwinReadOnly;
+            control		=	EDWIN 
+                {       
+                flags 		= 	EEikEdwinResizable | EEikEdwinReadOnly | EEikEdwinAvkonDisableCursor | EEikEdwinNoAutoSelection ;
+                maxlength	=	0;
+                lines		=	1;
+                max_view_height_in_lines	=	8;                
+                };
+            },                
+        DLG_LINE
+            {
+            type = EEikCtEdwin;
+            prompt = qtn_loc_server_usage;
+            id = ELocSuplServerIdUsageInHomeNw;
+            itemflags = EEikDlgItemTakesEnterKey;
+            control = EDWIN
+                {
+                flags = EEikEdwinNoHorizScrolling | EEikEdwinResizable |
+                EEikEdwinNoAutoSelection | EEikEdwinReadOnly|
+                EEikEdwinAvkonDisableCursor|EEikEdwinAvkonNotEditable |EEikEdwinDisplayOnly;
+                //         maxlength = ECalenAbsoluteMaxTextEditorLength;
+                default_case = EAknEditorTextCase;
+                allowed_case_modes = EAknEditorAllCaseModes;
+                numeric_keymap = EAknEditorStandardNumberModeKeymap;
+                special_character_table = R_AVKON_SPECIAL_CHARACTER_TABLE_DIALOG;
+                avkon_flags = EAknEditorFlagUseSCTNumericCharmap |
+                EAknEditorFlagDefault |
+                EAknEditorFlagEnablePictographInput;
+                // let Avkon decide which is maximum number of lines
+                // It's based on layout.
+                max_view_height_in_lines = 0;
+                };
+            }
+   		};
+	}
+    
+//----------------------------------------------------
+// RESOURCE DIALOG r_suplserver_editor_form_noap
+// Form to create/view a server
+//----------------------------------------------------
+//
+RESOURCE FORM r_suplserver_editor_form_noap
+    {
+    flags   =  EEikFormUseDoubleSpacedFormat;
+    items   =
+        {
+        DLG_LINE
+            {
+            type        =   EEikCtEdwin;
+            prompt      =   qtn_loc_server_address_name;
+            id          =   ELocSuplServerIdServerAddr;
+            itemflags   =   EEikDlgItemTakesEnterKey | EEikDlgItemOfferAllHotKeys;
+            control     =   EDWIN 
+                {
+                flags       =   EEikEdwinJustAutoCurEnd | EEikEdwinResizable | EEikEdwinNoLineOrParaBreaks  ;
+                width       =   16; 
+                maxlength   =   255;
+                lines       =   10;
+                };
+            },
+               
+        DLG_LINE
+            {
+            type = EEikCtEdwin;
+            prompt = qtn_loc_server_usage;
+            id = ELocSuplServerIdUsageInHomeNw;
+            itemflags = EEikDlgItemTakesEnterKey;
+            control = EDWIN
+                {
+                flags = EEikEdwinNoHorizScrolling | EEikEdwinResizable |
+                EEikEdwinNoAutoSelection | EEikEdwinReadOnly|
+                EEikEdwinAvkonDisableCursor|EEikEdwinAvkonNotEditable |EEikEdwinDisplayOnly;
+                //         maxlength = ECalenAbsoluteMaxTextEditorLength;
+                default_case = EAknEditorTextCase;
+                allowed_case_modes = EAknEditorAllCaseModes;
+                numeric_keymap = EAknEditorStandardNumberModeKeymap;
+                special_character_table = R_AVKON_SPECIAL_CHARACTER_TABLE_DIALOG;
+                avkon_flags = EAknEditorFlagUseSCTNumericCharmap |
+                EAknEditorFlagDefault |
+                EAknEditorFlagEnablePictographInput;
+                // let Avkon decide which is maximum number of lines
+                // It's based on layout.
+                max_view_height_in_lines = 0;
+                };
+            }
+        };
+    }
+//----------------------------------------------------
+// RESOURCE ARRAY r_suplserver_editor_usageinhomenw_array
+// array for usage in homw nw pop-up dialog
+//----------------------------------------------------
+//
+RESOURCE ARRAY r_suplserver_editor_usageinhomenw_array
+    {
+    items 	=
+        {
+        LBUF{ txt = qtn_loc_server_usage_yes; },
+        LBUF{ txt = qtn_loc_server_usage_no; 	}                  
+        };
+    }
+         	          
+//----------------------------------------------------  
+// RESOURCE CBA r_suplserver_editor_options_nomsk_done
+// CBA for SUPL Editor UI view.
+//----------------------------------------------------
+//   
+RESOURCE CBA r_suplserver_editor_options_nomsk_done
+    {
+    flags 	= 0;
+    buttons = 
+        {
+        CBA_BUTTON 
+            {
+            id 	= EAknSoftkeyOptions; 
+            txt = text_softkey_option;
+            },
+        CBA_BUTTON 
+            {
+            id = EAknSoftkeyDone; 
+            txt = text_softkey_done;
+            },
+        CBA_BUTTON
+            {
+            id 	= ELocServerEditorNoCmd; 
+            txt = "";
+            }
+        };
+    }
+
+
+//----------------------------------------------------  
+// RESOURCE CBA r_suplserver_editor_options_change_done
+// CBA for SUPL Editor UI view.
+//----------------------------------------------------
+//   
+RESOURCE CBA r_suplserver_editor_options_change_done
+    {
+    flags 	= 0;
+    buttons = 
+        {
+        CBA_BUTTON 
+            {
+            id 	= EAknSoftkeyOptions; 
+            txt = text_softkey_option;
+            },
+        CBA_BUTTON 
+            {
+            id 	= EAknSoftkeyDone; 
+            txt = text_softkey_done;
+            },
+        CBA_BUTTON
+            {
+            id 	= ELocServerEditorMSKChange; 
+            txt = qtn_msk_change;
+            }
+        };
+    }
+
+//------------------------------------------------------------------------------  
+// r_loc_server_info_note
+// info note to add server name
+//------------------------------------------------------------------------------
+//
+RESOURCE TBUF r_loc_server_info_note
+    {
+    buf		= qtn_loc_server_info_note;
+    }  
+
+//------------------------------------------------------------------------------  
+// r_loc_server_editor_title
+// title text for editor
+//------------------------------------------------------------------------------
+//
+RESOURCE TBUF r_loc_server_editor_title
+    {
+    buf		= qtn_loc_server_editor_title;
+    }  
+
+//------------------------------------------------------------------------------  
+// r_loc_server_none
+// Value in the "Access point" form field
+//------------------------------------------------------------------------------
+//
+RESOURCE TBUF r_loc_server_none
+    {
+    buf		= qtn_loc_server_none;
+    }  
+
+//------------------------------------------------------------------------------  
+// r_loc_server_none
+// info note to add new server address after duplicate server address entered
+//------------------------------------------------------------------------------
+//
+RESOURCE TBUF r_loc_server_already_exist_info_note
+    {
+    buf		= qtn_loc_server_rename_info_note;
+    }  
+
+// ---------------------------------------------------------
+//
+//    r_loc_server_usageinhomenetwork_yes
+//    Define "Yes" to "Usage in home network:" line of Editor Form
+//
+// ---------------------------------------------------------
+//
+RESOURCE TBUF r_loc_server_usageinhomenetwork_yes
+    {
+    buf = qtn_loc_server_usage_yes;
+    }
+// ---------------------------------------------------------
+//
+//    r_loc_server_usageinhomenetwork_no
+//    Define "No" to "Usage in home network:" line of Editor Form
+//
+// ---------------------------------------------------------
+//
+RESOURCE TBUF r_loc_server_usageinhomenetwork_no
+    {
+    buf = qtn_loc_server_usage_no;
+    }
+// End of File

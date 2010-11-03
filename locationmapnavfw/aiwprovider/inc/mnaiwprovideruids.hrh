@@ -1,0 +1,26 @@
+/*
+* Copyright (c) 2005-2006 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  UIDs of Map and Navigation AIW Provider
+*
+*/
+
+
+#ifndef MN_AIW_PROVIDER_UIDS_HRH
+#define MN_AIW_PROVIDER_UIDS_HRH
+
+#define KMnAiwProviderDllUid    	0x1020690C
+#define KMnAiwProviderBaseImplUid   0x1020690D
+#define KMnAiwProviderMenuImplUid   0x1020690E
+
+#endif // MN_AIW_PROVIDER_UIDS_HRH

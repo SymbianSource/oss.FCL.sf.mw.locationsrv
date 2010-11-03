@@ -1,0 +1,62 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: Project definition file for test code of Map Image Conversion plugin API
+*
+*/
+
+
+
+
+#include <platform_paths.hrh>
+
+
+TARGET          testmapimgconpluginapi.dll
+TARGETTYPE      dll
+UID             0x1000008D 0x101FB3E3
+
+CAPABILITY      ALL -TCB
+/* Remove comments and replace 0x00000000 with correct vendor id */
+// VENDORID     0x00000000
+/* Remove comments and replace 0x00000000 with correct secure id */
+// SECUREID     0x00000000
+
+//TARGETPATH      ?target_path
+DEFFILE         testmapimgconpluginapi.def
+
+SOURCEPATH      ../src
+SOURCE          testmapimgconpluginapi.cpp
+SOURCE          testmapimgconpluginapiBlocks.cpp
+SOURCE					testprovidercoordconverter.cpp
+
+
+USERINCLUDE     ../inc 
+
+MW_LAYER_SYSTEMINCLUDE
+
+
+LIBRARY         euser.lib
+LIBRARY         stiftestinterface.lib
+LIBRARY         stiftestengine.lib
+LIBRARY			mnclientlib.lib
+LIBRARY         lbs.lib
+
+LANG            SC
+
+
+ 
+
+
+SMPSAFE
+
+// End of File

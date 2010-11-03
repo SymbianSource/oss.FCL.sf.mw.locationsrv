@@ -1,0 +1,27 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: IBY file for Location Positioning Settings Resource
+*
+*/
+#ifndef __LOCPSYSETTINGS_RSC_IBY__
+#define __LOCPSYSETTINGS_RSC_IBY__
+
+#if  defined(__LOCATIONSYSUI) && defined(__LOCATIONFRAMEWORKCORE)
+
+	//LocationSystemUI localisable resource file
+	data=DATAZ_\RESOURCE_FILES_DIR\locpsysettingsuiview.rsc		RESOURCE_FILES_DIR\locpsysettingsuiview.rsc
+
+#endif // (__LOCATIONSYSUI) && (__LOCATIONFRAMEWORKCORE)
+
+#endif //__LOCPSYSETTINGS_RSC_IBY__

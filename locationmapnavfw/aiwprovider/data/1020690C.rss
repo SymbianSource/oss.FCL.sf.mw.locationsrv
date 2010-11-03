@@ -1,0 +1,88 @@
+/*
+* Copyright (c) 1020 Nokia Corporation and/or its subsidiary(-ies). 
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description:  ECom resource definitions for Map and Navigation AIW Provider
+*
+*/
+
+
+
+#include <eikon.rh>
+#include <ecom/registryinfov2.rh>
+#include <AiwCommon.hrh>
+
+#include "mnaiwprovideruids.hrh"
+
+// ---------------------------------------------------------------------------
+//  r_mn_aiwprovider_plugin
+//  This resource is needed by CAiwServiceHandler/ECom for
+//  finding out what plugins exist
+// ---------------------------------------------------------------------------
+//
+RESOURCE REGISTRY_INFO r_mn_aiwprovider_plugin
+	{
+	resource_format_version = RESOURCE_FORMAT_VERSION_2;
+	dll_uid = KMnAiwProviderDllUid;
+	interfaces =
+		{
+		INTERFACE_INFO
+			{
+			// aiw service class (menu/base)
+			interface_uid = KAiwClassBase;
+
+			implementations =
+				{
+				  IMPLEMENTATION_INFO
+					{
+					// unique aiw service id that identifies the exact service
+					implementation_uid = KMnAiwProviderBaseImplUid;
+
+					version_no = 1;
+					display_name = "Map and Navigation AIW Provider";
+					default_data = "application/x-landmark";
+					opaque_data = KAiwCmdMnShowMapStr "||"
+					              KAiwCmdMnNavigateToStr "||"
+					              KAiwCmdMnAddrByCoordStr "||"
+					              KAiwCmdMnCoordByAddrStr "||"
+					              KAiwCmdMnSelectFromMapStr;
+                    rom_only = 0;
+					}
+				};
+			},
+
+		INTERFACE_INFO
+			{
+			// aiw service class (menu/base)
+			interface_uid = KAiwClassMenu;
+
+			implementations =
+				{
+				  IMPLEMENTATION_INFO
+					{
+					// unique aiw service id that identifies the exact service
+					implementation_uid = KMnAiwProviderMenuImplUid;
+
+					version_no = 1;
+					display_name = "Map and Navigation AIW Provider";
+					default_data = "application/x-landmark";
+					opaque_data = KAiwCmdMnShowMapStr "||"
+					              KAiwCmdMnNavigateToStr "||"
+					              KAiwCmdMnAddrByCoordStr "||"
+					              KAiwCmdMnCoordByAddrStr "||"
+					              KAiwCmdMnSelectFromMapStr;
+                    rom_only = 0;
+					}
+				};
+			}
+		};
+	}

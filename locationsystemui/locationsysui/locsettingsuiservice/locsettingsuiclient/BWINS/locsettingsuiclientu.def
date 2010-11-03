@@ -1,0 +1,12 @@
+EXPORTS
+	?CancelLaunchedSettingsUi@CLocSettingsUiClient@@QAEHXZ @ 1 NONAME ; int CLocSettingsUiClient::CancelLaunchedSettingsUi(void)
+	?LaunchSettingsUiAsEmbeddedAppL@CLocSettingsUiClient@@QAEXVTUid@@HAAVTRequestStatus@@@Z @ 2 NONAME ; void CLocSettingsUiClient::LaunchSettingsUiAsEmbeddedAppL(class TUid, int, class TRequestStatus &)
+	?LaunchSettingsUiL@CLocSettingsUiClient@@QAEXVTUid@@HAAVTRequestStatus@@@Z @ 3 NONAME ; void CLocSettingsUiClient::LaunchSettingsUiL(class TUid, int, class TRequestStatus &)
+	?NewL@CLocSettingsUiClient@@SAPAV1@XZ @ 4 NONAME ; class CLocSettingsUiClient * CLocSettingsUiClient::NewL(void)
+	?NewLC@CLocSettingsUiClient@@SAPAV1@XZ @ 5 NONAME ; class CLocSettingsUiClient * CLocSettingsUiClient::NewLC(void)
+	?ClosePosSettings@CLocSettingsUiClient@@QAEHXZ @ 6 NONAME ; int CLocSettingsUiClient::ClosePosSettings(void)
+	?LaunchPosSettingsAsEmbeddedAppL@CLocSettingsUiClient@@QAEXAAVTRequestStatus@@@Z @ 7 NONAME ; void CLocSettingsUiClient::LaunchPosSettingsAsEmbeddedAppL(class TRequestStatus &)
+	?LaunchPosSettingsL@CLocSettingsUiClient@@QAEXAAVTRequestStatus@@@Z @ 8 NONAME ; void CLocSettingsUiClient::LaunchPosSettingsL(class TRequestStatus &)
+	?LaunchSettingsUiAsEmbeddedAppL@CLocSettingsUiClient@@QAEXVTUid@@ABVTDesC16@@AAVTRequestStatus@@@Z @ 9 NONAME ; void CLocSettingsUiClient::LaunchSettingsUiAsEmbeddedAppL(class TUid, class TDesC16 const &, class TRequestStatus &)
+	?LaunchSettingsUiL@CLocSettingsUiClient@@QAEXVTUid@@ABVTDesC16@@AAVTRequestStatus@@@Z @ 10 NONAME ; void CLocSettingsUiClient::LaunchSettingsUiL(class TUid, class TDesC16 const &, class TRequestStatus &)
+

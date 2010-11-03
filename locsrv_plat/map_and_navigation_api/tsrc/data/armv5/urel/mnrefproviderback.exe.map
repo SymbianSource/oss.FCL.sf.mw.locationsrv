@@ -1,0 +1,1319 @@
+ARM Linker, RVCT2.2 [Build 593]
+
+================================================================================
+
+Image Symbol Table
+
+    Local Symbols
+
+    Symbol Name                              Value     Ov Type        Size  Object(Section)
+
+    [Anonymous Symbol]                       0x00000000   Number         0  eikcore{000a0000}-293.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  eposlandmarks{000a0000}-13.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  euser{000a0000}-1995.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  eikcore{000a0000}-294.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  eposlandmarks{000a0000}-65.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  euser{000a0000}-1997.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  eikcore{000a0000}-295.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  eposlandmarks{000a0000}-68.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  euser{000a0000}-1999.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  eikcore{000a0000}-296.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  lbs{000a0000}-207.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  euser{000a0000}-203.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  eikcore{000a0000}-297.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  lbs{000a0000}-23.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  euser{000a0000}-205.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  eikcore{000a0000}-298.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  mnservicelib{000a0000}-1.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  euser{000a0000}-2060.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  eikcore{000a0000}-299.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  mnservicelib{000a0000}-2.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  euser{000a0000}-2061.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  eikcore{000a0000}-30.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  mnservicelib{000a0000}-21.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  drtaeabi{000a0000}-204.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  eikcore{000a0000}-302.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  mnservicelib{000a0000}-22.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  euser{000a0000}-208.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  eikcore{000a0000}-31.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  mnservicelib{000a0000}-23.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  euser{000a0000}-2082.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  eikcore{000a0000}-317.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  mnservicelib{000a0000}-24.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  euser{000a0000}-2120.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  eikcore{000a0000}-352.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  mnservicelib{000a0000}-27.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  euser{000a0000}-2123.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  eikcore{000a0000}-37.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  mnservicelib{000a0000}-34.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  euser{000a0000}-2125.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  eikcore{000a0000}-390.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  mnservicelib{000a0000}-45.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  avkon{000a0000}-213.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  eikcore{000a0000}-392.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  mnservicelib{000a0000}-46.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  avkon{000a0000}-214.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  eikcore{000a0000}-394.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  mnservicelib{000a0000}-47.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  avkon{000a0000}-215.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  eikcore{000a0000}-467.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  mnservicelib{000a0000}-49.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  avkon{000a0000}-216.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  eikcore{000a0000}-479.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  mnservicelib{000a0000}-50.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  avkon{000a0000}-217.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  eikcore{000a0000}-490.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  mnservicelib{000a0000}-53.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  avkon{000a0000}-220.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  eikcore{000a0000}-506.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  mnservicelib{000a0000}-56.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  avkon{000a0000}-2920.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  eikcore{000a0000}-523.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  mnrefproviderengine{000a0000}-10.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  avkon{000a0000}-2922.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  eikcore{000a0000}-532.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  mnrefproviderengine{000a0000}-12.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  avkon{000a0000}-2924.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  eikcore{000a0000}-533.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  mnrefproviderengine{000a0000}-18.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  avkon{000a0000}-2925.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  eikcore{000a0000}-534.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  mnrefproviderengine{000a0000}-19.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  avkon{000a0000}-2926.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  eikcore{000a0000}-535.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  mnrefproviderengine{000a0000}-21.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  avkon{000a0000}-2928.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  eikcore{000a0000}-536.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  mnrefproviderengine{000a0000}-4.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  avkon{000a0000}-2929.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  eikcore{000a0000}-537.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  mnrefproviderengine{000a0000}-5.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  avkon{000a0000}-2930.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  eikcore{000a0000}-565.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  mnrefproviderengine{000a0000}-54.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  avkon{000a0000}-2931.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  eikcore{000a0000}-61.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  mnrefproviderengine{000a0000}-6.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  avkon{000a0000}-2932.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  eikcore{000a0000}-62.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  drtaeabi{000a0000}-144.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  avkon{000a0000}-2934.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  eikcore{000a0000}-63.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  drtaeabi{000a0000}-158.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  avkon{000a0000}-2935.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  euser{000a0000}-1088.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  drtaeabi{000a0000}-159.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  avkon{000a0000}-2938.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  euser{000a0000}-1116.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  drtaeabi{000a0000}-180.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  avkon{000a0000}-2993.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  euser{000a0000}-1119.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  drtaeabi{000a0000}-182.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  avkon{000a0000}-2997.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  euser{000a0000}-1171.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  drtaeabi{000a0000}-183.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  avkon{000a0000}-3826.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  euser{000a0000}-1288.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  drtaeabi{000a0000}-184.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  avkon{000a0000}-3862.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  euser{000a0000}-1379.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  drtaeabi{000a0000}-189.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  avkon{000a0000}-3868.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  euser{000a0000}-1381.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  scppnwdl{000a0000}-3.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  avkon{000a0000}-4021.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  euser{000a0000}-1590.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  euser{000a0000}-1360.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  avkon{000a0000}-4030.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  euser{000a0000}-1593.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  euser{000a0000}-641.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  eposlandmarks{000a0000}-12.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  euser{000a0000}-1817.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  ws32{000a0000}-211.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  apparc{000a0000}-280.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  cone{000a0000}-677.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  gdi{000a0000}-312.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  apparc{000a0000}-284.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  apparc{000a0000}-121.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  avkon{000a0000}-1132.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  euser{000a0000}-585.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  apparc{000a0000}-132.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  avkon{000a0000}-129.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  euser{000a0000}-650.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  apparc{000a0000}-171.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  avkon{000a0000}-130.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  apparc{000a0000}-287.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  apparc{000a0000}-192.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  avkon{000a0000}-131.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  apparc{000a0000}-30.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  apparc{000a0000}-194.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  avkon{000a0000}-1350.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  eikcore{000a0000}-141.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  apparc{000a0000}-202.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  avkon{000a0000}-1351.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  eikcore{000a0000}-142.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  euser{000a0000}-207.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  avkon{000a0000}-1366.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  eikcore{000a0000}-143.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  apparc{000a0000}-232.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  avkon{000a0000}-198.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  eikcore{000a0000}-144.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  apparc{000a0000}-273.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  avkon{000a0000}-199.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  eikcore{000a0000}-147.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  apparc{000a0000}-274.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  avkon{000a0000}-201.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  eikcore{000a0000}-152.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  apparc{000a0000}-275.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  avkon{000a0000}-206.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  eikcore{000a0000}-155.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  apparc{000a0000}-279.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  euser{000a0000}-2131.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  eikcore{000a0000}-158.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  cone{000a0000}-100.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  euser{000a0000}-471.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  eikcore{000a0000}-159.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  cone{000a0000}-101.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  euser{000a0000}-474.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  eikcore{000a0000}-166.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  apparc{000a0000}-285.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  euser{000a0000}-481.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  eikcore{000a0000}-169.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  apparc{000a0000}-286.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  euser{000a0000}-613.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  eikcore{000a0000}-171.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  cone{000a0000}-182.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  euser{000a0000}-649.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  eikcore{000a0000}-175.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  cone{000a0000}-210.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  euser{000a0000}-652.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  eikcore{000a0000}-18.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  cone{000a0000}-212.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  euser{000a0000}-654.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  eikcore{000a0000}-20.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  cone{000a0000}-220.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  euser{000a0000}-669.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  eikcore{000a0000}-25.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  cone{000a0000}-351.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  euser{000a0000}-679.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  eikcore{000a0000}-26.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  cone{000a0000}-355.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  euser{000a0000}-681.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  eikcore{000a0000}-27.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  cone{000a0000}-638.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  euser{000a0000}-838.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  eikcore{000a0000}-28.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  cone{000a0000}-639.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  bafl{000a0000}-43.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  eikcore{000a0000}-29.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  cone{000a0000}-664.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  bafl{000a0000}-98.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  eikcore{000a0000}-291.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  cone{000a0000}-676.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  eikcore{000a0000}-64.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  eikcore{000a0000}-77.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  eikcore{000a0000}-75.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  eikcore{000a0000}-67.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  eikcore{000a0000}-78.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  cone{000a0000}-128.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  cone{000a0000}-127.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  eikcore{000a0000}-79.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  eikcore{000a0000}-74.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  avkon{000a0000}-211.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  apparc{000a0000}-222.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  eikcore{000a0000}-72.o ABSOLUTE
+    [Anonymous Symbol]                       0x00000000   Number         0  eikcore{000a0000}-73.o ABSOLUTE
+    M:/epoc32/build/apputils/c_da81efa927799d7f/bafl_dll/armv5/udeb\VtblExports.s 0x00000000   Number         0  VtblExports.o ABSOLUTE
+    M:/epoc32/build/compsupp/c_18558cc638e6e874/drtaeabi_dll/armv5/udeb\VtblExports.s 0x00000000   Number         0  VtblExports.o ABSOLUTE
+    M:/epoc32/build/cone/c_17e36feeaf3b2ee8/cone_dll/armv5/udeb\VtblExports.s 0x00000000   Number         0  VtblExports.o ABSOLUTE
+    M:/epoc32/build/gdi/c_5dab287815cadb7b/gdi_dll/armv5/udeb\VtblExports.s 0x00000000   Number         0  VtblExports.o ABSOLUTE
+    M:/epoc32/build/store/c_93a13d203e6d3ba7/estor_dll/armv5/udeb\VtblExports.s 0x00000000   Number         0  VtblExports.o ABSOLUTE
+    M:/epoc32/build/uikon/c_9cf7bef4a7562444/eikcore_dll/armv5/udeb\VtblExports.s 0x00000000   Number         0  VtblExports.o ABSOLUTE
+    M:\\sf\\os\\kernelhwsrv\\kernel\\eka\\compsupp\\rvct2_2\\ucppinit_aeabi.cpp 0x00000000   Number         0  ucppinit_aeabi.o ABSOLUTE
+    M:\sf\os\kernelhwsrv\kernel\eka\compsupp\rvct2_2\dllexp.cpp 0x00000000   Number         0  dllexp.o ABSOLUTE
+    M:\sf\os\kernelhwsrv\kernel\eka\compsupp\rvct2_2\ucppinit_aeabi.cpp 0x00000000   Number         0  ucppinit_aeabi.o ABSOLUTE
+    M:\sf\os\kernelhwsrv\kernel\eka\compsupp\symaehabi\callfirstprocessfn.cpp 0x00000000   Number         0  callfirstprocessfn.o ABSOLUTE
+    \EPOC32\BUILD\sf\app\location\group\MNREFENGINE\ARMV5\VtblExports.s 0x00000000   Number         0  VtblExports.o ABSOLUTE
+    \EPOC32\BUILD\sf\mw\appsupport\appfw\apparchitecture\group\APPARC\ARMV5\VtblExports.s 0x00000000   Number         0  VtblExports.o ABSOLUTE
+    \EPOC32\BUILD\sf\mw\classicui\group\AVKON\ARMV5\VtblExports.s 0x00000000   Number         0  VtblExports.o ABSOLUTE
+    \EPOC32\BUILD\sf\mw\classicui\group\EIKCOCTL\ARMV5\VtblExports.s 0x00000000   Number         0  VtblExports.o ABSOLUTE
+    \EPOC32\BUILD\sf\mw\locationsrv\group\EPOS_LANDMARKSCLIENTLIBRARY\ARMV5\VtblExports.s 0x00000000   Number         0  VtblExports.o ABSOLUTE
+    \EPOC32\BUILD\sf\mw\locationsrv\group\MNSERVICELIB\ARMV5\VtblExports.s 0x00000000   Number         0  VtblExports.o ABSOLUTE
+    \EPOC32\BUILD\sf\mw\uiresources\group\AKNSKINS\ARMV5\VtblExports.s 0x00000000   Number         0  VtblExports.o ABSOLUTE
+    \EPOC32\BUILD\sf\os\graphics\windowing\windowserver\group\WS32LIB\ARMV5\VtblExports.s 0x00000000   Number         0  VtblExports.o ABSOLUTE
+    \EPOC32\BUILD\sf\os\kernelhwsrv\kernel\eka\euser\EEXE\ARMV6_ABIV1\urel\uc_exe_.cpp 0x00000000   Number         0  uc_exe_.o ABSOLUTE
+    \EPOC32\BUILD\sf\os\kernelhwsrv\kernel\eka\euser\EUSER\ARMV5\VtblExports.s 0x00000000   Number         0  VtblExports.o ABSOLUTE
+    \EPOC32\BUILD\sf\os\kernelhwsrv\userlibandfileserver\fileserver\group\EFSRV\ARMV5\VtblExports.s 0x00000000   Number         0  VtblExports.o ABSOLUTE
+    \EPOC32\BUILD\sf\os\lbs\locationmgmt\locationadmin\group\LBSAPIVARIANT2\ARMV5\VtblExports.s 0x00000000   Number         0  VtblExports.o ABSOLUTE
+    \\EPOC32\\BUILD\\sf\\os\\kernelhwsrv\\kernel\\eka\\euser\\EEXE\\ARMV6_ABIV1\\urel\\uc_exe_.cpp 0x00000000   Number         0  uc_exe_.o ABSOLUTE
+    \sf\app\location\mapnavproviderrefapp\src\mnrefproviderback.cpp 0x00000000   Number         0  mnrefproviderback.in ABSOLUTE
+    \sf\app\location\mapnavproviderrefapp\src\mnrpapplicationback.cpp 0x00000000   Number         0  mnrefproviderback.in ABSOLUTE
+    \sf\app\location\mapnavproviderrefapp\src\mnrpappserverback.cpp 0x00000000   Number         0  mnrefproviderback.in ABSOLUTE
+    \sf\app\location\mapnavproviderrefapp\src\mnrpappuiback.cpp 0x00000000   Number         0  mnrefproviderback.in ABSOLUTE
+    \sf\app\location\mapnavproviderrefapp\src\mnrpdocumentback.cpp 0x00000000   Number         0  mnrefproviderback.in ABSOLUTE
+    \sf\app\location\mapnavproviderrefapp\src\mnrpgeocodingservice.cpp 0x00000000   Number         0  mnrefproviderback.in ABSOLUTE
+    \sf\app\location\mapnavproviderrefapp\src\mnrpmapimageservice.cpp 0x00000000   Number         0  mnrefproviderback.in ABSOLUTE
+    \sf\os\kernelhwsrv\kernel\eka\euser\epoc\arm\uc_exe.cpp 0x00000000   Number         0  uc_exe.o ABSOLUTE
+    .emb_text                                0x00008000   Section      112  uc_exe_.o(.emb_text)
+    .emb_text                                0x00008070   Section       72  ucppinit_aeabi.o(.emb_text)
+    skip                                     0x00008084   ARM Code       0  ucppinit_aeabi.o(.emb_text)
+    loop                                     0x00008094   ARM Code       0  ucppinit_aeabi.o(.emb_text)
+    fpinit                                   0x000080ac   Data           0  ucppinit_aeabi.o(.emb_text)
+    base                                     0x000080b0   Data           0  ucppinit_aeabi.o(.emb_text)
+    limit                                    0x000080b4   Data           0  ucppinit_aeabi.o(.emb_text)
+    .text                                    0x000080c0   Section       16  uc_exe_.o(.text)
+    NewApplication()                         0x000080d1   Thumb Code    30  mnrefproviderback.in(.text)
+    .text                                    0x000080d0   Section       60  mnrefproviderback.in(.text)
+    .text                                    0x0000810c   Section       32  mnrefproviderback.in(.text)
+    .text                                    0x0000812c   Section       68  mnrefproviderback.in(.text)
+    .text                                    0x00008170   Section       64  mnrefproviderback.in(.text)
+    .text                                    0x000081b0   Section      168  mnrefproviderback.in(.text)
+    .text                                    0x00008258   Section      988  mnrefproviderback.in(.text)
+    .text                                    0x00008634   Section      684  mnrefproviderback.in(.text)
+    __sti___23_mnrpmapimageservice_cpp       0x000088c7   Thumb Code     8  mnrefproviderback.in(.text)
+    .text                                    0x000088e8   Section       36  uc_exe.o(.text)
+    .text                                    0x0000890c   Section      120  callfirstprocessfn.o(.text)
+    .text                                    0x00008984   Section        4  dllexp.o(.text)
+    .text.clean                              0x00008988   Section       10  mnrefproviderback.in(.text.clean)
+    .text.clean                              0x00008992   Section       10  mnrefproviderback.in(.text.clean)
+    .text.clean                              0x0000899c   Section       18  mnrefproviderback.in(.text.clean)
+    .text.clean                              0x000089ae   Section       26  mnrefproviderback.in(.text.clean)
+    .text.clean                              0x000089c8   Section        8  callfirstprocessfn.o(.text.clean)
+    StubCode                                 0x000089d0   Section        8  euser{000a0000}-1088.o(StubCode)
+    theImportedSymbol                        0x000089d4   Data           0  euser{000a0000}-1088.o(StubCode)
+    StubCode                                 0x000089d8   Section        8  euser{000a0000}-1116.o(StubCode)
+    theImportedSymbol                        0x000089dc   Data           0  euser{000a0000}-1116.o(StubCode)
+    StubCode                                 0x000089e0   Section        8  euser{000a0000}-1119.o(StubCode)
+    theImportedSymbol                        0x000089e4   Data           0  euser{000a0000}-1119.o(StubCode)
+    StubCode                                 0x000089e8   Section        8  euser{000a0000}-1171.o(StubCode)
+    theImportedSymbol                        0x000089ec   Data           0  euser{000a0000}-1171.o(StubCode)
+    StubCode                                 0x000089f0   Section        8  euser{000a0000}-1288.o(StubCode)
+    theImportedSymbol                        0x000089f4   Data           0  euser{000a0000}-1288.o(StubCode)
+    StubCode                                 0x000089f8   Section        8  euser{000a0000}-1379.o(StubCode)
+    theImportedSymbol                        0x000089fc   Data           0  euser{000a0000}-1379.o(StubCode)
+    StubCode                                 0x00008a00   Section        8  euser{000a0000}-1381.o(StubCode)
+    theImportedSymbol                        0x00008a04   Data           0  euser{000a0000}-1381.o(StubCode)
+    StubCode                                 0x00008a08   Section        8  euser{000a0000}-1590.o(StubCode)
+    theImportedSymbol                        0x00008a0c   Data           0  euser{000a0000}-1590.o(StubCode)
+    StubCode                                 0x00008a10   Section        8  euser{000a0000}-1593.o(StubCode)
+    theImportedSymbol                        0x00008a14   Data           0  euser{000a0000}-1593.o(StubCode)
+    StubCode                                 0x00008a18   Section        8  euser{000a0000}-1817.o(StubCode)
+    theImportedSymbol                        0x00008a1c   Data           0  euser{000a0000}-1817.o(StubCode)
+    StubCode                                 0x00008a20   Section        8  euser{000a0000}-1995.o(StubCode)
+    theImportedSymbol                        0x00008a24   Data           0  euser{000a0000}-1995.o(StubCode)
+    StubCode                                 0x00008a28   Section        8  euser{000a0000}-1997.o(StubCode)
+    theImportedSymbol                        0x00008a2c   Data           0  euser{000a0000}-1997.o(StubCode)
+    StubCode                                 0x00008a30   Section        8  euser{000a0000}-1999.o(StubCode)
+    theImportedSymbol                        0x00008a34   Data           0  euser{000a0000}-1999.o(StubCode)
+    StubCode                                 0x00008a38   Section        8  euser{000a0000}-203.o(StubCode)
+    theImportedSymbol                        0x00008a3c   Data           0  euser{000a0000}-203.o(StubCode)
+    StubCode                                 0x00008a40   Section        8  euser{000a0000}-205.o(StubCode)
+    theImportedSymbol                        0x00008a44   Data           0  euser{000a0000}-205.o(StubCode)
+    StubCode                                 0x00008a48   Section        8  euser{000a0000}-2060.o(StubCode)
+    theImportedSymbol                        0x00008a4c   Data           0  euser{000a0000}-2060.o(StubCode)
+    StubCode                                 0x00008a50   Section        8  euser{000a0000}-2061.o(StubCode)
+    theImportedSymbol                        0x00008a54   Data           0  euser{000a0000}-2061.o(StubCode)
+    StubCode                                 0x00008a58   Section        8  euser{000a0000}-207.o(StubCode)
+    theImportedSymbol                        0x00008a5c   Data           0  euser{000a0000}-207.o(StubCode)
+    StubCode                                 0x00008a60   Section        8  euser{000a0000}-208.o(StubCode)
+    theImportedSymbol                        0x00008a64   Data           0  euser{000a0000}-208.o(StubCode)
+    StubCode                                 0x00008a68   Section        8  euser{000a0000}-2082.o(StubCode)
+    theImportedSymbol                        0x00008a6c   Data           0  euser{000a0000}-2082.o(StubCode)
+    StubCode                                 0x00008a70   Section        8  euser{000a0000}-2120.o(StubCode)
+    theImportedSymbol                        0x00008a74   Data           0  euser{000a0000}-2120.o(StubCode)
+    StubCode                                 0x00008a78   Section        8  euser{000a0000}-2123.o(StubCode)
+    theImportedSymbol                        0x00008a7c   Data           0  euser{000a0000}-2123.o(StubCode)
+    StubCode                                 0x00008a80   Section        8  euser{000a0000}-2131.o(StubCode)
+    theImportedSymbol                        0x00008a84   Data           0  euser{000a0000}-2131.o(StubCode)
+    StubCode                                 0x00008a88   Section        8  euser{000a0000}-471.o(StubCode)
+    theImportedSymbol                        0x00008a8c   Data           0  euser{000a0000}-471.o(StubCode)
+    StubCode                                 0x00008a90   Section        8  euser{000a0000}-474.o(StubCode)
+    theImportedSymbol                        0x00008a94   Data           0  euser{000a0000}-474.o(StubCode)
+    StubCode                                 0x00008a98   Section        8  euser{000a0000}-481.o(StubCode)
+    theImportedSymbol                        0x00008a9c   Data           0  euser{000a0000}-481.o(StubCode)
+    StubCode                                 0x00008aa0   Section        8  euser{000a0000}-613.o(StubCode)
+    theImportedSymbol                        0x00008aa4   Data           0  euser{000a0000}-613.o(StubCode)
+    StubCode                                 0x00008aa8   Section        8  euser{000a0000}-649.o(StubCode)
+    theImportedSymbol                        0x00008aac   Data           0  euser{000a0000}-649.o(StubCode)
+    StubCode                                 0x00008ab0   Section        8  euser{000a0000}-652.o(StubCode)
+    theImportedSymbol                        0x00008ab4   Data           0  euser{000a0000}-652.o(StubCode)
+    StubCode                                 0x00008ab8   Section        8  euser{000a0000}-654.o(StubCode)
+    theImportedSymbol                        0x00008abc   Data           0  euser{000a0000}-654.o(StubCode)
+    StubCode                                 0x00008ac0   Section        8  euser{000a0000}-669.o(StubCode)
+    theImportedSymbol                        0x00008ac4   Data           0  euser{000a0000}-669.o(StubCode)
+    StubCode                                 0x00008ac8   Section        8  euser{000a0000}-679.o(StubCode)
+    theImportedSymbol                        0x00008acc   Data           0  euser{000a0000}-679.o(StubCode)
+    StubCode                                 0x00008ad0   Section        8  euser{000a0000}-681.o(StubCode)
+    theImportedSymbol                        0x00008ad4   Data           0  euser{000a0000}-681.o(StubCode)
+    StubCode                                 0x00008ad8   Section        8  euser{000a0000}-838.o(StubCode)
+    theImportedSymbol                        0x00008adc   Data           0  euser{000a0000}-838.o(StubCode)
+    StubCode                                 0x00008ae0   Section        8  bafl{000a0000}-43.o(StubCode)
+    theImportedSymbol                        0x00008ae4   Data           0  bafl{000a0000}-43.o(StubCode)
+    StubCode                                 0x00008ae8   Section        8  bafl{000a0000}-98.o(StubCode)
+    theImportedSymbol                        0x00008aec   Data           0  bafl{000a0000}-98.o(StubCode)
+    StubCode                                 0x00008af0   Section        8  cone{000a0000}-100.o(StubCode)
+    theImportedSymbol                        0x00008af4   Data           0  cone{000a0000}-100.o(StubCode)
+    StubCode                                 0x00008af8   Section        8  cone{000a0000}-101.o(StubCode)
+    theImportedSymbol                        0x00008afc   Data           0  cone{000a0000}-101.o(StubCode)
+    StubCode                                 0x00008b00   Section        8  cone{000a0000}-127.o(StubCode)
+    theImportedSymbol                        0x00008b04   Data           0  cone{000a0000}-127.o(StubCode)
+    StubCode                                 0x00008b08   Section        8  cone{000a0000}-128.o(StubCode)
+    theImportedSymbol                        0x00008b0c   Data           0  cone{000a0000}-128.o(StubCode)
+    StubCode                                 0x00008b10   Section        8  cone{000a0000}-182.o(StubCode)
+    theImportedSymbol                        0x00008b14   Data           0  cone{000a0000}-182.o(StubCode)
+    StubCode                                 0x00008b18   Section        8  cone{000a0000}-210.o(StubCode)
+    theImportedSymbol                        0x00008b1c   Data           0  cone{000a0000}-210.o(StubCode)
+    StubCode                                 0x00008b20   Section        8  cone{000a0000}-212.o(StubCode)
+    theImportedSymbol                        0x00008b24   Data           0  cone{000a0000}-212.o(StubCode)
+    StubCode                                 0x00008b28   Section        8  cone{000a0000}-220.o(StubCode)
+    theImportedSymbol                        0x00008b2c   Data           0  cone{000a0000}-220.o(StubCode)
+    StubCode                                 0x00008b30   Section        8  cone{000a0000}-351.o(StubCode)
+    theImportedSymbol                        0x00008b34   Data           0  cone{000a0000}-351.o(StubCode)
+    StubCode                                 0x00008b38   Section        8  cone{000a0000}-355.o(StubCode)
+    theImportedSymbol                        0x00008b3c   Data           0  cone{000a0000}-355.o(StubCode)
+    StubCode                                 0x00008b40   Section        8  cone{000a0000}-638.o(StubCode)
+    theImportedSymbol                        0x00008b44   Data           0  cone{000a0000}-638.o(StubCode)
+    StubCode                                 0x00008b48   Section        8  cone{000a0000}-639.o(StubCode)
+    theImportedSymbol                        0x00008b4c   Data           0  cone{000a0000}-639.o(StubCode)
+    StubCode                                 0x00008b50   Section        8  cone{000a0000}-664.o(StubCode)
+    theImportedSymbol                        0x00008b54   Data           0  cone{000a0000}-664.o(StubCode)
+    StubCode                                 0x00008b58   Section        8  cone{000a0000}-676.o(StubCode)
+    theImportedSymbol                        0x00008b5c   Data           0  cone{000a0000}-676.o(StubCode)
+    StubCode                                 0x00008b60   Section        8  cone{000a0000}-677.o(StubCode)
+    theImportedSymbol                        0x00008b64   Data           0  cone{000a0000}-677.o(StubCode)
+    StubCode                                 0x00008b68   Section        8  apparc{000a0000}-121.o(StubCode)
+    theImportedSymbol                        0x00008b6c   Data           0  apparc{000a0000}-121.o(StubCode)
+    StubCode                                 0x00008b70   Section        8  apparc{000a0000}-132.o(StubCode)
+    theImportedSymbol                        0x00008b74   Data           0  apparc{000a0000}-132.o(StubCode)
+    StubCode                                 0x00008b78   Section        8  apparc{000a0000}-171.o(StubCode)
+    theImportedSymbol                        0x00008b7c   Data           0  apparc{000a0000}-171.o(StubCode)
+    StubCode                                 0x00008b80   Section        8  apparc{000a0000}-192.o(StubCode)
+    theImportedSymbol                        0x00008b84   Data           0  apparc{000a0000}-192.o(StubCode)
+    StubCode                                 0x00008b88   Section        8  apparc{000a0000}-194.o(StubCode)
+    theImportedSymbol                        0x00008b8c   Data           0  apparc{000a0000}-194.o(StubCode)
+    StubCode                                 0x00008b90   Section        8  apparc{000a0000}-202.o(StubCode)
+    theImportedSymbol                        0x00008b94   Data           0  apparc{000a0000}-202.o(StubCode)
+    StubCode                                 0x00008b98   Section        8  apparc{000a0000}-222.o(StubCode)
+    theImportedSymbol                        0x00008b9c   Data           0  apparc{000a0000}-222.o(StubCode)
+    StubCode                                 0x00008ba0   Section        8  apparc{000a0000}-232.o(StubCode)
+    theImportedSymbol                        0x00008ba4   Data           0  apparc{000a0000}-232.o(StubCode)
+    StubCode                                 0x00008ba8   Section        8  apparc{000a0000}-273.o(StubCode)
+    theImportedSymbol                        0x00008bac   Data           0  apparc{000a0000}-273.o(StubCode)
+    StubCode                                 0x00008bb0   Section        8  apparc{000a0000}-274.o(StubCode)
+    theImportedSymbol                        0x00008bb4   Data           0  apparc{000a0000}-274.o(StubCode)
+    StubCode                                 0x00008bb8   Section        8  apparc{000a0000}-275.o(StubCode)
+    theImportedSymbol                        0x00008bbc   Data           0  apparc{000a0000}-275.o(StubCode)
+    StubCode                                 0x00008bc0   Section        8  apparc{000a0000}-279.o(StubCode)
+    theImportedSymbol                        0x00008bc4   Data           0  apparc{000a0000}-279.o(StubCode)
+    StubCode                                 0x00008bc8   Section        8  apparc{000a0000}-280.o(StubCode)
+    theImportedSymbol                        0x00008bcc   Data           0  apparc{000a0000}-280.o(StubCode)
+    StubCode                                 0x00008bd0   Section        8  apparc{000a0000}-284.o(StubCode)
+    theImportedSymbol                        0x00008bd4   Data           0  apparc{000a0000}-284.o(StubCode)
+    StubCode                                 0x00008bd8   Section        8  apparc{000a0000}-285.o(StubCode)
+    theImportedSymbol                        0x00008bdc   Data           0  apparc{000a0000}-285.o(StubCode)
+    StubCode                                 0x00008be0   Section        8  apparc{000a0000}-286.o(StubCode)
+    theImportedSymbol                        0x00008be4   Data           0  apparc{000a0000}-286.o(StubCode)
+    StubCode                                 0x00008be8   Section        8  apparc{000a0000}-287.o(StubCode)
+    theImportedSymbol                        0x00008bec   Data           0  apparc{000a0000}-287.o(StubCode)
+    StubCode                                 0x00008bf0   Section        8  apparc{000a0000}-30.o(StubCode)
+    theImportedSymbol                        0x00008bf4   Data           0  apparc{000a0000}-30.o(StubCode)
+    StubCode                                 0x00008bf8   Section        8  eikcore{000a0000}-141.o(StubCode)
+    theImportedSymbol                        0x00008bfc   Data           0  eikcore{000a0000}-141.o(StubCode)
+    StubCode                                 0x00008c00   Section        8  eikcore{000a0000}-142.o(StubCode)
+    theImportedSymbol                        0x00008c04   Data           0  eikcore{000a0000}-142.o(StubCode)
+    StubCode                                 0x00008c08   Section        8  eikcore{000a0000}-143.o(StubCode)
+    theImportedSymbol                        0x00008c0c   Data           0  eikcore{000a0000}-143.o(StubCode)
+    StubCode                                 0x00008c10   Section        8  eikcore{000a0000}-144.o(StubCode)
+    theImportedSymbol                        0x00008c14   Data           0  eikcore{000a0000}-144.o(StubCode)
+    StubCode                                 0x00008c18   Section        8  eikcore{000a0000}-147.o(StubCode)
+    theImportedSymbol                        0x00008c1c   Data           0  eikcore{000a0000}-147.o(StubCode)
+    StubCode                                 0x00008c20   Section        8  eikcore{000a0000}-152.o(StubCode)
+    theImportedSymbol                        0x00008c24   Data           0  eikcore{000a0000}-152.o(StubCode)
+    StubCode                                 0x00008c28   Section        8  eikcore{000a0000}-155.o(StubCode)
+    theImportedSymbol                        0x00008c2c   Data           0  eikcore{000a0000}-155.o(StubCode)
+    StubCode                                 0x00008c30   Section        8  eikcore{000a0000}-158.o(StubCode)
+    theImportedSymbol                        0x00008c34   Data           0  eikcore{000a0000}-158.o(StubCode)
+    StubCode                                 0x00008c38   Section        8  eikcore{000a0000}-159.o(StubCode)
+    theImportedSymbol                        0x00008c3c   Data           0  eikcore{000a0000}-159.o(StubCode)
+    StubCode                                 0x00008c40   Section        8  eikcore{000a0000}-166.o(StubCode)
+    theImportedSymbol                        0x00008c44   Data           0  eikcore{000a0000}-166.o(StubCode)
+    StubCode                                 0x00008c48   Section        8  eikcore{000a0000}-169.o(StubCode)
+    theImportedSymbol                        0x00008c4c   Data           0  eikcore{000a0000}-169.o(StubCode)
+    StubCode                                 0x00008c50   Section        8  eikcore{000a0000}-171.o(StubCode)
+    theImportedSymbol                        0x00008c54   Data           0  eikcore{000a0000}-171.o(StubCode)
+    StubCode                                 0x00008c58   Section        8  eikcore{000a0000}-175.o(StubCode)
+    theImportedSymbol                        0x00008c5c   Data           0  eikcore{000a0000}-175.o(StubCode)
+    StubCode                                 0x00008c60   Section        8  eikcore{000a0000}-18.o(StubCode)
+    theImportedSymbol                        0x00008c64   Data           0  eikcore{000a0000}-18.o(StubCode)
+    StubCode                                 0x00008c68   Section        8  eikcore{000a0000}-20.o(StubCode)
+    theImportedSymbol                        0x00008c6c   Data           0  eikcore{000a0000}-20.o(StubCode)
+    StubCode                                 0x00008c70   Section        8  eikcore{000a0000}-25.o(StubCode)
+    theImportedSymbol                        0x00008c74   Data           0  eikcore{000a0000}-25.o(StubCode)
+    StubCode                                 0x00008c78   Section        8  eikcore{000a0000}-26.o(StubCode)
+    theImportedSymbol                        0x00008c7c   Data           0  eikcore{000a0000}-26.o(StubCode)
+    StubCode                                 0x00008c80   Section        8  eikcore{000a0000}-27.o(StubCode)
+    theImportedSymbol                        0x00008c84   Data           0  eikcore{000a0000}-27.o(StubCode)
+    StubCode                                 0x00008c88   Section        8  eikcore{000a0000}-28.o(StubCode)
+    theImportedSymbol                        0x00008c8c   Data           0  eikcore{000a0000}-28.o(StubCode)
+    StubCode                                 0x00008c90   Section        8  eikcore{000a0000}-29.o(StubCode)
+    theImportedSymbol                        0x00008c94   Data           0  eikcore{000a0000}-29.o(StubCode)
+    StubCode                                 0x00008c98   Section        8  eikcore{000a0000}-291.o(StubCode)
+    theImportedSymbol                        0x00008c9c   Data           0  eikcore{000a0000}-291.o(StubCode)
+    StubCode                                 0x00008ca0   Section        8  eikcore{000a0000}-293.o(StubCode)
+    theImportedSymbol                        0x00008ca4   Data           0  eikcore{000a0000}-293.o(StubCode)
+    StubCode                                 0x00008ca8   Section        8  eikcore{000a0000}-294.o(StubCode)
+    theImportedSymbol                        0x00008cac   Data           0  eikcore{000a0000}-294.o(StubCode)
+    StubCode                                 0x00008cb0   Section        8  eikcore{000a0000}-295.o(StubCode)
+    theImportedSymbol                        0x00008cb4   Data           0  eikcore{000a0000}-295.o(StubCode)
+    StubCode                                 0x00008cb8   Section        8  eikcore{000a0000}-296.o(StubCode)
+    theImportedSymbol                        0x00008cbc   Data           0  eikcore{000a0000}-296.o(StubCode)
+    StubCode                                 0x00008cc0   Section        8  eikcore{000a0000}-297.o(StubCode)
+    theImportedSymbol                        0x00008cc4   Data           0  eikcore{000a0000}-297.o(StubCode)
+    StubCode                                 0x00008cc8   Section        8  eikcore{000a0000}-298.o(StubCode)
+    theImportedSymbol                        0x00008ccc   Data           0  eikcore{000a0000}-298.o(StubCode)
+    StubCode                                 0x00008cd0   Section        8  eikcore{000a0000}-299.o(StubCode)
+    theImportedSymbol                        0x00008cd4   Data           0  eikcore{000a0000}-299.o(StubCode)
+    StubCode                                 0x00008cd8   Section        8  eikcore{000a0000}-30.o(StubCode)
+    theImportedSymbol                        0x00008cdc   Data           0  eikcore{000a0000}-30.o(StubCode)
+    StubCode                                 0x00008ce0   Section        8  eikcore{000a0000}-302.o(StubCode)
+    theImportedSymbol                        0x00008ce4   Data           0  eikcore{000a0000}-302.o(StubCode)
+    StubCode                                 0x00008ce8   Section        8  eikcore{000a0000}-31.o(StubCode)
+    theImportedSymbol                        0x00008cec   Data           0  eikcore{000a0000}-31.o(StubCode)
+    StubCode                                 0x00008cf0   Section        8  eikcore{000a0000}-317.o(StubCode)
+    theImportedSymbol                        0x00008cf4   Data           0  eikcore{000a0000}-317.o(StubCode)
+    StubCode                                 0x00008cf8   Section        8  eikcore{000a0000}-352.o(StubCode)
+    theImportedSymbol                        0x00008cfc   Data           0  eikcore{000a0000}-352.o(StubCode)
+    StubCode                                 0x00008d00   Section        8  eikcore{000a0000}-37.o(StubCode)
+    theImportedSymbol                        0x00008d04   Data           0  eikcore{000a0000}-37.o(StubCode)
+    StubCode                                 0x00008d08   Section        8  eikcore{000a0000}-390.o(StubCode)
+    theImportedSymbol                        0x00008d0c   Data           0  eikcore{000a0000}-390.o(StubCode)
+    StubCode                                 0x00008d10   Section        8  eikcore{000a0000}-392.o(StubCode)
+    theImportedSymbol                        0x00008d14   Data           0  eikcore{000a0000}-392.o(StubCode)
+    StubCode                                 0x00008d18   Section        8  eikcore{000a0000}-394.o(StubCode)
+    theImportedSymbol                        0x00008d1c   Data           0  eikcore{000a0000}-394.o(StubCode)
+    StubCode                                 0x00008d20   Section        8  eikcore{000a0000}-467.o(StubCode)
+    theImportedSymbol                        0x00008d24   Data           0  eikcore{000a0000}-467.o(StubCode)
+    StubCode                                 0x00008d28   Section        8  eikcore{000a0000}-479.o(StubCode)
+    theImportedSymbol                        0x00008d2c   Data           0  eikcore{000a0000}-479.o(StubCode)
+    StubCode                                 0x00008d30   Section        8  eikcore{000a0000}-490.o(StubCode)
+    theImportedSymbol                        0x00008d34   Data           0  eikcore{000a0000}-490.o(StubCode)
+    StubCode                                 0x00008d38   Section        8  eikcore{000a0000}-506.o(StubCode)
+    theImportedSymbol                        0x00008d3c   Data           0  eikcore{000a0000}-506.o(StubCode)
+    StubCode                                 0x00008d40   Section        8  eikcore{000a0000}-523.o(StubCode)
+    theImportedSymbol                        0x00008d44   Data           0  eikcore{000a0000}-523.o(StubCode)
+    StubCode                                 0x00008d48   Section        8  eikcore{000a0000}-532.o(StubCode)
+    theImportedSymbol                        0x00008d4c   Data           0  eikcore{000a0000}-532.o(StubCode)
+    StubCode                                 0x00008d50   Section        8  eikcore{000a0000}-533.o(StubCode)
+    theImportedSymbol                        0x00008d54   Data           0  eikcore{000a0000}-533.o(StubCode)
+    StubCode                                 0x00008d58   Section        8  eikcore{000a0000}-534.o(StubCode)
+    theImportedSymbol                        0x00008d5c   Data           0  eikcore{000a0000}-534.o(StubCode)
+    StubCode                                 0x00008d60   Section        8  eikcore{000a0000}-535.o(StubCode)
+    theImportedSymbol                        0x00008d64   Data           0  eikcore{000a0000}-535.o(StubCode)
+    StubCode                                 0x00008d68   Section        8  eikcore{000a0000}-536.o(StubCode)
+    theImportedSymbol                        0x00008d6c   Data           0  eikcore{000a0000}-536.o(StubCode)
+    StubCode                                 0x00008d70   Section        8  eikcore{000a0000}-537.o(StubCode)
+    theImportedSymbol                        0x00008d74   Data           0  eikcore{000a0000}-537.o(StubCode)
+    StubCode                                 0x00008d78   Section        8  eikcore{000a0000}-565.o(StubCode)
+    theImportedSymbol                        0x00008d7c   Data           0  eikcore{000a0000}-565.o(StubCode)
+    StubCode                                 0x00008d80   Section        8  eikcore{000a0000}-61.o(StubCode)
+    theImportedSymbol                        0x00008d84   Data           0  eikcore{000a0000}-61.o(StubCode)
+    StubCode                                 0x00008d88   Section        8  eikcore{000a0000}-62.o(StubCode)
+    theImportedSymbol                        0x00008d8c   Data           0  eikcore{000a0000}-62.o(StubCode)
+    StubCode                                 0x00008d90   Section        8  eikcore{000a0000}-63.o(StubCode)
+    theImportedSymbol                        0x00008d94   Data           0  eikcore{000a0000}-63.o(StubCode)
+    StubCode                                 0x00008d98   Section        8  eikcore{000a0000}-64.o(StubCode)
+    theImportedSymbol                        0x00008d9c   Data           0  eikcore{000a0000}-64.o(StubCode)
+    StubCode                                 0x00008da0   Section        8  eikcore{000a0000}-67.o(StubCode)
+    theImportedSymbol                        0x00008da4   Data           0  eikcore{000a0000}-67.o(StubCode)
+    StubCode                                 0x00008da8   Section        8  eikcore{000a0000}-72.o(StubCode)
+    theImportedSymbol                        0x00008dac   Data           0  eikcore{000a0000}-72.o(StubCode)
+    StubCode                                 0x00008db0   Section        8  eikcore{000a0000}-73.o(StubCode)
+    theImportedSymbol                        0x00008db4   Data           0  eikcore{000a0000}-73.o(StubCode)
+    StubCode                                 0x00008db8   Section        8  eikcore{000a0000}-74.o(StubCode)
+    theImportedSymbol                        0x00008dbc   Data           0  eikcore{000a0000}-74.o(StubCode)
+    StubCode                                 0x00008dc0   Section        8  eikcore{000a0000}-75.o(StubCode)
+    theImportedSymbol                        0x00008dc4   Data           0  eikcore{000a0000}-75.o(StubCode)
+    StubCode                                 0x00008dc8   Section        8  eikcore{000a0000}-77.o(StubCode)
+    theImportedSymbol                        0x00008dcc   Data           0  eikcore{000a0000}-77.o(StubCode)
+    StubCode                                 0x00008dd0   Section        8  eikcore{000a0000}-78.o(StubCode)
+    theImportedSymbol                        0x00008dd4   Data           0  eikcore{000a0000}-78.o(StubCode)
+    StubCode                                 0x00008dd8   Section        8  eikcore{000a0000}-79.o(StubCode)
+    theImportedSymbol                        0x00008ddc   Data           0  eikcore{000a0000}-79.o(StubCode)
+    StubCode                                 0x00008de0   Section        8  ws32{000a0000}-211.o(StubCode)
+    theImportedSymbol                        0x00008de4   Data           0  ws32{000a0000}-211.o(StubCode)
+    StubCode                                 0x00008de8   Section        8  gdi{000a0000}-312.o(StubCode)
+    theImportedSymbol                        0x00008dec   Data           0  gdi{000a0000}-312.o(StubCode)
+    StubCode                                 0x00008df0   Section        8  avkon{000a0000}-1132.o(StubCode)
+    theImportedSymbol                        0x00008df4   Data           0  avkon{000a0000}-1132.o(StubCode)
+    StubCode                                 0x00008df8   Section        8  avkon{000a0000}-129.o(StubCode)
+    theImportedSymbol                        0x00008dfc   Data           0  avkon{000a0000}-129.o(StubCode)
+    StubCode                                 0x00008e00   Section        8  avkon{000a0000}-130.o(StubCode)
+    theImportedSymbol                        0x00008e04   Data           0  avkon{000a0000}-130.o(StubCode)
+    StubCode                                 0x00008e08   Section        8  avkon{000a0000}-131.o(StubCode)
+    theImportedSymbol                        0x00008e0c   Data           0  avkon{000a0000}-131.o(StubCode)
+    StubCode                                 0x00008e10   Section        8  avkon{000a0000}-1350.o(StubCode)
+    theImportedSymbol                        0x00008e14   Data           0  avkon{000a0000}-1350.o(StubCode)
+    StubCode                                 0x00008e18   Section        8  avkon{000a0000}-1351.o(StubCode)
+    theImportedSymbol                        0x00008e1c   Data           0  avkon{000a0000}-1351.o(StubCode)
+    StubCode                                 0x00008e20   Section        8  avkon{000a0000}-1366.o(StubCode)
+    theImportedSymbol                        0x00008e24   Data           0  avkon{000a0000}-1366.o(StubCode)
+    StubCode                                 0x00008e28   Section        8  avkon{000a0000}-198.o(StubCode)
+    theImportedSymbol                        0x00008e2c   Data           0  avkon{000a0000}-198.o(StubCode)
+    StubCode                                 0x00008e30   Section        8  avkon{000a0000}-199.o(StubCode)
+    theImportedSymbol                        0x00008e34   Data           0  avkon{000a0000}-199.o(StubCode)
+    StubCode                                 0x00008e38   Section        8  avkon{000a0000}-201.o(StubCode)
+    theImportedSymbol                        0x00008e3c   Data           0  avkon{000a0000}-201.o(StubCode)
+    StubCode                                 0x00008e40   Section        8  avkon{000a0000}-206.o(StubCode)
+    theImportedSymbol                        0x00008e44   Data           0  avkon{000a0000}-206.o(StubCode)
+    StubCode                                 0x00008e48   Section        8  avkon{000a0000}-211.o(StubCode)
+    theImportedSymbol                        0x00008e4c   Data           0  avkon{000a0000}-211.o(StubCode)
+    StubCode                                 0x00008e50   Section        8  avkon{000a0000}-213.o(StubCode)
+    theImportedSymbol                        0x00008e54   Data           0  avkon{000a0000}-213.o(StubCode)
+    StubCode                                 0x00008e58   Section        8  avkon{000a0000}-214.o(StubCode)
+    theImportedSymbol                        0x00008e5c   Data           0  avkon{000a0000}-214.o(StubCode)
+    StubCode                                 0x00008e60   Section        8  avkon{000a0000}-215.o(StubCode)
+    theImportedSymbol                        0x00008e64   Data           0  avkon{000a0000}-215.o(StubCode)
+    StubCode                                 0x00008e68   Section        8  avkon{000a0000}-216.o(StubCode)
+    theImportedSymbol                        0x00008e6c   Data           0  avkon{000a0000}-216.o(StubCode)
+    StubCode                                 0x00008e70   Section        8  avkon{000a0000}-217.o(StubCode)
+    theImportedSymbol                        0x00008e74   Data           0  avkon{000a0000}-217.o(StubCode)
+    StubCode                                 0x00008e78   Section        8  avkon{000a0000}-220.o(StubCode)
+    theImportedSymbol                        0x00008e7c   Data           0  avkon{000a0000}-220.o(StubCode)
+    StubCode                                 0x00008e80   Section        8  avkon{000a0000}-2920.o(StubCode)
+    theImportedSymbol                        0x00008e84   Data           0  avkon{000a0000}-2920.o(StubCode)
+    StubCode                                 0x00008e88   Section        8  avkon{000a0000}-2922.o(StubCode)
+    theImportedSymbol                        0x00008e8c   Data           0  avkon{000a0000}-2922.o(StubCode)
+    StubCode                                 0x00008e90   Section        8  avkon{000a0000}-2924.o(StubCode)
+    theImportedSymbol                        0x00008e94   Data           0  avkon{000a0000}-2924.o(StubCode)
+    StubCode                                 0x00008e98   Section        8  avkon{000a0000}-2925.o(StubCode)
+    theImportedSymbol                        0x00008e9c   Data           0  avkon{000a0000}-2925.o(StubCode)
+    StubCode                                 0x00008ea0   Section        8  avkon{000a0000}-2926.o(StubCode)
+    theImportedSymbol                        0x00008ea4   Data           0  avkon{000a0000}-2926.o(StubCode)
+    StubCode                                 0x00008ea8   Section        8  avkon{000a0000}-2928.o(StubCode)
+    theImportedSymbol                        0x00008eac   Data           0  avkon{000a0000}-2928.o(StubCode)
+    StubCode                                 0x00008eb0   Section        8  avkon{000a0000}-2929.o(StubCode)
+    theImportedSymbol                        0x00008eb4   Data           0  avkon{000a0000}-2929.o(StubCode)
+    StubCode                                 0x00008eb8   Section        8  avkon{000a0000}-2930.o(StubCode)
+    theImportedSymbol                        0x00008ebc   Data           0  avkon{000a0000}-2930.o(StubCode)
+    StubCode                                 0x00008ec0   Section        8  avkon{000a0000}-2931.o(StubCode)
+    theImportedSymbol                        0x00008ec4   Data           0  avkon{000a0000}-2931.o(StubCode)
+    StubCode                                 0x00008ec8   Section        8  avkon{000a0000}-2932.o(StubCode)
+    theImportedSymbol                        0x00008ecc   Data           0  avkon{000a0000}-2932.o(StubCode)
+    StubCode                                 0x00008ed0   Section        8  avkon{000a0000}-2934.o(StubCode)
+    theImportedSymbol                        0x00008ed4   Data           0  avkon{000a0000}-2934.o(StubCode)
+    StubCode                                 0x00008ed8   Section        8  avkon{000a0000}-2935.o(StubCode)
+    theImportedSymbol                        0x00008edc   Data           0  avkon{000a0000}-2935.o(StubCode)
+    StubCode                                 0x00008ee0   Section        8  avkon{000a0000}-2938.o(StubCode)
+    theImportedSymbol                        0x00008ee4   Data           0  avkon{000a0000}-2938.o(StubCode)
+    StubCode                                 0x00008ee8   Section        8  avkon{000a0000}-2993.o(StubCode)
+    theImportedSymbol                        0x00008eec   Data           0  avkon{000a0000}-2993.o(StubCode)
+    StubCode                                 0x00008ef0   Section        8  avkon{000a0000}-2997.o(StubCode)
+    theImportedSymbol                        0x00008ef4   Data           0  avkon{000a0000}-2997.o(StubCode)
+    StubCode                                 0x00008ef8   Section        8  avkon{000a0000}-3826.o(StubCode)
+    theImportedSymbol                        0x00008efc   Data           0  avkon{000a0000}-3826.o(StubCode)
+    StubCode                                 0x00008f00   Section        8  avkon{000a0000}-3862.o(StubCode)
+    theImportedSymbol                        0x00008f04   Data           0  avkon{000a0000}-3862.o(StubCode)
+    StubCode                                 0x00008f08   Section        8  avkon{000a0000}-3868.o(StubCode)
+    theImportedSymbol                        0x00008f0c   Data           0  avkon{000a0000}-3868.o(StubCode)
+    StubCode                                 0x00008f10   Section        8  avkon{000a0000}-4021.o(StubCode)
+    theImportedSymbol                        0x00008f14   Data           0  avkon{000a0000}-4021.o(StubCode)
+    StubCode                                 0x00008f18   Section        8  avkon{000a0000}-4030.o(StubCode)
+    theImportedSymbol                        0x00008f1c   Data           0  avkon{000a0000}-4030.o(StubCode)
+    StubCode                                 0x00008f20   Section        8  eposlandmarks{000a0000}-12.o(StubCode)
+    theImportedSymbol                        0x00008f24   Data           0  eposlandmarks{000a0000}-12.o(StubCode)
+    StubCode                                 0x00008f28   Section        8  eposlandmarks{000a0000}-13.o(StubCode)
+    theImportedSymbol                        0x00008f2c   Data           0  eposlandmarks{000a0000}-13.o(StubCode)
+    StubCode                                 0x00008f30   Section        8  eposlandmarks{000a0000}-65.o(StubCode)
+    theImportedSymbol                        0x00008f34   Data           0  eposlandmarks{000a0000}-65.o(StubCode)
+    StubCode                                 0x00008f38   Section        8  eposlandmarks{000a0000}-68.o(StubCode)
+    theImportedSymbol                        0x00008f3c   Data           0  eposlandmarks{000a0000}-68.o(StubCode)
+    StubCode                                 0x00008f40   Section        8  lbs{000a0000}-207.o(StubCode)
+    theImportedSymbol                        0x00008f44   Data           0  lbs{000a0000}-207.o(StubCode)
+    StubCode                                 0x00008f48   Section        8  lbs{000a0000}-23.o(StubCode)
+    theImportedSymbol                        0x00008f4c   Data           0  lbs{000a0000}-23.o(StubCode)
+    StubCode                                 0x00008f50   Section        8  mnservicelib{000a0000}-1.o(StubCode)
+    theImportedSymbol                        0x00008f54   Data           0  mnservicelib{000a0000}-1.o(StubCode)
+    StubCode                                 0x00008f58   Section        8  mnservicelib{000a0000}-2.o(StubCode)
+    theImportedSymbol                        0x00008f5c   Data           0  mnservicelib{000a0000}-2.o(StubCode)
+    StubCode                                 0x00008f60   Section        8  mnservicelib{000a0000}-21.o(StubCode)
+    theImportedSymbol                        0x00008f64   Data           0  mnservicelib{000a0000}-21.o(StubCode)
+    StubCode                                 0x00008f68   Section        8  mnservicelib{000a0000}-22.o(StubCode)
+    theImportedSymbol                        0x00008f6c   Data           0  mnservicelib{000a0000}-22.o(StubCode)
+    StubCode                                 0x00008f70   Section        8  mnservicelib{000a0000}-23.o(StubCode)
+    theImportedSymbol                        0x00008f74   Data           0  mnservicelib{000a0000}-23.o(StubCode)
+    StubCode                                 0x00008f78   Section        8  mnservicelib{000a0000}-24.o(StubCode)
+    theImportedSymbol                        0x00008f7c   Data           0  mnservicelib{000a0000}-24.o(StubCode)
+    StubCode                                 0x00008f80   Section        8  mnservicelib{000a0000}-27.o(StubCode)
+    theImportedSymbol                        0x00008f84   Data           0  mnservicelib{000a0000}-27.o(StubCode)
+    StubCode                                 0x00008f88   Section        8  mnservicelib{000a0000}-34.o(StubCode)
+    theImportedSymbol                        0x00008f8c   Data           0  mnservicelib{000a0000}-34.o(StubCode)
+    StubCode                                 0x00008f90   Section        8  mnservicelib{000a0000}-45.o(StubCode)
+    theImportedSymbol                        0x00008f94   Data           0  mnservicelib{000a0000}-45.o(StubCode)
+    StubCode                                 0x00008f98   Section        8  mnservicelib{000a0000}-46.o(StubCode)
+    theImportedSymbol                        0x00008f9c   Data           0  mnservicelib{000a0000}-46.o(StubCode)
+    StubCode                                 0x00008fa0   Section        8  mnservicelib{000a0000}-47.o(StubCode)
+    theImportedSymbol                        0x00008fa4   Data           0  mnservicelib{000a0000}-47.o(StubCode)
+    StubCode                                 0x00008fa8   Section        8  mnservicelib{000a0000}-49.o(StubCode)
+    theImportedSymbol                        0x00008fac   Data           0  mnservicelib{000a0000}-49.o(StubCode)
+    StubCode                                 0x00008fb0   Section        8  mnservicelib{000a0000}-50.o(StubCode)
+    theImportedSymbol                        0x00008fb4   Data           0  mnservicelib{000a0000}-50.o(StubCode)
+    StubCode                                 0x00008fb8   Section        8  mnservicelib{000a0000}-53.o(StubCode)
+    theImportedSymbol                        0x00008fbc   Data           0  mnservicelib{000a0000}-53.o(StubCode)
+    StubCode                                 0x00008fc0   Section        8  mnservicelib{000a0000}-56.o(StubCode)
+    theImportedSymbol                        0x00008fc4   Data           0  mnservicelib{000a0000}-56.o(StubCode)
+    StubCode                                 0x00008fc8   Section        8  mnrefproviderengine{000a0000}-10.o(StubCode)
+    theImportedSymbol                        0x00008fcc   Data           0  mnrefproviderengine{000a0000}-10.o(StubCode)
+    StubCode                                 0x00008fd0   Section        8  mnrefproviderengine{000a0000}-12.o(StubCode)
+    theImportedSymbol                        0x00008fd4   Data           0  mnrefproviderengine{000a0000}-12.o(StubCode)
+    StubCode                                 0x00008fd8   Section        8  mnrefproviderengine{000a0000}-18.o(StubCode)
+    theImportedSymbol                        0x00008fdc   Data           0  mnrefproviderengine{000a0000}-18.o(StubCode)
+    StubCode                                 0x00008fe0   Section        8  mnrefproviderengine{000a0000}-19.o(StubCode)
+    theImportedSymbol                        0x00008fe4   Data           0  mnrefproviderengine{000a0000}-19.o(StubCode)
+    StubCode                                 0x00008fe8   Section        8  mnrefproviderengine{000a0000}-21.o(StubCode)
+    theImportedSymbol                        0x00008fec   Data           0  mnrefproviderengine{000a0000}-21.o(StubCode)
+    StubCode                                 0x00008ff0   Section        8  mnrefproviderengine{000a0000}-4.o(StubCode)
+    theImportedSymbol                        0x00008ff4   Data           0  mnrefproviderengine{000a0000}-4.o(StubCode)
+    StubCode                                 0x00008ff8   Section        8  mnrefproviderengine{000a0000}-5.o(StubCode)
+    theImportedSymbol                        0x00008ffc   Data           0  mnrefproviderengine{000a0000}-5.o(StubCode)
+    StubCode                                 0x00009000   Section        8  mnrefproviderengine{000a0000}-54.o(StubCode)
+    theImportedSymbol                        0x00009004   Data           0  mnrefproviderengine{000a0000}-54.o(StubCode)
+    StubCode                                 0x00009008   Section        8  mnrefproviderengine{000a0000}-6.o(StubCode)
+    theImportedSymbol                        0x0000900c   Data           0  mnrefproviderengine{000a0000}-6.o(StubCode)
+    StubCode                                 0x00009010   Section        8  drtaeabi{000a0000}-144.o(StubCode)
+    theImportedSymbol                        0x00009014   Data           0  drtaeabi{000a0000}-144.o(StubCode)
+    StubCode                                 0x00009018   Section        8  drtaeabi{000a0000}-158.o(StubCode)
+    theImportedSymbol                        0x0000901c   Data           0  drtaeabi{000a0000}-158.o(StubCode)
+    StubCode                                 0x00009020   Section        8  drtaeabi{000a0000}-159.o(StubCode)
+    theImportedSymbol                        0x00009024   Data           0  drtaeabi{000a0000}-159.o(StubCode)
+    StubCode                                 0x00009028   Section        8  drtaeabi{000a0000}-180.o(StubCode)
+    theImportedSymbol                        0x0000902c   Data           0  drtaeabi{000a0000}-180.o(StubCode)
+    StubCode                                 0x00009030   Section        8  drtaeabi{000a0000}-182.o(StubCode)
+    theImportedSymbol                        0x00009034   Data           0  drtaeabi{000a0000}-182.o(StubCode)
+    StubCode                                 0x00009038   Section        8  drtaeabi{000a0000}-183.o(StubCode)
+    theImportedSymbol                        0x0000903c   Data           0  drtaeabi{000a0000}-183.o(StubCode)
+    StubCode                                 0x00009040   Section        8  drtaeabi{000a0000}-184.o(StubCode)
+    theImportedSymbol                        0x00009044   Data           0  drtaeabi{000a0000}-184.o(StubCode)
+    StubCode                                 0x00009048   Section        8  drtaeabi{000a0000}-189.o(StubCode)
+    theImportedSymbol                        0x0000904c   Data           0  drtaeabi{000a0000}-189.o(StubCode)
+    StubCode                                 0x00009050   Section        8  scppnwdl{000a0000}-3.o(StubCode)
+    theImportedSymbol                        0x00009054   Data           0  scppnwdl{000a0000}-3.o(StubCode)
+    StubCode                                 0x00009058   Section        8  euser{000a0000}-1360.o(StubCode)
+    theImportedSymbol                        0x0000905c   Data           0  euser{000a0000}-1360.o(StubCode)
+    StubCode                                 0x00009060   Section        8  euser{000a0000}-641.o(StubCode)
+    theImportedSymbol                        0x00009064   Data           0  euser{000a0000}-641.o(StubCode)
+    StubCode                                 0x00009068   Section        8  euser{000a0000}-585.o(StubCode)
+    theImportedSymbol                        0x0000906c   Data           0  euser{000a0000}-585.o(StubCode)
+    StubCode                                 0x00009070   Section        8  euser{000a0000}-650.o(StubCode)
+    theImportedSymbol                        0x00009074   Data           0  euser{000a0000}-650.o(StubCode)
+    StubCode                                 0x00009078   Section        8  drtaeabi{000a0000}-204.o(StubCode)
+    theImportedSymbol                        0x0000907c   Data           0  drtaeabi{000a0000}-204.o(StubCode)
+    i._ZN12CApaDocument16DetachFromStoreLEN8CPicture7TDetachE 0x00009080   Section        2  mnrefproviderback.in(i._ZN12CApaDocument16DetachFromStoreLEN8CPicture7TDetachE)
+    i._ZN14CMnrpAppUiBackC1Ev                0x00009084   Section       60  mnrefproviderback.in(i._ZN14CMnrpAppUiBackC1Ev)
+    i._ZN14CMnrpAppUiBackC1Ev.clean          0x000090c0   Section       10  mnrefproviderback.in(i._ZN14CMnrpAppUiBackC1Ev.clean)
+    i._ZN14CMnrpAppUiBackD0Ev                0x000090ca   Section       16  mnrefproviderback.in(i._ZN14CMnrpAppUiBackD0Ev)
+    i._ZN14CMnrpAppUiBackD1Ev                0x000090da   Section        8  mnrefproviderback.in(i._ZN14CMnrpAppUiBackD1Ev)
+    i._ZN17CMnrpDocumentBackD0Ev             0x000090e2   Section       16  mnrefproviderback.in(i._ZN17CMnrpDocumentBackD0Ev)
+    i._ZN17CMnrpDocumentBackD1Ev             0x000090f2   Section        8  mnrefproviderback.in(i._ZN17CMnrpDocumentBackD1Ev)
+    i._ZN20CMnrpApplicationBackD0Ev          0x000090fa   Section       16  mnrefproviderback.in(i._ZN20CMnrpApplicationBackD0Ev)
+    i._ZN20CMnrpApplicationBackD1Ev          0x0000910a   Section        8  mnrefproviderback.in(i._ZN20CMnrpApplicationBackD1Ev)
+    i._ZN5CBasenwEj                          0x00009112   Section        8  mnrefproviderback.in(i._ZN5CBasenwEj)
+    t._ZNK13RPointerArrayI12CPosLandmarkE5CountEv 0x0000911a   Section        8  mnrefproviderback.in(t._ZNK13RPointerArrayI12CPosLandmarkE5CountEv)
+    .ARM.extab                               0x00009124   Section       16  uc_exe_.o(.ARM.extab)
+    .extab._Z14NewApplicationv               0x00009134   Data           0  mnrefproviderback.in(.ARM.extab)
+    .extab._ZN5CBasenwEj                     0x00009144   Data           0  mnrefproviderback.in(.ARM.extab)
+    .extab._ZN14CMnrpAppUiBackC1Ev           0x00009154   Data           0  mnrefproviderback.in(.ARM.extab)
+    .extab._ZN18CMnrpAppServerBackD1Ev       0x00009164   Data           0  mnrefproviderback.in(.ARM.extab)
+    .extab._ZN21CMnrpGeocodingServiceD1Ev    0x00009174   Data           0  mnrefproviderback.in(.ARM.extab)
+    .extab._ZN21CMnrpGeocodingService24HandleGeocodingCompletedEv 0x00009184   Data           0  mnrefproviderback.in(.ARM.extab)
+    .extab._ZN20CMnrpMapImageServiceD1Ev     0x000091ac   Data           0  mnrefproviderback.in(.ARM.extab)
+    .extab._ZN20CMnrpMapImageService24HandleMapImageCompletedLEv 0x000091bc   Data           0  mnrefproviderback.in(.ARM.extab)
+    .extab._ZN20CMnrpMapImageService26MapImageProcessingCallBackEPv 0x000091e4   Data           0  mnrefproviderback.in(.ARM.extab)
+    .extab.CallThrdProcEntry                 0x0000920c   Data           0  callfirstprocessfn.o(.ARM.extab)
+    .constdata$1                             0x00009228   Data           0  mnrefproviderback.in(.constdata)
+    KUidMnRefProviderBackApp                 0x00009228   Data           4  mnrefproviderback.in(.constdata)
+    .constdata                               0x00009228   Section        4  mnrefproviderback.in(.constdata)
+    .constdata$1                             0x0000922c   Data           0  callfirstprocessfn.o(.constdata)
+    KLitUser                                 0x0000922c   Data          16  callfirstprocessfn.o(.constdata)
+    .constdata                               0x0000922c   Section       16  callfirstprocessfn.o(.constdata)
+    .constdata__ZTI14CMnrpAppUiBack          0x0000923c   Section       12  mnrefproviderback.in(.constdata__ZTI14CMnrpAppUiBack)
+    .constdata__ZTI17CMnrpDocumentBack       0x00009248   Section       12  mnrefproviderback.in(.constdata__ZTI17CMnrpDocumentBack)
+    .constdata__ZTI18CMnrpAppServerBack      0x00009254   Section       12  mnrefproviderback.in(.constdata__ZTI18CMnrpAppServerBack)
+    .constdata__ZTI20CMnrpApplicationBack    0x00009260   Section       12  mnrefproviderback.in(.constdata__ZTI20CMnrpApplicationBack)
+    .constdata__ZTI20CMnrpMapImageService    0x0000926c   Section       12  mnrefproviderback.in(.constdata__ZTI20CMnrpMapImageService)
+    .constdata__ZTI21CMnrpGeocodingService   0x00009278   Section       12  mnrefproviderback.in(.constdata__ZTI21CMnrpGeocodingService)
+    .constdata__ZTI22MEikStatusPaneObserver  0x00009284   Section        8  mnrefproviderback.in(.constdata__ZTI22MEikStatusPaneObserver)
+    .constdata__ZTS14CMnrpAppUiBack          0x0000928c   Section       17  mnrefproviderback.in(.constdata__ZTS14CMnrpAppUiBack)
+    .constdata__ZTS17CMnrpDocumentBack       0x0000929d   Section       20  mnrefproviderback.in(.constdata__ZTS17CMnrpDocumentBack)
+    .constdata__ZTS18CMnrpAppServerBack      0x000092b1   Section       21  mnrefproviderback.in(.constdata__ZTS18CMnrpAppServerBack)
+    .constdata__ZTS20CMnrpApplicationBack    0x000092c6   Section       23  mnrefproviderback.in(.constdata__ZTS20CMnrpApplicationBack)
+    .constdata__ZTS20CMnrpMapImageService    0x000092dd   Section       23  mnrefproviderback.in(.constdata__ZTS20CMnrpMapImageService)
+    .constdata__ZTS21CMnrpGeocodingService   0x000092f4   Section       24  mnrefproviderback.in(.constdata__ZTS21CMnrpGeocodingService)
+    .constdata__ZTS22MEikStatusPaneObserver  0x0000930c   Section       25  mnrefproviderback.in(.constdata__ZTS22MEikStatusPaneObserver)
+    .constdata__ZTV14CMnrpAppUiBack          0x00009328   Section      340  mnrefproviderback.in(.constdata__ZTV14CMnrpAppUiBack)
+    .constdata__ZTV17CMnrpDocumentBack       0x0000947c   Section      112  mnrefproviderback.in(.constdata__ZTV17CMnrpDocumentBack)
+    .constdata__ZTV18CMnrpAppServerBack      0x000094ec   Section       76  mnrefproviderback.in(.constdata__ZTV18CMnrpAppServerBack)
+    .constdata__ZTV20CMnrpApplicationBack    0x00009538   Section       80  mnrefproviderback.in(.constdata__ZTV20CMnrpApplicationBack)
+    .constdata__ZTV20CMnrpMapImageService    0x00009588   Section       64  mnrefproviderback.in(.constdata__ZTV20CMnrpMapImageService)
+    .constdata__ZTV21CMnrpGeocodingService   0x000095c8   Section       72  mnrefproviderback.in(.constdata__ZTV21CMnrpGeocodingService)
+    .constdata__ZTV22MEikStatusPaneObserver  0x00009610   Section       12  mnrefproviderback.in(.constdata__ZTV22MEikStatusPaneObserver)
+    .init_array                              0x0000961c   Section        4  mnrefproviderback.in(.init_array)
+    .ARM.exidx                               0x00009620   Section        8  uc_exe_.o(.ARM.exidx)
+    .ARM.exidx                               0x00009628   Section        8  ucppinit_aeabi.o(.ARM.exidx)
+    .data$0                                  0x00400000   Data           0  mnrefproviderback.in(.data)
+    KProcessingDelay                         0x00400000   Data           4  mnrefproviderback.in(.data)
+    .data                                    0x00400000   Section        4  mnrefproviderback.in(.data)
+
+    Global Symbols
+
+    Symbol Name                              Value     Ov Type        Size  Object(Section)
+
+    BuildAttributes$$THUMB_ISAv3$ARM_ISAv6$M$E$P$PE$A:L22$X:L11$S22$IEEE1$IW$USESV6$~STKCKD$USESV7$~SHL$OSPACE$IEEEJ$EBA8$UX$REQ8$PRES8$EABIv2 0x00000000   Number         0  anon$$obj.o ABSOLUTE
+    #<DLL>apparc{000a0000}[10003a3d].dll#<\DLL>111  - Undefined Reference
+    #<DLL>apparc{000a0000}[10003a3d].dll#<\DLL>112  - Undefined Reference
+    #<DLL>apparc{000a0000}[10003a3d].dll#<\DLL>113  - Undefined Reference
+    #<DLL>apparc{000a0000}[10003a3d].dll#<\DLL>117  - Undefined Reference
+    #<DLL>apparc{000a0000}[10003a3d].dll#<\DLL>118  - Undefined Reference
+    #<DLL>apparc{000a0000}[10003a3d].dll#<\DLL>11c  - Undefined Reference
+    #<DLL>apparc{000a0000}[10003a3d].dll#<\DLL>11d  - Undefined Reference
+    #<DLL>apparc{000a0000}[10003a3d].dll#<\DLL>11e  - Undefined Reference
+    #<DLL>apparc{000a0000}[10003a3d].dll#<\DLL>11f  - Undefined Reference
+    #<DLL>apparc{000a0000}[10003a3d].dll#<\DLL>1e  - Undefined Reference
+    #<DLL>apparc{000a0000}[10003a3d].dll#<\DLL>79  - Undefined Reference
+    #<DLL>apparc{000a0000}[10003a3d].dll#<\DLL>84  - Undefined Reference
+    #<DLL>apparc{000a0000}[10003a3d].dll#<\DLL>ab  - Undefined Reference
+    #<DLL>apparc{000a0000}[10003a3d].dll#<\DLL>c0  - Undefined Reference
+    #<DLL>apparc{000a0000}[10003a3d].dll#<\DLL>c2  - Undefined Reference
+    #<DLL>apparc{000a0000}[10003a3d].dll#<\DLL>ca  - Undefined Reference
+    #<DLL>apparc{000a0000}[10003a3d].dll#<\DLL>de  - Undefined Reference
+    #<DLL>apparc{000a0000}[10003a3d].dll#<\DLL>e8  - Undefined Reference
+    #<DLL>avkon{000a0000}[100056c6].dll#<\DLL>46c  - Undefined Reference
+    #<DLL>avkon{000a0000}[100056c6].dll#<\DLL>546  - Undefined Reference
+    #<DLL>avkon{000a0000}[100056c6].dll#<\DLL>547  - Undefined Reference
+    #<DLL>avkon{000a0000}[100056c6].dll#<\DLL>556  - Undefined Reference
+    #<DLL>avkon{000a0000}[100056c6].dll#<\DLL>81  - Undefined Reference
+    #<DLL>avkon{000a0000}[100056c6].dll#<\DLL>82  - Undefined Reference
+    #<DLL>avkon{000a0000}[100056c6].dll#<\DLL>83  - Undefined Reference
+    #<DLL>avkon{000a0000}[100056c6].dll#<\DLL>b68  - Undefined Reference
+    #<DLL>avkon{000a0000}[100056c6].dll#<\DLL>b6a  - Undefined Reference
+    #<DLL>avkon{000a0000}[100056c6].dll#<\DLL>b6c  - Undefined Reference
+    #<DLL>avkon{000a0000}[100056c6].dll#<\DLL>b6d  - Undefined Reference
+    #<DLL>avkon{000a0000}[100056c6].dll#<\DLL>b6e  - Undefined Reference
+    #<DLL>avkon{000a0000}[100056c6].dll#<\DLL>b70  - Undefined Reference
+    #<DLL>avkon{000a0000}[100056c6].dll#<\DLL>b71  - Undefined Reference
+    #<DLL>avkon{000a0000}[100056c6].dll#<\DLL>b72  - Undefined Reference
+    #<DLL>avkon{000a0000}[100056c6].dll#<\DLL>b73  - Undefined Reference
+    #<DLL>avkon{000a0000}[100056c6].dll#<\DLL>b74  - Undefined Reference
+    #<DLL>avkon{000a0000}[100056c6].dll#<\DLL>b76  - Undefined Reference
+    #<DLL>avkon{000a0000}[100056c6].dll#<\DLL>b77  - Undefined Reference
+    #<DLL>avkon{000a0000}[100056c6].dll#<\DLL>b7a  - Undefined Reference
+    #<DLL>avkon{000a0000}[100056c6].dll#<\DLL>bb1  - Undefined Reference
+    #<DLL>avkon{000a0000}[100056c6].dll#<\DLL>bb5  - Undefined Reference
+    #<DLL>avkon{000a0000}[100056c6].dll#<\DLL>c6  - Undefined Reference
+    #<DLL>avkon{000a0000}[100056c6].dll#<\DLL>c7  - Undefined Reference
+    #<DLL>avkon{000a0000}[100056c6].dll#<\DLL>c9  - Undefined Reference
+    #<DLL>avkon{000a0000}[100056c6].dll#<\DLL>ce  - Undefined Reference
+    #<DLL>avkon{000a0000}[100056c6].dll#<\DLL>d3  - Undefined Reference
+    #<DLL>avkon{000a0000}[100056c6].dll#<\DLL>d5  - Undefined Reference
+    #<DLL>avkon{000a0000}[100056c6].dll#<\DLL>d6  - Undefined Reference
+    #<DLL>avkon{000a0000}[100056c6].dll#<\DLL>d7  - Undefined Reference
+    #<DLL>avkon{000a0000}[100056c6].dll#<\DLL>d8  - Undefined Reference
+    #<DLL>avkon{000a0000}[100056c6].dll#<\DLL>d9  - Undefined Reference
+    #<DLL>avkon{000a0000}[100056c6].dll#<\DLL>dc  - Undefined Reference
+    #<DLL>avkon{000a0000}[100056c6].dll#<\DLL>ef2  - Undefined Reference
+    #<DLL>avkon{000a0000}[100056c6].dll#<\DLL>f16  - Undefined Reference
+    #<DLL>avkon{000a0000}[100056c6].dll#<\DLL>f1c  - Undefined Reference
+    #<DLL>avkon{000a0000}[100056c6].dll#<\DLL>fb5  - Undefined Reference
+    #<DLL>avkon{000a0000}[100056c6].dll#<\DLL>fbe  - Undefined Reference
+    #<DLL>bafl{000a0000}[10003a0f].dll#<\DLL>2b  - Undefined Reference
+    #<DLL>bafl{000a0000}[10003a0f].dll#<\DLL>62  - Undefined Reference
+    #<DLL>cone{000a0000}[10003a41].dll#<\DLL>15f  - Undefined Reference
+    #<DLL>cone{000a0000}[10003a41].dll#<\DLL>163  - Undefined Reference
+    #<DLL>cone{000a0000}[10003a41].dll#<\DLL>27e  - Undefined Reference
+    #<DLL>cone{000a0000}[10003a41].dll#<\DLL>27f  - Undefined Reference
+    #<DLL>cone{000a0000}[10003a41].dll#<\DLL>298  - Undefined Reference
+    #<DLL>cone{000a0000}[10003a41].dll#<\DLL>2a4  - Undefined Reference
+    #<DLL>cone{000a0000}[10003a41].dll#<\DLL>2a5  - Undefined Reference
+    #<DLL>cone{000a0000}[10003a41].dll#<\DLL>64  - Undefined Reference
+    #<DLL>cone{000a0000}[10003a41].dll#<\DLL>65  - Undefined Reference
+    #<DLL>cone{000a0000}[10003a41].dll#<\DLL>7f  - Undefined Reference
+    #<DLL>cone{000a0000}[10003a41].dll#<\DLL>80  - Undefined Reference
+    #<DLL>cone{000a0000}[10003a41].dll#<\DLL>b6  - Undefined Reference
+    #<DLL>cone{000a0000}[10003a41].dll#<\DLL>d2  - Undefined Reference
+    #<DLL>cone{000a0000}[10003a41].dll#<\DLL>d4  - Undefined Reference
+    #<DLL>cone{000a0000}[10003a41].dll#<\DLL>dc  - Undefined Reference
+    #<DLL>drtaeabi{000a0000}.dll#<\DLL>90     - Undefined Reference
+    #<DLL>drtaeabi{000a0000}.dll#<\DLL>9e     - Undefined Reference
+    #<DLL>drtaeabi{000a0000}.dll#<\DLL>9f     - Undefined Reference
+    #<DLL>drtaeabi{000a0000}.dll#<\DLL>b4     - Undefined Reference
+    #<DLL>drtaeabi{000a0000}.dll#<\DLL>b6     - Undefined Reference
+    #<DLL>drtaeabi{000a0000}.dll#<\DLL>b7     - Undefined Reference
+    #<DLL>drtaeabi{000a0000}.dll#<\DLL>b8     - Undefined Reference
+    #<DLL>drtaeabi{000a0000}.dll#<\DLL>bd     - Undefined Reference
+    #<DLL>drtaeabi{000a0000}.dll#<\DLL>cc     - Undefined Reference
+    #<DLL>eikcore{000a0000}[10004892].dll#<\DLL>12  - Undefined Reference
+    #<DLL>eikcore{000a0000}[10004892].dll#<\DLL>123  - Undefined Reference
+    #<DLL>eikcore{000a0000}[10004892].dll#<\DLL>125  - Undefined Reference
+    #<DLL>eikcore{000a0000}[10004892].dll#<\DLL>126  - Undefined Reference
+    #<DLL>eikcore{000a0000}[10004892].dll#<\DLL>127  - Undefined Reference
+    #<DLL>eikcore{000a0000}[10004892].dll#<\DLL>128  - Undefined Reference
+    #<DLL>eikcore{000a0000}[10004892].dll#<\DLL>129  - Undefined Reference
+    #<DLL>eikcore{000a0000}[10004892].dll#<\DLL>12a  - Undefined Reference
+    #<DLL>eikcore{000a0000}[10004892].dll#<\DLL>12b  - Undefined Reference
+    #<DLL>eikcore{000a0000}[10004892].dll#<\DLL>12e  - Undefined Reference
+    #<DLL>eikcore{000a0000}[10004892].dll#<\DLL>13d  - Undefined Reference
+    #<DLL>eikcore{000a0000}[10004892].dll#<\DLL>14  - Undefined Reference
+    #<DLL>eikcore{000a0000}[10004892].dll#<\DLL>160  - Undefined Reference
+    #<DLL>eikcore{000a0000}[10004892].dll#<\DLL>186  - Undefined Reference
+    #<DLL>eikcore{000a0000}[10004892].dll#<\DLL>188  - Undefined Reference
+    #<DLL>eikcore{000a0000}[10004892].dll#<\DLL>18a  - Undefined Reference
+    #<DLL>eikcore{000a0000}[10004892].dll#<\DLL>19  - Undefined Reference
+    #<DLL>eikcore{000a0000}[10004892].dll#<\DLL>1a  - Undefined Reference
+    #<DLL>eikcore{000a0000}[10004892].dll#<\DLL>1b  - Undefined Reference
+    #<DLL>eikcore{000a0000}[10004892].dll#<\DLL>1c  - Undefined Reference
+    #<DLL>eikcore{000a0000}[10004892].dll#<\DLL>1d  - Undefined Reference
+    #<DLL>eikcore{000a0000}[10004892].dll#<\DLL>1d3  - Undefined Reference
+    #<DLL>eikcore{000a0000}[10004892].dll#<\DLL>1df  - Undefined Reference
+    #<DLL>eikcore{000a0000}[10004892].dll#<\DLL>1e  - Undefined Reference
+    #<DLL>eikcore{000a0000}[10004892].dll#<\DLL>1ea  - Undefined Reference
+    #<DLL>eikcore{000a0000}[10004892].dll#<\DLL>1f  - Undefined Reference
+    #<DLL>eikcore{000a0000}[10004892].dll#<\DLL>1fa  - Undefined Reference
+    #<DLL>eikcore{000a0000}[10004892].dll#<\DLL>20b  - Undefined Reference
+    #<DLL>eikcore{000a0000}[10004892].dll#<\DLL>214  - Undefined Reference
+    #<DLL>eikcore{000a0000}[10004892].dll#<\DLL>215  - Undefined Reference
+    #<DLL>eikcore{000a0000}[10004892].dll#<\DLL>216  - Undefined Reference
+    #<DLL>eikcore{000a0000}[10004892].dll#<\DLL>217  - Undefined Reference
+    #<DLL>eikcore{000a0000}[10004892].dll#<\DLL>218  - Undefined Reference
+    #<DLL>eikcore{000a0000}[10004892].dll#<\DLL>219  - Undefined Reference
+    #<DLL>eikcore{000a0000}[10004892].dll#<\DLL>235  - Undefined Reference
+    #<DLL>eikcore{000a0000}[10004892].dll#<\DLL>25  - Undefined Reference
+    #<DLL>eikcore{000a0000}[10004892].dll#<\DLL>3d  - Undefined Reference
+    #<DLL>eikcore{000a0000}[10004892].dll#<\DLL>3e  - Undefined Reference
+    #<DLL>eikcore{000a0000}[10004892].dll#<\DLL>3f  - Undefined Reference
+    #<DLL>eikcore{000a0000}[10004892].dll#<\DLL>40  - Undefined Reference
+    #<DLL>eikcore{000a0000}[10004892].dll#<\DLL>43  - Undefined Reference
+    #<DLL>eikcore{000a0000}[10004892].dll#<\DLL>48  - Undefined Reference
+    #<DLL>eikcore{000a0000}[10004892].dll#<\DLL>49  - Undefined Reference
+    #<DLL>eikcore{000a0000}[10004892].dll#<\DLL>4a  - Undefined Reference
+    #<DLL>eikcore{000a0000}[10004892].dll#<\DLL>4b  - Undefined Reference
+    #<DLL>eikcore{000a0000}[10004892].dll#<\DLL>4d  - Undefined Reference
+    #<DLL>eikcore{000a0000}[10004892].dll#<\DLL>4e  - Undefined Reference
+    #<DLL>eikcore{000a0000}[10004892].dll#<\DLL>4f  - Undefined Reference
+    #<DLL>eikcore{000a0000}[10004892].dll#<\DLL>8d  - Undefined Reference
+    #<DLL>eikcore{000a0000}[10004892].dll#<\DLL>8e  - Undefined Reference
+    #<DLL>eikcore{000a0000}[10004892].dll#<\DLL>8f  - Undefined Reference
+    #<DLL>eikcore{000a0000}[10004892].dll#<\DLL>90  - Undefined Reference
+    #<DLL>eikcore{000a0000}[10004892].dll#<\DLL>93  - Undefined Reference
+    #<DLL>eikcore{000a0000}[10004892].dll#<\DLL>98  - Undefined Reference
+    #<DLL>eikcore{000a0000}[10004892].dll#<\DLL>9b  - Undefined Reference
+    #<DLL>eikcore{000a0000}[10004892].dll#<\DLL>9e  - Undefined Reference
+    #<DLL>eikcore{000a0000}[10004892].dll#<\DLL>9f  - Undefined Reference
+    #<DLL>eikcore{000a0000}[10004892].dll#<\DLL>a6  - Undefined Reference
+    #<DLL>eikcore{000a0000}[10004892].dll#<\DLL>a9  - Undefined Reference
+    #<DLL>eikcore{000a0000}[10004892].dll#<\DLL>ab  - Undefined Reference
+    #<DLL>eikcore{000a0000}[10004892].dll#<\DLL>af  - Undefined Reference
+    #<DLL>eposlandmarks{000a0000}[101fdf8a].dll#<\DLL>41  - Undefined Reference
+    #<DLL>eposlandmarks{000a0000}[101fdf8a].dll#<\DLL>44  - Undefined Reference
+    #<DLL>eposlandmarks{000a0000}[101fdf8a].dll#<\DLL>c  - Undefined Reference
+    #<DLL>eposlandmarks{000a0000}[101fdf8a].dll#<\DLL>d  - Undefined Reference
+    #<DLL>euser{000a0000}[100039e5].dll#<\DLL>1d7  - Undefined Reference
+    #<DLL>euser{000a0000}[100039e5].dll#<\DLL>1da  - Undefined Reference
+    #<DLL>euser{000a0000}[100039e5].dll#<\DLL>1e1  - Undefined Reference
+    #<DLL>euser{000a0000}[100039e5].dll#<\DLL>249  - Undefined Reference
+    #<DLL>euser{000a0000}[100039e5].dll#<\DLL>265  - Undefined Reference
+    #<DLL>euser{000a0000}[100039e5].dll#<\DLL>281  - Undefined Reference
+    #<DLL>euser{000a0000}[100039e5].dll#<\DLL>289  - Undefined Reference
+    #<DLL>euser{000a0000}[100039e5].dll#<\DLL>28a  - Undefined Reference
+    #<DLL>euser{000a0000}[100039e5].dll#<\DLL>28c  - Undefined Reference
+    #<DLL>euser{000a0000}[100039e5].dll#<\DLL>28e  - Undefined Reference
+    #<DLL>euser{000a0000}[100039e5].dll#<\DLL>29d  - Undefined Reference
+    #<DLL>euser{000a0000}[100039e5].dll#<\DLL>2a7  - Undefined Reference
+    #<DLL>euser{000a0000}[100039e5].dll#<\DLL>2a9  - Undefined Reference
+    #<DLL>euser{000a0000}[100039e5].dll#<\DLL>346  - Undefined Reference
+    #<DLL>euser{000a0000}[100039e5].dll#<\DLL>440  - Undefined Reference
+    #<DLL>euser{000a0000}[100039e5].dll#<\DLL>45c  - Undefined Reference
+    #<DLL>euser{000a0000}[100039e5].dll#<\DLL>45f  - Undefined Reference
+    #<DLL>euser{000a0000}[100039e5].dll#<\DLL>493  - Undefined Reference
+    #<DLL>euser{000a0000}[100039e5].dll#<\DLL>508  - Undefined Reference
+    #<DLL>euser{000a0000}[100039e5].dll#<\DLL>550  - Undefined Reference
+    #<DLL>euser{000a0000}[100039e5].dll#<\DLL>563  - Undefined Reference
+    #<DLL>euser{000a0000}[100039e5].dll#<\DLL>565  - Undefined Reference
+    #<DLL>euser{000a0000}[100039e5].dll#<\DLL>636  - Undefined Reference
+    #<DLL>euser{000a0000}[100039e5].dll#<\DLL>639  - Undefined Reference
+    #<DLL>euser{000a0000}[100039e5].dll#<\DLL>719  - Undefined Reference
+    #<DLL>euser{000a0000}[100039e5].dll#<\DLL>7cb  - Undefined Reference
+    #<DLL>euser{000a0000}[100039e5].dll#<\DLL>7cd  - Undefined Reference
+    #<DLL>euser{000a0000}[100039e5].dll#<\DLL>7cf  - Undefined Reference
+    #<DLL>euser{000a0000}[100039e5].dll#<\DLL>80c  - Undefined Reference
+    #<DLL>euser{000a0000}[100039e5].dll#<\DLL>80d  - Undefined Reference
+    #<DLL>euser{000a0000}[100039e5].dll#<\DLL>822  - Undefined Reference
+    #<DLL>euser{000a0000}[100039e5].dll#<\DLL>848  - Undefined Reference
+    #<DLL>euser{000a0000}[100039e5].dll#<\DLL>84b  - Undefined Reference
+    #<DLL>euser{000a0000}[100039e5].dll#<\DLL>84d  - Undefined Reference
+    #<DLL>euser{000a0000}[100039e5].dll#<\DLL>853  - Undefined Reference
+    #<DLL>euser{000a0000}[100039e5].dll#<\DLL>cb  - Undefined Reference
+    #<DLL>euser{000a0000}[100039e5].dll#<\DLL>cd  - Undefined Reference
+    #<DLL>euser{000a0000}[100039e5].dll#<\DLL>cf  - Undefined Reference
+    #<DLL>euser{000a0000}[100039e5].dll#<\DLL>d0  - Undefined Reference
+    #<DLL>gdi{000a0000}[10003b15].dll#<\DLL>138  - Undefined Reference
+    #<DLL>lbs{000a0000}[101f97b1].dll#<\DLL>17  - Undefined Reference
+    #<DLL>lbs{000a0000}[101f97b1].dll#<\DLL>cf  - Undefined Reference
+    #<DLL>mnrefproviderengine{000a0000}[03132015].dll#<\DLL>12  - Undefined Reference
+    #<DLL>mnrefproviderengine{000a0000}[03132015].dll#<\DLL>13  - Undefined Reference
+    #<DLL>mnrefproviderengine{000a0000}[03132015].dll#<\DLL>15  - Undefined Reference
+    #<DLL>mnrefproviderengine{000a0000}[03132015].dll#<\DLL>36  - Undefined Reference
+    #<DLL>mnrefproviderengine{000a0000}[03132015].dll#<\DLL>4  - Undefined Reference
+    #<DLL>mnrefproviderengine{000a0000}[03132015].dll#<\DLL>5  - Undefined Reference
+    #<DLL>mnrefproviderengine{000a0000}[03132015].dll#<\DLL>6  - Undefined Reference
+    #<DLL>mnrefproviderengine{000a0000}[03132015].dll#<\DLL>a  - Undefined Reference
+    #<DLL>mnrefproviderengine{000a0000}[03132015].dll#<\DLL>c  - Undefined Reference
+    #<DLL>mnservicelib{000a0000}[10206903].dll#<\DLL>1  - Undefined Reference
+    #<DLL>mnservicelib{000a0000}[10206903].dll#<\DLL>15  - Undefined Reference
+    #<DLL>mnservicelib{000a0000}[10206903].dll#<\DLL>16  - Undefined Reference
+    #<DLL>mnservicelib{000a0000}[10206903].dll#<\DLL>17  - Undefined Reference
+    #<DLL>mnservicelib{000a0000}[10206903].dll#<\DLL>18  - Undefined Reference
+    #<DLL>mnservicelib{000a0000}[10206903].dll#<\DLL>1b  - Undefined Reference
+    #<DLL>mnservicelib{000a0000}[10206903].dll#<\DLL>2  - Undefined Reference
+    #<DLL>mnservicelib{000a0000}[10206903].dll#<\DLL>22  - Undefined Reference
+    #<DLL>mnservicelib{000a0000}[10206903].dll#<\DLL>2d  - Undefined Reference
+    #<DLL>mnservicelib{000a0000}[10206903].dll#<\DLL>2e  - Undefined Reference
+    #<DLL>mnservicelib{000a0000}[10206903].dll#<\DLL>2f  - Undefined Reference
+    #<DLL>mnservicelib{000a0000}[10206903].dll#<\DLL>31  - Undefined Reference
+    #<DLL>mnservicelib{000a0000}[10206903].dll#<\DLL>32  - Undefined Reference
+    #<DLL>mnservicelib{000a0000}[10206903].dll#<\DLL>35  - Undefined Reference
+    #<DLL>mnservicelib{000a0000}[10206903].dll#<\DLL>38  - Undefined Reference
+    #<DLL>scppnwdl{000a0000}.dll#<\DLL>3      - Undefined Reference
+    #<DLL>ws32{000a0000}[10003b21].dll#<\DLL>d3  - Undefined Reference
+    typeinfo for CAknDocument                 - Undefined Reference
+    typeinfo for CAknAppServer                - Undefined Reference
+    typeinfo for CEikApplication              - Undefined Reference
+    typeinfo for XLeaveException              - Undefined Reference
+    typeinfo for CMnMapImageServiceBase       - Undefined Reference
+    typeinfo for CMnGeocodingServiceBase      - Undefined Reference
+    typeinfo for CBase                        - Undefined Reference
+    typeinfo for CAknAppUi                    - Undefined Reference
+    vtable for __cxxabiv1::__class_type_info  - Undefined Reference
+    vtable for __cxxabiv1::__si_class_type_info  - Undefined Reference
+    _fp_init                                  - Undefined Weak Reference
+    Image$$ER_RO$$Base                       0x00008000   Number         0  anon$$obj.o(linker$$defined$$symbols)
+    _E32Startup                              0x00008000   ARM Code     112  uc_exe_.o(.emb_text)
+    Symbian$$CPP$$Exception$$Descriptor      0x0000805c   Data           0  uc_exe_.o(.emb_text)
+    __cpp_initialize__aeabi_                 0x00008070   ARM Code      72  ucppinit_aeabi.o(.emb_text)
+    std::nothrow                             0x000080b8   ARM Code       0  ucppinit_aeabi.o(.emb_text)
+    Inline ARM to Thumb Veneer to _xxxx_call_user_invariant 0x000080b8   ARM Code       0  uc_exe_.o(.text)
+    _xxxx_call_user_invariant                0x000080c1   Thumb Code     8  uc_exe_.o(.text)
+    _xxxx_call_user_handle_exception         0x000080c9   Thumb Code     8  uc_exe_.o(.text)
+    E32Main()                                0x000080ef   Thumb Code    22  mnrefproviderback.in(.text)
+    CMnrpApplicationBack::AppDllUid() const  0x0000810d   Thumb Code     6  mnrefproviderback.in(.text)
+    CMnrpApplicationBack::CreateDocumentL()  0x00008113   Thumb Code     8  mnrefproviderback.in(.text)
+    CMnrpApplicationBack::NewAppServerL(CApaAppServer*&) 0x0000811b   Thumb Code    12  mnrefproviderback.in(.text)
+    CMnrpAppUiBack::ConstructL()             0x0000812d   Thumb Code    12  mnrefproviderback.in(.text)
+    CMnrpAppUiBack::MoveForeground()         0x00008139   Thumb Code    14  mnrefproviderback.in(.text)
+    CMnrpAppUiBack::MoveBackground()         0x00008147   Thumb Code    16  mnrefproviderback.in(.text)
+    CMnrpAppUiBack::HandleCommandL(int)      0x00008157   Thumb Code    20  mnrefproviderback.in(.text)
+    CMnrpDocumentBack::CMnrpDocumentBack(CEikApplication&) 0x00008171   Thumb Code    16  mnrefproviderback.in(.text)
+    CMnrpDocumentBack::CMnrpDocumentBack__sub_object(CEikApplication&) 0x00008171   Thumb Code     0  mnrefproviderback.in(.text)
+    CMnrpDocumentBack::NewL(CEikApplication&) 0x00008181   Thumb Code    18  mnrefproviderback.in(.text)
+    CMnrpDocumentBack::CreateAppUiL()        0x00008193   Thumb Code    24  mnrefproviderback.in(.text)
+    CMnrpAppServerBack::ConstructL()         0x000081b1   Thumb Code    12  mnrefproviderback.in(.text)
+    CMnrpAppServerBack::NewL()               0x000081bd   Thumb Code    48  mnrefproviderback.in(.text)
+    CMnrpAppServerBack::~CMnrpAppServerBack() 0x000081ed   Thumb Code    28  mnrefproviderback.in(.text)
+    CMnrpAppServerBack::~CMnrpAppServerBack__sub_object() 0x000081ed   Thumb Code     0  mnrefproviderback.in(.text)
+    CMnrpAppServerBack::~CMnrpAppServerBack__deallocating() 0x00008209   Thumb Code    16  mnrefproviderback.in(.text)
+    CMnrpAppServerBack::CreateMapImageServiceL() const 0x00008219   Thumb Code    10  mnrefproviderback.in(.text)
+    CMnrpAppServerBack::CreateGeocodingServiceL() const 0x00008223   Thumb Code    10  mnrefproviderback.in(.text)
+    CMnrpAppServerBack::CreateServiceL(TUid) const 0x0000822d   Thumb Code    32  mnrefproviderback.in(.text)
+    CleanupLandmarksArray(void*)             0x00008259   Thumb Code    48  mnrefproviderback.in(.text)
+    CleanupForeground(void*)                 0x00008289   Thumb Code     8  mnrefproviderback.in(.text)
+    CMnrpGeocodingService::ConstructL()      0x00008291   Thumb Code    20  mnrefproviderback.in(.text)
+    CMnrpGeocodingService::CMnrpGeocodingService(CMnrpEngine&) 0x000082a5   Thumb Code    16  mnrefproviderback.in(.text)
+    CMnrpGeocodingService::CMnrpGeocodingService__sub_object(CMnrpEngine&) 0x000082a5   Thumb Code     0  mnrefproviderback.in(.text)
+    CMnrpGeocodingService::NewL(CMnrpEngine&) 0x000082b5   Thumb Code    36  mnrefproviderback.in(.text)
+    CMnrpGeocodingService::~CMnrpGeocodingService() 0x000082d9   Thumb Code    46  mnrefproviderback.in(.text)
+    CMnrpGeocodingService::~CMnrpGeocodingService__sub_object() 0x000082d9   Thumb Code     0  mnrefproviderback.in(.text)
+    CMnrpGeocodingService::~CMnrpGeocodingService__deallocating() 0x00008307   Thumb Code    16  mnrefproviderback.in(.text)
+    CMnrpGeocodingService::LeaveIfBusyL()    0x00008317   Thumb Code    22  mnrefproviderback.in(.text)
+    CMnrpGeocodingService::LetUserSelectBestMatchL(const CPosLandmark&) 0x0000832d   Thumb Code   318  mnrefproviderback.in(.text)
+    CMnrpGeocodingService::FinishProcessingL() 0x0000846b   Thumb Code   130  mnrefproviderback.in(.text)
+    CMnrpGeocodingService::HandleGeocodingCompleted() 0x000084ed   Thumb Code    72  mnrefproviderback.in(.text)
+    CMnrpGeocodingService::GeocodingProcessingCallBack(void*) 0x00008535   Thumb Code    10  mnrefproviderback.in(.text)
+    CMnrpGeocodingService::StartProcessingL() 0x0000853f   Thumb Code    14  mnrefproviderback.in(.text)
+    CMnrpGeocodingService::HandleFindAddressByCoordinateL(const CPosLandmark&) 0x0000854d   Thumb Code    60  mnrefproviderback.in(.text)
+    CMnrpGeocodingService::HandleFindCoordinateByAddressL(const CPosLandmark&) 0x00008589   Thumb Code    60  mnrefproviderback.in(.text)
+    CMnrpGeocodingService::HandleFindCoordinateByAddressL(const TDesC16&) 0x000085c5   Thumb Code    74  mnrefproviderback.in(.text)
+    CMnrpGeocodingService::DoCancel()        0x0000860f   Thumb Code    16  mnrefproviderback.in(.text)
+    CMnrpMapImageService::CreateFonts()      0x00008635   Thumb Code    64  mnrefproviderback.in(.text)
+    CMnrpMapImageService::ConstructL()       0x00008675   Thumb Code    44  mnrefproviderback.in(.text)
+    CMnrpMapImageService::CMnrpMapImageService(CMnrpEngine&) 0x000086a1   Thumb Code    20  mnrefproviderback.in(.text)
+    CMnrpMapImageService::CMnrpMapImageService__sub_object(CMnrpEngine&) 0x000086a1   Thumb Code     0  mnrefproviderback.in(.text)
+    CMnrpMapImageService::NewL(CMnrpEngine&) 0x000086b5   Thumb Code    36  mnrefproviderback.in(.text)
+    CMnrpMapImageService::DestroyFonts()     0x000086d9   Thumb Code    32  mnrefproviderback.in(.text)
+    CMnrpMapImageService::~CMnrpMapImageService() 0x000086f9   Thumb Code    60  mnrefproviderback.in(.text)
+    CMnrpMapImageService::~CMnrpMapImageService__sub_object() 0x000086f9   Thumb Code     0  mnrefproviderback.in(.text)
+    CMnrpMapImageService::~CMnrpMapImageService__deallocating() 0x00008735   Thumb Code    16  mnrefproviderback.in(.text)
+    CMnrpMapImageService::LeaveIfBusyL()     0x00008745   Thumb Code    24  mnrefproviderback.in(.text)
+    CMnrpMapImageService::RenderL()          0x0000875d   Thumb Code   116  mnrefproviderback.in(.text)
+    CMnrpMapImageService::FinishProcessingL() 0x000087d1   Thumb Code    52  mnrefproviderback.in(.text)
+    CMnrpMapImageService::HandleMapImageCompletedL() 0x00008805   Thumb Code    80  mnrefproviderback.in(.text)
+    CMnrpMapImageService::MapImageProcessingCallBack(void*) 0x00008855   Thumb Code    50  mnrefproviderback.in(.text)
+    CMnrpMapImageService::StartProcessingL() 0x00008887   Thumb Code    22  mnrefproviderback.in(.text)
+    CMnrpMapImageService::HandleRenderingL() 0x0000889d   Thumb Code    24  mnrefproviderback.in(.text)
+    CMnrpMapImageService::DoCancel()         0x000088b5   Thumb Code    18  mnrefproviderback.in(.text)
+    Inline ARM to Thumb Veneer to RunThread  0x000088e0   ARM Code       0  uc_exe.o(.text)
+    RunThread                                0x000088e9   Thumb Code    36  uc_exe.o(.text)
+    CallThrdProcEntry                        0x0000890c   ARM Code     116  callfirstprocessfn.o(.text)
+    __DLL_Export_Table__                     0x00008984   ARM Code       4  dllexp.o(.text)
+    CActive::Cancel()                        0x000089d0   ARM Code       0  euser{000a0000}-1088.o(StubCode)
+    HBufC16::Des()                           0x000089d8   ARM Code       0  euser{000a0000}-1116.o(StubCode)
+    HBufC16::NewLC(int)                      0x000089e0   ARM Code       0  euser{000a0000}-1119.o(StubCode)
+    TPtrC16::TPtrC16(const TDesC16&)         0x000089e8   ARM Code       0  euser{000a0000}-1171.o(StubCode)
+    CServer2::DoCancel()                     0x000089f0   ARM Code       0  euser{000a0000}-1288.o(StubCode)
+    CPeriodic::NewL(int)                     0x000089f8   ARM Code       0  euser{000a0000}-1379.o(StubCode)
+    CPeriodic::Start(TTimeIntervalMicroSeconds32, TTimeIntervalMicroSeconds32, TCallBack) 0x00008a00   ARM Code       0  euser{000a0000}-1381.o(StubCode)
+    RPointerArrayBase::At(int) const         0x00008a08   ARM Code       0  euser{000a0000}-1590.o(StubCode)
+    RPointerArrayBase::Count() const         0x00008a10   ARM Code       0  euser{000a0000}-1593.o(StubCode)
+    TDesC16::AllocL() const                  0x00008a18   ARM Code       0  euser{000a0000}-1817.o(StubCode)
+    CPolicyServer::CustomFailureActionL(const RMessage2&, int, const TSecurityInfo&) 0x00008a20   ARM Code       0  euser{000a0000}-1995.o(StubCode)
+    CPolicyServer::RunL()                    0x00008a28   ARM Code       0  euser{000a0000}-1997.o(StubCode)
+    CPolicyServer::RunError(int)             0x00008a30   ARM Code       0  euser{000a0000}-1999.o(StubCode)
+    CleanupStack::PopAndDestroy()            0x00008a38   ARM Code       0  euser{000a0000}-203.o(StubCode)
+    CleanupStack::Pop()                      0x00008a40   ARM Code       0  euser{000a0000}-205.o(StubCode)
+    User::MarkCleanupStack()                 0x00008a48   ARM Code       0  euser{000a0000}-2060.o(StubCode)
+    User::UnMarkCleanupStack(TTrapHandler*)  0x00008a50   ARM Code       0  euser{000a0000}-2061.o(StubCode)
+    CleanupStack::PushL(TCleanupItem)        0x00008a58   ARM Code       0  euser{000a0000}-207.o(StubCode)
+    CleanupStack::PushL(CBase*)              0x00008a60   ARM Code       0  euser{000a0000}-208.o(StubCode)
+    XLeaveException::GetReason() const       0x00008a68   ARM Code       0  euser{000a0000}-2082.o(StubCode)
+    CPolicyServer::Extension_(unsigned, void*&, void*) 0x00008a70   ARM Code       0  euser{000a0000}-2120.o(StubCode)
+    CBase::Extension_(unsigned, void*&, void*) 0x00008a78   ARM Code       0  euser{000a0000}-2123.o(StubCode)
+    CSession2::Extension_(unsigned, void*&, void*) 0x00008a80   ARM Code       0  euser{000a0000}-2131.o(StubCode)
+    RPointerArrayBase::Reset()               0x00008a88   ARM Code       0  euser{000a0000}-471.o(StubCode)
+    RPointerArrayBase::Remove(int)           0x00008a90   ARM Code       0  euser{000a0000}-474.o(StubCode)
+    RPointerArrayBase::RPointerArrayBase()   0x00008a98   ARM Code       0  euser{000a0000}-481.o(StubCode)
+    User::HandleException(void*)             0x00008aa0   ARM Code       0  euser{000a0000}-613.o(StubCode)
+    User::Leave(int)                         0x00008aa8   ARM Code       0  euser{000a0000}-649.o(StubCode)
+    User::AllocZ(int)                        0x00008ab0   ARM Code       0  euser{000a0000}-652.o(StubCode)
+    User::AllocZL(int)                       0x00008ab8   ARM Code       0  euser{000a0000}-654.o(StubCode)
+    User::Invariant()                        0x00008ac0   ARM Code       0  euser{000a0000}-669.o(StubCode)
+    CIdle::NewL(int)                         0x00008ac8   ARM Code       0  euser{000a0000}-679.o(StubCode)
+    CIdle::Start(TCallBack)                  0x00008ad0   ARM Code       0  euser{000a0000}-681.o(StubCode)
+    TRect::TRect(const TSize&)               0x00008ad8   ARM Code       0  euser{000a0000}-838.o(StubCode)
+    CDesC16Array::AppendL(const TDesC16&)    0x00008ae0   ARM Code       0  bafl{000a0000}-43.o(StubCode)
+    CDesC16ArraySeg::CDesC16ArraySeg(int)    0x00008ae8   ARM Code       0  bafl{000a0000}-98.o(StubCode)
+    MCoeMessageObserver::MCoeMessageObserver_Reserved_1() 0x00008af0   ARM Code       0  cone{000a0000}-100.o(StubCode)
+    MCoeMessageObserver::MCoeMessageObserver_Reserved_2() 0x00008af8   ARM Code       0  cone{000a0000}-101.o(StubCode)
+    MCoeViewDeactivationObserver::MCoeViewDeactivationObserver_Reserved_1() 0x00008b00   ARM Code       0  cone{000a0000}-127.o(StubCode)
+    MCoeViewDeactivationObserver::MCoeViewDeactivationObserver_Reserved_2() 0x00008b08   ARM Code       0  cone{000a0000}-128.o(StubCode)
+    CCoeEnv::Static()                        0x00008b10   ARM Code       0  cone{000a0000}-182.o(StubCode)
+    CCoeAppUi::HandleKeyEventL(const TKeyEvent&, TEventCode) 0x00008b18   ARM Code       0  cone{000a0000}-210.o(StubCode)
+    CCoeAppUi::SetAndDrawFocus(int)          0x00008b20   ARM Code       0  cone{000a0000}-212.o(StubCode)
+    CCoeAppUi::HandleSwitchOnEventL(CCoeControl*) 0x00008b28   ARM Code       0  cone{000a0000}-220.o(StubCode)
+    CCoeAppUi::HelpContextL() const          0x00008b30   ARM Code       0  cone{000a0000}-351.o(StubCode)
+    CCoeAppUi::InputCapabilities() const     0x00008b38   ARM Code       0  cone{000a0000}-355.o(StubCode)
+    MObjectProvider::MObjectProvider_Reserved1() 0x00008b40   ARM Code       0  cone{000a0000}-638.o(StubCode)
+    MObjectProvider::MObjectProvider_Reserved2() 0x00008b48   ARM Code       0  cone{000a0000}-639.o(StubCode)
+    MCoeViewDeactivationObserver::MCoeViewDeactivationObserver__sub_object() 0x00008b50   ARM Code       0  cone{000a0000}-664.o(StubCode)
+    CCoeAppUi::FrameworkCallsRendezvous() const 0x00008b58   ARM Code       0  cone{000a0000}-676.o(StubCode)
+    CCoeAppUi::CCoeAppUi_Reserved_2()        0x00008b60   ARM Code       0  cone{000a0000}-677.o(StubCode)
+    CApaDocument::Capability() const         0x00008b68   ARM Code       0  apparc{000a0000}-121.o(StubCode)
+    CApaApplication::AppFullName() const     0x00008b70   ARM Code       0  apparc{000a0000}-132.o(StubCode)
+    TApaApplicationFactory::TApaApplicationFactory(CApaApplication*(*)()) 0x00008b78   ARM Code       0  apparc{000a0000}-171.o(StubCode)
+    CApaAppServer::CustomSecurityCheckL(const RMessage2&, int&, TSecurityInfo&) 0x00008b80   ARM Code       0  apparc{000a0000}-192.o(StubCode)
+    CApaAppServer::CApaAppServer()           0x00008b88   ARM Code       0  apparc{000a0000}-194.o(StubCode)
+    CApaAppServiceBase::SecurityCheckL(const RMessage2&, int&, TSecurityInfo&) 0x00008b90   ARM Code       0  apparc{000a0000}-202.o(StubCode)
+    CApaAppServer::NewSessionL(const TVersion&, const RMessage2&) const 0x00008b98   ARM Code       0  apparc{000a0000}-222.o(StubCode)
+    CApaAppServiceBase::ExtensionInterface(TUid, void*&) 0x00008ba0   ARM Code       0  apparc{000a0000}-232.o(StubCode)
+    CApaAppServer::CApaAppServer_Reserved1() 0x00008ba8   ARM Code       0  apparc{000a0000}-273.o(StubCode)
+    CApaAppServer::CApaAppServer_Reserved2() 0x00008bb0   ARM Code       0  apparc{000a0000}-274.o(StubCode)
+    CApaAppServer::DoConnect(const RMessage2&) 0x00008bb8   ARM Code       0  apparc{000a0000}-275.o(StubCode)
+    CApaApplication::CApaApplication_Reserved1() 0x00008bc0   ARM Code       0  apparc{000a0000}-279.o(StubCode)
+    CApaApplication::CApaApplication_Reserved2() 0x00008bc8   ARM Code       0  apparc{000a0000}-280.o(StubCode)
+    CApaAppServiceBase::Disconnect(const RMessage2&) 0x00008bd0   ARM Code       0  apparc{000a0000}-284.o(StubCode)
+    CApaAppServiceBase::CountResources()     0x00008bd8   ARM Code       0  apparc{000a0000}-285.o(StubCode)
+    CApaAppServiceBase::CApaAppServiceBase_Reserved1() 0x00008be0   ARM Code       0  apparc{000a0000}-286.o(StubCode)
+    CApaAppServiceBase::CApaAppServiceBase_Reserved2() 0x00008be8   ARM Code       0  apparc{000a0000}-287.o(StubCode)
+    CApaDocument::GlassPictureL()            0x00008bf0   ARM Code       0  apparc{000a0000}-30.o(StubCode)
+    thunk{-20} to CEikDocument::SaveL(MSaveObserver::TSaveType) 0x00008bf8   ARM Code       0  eikcore{000a0000}-141.o(StubCode)
+    CEikAppUi::Reserved_3()                  0x00008c00   ARM Code       0  eikcore{000a0000}-142.o(StubCode)
+    CEikAppUi::Reserved_4()                  0x00008c08   ARM Code       0  eikcore{000a0000}-143.o(StubCode)
+    CEikAppUi::CreateFileL(const TDesC16&)   0x00008c10   ARM Code       0  eikcore{000a0000}-144.o(StubCode)
+    CEikAppUi::SetEmphasis(CCoeControl*, int) 0x00008c18   ARM Code       0  eikcore{000a0000}-147.o(StubCode)
+    CEikAppUi::HandleMessageL(unsigned long, TUid, const TDesC8&) 0x00008c20   ARM Code       0  eikcore{000a0000}-152.o(StubCode)
+    CEikAppUi::ProcessMessageL(TUid, const TDesC8&) 0x00008c28   ARM Code       0  eikcore{000a0000}-155.o(StubCode)
+    CEikAppUi::HandleModelChangeL()          0x00008c30   ARM Code       0  eikcore{000a0000}-158.o(StubCode)
+    CEikAppUi::HandleSideBarMenuL(int, const TPoint&, int, const CEikHotKeyTable*) 0x00008c38   ARM Code       0  eikcore{000a0000}-159.o(StubCode)
+    CEikAppUi::StopDisplayingMenuBar()       0x00008c40   ARM Code       0  eikcore{000a0000}-166.o(StubCode)
+    CEikAppUi::ProcessCommandParametersL(TApaCommand, TBuf<(int)256>&, const TDesC8&) 0x00008c48   ARM Code       0  eikcore{000a0000}-169.o(StubCode)
+    CEikAppUi::ReportResourceChangedToAppL(int) 0x00008c50   ARM Code       0  eikcore{000a0000}-171.o(StubCode)
+    CEikAppUi::OpenFileL(const TDesC16&)     0x00008c58   ARM Code       0  eikcore{000a0000}-175.o(StubCode)
+    CEikDocument::Reserved_2()               0x00008c60   ARM Code       0  eikcore{000a0000}-18.o(StubCode)
+    CEikDocument::NewDocumentL()             0x00008c68   ARM Code       0  eikcore{000a0000}-20.o(StubCode)
+    CEikDocument::UpdateTaskNameL(CApaWindowGroupName*) 0x00008c70   ARM Code       0  eikcore{000a0000}-25.o(StubCode)
+    CEikDocument::CreateFileStoreLC(RFs&, const TDesC16&) 0x00008c78   ARM Code       0  eikcore{000a0000}-26.o(StubCode)
+    CEikDocument::EditL(MApaEmbeddedDocObserver*, int) 0x00008c80   ARM Code       0  eikcore{000a0000}-27.o(StubCode)
+    CEikDocument::SaveL(MSaveObserver::TSaveType) 0x00008c88   ARM Code       0  eikcore{000a0000}-28.o(StubCode)
+    CEikDocument::SaveL()                    0x00008c90   ARM Code       0  eikcore{000a0000}-29.o(StubCode)
+    CEikDocument::HasChanged() const         0x00008c98   ARM Code       0  eikcore{000a0000}-291.o(StubCode)
+    CEikDocument::ExternalizeL(RWriteStream&) const 0x00008ca0   ARM Code       0  eikcore{000a0000}-293.o(StubCode)
+    CEikDocument::StoreL(CStreamStore&, CStreamDictionary&) const 0x00008ca8   ARM Code       0  eikcore{000a0000}-294.o(StubCode)
+    CEikDocument::IsEmpty() const            0x00008cb0   ARM Code       0  eikcore{000a0000}-295.o(StubCode)
+    CEikApplication::Capability(TDes8&) const 0x00008cb8   ARM Code       0  eikcore{000a0000}-296.o(StubCode)
+    CEikApplication::OpenIniFileLC(RFs&) const 0x00008cc0   ARM Code       0  eikcore{000a0000}-297.o(StubCode)
+    CEikApplication::BitmapStoreName() const 0x00008cc8   ARM Code       0  eikcore{000a0000}-298.o(StubCode)
+    CEikApplication::ResourceFileName() const 0x00008cd0   ARM Code       0  eikcore{000a0000}-299.o(StubCode)
+    CEikDocument::PrintL(const CStreamStore&) 0x00008cd8   ARM Code       0  eikcore{000a0000}-30.o(StubCode)
+    CEikApplication::GetDefaultDocumentFileName(TBuf<(int)256>&) const 0x00008ce0   ARM Code       0  eikcore{000a0000}-302.o(StubCode)
+    CEikDocument::RestoreL(const CStreamStore&, const CStreamDictionary&) 0x00008ce8   ARM Code       0  eikcore{000a0000}-31.o(StubCode)
+    CEikAppUi::ValidFileType(TUid) const     0x00008cf0   ARM Code       0  eikcore{000a0000}-317.o(StubCode)
+    CEikonEnv::DenseFont() const             0x00008cf8   ARM Code       0  eikcore{000a0000}-352.o(StubCode)
+    CEikDocument::~CEikDocument__sub_object() 0x00008d00   ARM Code       0  eikcore{000a0000}-37.o(StubCode)
+    thunk{-36} to CEikAppUi::HandleMessageL(unsigned long, TUid, const TDesC8&) 0x00008d08   ARM Code       0  eikcore{000a0000}-390.o(StubCode)
+    thunk{-40} to CEikAppUi::MopNext()       0x00008d10   ARM Code       0  eikcore{000a0000}-392.o(StubCode)
+    EikStart::RunApplication(TApaApplicationFactory) 0x00008d18   ARM Code       0  eikcore{000a0000}-394.o(StubCode)
+    CEikAppServer::ExtensionInterface(TUid, void*&) 0x00008d20   ARM Code       0  eikcore{000a0000}-467.o(StubCode)
+    CEikAppUi::MopNext()                     0x00008d28   ARM Code       0  eikcore{000a0000}-479.o(StubCode)
+    thunk{-24} to CEikAppUi::HandleSideBarMenuL(int, const TPoint&, int, const CEikHotKeyTable*) 0x00008d30   ARM Code       0  eikcore{000a0000}-490.o(StubCode)
+    CEikAppUi::ProcessCommandParametersL(CApaCommandLine&) 0x00008d38   ARM Code       0  eikcore{000a0000}-506.o(StubCode)
+    CEikAppServer::CreateServiceSecurityCheckL(TUid, const RMessage2&, int&, TSecurityInfo&) 0x00008d40   ARM Code       0  eikcore{000a0000}-523.o(StubCode)
+    CEikApplication::CEikApplication_Reserved1() 0x00008d48   ARM Code       0  eikcore{000a0000}-532.o(StubCode)
+    CEikApplication::CEikApplication_Reserved2() 0x00008d50   ARM Code       0  eikcore{000a0000}-533.o(StubCode)
+    MEikMenuObserver::Reserved_2_MenuObserver() 0x00008d58   ARM Code       0  eikcore{000a0000}-534.o(StubCode)
+    MEikMenuObserver::CreateCustomCommandControlL(int) 0x00008d60   ARM Code       0  eikcore{000a0000}-535.o(StubCode)
+    MEikMenuObserver::MEikCommandObserver_Reserved1() 0x00008d68   ARM Code       0  eikcore{000a0000}-536.o(StubCode)
+    MEikMenuObserver::MEikCommandObserver_Reserved2() 0x00008d70   ARM Code       0  eikcore{000a0000}-537.o(StubCode)
+    CEikDocument::ValidatePasswordL() const  0x00008d78   ARM Code       0  eikcore{000a0000}-565.o(StubCode)
+    CEikApplication::CreateDocumentL(CApaProcess*) 0x00008d80   ARM Code       0  eikcore{000a0000}-61.o(StubCode)
+    CEikApplication::PreDocConstructL()      0x00008d88   ARM Code       0  eikcore{000a0000}-62.o(StubCode)
+    thunk{-24} to CEikAppUi::SetEmphasis(CCoeControl*, int) 0x00008d90   ARM Code       0  eikcore{000a0000}-63.o(StubCode)
+    CEikApplication::CEikApplication__sub_object() 0x00008d98   ARM Code       0  eikcore{000a0000}-64.o(StubCode)
+    CEikApplication::~CEikApplication__sub_object() 0x00008da0   ARM Code       0  eikcore{000a0000}-67.o(StubCode)
+    MEikMenuObserver::RestoreMenuL(CCoeControl*, int, MEikMenuObserver::TMenuType) 0x00008da8   ARM Code       0  eikcore{000a0000}-72.o(StubCode)
+    MEikMenuObserver::OfferKeyToAppL(const TKeyEvent&, TEventCode) 0x00008db0   ARM Code       0  eikcore{000a0000}-73.o(StubCode)
+    MEikMenuObserver::DynInitMenuBarL(int, CEikMenuBar*) 0x00008db8   ARM Code       0  eikcore{000a0000}-74.o(StubCode)
+    MEikMenuObserver::DynInitMenuPaneL(int, CEikMenuPane*) 0x00008dc0   ARM Code       0  eikcore{000a0000}-75.o(StubCode)
+    MEikMenuObserver::CheckHotKeyNotDimmedL(int) 0x00008dc8   ARM Code       0  eikcore{000a0000}-77.o(StubCode)
+    MEikMenuObserver::Reserved_1_MenuObserver() 0x00008dd0   ARM Code       0  eikcore{000a0000}-78.o(StubCode)
+    MEikMenuObserver::HandleAttemptDimmedSelectionL(int) 0x00008dd8   ARM Code       0  eikcore{000a0000}-79.o(StubCode)
+    RWindowTreeNode::SetOrdinalPosition(int) 0x00008de0   ARM Code       0  ws32{000a0000}-211.o(StubCode)
+    CFont::FontSpecInTwips() const           0x00008de8   ARM Code       0  gdi{000a0000}-312.o(StubCode)
+    CAknAppServiceBase::CreateL()            0x00008df0   ARM Code       0  avkon{000a0000}-1132.o(StubCode)
+    CAknDocument::OpenFileL(CFileStore*&, RFile&) 0x00008df8   ARM Code       0  avkon{000a0000}-129.o(StubCode)
+    CAknDocument::OpenFileL(int, const TDesC16&, RFs&) 0x00008e00   ARM Code       0  avkon{000a0000}-130.o(StubCode)
+    CAknDocument::CAknDocument__sub_object(CEikApplication&) 0x00008e08   ARM Code       0  avkon{000a0000}-131.o(StubCode)
+    CAknListQueryDialog::SetItemTextArray(MDesC16Array*) 0x00008e10   ARM Code       0  avkon{000a0000}-1350.o(StubCode)
+    CAknListQueryDialog::SetOwnershipType(TListBoxModelItemArrayOwnership) 0x00008e18   ARM Code       0  avkon{000a0000}-1351.o(StubCode)
+    CAknListQueryDialog::CAknListQueryDialog(int*) 0x00008e20   ARM Code       0  avkon{000a0000}-1366.o(StubCode)
+    CAknAppServer::ConstructL(const TDesC16&) 0x00008e28   ARM Code       0  avkon{000a0000}-198.o(StubCode)
+    CAknAppServer::HandleAllClientsClosed()  0x00008e30   ARM Code       0  avkon{000a0000}-199.o(StubCode)
+    CAknAppServer::~CAknAppServer()          0x00008e38   ARM Code       0  avkon{000a0000}-201.o(StubCode)
+    CAknAppUiBase::MopSupplyObject(TTypeUid) 0x00008e40   ARM Code       0  avkon{000a0000}-206.o(StubCode)
+    CAknAppUiBase::HandleResourceChangeL(int) 0x00008e48   ARM Code       0  avkon{000a0000}-211.o(StubCode)
+    CAknAppUiBase::HandleScreenDeviceChangedL() 0x00008e50   ARM Code       0  avkon{000a0000}-213.o(StubCode)
+    CAknAppUiBase::HandleApplicationSpecificEventL(int, const TWsEvent&) 0x00008e58   ARM Code       0  avkon{000a0000}-214.o(StubCode)
+    CAknAppUiBase::Exit()                    0x00008e60   ARM Code       0  avkon{000a0000}-215.o(StubCode)
+    CAknAppUiBase::SetFadedL(int)            0x00008e68   ARM Code       0  avkon{000a0000}-216.o(StubCode)
+    CAknAppUiBase::CAknAppUiBase()           0x00008e70   ARM Code       0  avkon{000a0000}-217.o(StubCode)
+    CAknAppUiBase::~CAknAppUiBase()          0x00008e78   ARM Code       0  avkon{000a0000}-220.o(StubCode)
+    CAknAppUi::HandleError(int, const SExtendedError&, TDes16&, TDes16&) 0x00008e80   ARM Code       0  avkon{000a0000}-2920.o(StubCode)
+    CAknAppUi::PrepareToExit()               0x00008e88   ARM Code       0  avkon{000a0000}-2922.o(StubCode)
+    CAknAppUi::BaseConstructL(int)           0x00008e90   ARM Code       0  avkon{000a0000}-2924.o(StubCode)
+    CAknAppUi::HandleWsEventL(const TWsEvent&, CCoeControl*) 0x00008e98   ARM Code       0  avkon{000a0000}-2925.o(StubCode)
+    CAknAppUi::ProcessCommandL(int)          0x00008ea0   ARM Code       0  avkon{000a0000}-2926.o(StubCode)
+    CAknAppUi::HandleSystemEventL(const TWsEvent&) 0x00008ea8   ARM Code       0  avkon{000a0000}-2928.o(StubCode)
+    CAknAppUi::Reserved_MtsmObject()         0x00008eb0   ARM Code       0  avkon{000a0000}-2929.o(StubCode)
+    CAknAppUi::Reserved_MtsmPosition()       0x00008eb8   ARM Code       0  avkon{000a0000}-2930.o(StubCode)
+    CAknAppUi::HandleForegroundEventL(int)   0x00008ec0   ARM Code       0  avkon{000a0000}-2931.o(StubCode)
+    CAknAppUi::HandleViewDeactivation(const TVwsViewId&, const TVwsViewId&) 0x00008ec8   ARM Code       0  avkon{000a0000}-2932.o(StubCode)
+    CAknAppUi::HandleTouchPaneSizeChange()   0x00008ed0   ARM Code       0  avkon{000a0000}-2934.o(StubCode)
+    CAknAppUi::HandleStatusPaneSizeChange()  0x00008ed8   ARM Code       0  avkon{000a0000}-2935.o(StubCode)
+    CAknAppUi::~CAknAppUi()                  0x00008ee0   ARM Code       0  avkon{000a0000}-2938.o(StubCode)
+    CAknAppServer::CreateServiceL(TUid) const 0x00008ee8   ARM Code       0  avkon{000a0000}-2993.o(StubCode)
+    CAknAppUiBase::ApplicationRect() const   0x00008ef0   ARM Code       0  avkon{000a0000}-2997.o(StubCode)
+    thunk{-100} to CAknAppUi::HandleTouchPaneSizeChange() 0x00008ef8   ARM Code       0  avkon{000a0000}-3826.o(StubCode)
+    thunk{-24} to CAknAppUi::ProcessCommandL(int) 0x00008f00   ARM Code       0  avkon{000a0000}-3862.o(StubCode)
+    thunk{-40} to CAknAppUiBase::MopSupplyObject(TTypeUid) 0x00008f08   ARM Code       0  avkon{000a0000}-3868.o(StubCode)
+    thunk{-88} to CAknAppUi::HandleStatusPaneSizeChange() 0x00008f10   ARM Code       0  avkon{000a0000}-4021.o(StubCode)
+    thunk{-92} to CAknAppUi::HandleViewDeactivation(const TVwsViewId&, const TVwsViewId&) 0x00008f18   ARM Code       0  avkon{000a0000}-4030.o(StubCode)
+    CPosLandmark::NewL(const CPosLandmark&)  0x00008f20   ARM Code       0  eposlandmarks{000a0000}-12.o(StubCode)
+    CPosLandmark::NewL()                     0x00008f28   ARM Code       0  eposlandmarks{000a0000}-13.o(StubCode)
+    CPosLandmark::GetPosition(TLocality&) const 0x00008f30   ARM Code       0  eposlandmarks{000a0000}-65.o(StubCode)
+    CPosLandmark::GetPositionField(unsigned short, TPtrC16&) const 0x00008f38   ARM Code       0  eposlandmarks{000a0000}-68.o(StubCode)
+    TLocality::TLocality()                   0x00008f40   ARM Code       0  lbs{000a0000}-207.o(StubCode)
+    TCoordinate::TCoordinate()               0x00008f48   ARM Code       0  lbs{000a0000}-23.o(StubCode)
+    CMnServiceBase::ServiceError(const RMessage2&, int) 0x00008f50   ARM Code       0  mnservicelib{000a0000}-1.o(StubCode)
+    CMnServiceBase::CompleteRequest(int)     0x00008f58   ARM Code       0  mnservicelib{000a0000}-2.o(StubCode)
+    CMnGeocodingServiceBase::BaseConstructL() 0x00008f60   ARM Code       0  mnservicelib{000a0000}-21.o(StubCode)
+    CMnGeocodingServiceBase::CompleteGeocodingRequestL(const CPosLandmark&) 0x00008f68   ARM Code       0  mnservicelib{000a0000}-22.o(StubCode)
+    CMnGeocodingServiceBase::ServiceL(const RMessage2&) 0x00008f70   ARM Code       0  mnservicelib{000a0000}-23.o(StubCode)
+    CMnGeocodingServiceBase::CMnGeocodingServiceBase__sub_object() 0x00008f78   ARM Code       0  mnservicelib{000a0000}-24.o(StubCode)
+    CMnGeocodingServiceBase::~CMnGeocodingServiceBase__sub_object() 0x00008f80   ARM Code       0  mnservicelib{000a0000}-27.o(StubCode)
+    CMnGeocodingServiceBase::Options() const 0x00008f88   ARM Code       0  mnservicelib{000a0000}-34.o(StubCode)
+    CMnMapImageServiceBase::BaseConstructL() 0x00008f90   ARM Code       0  mnservicelib{000a0000}-45.o(StubCode)
+    CMnMapImageServiceBase::MapImageParams() 0x00008f98   ARM Code       0  mnservicelib{000a0000}-46.o(StubCode)
+    CMnMapImageServiceBase::CompleteRendering() 0x00008fa0   ARM Code       0  mnservicelib{000a0000}-47.o(StubCode)
+    CMnMapImageServiceBase::ServiceL(const RMessage2&) 0x00008fa8   ARM Code       0  mnservicelib{000a0000}-49.o(StubCode)
+    CMnMapImageServiceBase::CMnMapImageServiceBase__sub_object() 0x00008fb0   ARM Code       0  mnservicelib{000a0000}-50.o(StubCode)
+    CMnMapImageServiceBase::~CMnMapImageServiceBase__sub_object() 0x00008fb8   ARM Code       0  mnservicelib{000a0000}-53.o(StubCode)
+    CMnMapImageServiceBase::TargetBitmap() const 0x00008fc0   ARM Code       0  mnservicelib{000a0000}-56.o(StubCode)
+    CMnrpEngine::BestCoordToAddressMatchesL(const TCoordinate&, RPointerArray<CPosLandmark>&, int) 0x00008fc8   ARM Code       0  mnrefproviderengine{000a0000}-10.o(StubCode)
+    CMnrpEngine::NewL()                      0x00008fd0   ARM Code       0  mnrefproviderengine{000a0000}-12.o(StubCode)
+    CMnrpMapModel::UpdateModelL(const CMnrpMapImageService&) 0x00008fd8   ARM Code       0  mnrefproviderengine{000a0000}-18.o(StubCode)
+    CMnrpMapModel::SetScreenSize(TSize)      0x00008fe0   ARM Code       0  mnrefproviderengine{000a0000}-19.o(StubCode)
+    CMnrpMapModel::NewL(CMnrpEngine&)        0x00008fe8   ARM Code       0  mnrefproviderengine{000a0000}-21.o(StubCode)
+    CMnrpEngine::AddressToCoordLC(const CPosLandmark&) 0x00008ff0   ARM Code       0  mnrefproviderengine{000a0000}-4.o(StubCode)
+    CMnrpEngine::AddressToCoordLC(const TDesC16&) 0x00008ff8   ARM Code       0  mnrefproviderengine{000a0000}-5.o(StubCode)
+    CMnrpMapModel::RenderL(CFbsBitmap&, TRect, CFont*, CFont*) const 0x00009000   ARM Code       0  mnrefproviderengine{000a0000}-54.o(StubCode)
+    CMnrpEngine::CoordToAddressLC(const TCoordinate&) 0x00009008   ARM Code       0  mnrefproviderengine{000a0000}-6.o(StubCode)
+    __aeabi_memclr4                          0x00009010   ARM Code       0  drtaeabi{000a0000}-144.o(StubCode)
+    __aeabi_unwind_cpp_pr0                   0x00009018   ARM Code       0  drtaeabi{000a0000}-158.o(StubCode)
+    __aeabi_unwind_cpp_pr1                   0x00009020   ARM Code       0  drtaeabi{000a0000}-159.o(StubCode)
+    __cxa_begin_catch                        0x00009028   ARM Code       0  drtaeabi{000a0000}-180.o(StubCode)
+    __cxa_call_unexpected                    0x00009030   ARM Code       0  drtaeabi{000a0000}-182.o(StubCode)
+    __cxa_end_catch                          0x00009038   ARM Code       0  drtaeabi{000a0000}-183.o(StubCode)
+    __cxa_end_cleanup                        0x00009040   ARM Code       0  drtaeabi{000a0000}-184.o(StubCode)
+    __cxa_pure_virtual                       0x00009048   ARM Code       0  drtaeabi{000a0000}-189.o(StubCode)
+    operator delete (void*)                  0x00009050   ARM Code       0  scppnwdl{000a0000}-3.o(StubCode)
+    UserHeap::SetupThreadHeap(int, SStdEpocThreadCreateInfo&) 0x00009058   ARM Code       0  euser{000a0000}-1360.o(StubCode)
+    User::Exit(int)                          0x00009060   ARM Code       0  euser{000a0000}-641.o(StubCode)
+    User::InitProcess()                      0x00009068   ARM Code       0  euser{000a0000}-585.o(StubCode)
+    User::Panic(const TDesC16&, int)         0x00009070   ARM Code       0  euser{000a0000}-650.o(StubCode)
+    TCppRTExceptionsGlobals::TCppRTExceptionsGlobals() 0x00009078   ARM Code       0  drtaeabi{000a0000}-204.o(StubCode)
+    CApaDocument::DetachFromStoreL(CPicture::TDetach) 0x00009081   Thumb Code     2  mnrefproviderback.in(i._ZN12CApaDocument16DetachFromStoreLEN8CPicture7TDetachE)
+    CMnrpAppUiBack::CMnrpAppUiBack()         0x00009085   Thumb Code    50  mnrefproviderback.in(i._ZN14CMnrpAppUiBackC1Ev)
+    CMnrpAppUiBack::CMnrpAppUiBack__sub_object() 0x00009085   Thumb Code     0  mnrefproviderback.in(i._ZN14CMnrpAppUiBackC1Ev)
+    CMnrpAppUiBack::~CMnrpAppUiBack__deallocating() 0x000090cb   Thumb Code    16  mnrefproviderback.in(i._ZN14CMnrpAppUiBackD0Ev)
+    CMnrpAppUiBack::~CMnrpAppUiBack()        0x000090db   Thumb Code     8  mnrefproviderback.in(i._ZN14CMnrpAppUiBackD1Ev)
+    CMnrpAppUiBack::~CMnrpAppUiBack__sub_object() 0x000090db   Thumb Code     0  mnrefproviderback.in(i._ZN14CMnrpAppUiBackD1Ev)
+    CMnrpDocumentBack::~CMnrpDocumentBack__deallocating() 0x000090e3   Thumb Code    16  mnrefproviderback.in(i._ZN17CMnrpDocumentBackD0Ev)
+    CMnrpDocumentBack::~CMnrpDocumentBack()  0x000090f3   Thumb Code     8  mnrefproviderback.in(i._ZN17CMnrpDocumentBackD1Ev)
+    CMnrpDocumentBack::~CMnrpDocumentBack__sub_object() 0x000090f3   Thumb Code     0  mnrefproviderback.in(i._ZN17CMnrpDocumentBackD1Ev)
+    CMnrpApplicationBack::~CMnrpApplicationBack__deallocating() 0x000090fb   Thumb Code    16  mnrefproviderback.in(i._ZN20CMnrpApplicationBackD0Ev)
+    CMnrpApplicationBack::~CMnrpApplicationBack() 0x0000910b   Thumb Code     8  mnrefproviderback.in(i._ZN20CMnrpApplicationBackD1Ev)
+    CMnrpApplicationBack::~CMnrpApplicationBack__sub_object() 0x0000910b   Thumb Code     0  mnrefproviderback.in(i._ZN20CMnrpApplicationBackD1Ev)
+    CBase::operator new(unsigned)            0x00009113   Thumb Code     8  mnrefproviderback.in(i._ZN5CBasenwEj)
+    RPointerArray<CPosLandmark>::Count() const 0x0000911b   Thumb Code     8  mnrefproviderback.in(t._ZNK13RPointerArrayI12CPosLandmarkE5CountEv)
+    typeinfo for CMnrpAppUiBack              0x0000923c   Data          12  mnrefproviderback.in(.constdata__ZTI14CMnrpAppUiBack)
+    typeinfo for CMnrpDocumentBack           0x00009248   Data          12  mnrefproviderback.in(.constdata__ZTI17CMnrpDocumentBack)
+    typeinfo for CMnrpAppServerBack          0x00009254   Data          12  mnrefproviderback.in(.constdata__ZTI18CMnrpAppServerBack)
+    typeinfo for CMnrpApplicationBack        0x00009260   Data          12  mnrefproviderback.in(.constdata__ZTI20CMnrpApplicationBack)
+    typeinfo for CMnrpMapImageService        0x0000926c   Data          12  mnrefproviderback.in(.constdata__ZTI20CMnrpMapImageService)
+    typeinfo for CMnrpGeocodingService       0x00009278   Data          12  mnrefproviderback.in(.constdata__ZTI21CMnrpGeocodingService)
+    typeinfo for MEikStatusPaneObserver      0x00009284   Data           8  mnrefproviderback.in(.constdata__ZTI22MEikStatusPaneObserver)
+    typeinfo name for CMnrpAppUiBack         0x0000928c   Data          17  mnrefproviderback.in(.constdata__ZTS14CMnrpAppUiBack)
+    typeinfo name for CMnrpDocumentBack      0x0000929d   Data          20  mnrefproviderback.in(.constdata__ZTS17CMnrpDocumentBack)
+    typeinfo name for CMnrpAppServerBack     0x000092b1   Data          21  mnrefproviderback.in(.constdata__ZTS18CMnrpAppServerBack)
+    typeinfo name for CMnrpApplicationBack   0x000092c6   Data          23  mnrefproviderback.in(.constdata__ZTS20CMnrpApplicationBack)
+    typeinfo name for CMnrpMapImageService   0x000092dd   Data          23  mnrefproviderback.in(.constdata__ZTS20CMnrpMapImageService)
+    typeinfo name for CMnrpGeocodingService  0x000092f4   Data          24  mnrefproviderback.in(.constdata__ZTS21CMnrpGeocodingService)
+    typeinfo name for MEikStatusPaneObserver 0x0000930c   Data          25  mnrefproviderback.in(.constdata__ZTS22MEikStatusPaneObserver)
+    vtable for CMnrpAppUiBack                0x00009328   Data         340  mnrefproviderback.in(.constdata__ZTV14CMnrpAppUiBack)
+    vtable for CMnrpDocumentBack             0x0000947c   Data         112  mnrefproviderback.in(.constdata__ZTV17CMnrpDocumentBack)
+    vtable for CMnrpAppServerBack            0x000094ec   Data          76  mnrefproviderback.in(.constdata__ZTV18CMnrpAppServerBack)
+    vtable for CMnrpApplicationBack          0x00009538   Data          80  mnrefproviderback.in(.constdata__ZTV20CMnrpApplicationBack)
+    vtable for CMnrpMapImageService          0x00009588   Data          64  mnrefproviderback.in(.constdata__ZTV20CMnrpMapImageService)
+    vtable for CMnrpGeocodingService         0x000095c8   Data          72  mnrefproviderback.in(.constdata__ZTV21CMnrpGeocodingService)
+    vtable for MEikStatusPaneObserver        0x00009610   Data          12  mnrefproviderback.in(.constdata__ZTV22MEikStatusPaneObserver)
+    SHT$$INIT_ARRAY$$Base                    0x0000961c   Number         0  mnrefproviderback.in(.init_array)
+    .ARM.exidx$$Base                         0x00009620   Number         0  uc_exe_.o(.ARM.exidx)
+    SHT$$INIT_ARRAY$$Limit                   0x00009620   Data           0  mnrefproviderback.in(.init_array)
+    .ARM.exidx$$Limit                        0x00009750   Number         0  mnrefproviderback.in(.ARM.exidx)
+    Image$$ER_RO$$Limit                      0x00009750   Number         0  anon$$obj.o(linker$$defined$$symbols)
+
