@@ -97,7 +97,7 @@ CSuplSessionRequest* CSuplSessionRequest::NewL(CSuplSessionManager& aSessnMgr, C
 CSuplSessionRequest::~CSuplSessionRequest()
     {
     DEBUG_TRACE("CSuplSessionRequest::~CSuplSessionRequest", __LINE__)
-    iSessnMgr.RemoveFromQueueForReIssueRequest(*this);
+    
     
     if (iParamExtendedFallback)
 		{

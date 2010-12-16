@@ -165,7 +165,7 @@ void CTestPosLmDatabaseManager::TestNotifyDatabaseEventL()
 	TPosLmDatabaseEvent databaseEvent;
 	databaseManager->NotifyDatabaseEvent(databaseEvent,iStatus);
 	
-	_LIT(KDatabaseUri,"file://c:eposlm.ldb");
+	_LIT(KDatabaseUri,"file://c:testeposlm.ldb");
 	TBufC<40> databaseUri(KDatabaseUri);
 	
 	HPosLmDatabaseInfo* databaseInfo=HPosLmDatabaseInfo::NewLC(KDatabaseUri);
@@ -180,7 +180,7 @@ void CTestPosLmDatabaseManager::TestNotifyDatabaseEventL()
 	
 	SetActive();
 	CActiveScheduler::Start();
-		
+	databaseManager->DeleteDatabaseL(databaseUri);	
 	CleanupStack::PopAndDestroy(databaseInfo);
 	CleanupStack::PopAndDestroy(databaseManager);
 	}
@@ -211,20 +211,18 @@ void CTestPosLmDatabaseManager::TestListDatabasesLC()
 	CPosLmDatabaseManager* databaseManager= CPosLmDatabaseManager::NewL();
 	CleanupStack::PushL(databaseManager);
 
-	_LIT(KDatabaseUri,"file://c:eposlm.ldb");
+	_LIT(KDatabaseUri,"file://c:testeposlm1.ldb");
 	TBufC<40> databaseUri(KDatabaseUri);
 	
 	HPosLmDatabaseInfo* databaseInfo=HPosLmDatabaseInfo::NewLC(KDatabaseUri);
 	
-	databaseManager->DeleteDatabaseL(databaseUri);
 	databaseManager->CreateDatabaseL(*databaseInfo);
 	
 	CDesCArray* databaseList=databaseManager->ListDatabasesLC();
 	TInt count=databaseList->Count();
+	databaseManager->DeleteDatabaseL(databaseUri);
 	
-	delete databaseList;
-	
-	CleanupStack::Pop();
+	CleanupStack::PopAndDestroy(databaseList);
 	CleanupStack::PopAndDestroy(databaseInfo);
 	CleanupStack::PopAndDestroy(databaseManager);
 	}
@@ -236,19 +234,18 @@ void CTestPosLmDatabaseManager::TestListDatabasesL()
 	CPosLmDatabaseManager* databaseManager= CPosLmDatabaseManager::NewL();
 	CleanupStack::PushL(databaseManager);
 
-	_LIT(KDatabaseUri,"file://c:eposlm.ldb");
+	_LIT(KDatabaseUri,"file://c:testeposlm2.ldb");
 	TBufC<40> databaseUri(KDatabaseUri);
 	
 	HPosLmDatabaseInfo* databaseInfo=HPosLmDatabaseInfo::NewLC(KDatabaseUri);
 	
-	databaseManager->DeleteDatabaseL(databaseUri);
 	databaseManager->CreateDatabaseL(*databaseInfo);
 	
 	RPointerArray<HPosLmDatabaseInfo> databaseList;
 	
 	databaseManager->ListDatabasesL(databaseList);
 	TInt count=databaseList.Count();
-	
+	databaseManager->DeleteDatabaseL(databaseUri);
 	CleanupStack::PopAndDestroy(databaseInfo);
 	CleanupStack::PopAndDestroy(databaseManager);
 	}
@@ -322,10 +319,17 @@ void CTestPosLmDatabaseManager::TestModifyDatabaseSettingsL()
 	CPosLmDatabaseManager* databaseManager= CPosLmDatabaseManager::NewL();
 	CleanupStack::PushL(databaseManager);
 	
-	_LIT(KDatabaseUri,"file://c:eposlm.ldb");
+	_LIT(KDatabaseUri,"file://c:testlmdb.ldb");
 	TBufC<40> databaseUri(KDatabaseUri);
+	_LIT(KModifiedDatabaseUri,"file://c:Nokia.ldb");
+	    TBufC<40> modifiedDatabaseUri(KModifiedDatabaseUri);
 	
 	HPosLmDatabaseInfo* databaseInfo=HPosLmDatabaseInfo::NewLC(databaseUri);
+	if( !(databaseManager->DatabaseExistsL(databaseUri)))
+	    {
+        databaseManager->CreateDatabaseL(*databaseInfo);
+	    }
+	
 	TPosLmDatabaseSettings databaseSettings=databaseInfo->Settings();
 		
 	_LIT(KDatabaseName,"Nokia");
@@ -339,7 +343,8 @@ void CTestPosLmDatabaseManager::TestModifyDatabaseSettingsL()
 		{
 		User::Leave(KErrGeneral);
 		}
-	
+	databaseManager->DeleteDatabaseL(modifiedDatabaseUri);
+	databaseManager->DeleteDatabaseL(databaseUri);
 	CleanupStack::PopAndDestroy(databaseInfo);
 	CleanupStack::PopAndDestroy(databaseManager);
 	}
@@ -378,18 +383,18 @@ void CTestPosLmDatabaseManager::TestDatabaseExistsL()
 	CPosLmDatabaseManager* databaseManager= CPosLmDatabaseManager::NewL();
 	CleanupStack::PushL(databaseManager);
 	
-	_LIT(KDatabaseUri,"file://c:eposlm.ldb");
+	_LIT(KDatabaseUri,"file://c:testDatabaseExists.ldb");
 	TBufC<40> databaseUri(KDatabaseUri);
 	
 	HPosLmDatabaseInfo* databaseInfo=HPosLmDatabaseInfo::NewLC(databaseUri);
-	
+	databaseManager->CreateDatabaseL(*databaseInfo);
 	TBool databaseExists=databaseManager->DatabaseExistsL(databaseUri);
 	
 	if(!databaseExists)
 		{
 		User::Leave(KErrGeneral);
 		}
-	
+	databaseManager->DeleteDatabaseL(databaseUri);
 	CleanupStack::PopAndDestroy(databaseInfo);
 	CleanupStack::PopAndDestroy(databaseManager);
 	}
@@ -403,19 +408,18 @@ void CTestPosLmDatabaseManager::TestCreateDatabaseL()
 	CPosLmDatabaseManager* databaseManager= CPosLmDatabaseManager::NewL();
 	CleanupStack::PushL(databaseManager);
 	
-	_LIT(KDatabaseUri,"file://c:myLandmarks.ldb");
+	_LIT(KDatabaseUri,"file://c:myTestLandmarks.ldb");
 	TBufC<40> databaseUri(KDatabaseUri);
 	
 	HPosLmDatabaseInfo* databaseInfo=HPosLmDatabaseInfo::NewLC(databaseUri);
 	
-	databaseManager->DeleteDatabaseL(databaseUri);
 	databaseManager->CreateDatabaseL(*databaseInfo);
 	
 	if(!(databaseManager->DatabaseExistsL(databaseUri)))
 		{
 		User::Leave(KErrGeneral);
 		}
-	
+	databaseManager->DeleteDatabaseL(databaseUri);
 	CleanupStack::PopAndDestroy(databaseInfo);
 	CleanupStack::PopAndDestroy(databaseManager);
 	}
@@ -457,18 +461,19 @@ void CTestPosLmDatabaseManager::TestCopyDatabaseL()
 	CPosLmDatabaseManager* databaseManager= CPosLmDatabaseManager::NewL();
 	CleanupStack::PushL(databaseManager);
 	
-	_LIT(KDatabaseUri1,"file://c:myLandmarks.ldb");
+	_LIT(KDatabaseUri1,"file://c:myLandmarksCopy1.ldb");
 	TBufC<40> databaseUri1(KDatabaseUri1);
 	
-	_LIT(KDatabaseUri2,"file://c:eposlm.ldb");
+	_LIT(KDatabaseUri2,"file://c:myLandmarksCopy2.ldb");
 	TBufC<40> databaseUri2(KDatabaseUri2);
 
 	
-	HPosLmDatabaseInfo* databaseInfo=HPosLmDatabaseInfo::NewLC(databaseUri1);
+	HPosLmDatabaseInfo* databaseInfo=HPosLmDatabaseInfo::NewLC(databaseUri2);
+	databaseManager->CreateDatabaseL(*databaseInfo);
 	
-	databaseManager->DeleteDatabaseL(databaseUri1);
 	databaseManager->CopyDatabaseL(databaseUri2,databaseUri1);
-		
+	databaseManager->DeleteDatabaseL(databaseUri1);
+	databaseManager->DeleteDatabaseL(databaseUri2);
 	CleanupStack::PopAndDestroy(databaseInfo);
 	CleanupStack::PopAndDestroy(databaseManager);
 	}

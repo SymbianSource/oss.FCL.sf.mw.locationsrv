@@ -601,6 +601,7 @@ void CSuplConnection::CheckForOutstandingPackets()
 
         TBuf<64> msg(_L("Sending data on port "));
         msg.AppendNum(iSocket.LocalPort());
+        iStatus = KRequestPending;
         iTrace->Trace(msg, KTraceFileName, __LINE__);
 
         // Log
@@ -610,9 +611,15 @@ void CSuplConnection::CheckForOutstandingPackets()
                     _L(
                             "CSuplConnection::CheckForOutstandingPackets sending packet over Secure Connection"),
                     KTraceFileName, __LINE__);
-            iTlsSocket->Send(iPacket, iStatus);
+            if (iPacket.Length() > 0)
+                {
+                iTlsSocket->Send(iPacket, iStatus);
+                }
             iSendInProgress = ETrue;
-            SetActive();
+            if (!IsActive())
+                {
+                SetActive();
+                }
             }
         else
             {
@@ -620,9 +627,15 @@ void CSuplConnection::CheckForOutstandingPackets()
                     _L(
                             "CSuplConnection::CheckForOutstandingPackets sending packet over NonSecure Connection"),
                     KTraceFileName, __LINE__);
-            iSocket.Send(iPacket, 0, iStatus);
+            if (iPacket.Length() > 0)
+                {
+                iSocket.Send(iPacket, 0, iStatus);
+                }
             iSendInProgress = ETrue;
-            SetActive();
+            if (!IsActive())
+                {
+                SetActive();
+                }
             }
         }
     }

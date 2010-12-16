@@ -5374,16 +5374,66 @@ TInt COMASuplSession::ServerAddressCheckForSuplInitL()
         msg.Append(serverName);
         iTrace->Trace(msg,KTraceFileName, __LINE__); 
         }
-    else
-        {
-        TBuf8<256> IPslpaddress;
-        slpAddress->IPvAddress(IPslpaddress);
-        serverName.Copy(IPslpaddress);
-        msg.Copy(_L("SLP address as IP is PRESENT in SUPL_INIT:"));
-        msg.Append(serverName);
-        iTrace->Trace(msg,KTraceFileName, __LINE__); 
+		else if (addressType == COMASuplSLPAddress::EIPv4Address)
+		{
+			TBuf8<256> IPslpaddress;
+			slpAddress->IPvAddress(IPslpaddress);
+			serverName.Copy(IPslpaddress);
+			msg.Copy(_L("SLP address as IPv4 is PRESENT in SUPL_INIT:"));
+			msg.Append(serverName);
+			iTrace->Trace(msg,KTraceFileName, __LINE__); 
+			iTrace->Trace(_L("Server Name Length:"),KTraceFileName, __LINE__); 
+			msg.Zero();
+			msg.AppendNum(serverName.Length());
+			iTrace->Trace(msg,KTraceFileName, __LINE__); 
+			
+				if (serverName.Length() == 4)  //IPv4 encoded in ASCII..have to decode it to an IP address.
+					{
+						iTrace->Trace(_L("SLP encoded as ASCII :"),KTraceFileName, __LINE__); 
+    			
+    			TInt firstOctet = serverName[0];
+    			TInt secondOctet = serverName[1];
+    			TInt thirdOctet = serverName[2];
+    			TInt fourthOctet = serverName[3];
+    			
+    			serverName.Zero();
+    			serverName.AppendNum(firstOctet);
+    			serverName.Append(_L("."));
+    			serverName.AppendNum(secondOctet);
+    			serverName.Append(_L("."));
+    			serverName.AppendNum(thirdOctet);
+    			serverName.Append(_L("."));
+    			serverName.AppendNum(fourthOctet);
+    			msg.Copy(_L("SLP address as IPv4 after conversion is:"));
+    			msg.Copy(serverName);
+    			iTrace->Trace(msg,KTraceFileName, __LINE__);
+					}
 
-        }
+		}
+		else // It is an IPv6 address
+			{
+				TBuf8<256> IPslpaddress;
+				slpAddress->IPvAddress(IPslpaddress);
+				serverName.Copy(IPslpaddress);
+				msg.Copy(_L("SLP address as IPv6 is PRESENT in SUPL_INIT:"));
+				msg.Append(serverName);
+				iTrace->Trace(msg,KTraceFileName, __LINE__); 
+				
+				if (serverName.Length() == 16)
+					{
+						TBuf<64> tempServer;
+						tempServer.Zero();
+						TInt octet(0), i;
+						for (i = 0;  i < (serverName.Length() - 1); ++i)
+						{
+							octet = serverName[i];
+							tempServer.AppendNum(octet);
+							tempServer.Append(_L("."));
+						}
+						octet = serverName[i];
+						tempServer.AppendNum(octet);
+					}
+			}
 
     TBool isExist = iSuplStorageSettings->IsSlpExists(serverName);
     if(isExist)
